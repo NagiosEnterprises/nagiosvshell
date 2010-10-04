@@ -1,0 +1,39 @@
+TODO for V Shell Nagios User interface
+
+BUGS
+
+
+
+MODEL/DATA
+
+- put all cfg readers into functions to prevent variable overlap
+-isolate reading data into separate functions to improve performance
+	-page_router() calls function to build appropriate array and then send it to the correct page for display    
+
+
+CONTROLLER
+
+-filtering functions for hosts and services (warning, OK, critical) for group pages
+
+-create filtered tables based on Monitoring Features on tactical overview 
+- update xml viewer for all pages and insert links into pages  
+
+
+VIEW
+
+**---- create page numbering ability
+-create "problems" table for tactical overview page 
+- search ability for hosts and services 
+
+- tactical overview - additional data about monitoring performance??
+ -create basic xml stylesheet?
+
+-add links for xml viewing where applicable
+ 
+
+DOC
+
+--need documentation for user authentication/viewing for apache (when using Nagios XI)
+
+
+

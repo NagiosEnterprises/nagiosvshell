@@ -1,0 +1,274 @@
+/* Main stylesheet for Nagios V-Shell */
+
+/*
+
+// Nagios V-Shell
+// Copyright (c) 2010 Nagios Enterprises, LLC.
+// Written by Mike Guthrie <mguthrie@nagios.com>
+//
+// LICENSE:
+//
+// This work is made available to you under the terms of Version 2 of
+// the GNU General Public License. A copy of that license should have
+// been provided with this software, but in any event can be obtained
+// from http://www.fsf.org.
+// 
+// This work is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+// 02110-1301 or visit their web page on the internet at
+// http://www.fsf.org.
+//
+//
+// CONTRIBUTION POLICY:
+//
+// (The following paragraph is not intended to limit the rights granted
+// to you to modify and distribute this software under the terms of
+// licenses that may apply to the software.)
+//
+// Contributions to this software are subject to your understanding and acceptance of
+// the terms and conditions of the Nagios Contributor Agreement, which can be found 
+// online at:
+//
+// http://www.nagios.com/legal/contributoragreement/
+//
+//
+// DISCLAIMER:
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+// PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+// HOLDERS BE LIABLE FOR ANY CLAIM FOR DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+// OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+// GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, STRICT LIABILITY, TORT (INCLUDING 
+// NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+*/
+
+* 
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+body
+{
+	font-family: Tahoma, Geneva, sans-serif;
+	background: url("images/vshell.png") no-repeat;
+	
+}
+
+a:link, a:visited
+{
+	color: #00A3FF;
+	text-decoration: none;
+
+}
+a:hover, a:active
+{
+	color: #89D5FF;
+;
+}
+table
+{
+	font-size: .7em;
+	text-align: center;
+	background: #f1f1f1;
+}
+td, th 
+{ 
+	padding: 1px 10px 1px 10px;
+	background-color: #DEDEDE; 	
+}
+td 
+{ background-color: #F8F8F8; }
+
+h3
+{	text-align: center;  }
+
+/*class for top navigation bar with main links */
+div.topnav
+{
+	margin-top: 50px;
+	height: 20px;
+	width: 100%;
+	background:  #333;
+	border-top: 1px #00A3FF solid;
+	border-bottom: 1px #00A3FF solid ;
+	z-index: 5;
+}
+a.nav
+{
+	display: block;
+	font-size: 10pt;
+}
+
+ul.nav 
+{
+	top: 52px;
+	position: absolute;
+	width: 800px;
+}
+li.nav 
+{
+	list-style: none;
+	padding-left: 10px;
+	float: left;
+}
+
+div.corelink
+{
+
+	position: absolute;
+	right: 15px;
+	top: 35px;
+}
+
+/*main container div for all content */
+.main
+{
+	position: relative;
+	top: 10px;
+	bottom: 30px;
+	margin: 10px;
+	height: 90%;
+	
+	
+}
+/* /////////////FORMATTING CLASSES /////*/
+.down, .critical, .red, .disabled, .Disabled, .DOWN, .CRITICAL  
+{
+	background-color: #FF795F;
+}
+.warning, .yellow, .WARNING
+{
+	background-color: #FEFF5F;
+}
+.ok, .green, .up, .enabled, .Enabled, .OK, .UP
+{
+	background-color: #76FF34;
+}
+.unknown, .unreachable, .orange, .UNKNOWN, .UNREACHABLE
+{
+	background-color: #FFC45F;
+}
+
+.accent
+{
+	background-color: #999;
+}
+
+.iconLink
+{
+	border: none;
+}
+.note
+{
+	font-style: italic;
+	font-size: .5em;
+	color: #aaa;
+}
+
+.servicetable th, .servicetable td, .statustable th, .statustable td 
+{
+	
+	padding: 0px 2px 0px 2px;
+}
+
+
+
+
+tr.objectList 
+{
+	background-color: #EDEDED;
+}
+table.tac
+{
+	background-color: #AAA;
+}
+
+img.tableIcon
+{
+	float: right;
+	display: inline;
+	padding: 0;
+	margin: 0;
+	
+}
+
+
+
+/*details pages */
+fieldset.servicedetails, fieldset.hostdetails
+{
+	float: left;
+	width: 430px;
+	padding: 10px;
+}
+fieldset.attributes, fieldset.corecommands 
+{
+	width: 210px;
+	padding: 10px;
+	float: right;
+}
+fieldset.attributes table, fieldset.corecommands table, table.details
+{
+	margin-left: auto;
+	margin-right: auto;
+}
+div.detailcontainer
+{
+	margin-top: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 700px;
+	height: 400px;
+}
+
+fieldset.corecommands 
+{
+	float: right;
+	width: 210px;
+	padding: 10px;
+}
+.commentTable
+{
+	margin: auto;
+	text-align: center;
+}
+
+/*used for toggle label on group and config pages */
+.label
+{
+	font-size: .8em;
+}
+img.label
+{
+	border: none;
+}
+
+
+/*dropdown menus*/
+#confDrop, #sysDrop, #reportDrop
+{
+	position: relative;
+	margin-left: -3px;
+	visibility: hidden;
+	background: #333;
+	z-index: 5;
+	padding: 3px 0;
+
+}
+#confDrop li, #sysDrop li, #reportDrop li
+{
+	list-style: none;
+	padding-left: 3px;
+	padding-right: 3px;
+}
