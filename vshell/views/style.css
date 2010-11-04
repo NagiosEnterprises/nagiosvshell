@@ -60,7 +60,7 @@
 
 body
 {
-	font-family: Tahoma, Geneva, sans-serif;
+	font-family: verdana, arial;
 	background: url("images/vshell.png") no-repeat;
 	
 }
@@ -78,7 +78,7 @@ a:hover, a:active
 }
 table
 {
-	font-size: .7em;
+	font-size: 8pt;
 	text-align: center;
 	background: #f1f1f1;
 }
@@ -153,7 +153,7 @@ div.corelink
 }
 .ok, .green, .up, .enabled, .Enabled, .OK, .UP
 {
-	background-color: #76FF34;
+	background-color: #b2ff5f;;
 }
 .unknown, .unreachable, .orange, .UNKNOWN, .UNREACHABLE
 {
@@ -172,7 +172,7 @@ div.corelink
 .note
 {
 	font-style: italic;
-	font-size: .5em;
+	font-size: 5pt;
 	color: #aaa;
 }
 
@@ -183,6 +183,15 @@ div.corelink
 }
 
 
+table.servicetable {width: 100%; }
+th.hostname, td.hostname, div.hostname {width:140px;}
+th.service_description, td.service_description, div.service_description {width: 140px; }
+th.attempt, td.attempt {width: 55px;} 
+th.duration, td.duration {width: 110px;}
+th.status, td.ok, td.critical, td.warning, td.unknown {width: 60px; }
+th.last_check, td.last_check {width: 140px; } 
+th.plugin_output, td.plugin_output, div.plugin_output{width: 400px; } 
+tr.statustablerow { width: 1400px; height: 1em; }
 
 
 tr.objectList 
