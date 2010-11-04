@@ -58,12 +58,12 @@ function display_services($services)
 	print '
 	<table class="servicetable"><tr> 
 	<th class="hostname">Host Name</th>
-	<th class="service">Service</th>
+	<th class="service_description">Service</th>
 	<th class="status">Status</th>
 	<th class="duration">Duration</th>
 	<th class="attempt">Attempt</th>
-	<th class="lastcheck">Last Check</th>
-	<th class="pluginoutput">Status Information</th></tr>';
+	<th class="last_check">Last Check</th>
+	<th class="plugin_output">Status Information</th></tr>';
 
 
 	//process service array   
@@ -91,27 +91,27 @@ function display_services($services)
 			else
 			{
 				$hostlink = "<a href='$host_url' title='View Host Details'>";
-				$td1 = "<td width='140' class='$color'>$hostlink".$service['host_name']."</a> $icon $host_dt $h_comments</td>";
+				$td1 = "<td class='$color'><div class='hostname'>$hostlink".$service['host_name']."</a> $icon $host_dt $h_comments</div></td>";
 			}
 		}
 		else
 		{
 			$hostlink = "<a href='$host_url' title='View Host Details'>";
-			$td1 = "<td witdh='140' class='$color'>$hostlink".$service['host_name']."</a> $icon $host_dt $h_comments</td>";
+			$td1 = "<td class='$color'><div class='hostname'>$hostlink".$service['host_name']."</a> $icon $host_dt $h_comments</div></td>";
 		}
 		
 		//table data generation 				
 		//Using HEREDOC string syntax to print rows 
 		$tablerow = <<<TABLE
 		
-		<tr>	
+		<tr class='statustablerow'>	
 			{$td1}
-			<td><a href="{$url}">{$service['service_description']}</a>{$comments}{$dt_icon}</td>
+			<td class='service_description'><div class='service_description'><a href="{$url}">{$service['service_description']}</a>{$comments}{$dt_icon}</div></td>
 			<td class="{$tr}">{$service['current_state']}</td>
-			<td>{$service['duration']}</td>
-			<td>{$service['attempt']}</td>
-			<td>{$service['last_check']}</td>
-			<td>{$service['plugin_output']}</td>
+			<td class='duration'>{$service['duration']}</td>
+			<td class='attempt'>{$service['attempt']}</td>
+			<td class='last_check'>{$service['last_check']}</td>
+			<td class='plugin_output'><div class='plugin_output'>{$service['plugin_output']}</div></td>
 		</tr>
 		
 TABLE;
