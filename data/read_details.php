@@ -98,8 +98,8 @@ function grab_details($type)
 			{
 				//echo "should be grabbing a line<br />";
 				$strings = explode('=', trim($line));			
-				$key = $strings[0];
-				$value = $strings[1];
+				$key = (isset($strings[0]) ? $strings[0] : false );
+				$value = (isset($strings[1]) ? $strings[1] : false );
 				//added conditional to count for '=' signs in the performance data 
 				if(isset($strings[2]))
 				{
@@ -110,7 +110,10 @@ function grab_details($type)
 						$i++;
 					}
 				}
-				$details[$type.$counter][$key]= $value;
+				if(isset($key, $value))
+				{
+					$details[$type.$counter][$key]= $value;
+				}
 			}
 			break;
 			
