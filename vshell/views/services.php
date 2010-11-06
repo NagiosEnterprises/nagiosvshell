@@ -90,13 +90,13 @@ function display_services($services)
 			}
 			else
 			{
-				$hostlink = "<a href='$host_url' title='View Host Details'>";
+				$hostlink = "<a class='highlight' href='$host_url' title='View Host Details'>";
 				$td1 = "<td class='$color'><div class='hostname'>$hostlink".$service['host_name']."</a> $icon $host_dt $h_comments</div></td>";
 			}
 		}
 		else
 		{
-			$hostlink = "<a href='$host_url' title='View Host Details'>";
+			$hostlink = "<a class='hightlight' href='$host_url' title='View Host Details'>";
 			$td1 = "<td class='$color'><div class='hostname'>$hostlink".$service['host_name']."</a> $icon $host_dt $h_comments</div></td>";
 		}
 		

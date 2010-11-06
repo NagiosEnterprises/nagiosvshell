@@ -138,7 +138,9 @@ function hide()
 
 </head>
 <body onload="hide()">
-	<div class="corelink"><a class="label" href="<?php echo COREURL; ?>" target="_blank" title="Access Nagios Core">Access Nagios Core</a></div>
+	<div class="corelink">
+		<a class="label" href="<?php echo COREURL; ?>" target="_blank" title="Access Nagios Core">Access Nagios Core</a>
+	</div>
 
 	<div class="topnav">
 		<?php //main mav stuff can go here, not sure what yet

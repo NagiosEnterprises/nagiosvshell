@@ -74,7 +74,6 @@ a:link, a:visited
 a:hover, a:active
 {
 	color: #89D5FF;
-;
 }
 table
 {
@@ -109,6 +108,10 @@ a.nav
 	display: block;
 	font-size: 10pt;
 }
+a.highlight
+{
+	color: #097AC7;
+}
 
 ul.nav 
 {
@@ -128,7 +131,14 @@ div.corelink
 
 	position: absolute;
 	right: 15px;
-	top: 35px;
+	top: 25px;
+}
+
+#infodiv 
+{
+	position: absolute;
+	right: 20px;
+
 }
 
 /*main container div for all content */
@@ -172,7 +182,7 @@ div.corelink
 .note
 {
 	font-style: italic;
-	font-size: 5pt;
+	font-size: 7pt;
 	color: #aaa;
 }
 
@@ -183,14 +193,14 @@ div.corelink
 }
 
 
-table.servicetable {width: 100%; }
-th.hostname, td.hostname, div.hostname {width:140px;}
+table.servicetable {width: 1200px; }
+th.hostname, td.hostname, div.hostname {width:160px;}
 th.service_description, td.service_description, div.service_description {width: 140px; }
 th.attempt, td.attempt {width: 55px;} 
 th.duration, td.duration {width: 110px;}
 th.status, td.ok, td.critical, td.warning, td.unknown {width: 60px; }
 th.last_check, td.last_check {width: 140px; } 
-th.plugin_output, td.plugin_output, div.plugin_output{width: 400px; } 
+th.plugin_output, td.plugin_output, div.plugin_output{width: 370px; } 
 tr.statustablerow { width: 1400px; height: 1em; }
 
 

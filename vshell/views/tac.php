@@ -55,6 +55,19 @@
 //TODO move each table into it's own function to prevent variable overlap 
 ?>
 <!-- ##################Nagios Info Table################### -->
+<div id='infodiv'>
+
+<p class='note'>Nagios V-Shell<br />
+	Copyright (c) 2010 <br />
+	Nagios Enterprises, LLC. <br />
+   Written by Mike Guthrie<br />
+   For questions, feedback, <br /> 
+   or support, visit the <br />
+   <a href="http://support.nagios.com/forum/viewforum.php?f=19" target="_blank">V-Shell Forum</a>.</p>
+
+</div>
+
+
 <table class="tac">
 <tr><th>Tactical Monitoring Overview</th></tr>
 	<tr>

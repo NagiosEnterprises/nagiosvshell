@@ -80,28 +80,31 @@ function build_group_array($objectarray, $type)
 			$group = $object[$index];
 			//print "<p>group is: $group</p>";
 			//print_r($group);
-			//get line from cfg that displays: host,service 
-			$members = $object['members'];
-			//explode line items into an array 
-			$lineitems = explode(',', trim($members));
-			
-			//convert lineitems into associative array so the hostname is paired with service_desc
-			$sg_members = array();
-			$i=0;	
-			$c=0;		
-			foreach($lineitems as $items)
-			{
-				$h = $lineitems[$i];
-				$s = $lineitems[$i+1];
-				$sg_members[$c]['host_name'] = $h;
-				$sg_members[$c]['service_description'] = $s;
-				$c++;
-			}
-			
-			//print "<h4>$members</h4>";
-			$membersArray[$group] = $sg_members;			
-		}
-	}
+			//get line from cfg that displays: host,service
+			if(isset($object['members']))
+			{ 
+				$members = $object['members'];
+				//explode line items into an array 
+				$lineitems = explode(',', trim($members));
+				
+				//convert lineitems into associative array so the hostname is paired with service_desc
+				$sg_members = array();
+				$i=0;	
+				$c=0;		
+				foreach($lineitems as $items)
+				{
+					$h = $lineitems[$i];
+					$s = $lineitems[$i+1];
+					$sg_members[$c]['host_name'] = $h;
+					$sg_members[$c]['service_description'] = $s;
+					$c++;
+				}
+				
+				//print "<h4>$members</h4>";
+				$membersArray[$group] = $sg_members;	
+			}//end if(isset)		
+		}//end foreach 
+	}//end main IF 
 	
 	//ARRAY MEMBERS NEED SPACES TRIMMED!!!!!!!! 
 	return $membersArray;

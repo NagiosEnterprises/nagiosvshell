@@ -13,6 +13,7 @@ MODEL/DATA
 
 CONTROLLER
 
+
 -filtering functions for hosts and services (warning, OK, critical) for group pages
 
 -create filtered tables based on Monitoring Features on tactical overview 
@@ -26,6 +27,7 @@ VIEW
 - search ability for hosts and services 
 
 - tactical overview - additional data about monitoring performance??
+- tactical overview - filter for flapping, notification, event handlers, active checks, passive checks 
  -create basic xml stylesheet?
 
 -add links for xml viewing where applicable
