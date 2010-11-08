@@ -17,20 +17,18 @@ Before installation:  You will need to know the location of Apache configuration
 
 locate <filename>
 
-To download and install, login to your Nagios server and type the following commands from the command-line: 
-
-cd /tmp
-wget http://assets.nagios.com/ <downloadURL>
-tar zxf vshell.tar.gz
+Download and untar the latest V-Shell tar.gz
 cd vshell
 mkdir /usr/local/vshell
-cp * /usr/local/vshell
+cp -r * /usr/local/vshell
 
 To set up your apache configuration, modify the contents of the vshell.conf file to match the directory structure of your distribution and your installation of Nagios.  Use a text editor to modify this file as needed, then copy this file to the same directory as your nagios.conf file.  
 
-
+****IMPORTANT****
 V-Shell Constants
-For custom configurations with Apache, changes may need to be made to the /vshell/constants.inc.php file, which contains variables for the V-shell URL, as well as the Nagios Core cgi's.  Important Note: V-Shell assumes that your Nagios Core installation can be accessed via http://<servername>/nagios.  If your configuration differs from this, make changes are appropriate to the constants.inc.php file.  If errors occur after installation, verify that the constants point to the correct web URLS.  Future versions will include a separate config file and possibly a wizard to verify system configuration.  
+For custom configurations with Apache, changes may need to be made to the /vshell/constants.inc.php file, which contains variables for the V-shell URL, as well as the Nagios Core cgi's.  IMPORTANT NOTE: V-Shell assumes that your Nagios Core installation can be accessed via http://<servername>/nagios.  If your configuration differs from this, make changes are appropriate to the constants.inc.php file.  If errors occur after installation, verify that the constants point to the correct web URLS.  Future versions will include a separate config file and possibly a wizard to verify system configuration.  
+
+
 
 Getting Started
 
@@ -38,4 +36,16 @@ Nagios V-Shell gets authorization information from the existing Nagios htpasswd.
 
 Vshell maintains most of the same features of Nagios Core, while utilizing a top menu bar for site navigation.  This is done to maximize space for table viewing for hosts and services.  
 
-Nagios Core system commands, reports, and the Core interface can all be accessed by direct links from V-Shell.  
+Nagios Core system commands, reports, and the Core interface can all be accessed by direct links from V-Shell. 
+
+
+Getting Help
+
+For problems, feeback, or support, use the V-Shell forum at the following address:
+http://support.nagios.com/forum/viewforum.php?f=19
+
+
+
+Developer Notes:
+
+We're looking for people who want to contribute to the V-Shell project, see the TODO file for more information.   

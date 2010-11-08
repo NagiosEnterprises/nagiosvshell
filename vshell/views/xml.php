@@ -79,7 +79,7 @@ function build_xml_page($array, $title)
 	$fp = fopen(DIRBASE.'/tmp/'.$title.'.xml', 'w');	
 	fwrite($fp, $xml); //output data to a tmp xml file 
 	fclose($fp);
-	header('Location: '.BASEURL.'tmp/'.$title.'.xml');
+	//header('Location: '.BASEURL.'tmp/'.$title.'.xml');
 
 }
 
