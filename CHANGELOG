@@ -3,6 +3,7 @@
 -Nov - 2010 - Mike Guthrie:  mguthrie@nagios.com
 - fixed an issue with the table data fields resizing while the page was loading 
 - added fixed width to some of the <td> fields for better viewing 
+- tweaked some of the colors for easier reading of the tables 
 - fixed a bug to account for empty groups.  
 - Added info for support forum
 

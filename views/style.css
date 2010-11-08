@@ -71,7 +71,7 @@ a:link, a:visited
 	text-decoration: none;
 
 }
-a:hover, a:active
+a:hover, a:active, a.highlight:hover, a.highlight:active
 {
 	color: #89D5FF;
 }
