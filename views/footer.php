@@ -56,6 +56,6 @@
 </body>
 </html>
 
-<?php // ob_end_flush(); //sessions not currently in use 
+<?php ob_end_flush();  
 
  ?>

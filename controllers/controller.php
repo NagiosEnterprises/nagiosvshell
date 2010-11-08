@@ -193,6 +193,7 @@ function switchboard($type, $arg) //$type = $_GET[xml, view, object]   $arg=one 
 		{
 			case 'xml':
 			build_xml_page($array,$title);
+			header('Location: '.BASEURL.'tmp/'.$title.'.xml');
 			break;
 			
 			case 'view':
