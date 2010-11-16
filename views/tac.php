@@ -53,6 +53,10 @@
 
 
 //TODO move each table into it's own function to prevent variable overlap 
+
+
+
+
 ?>
 <!-- ##################Nagios Info Table################### -->
 <div id='infodiv'>

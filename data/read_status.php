@@ -55,13 +55,16 @@
 	//create status arrays for hostgroups and servicegroups 
 	//put inside of a function to prevent variable overlap 
 
+
+
+
 $file = fopen(STATUSFILE, "r") or exit("Unable to open 'status.dat' file!");
 
 if(!$file)
 {
-	print 'file not found';
+	die('File status.dat not found!');
+	
 }
-
 $hosts = array();  //global array of host status information used for main tables 
 $services = array(); //global array of service status info for tables 
 $hostcount = 0;
@@ -86,22 +89,25 @@ $servicecount = 0;
 while(!feof($file)) //read through file and assign host and service status into separate arrays 
 {
 
-	$line = fgets($file); //Gets a line from file pointer. 
-	if(ereg('hoststatus', $line) )
+	$line = fgets($file); //Gets a line from file pointer.
+
+	if(preg_match('/hoststatus/', $line) )
 	{
 		$case = 1; //enable grabbing of host variables
 		$hostcount++;
 		$hosts[$hostcount] = array(); //starts a new host array 
 		 				
-	}	
-	if(ereg('servicestatus', $line) )
+	}
+
+	if(preg_match('/servicestatus/', $line) )
 	{
 		$case = 2; //enable grabbing of service variables
 		$servicecount++;
 		$services[$servicecount] = array(); //starts a new service array 
 		 		
 	}
-	if(ereg('}', $line) )
+
+	if(preg_match('/}/', $line) )
 	{	 
 		$case = 0; //turn off switches once a definition ends 		
 	}
@@ -330,6 +336,8 @@ while(!feof($file)) //read through file and assign host and service status into 
 } //end of WHILE 
 
 fclose($file);
+
+
 
 //print "Dumping Hosts<br />";	
 //var_dump($hosts);

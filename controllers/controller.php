@@ -184,6 +184,7 @@ function switchboard($type, $arg) //$type = $_GET[xml, view, object]   $arg=one 
 		break;
 		
 		default:
+		//initialize main data arrays 
 		include_once(DIRBASE.'/views/tac.php');
 		break;		
 	} 	
