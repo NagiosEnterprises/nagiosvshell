@@ -12,12 +12,18 @@ function check_auth() //return $username if logged into nagios
 		//echo "REMOTE USER is set: $remote_user<br />";
 		return $remote_user;
 	}
+	//digest authentication 
+	elseif(isset($_SERVER['PHP_AUTH_USER']))
+	{
+		//echo "Auth Digest detected".$_SERVER['PHP_AUTH_USER'];
+		return $_SERVER['PHP_AUTH_USER'];
+	}
 	else
 	{
-		echo "Access Denied: Please log into Nagios Core.";
+		echo "Access Denied: No authentication detected.";
 		return false; 
 	}	
-	
+ 
 }
 
 

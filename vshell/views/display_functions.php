@@ -387,14 +387,18 @@ function get_host_status_color($hostname)
 {
 	global $hosts;
 	$color = '';
-	foreach($hosts as $host)
+	if(isset($hosts))
 	{
-		if(trim($hostname) == trim($host['host_name']))
+		foreach($hosts as $host)
 		{
-			$color = get_color_code($host);
+			if(trim($hostname) == trim($host['host_name']))
+			{
+				$color = get_color_code($host);
+			}
 		}
+		 
 	}
-	return $color; 
+	return $color;
 }
 
 /////////////////////////////////////////////
