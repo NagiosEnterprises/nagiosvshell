@@ -258,7 +258,7 @@ function set_perms($username)
 	{
 		foreach($array as $user)
 		{
-			if(trim($user) == $username)
+			if(trim($user) == $username || trim($user) == '*') 
 			{
 				//print "authorizing $username";
 				authorize($key);

@@ -49,21 +49,17 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+///////////////patch submitted by Dave Worth 11/18/2010 
+//add support for https 
+$SERVER_BASE = isset($_SERVER['SERVER_NAME']) ? 
+                      $_SERVER['SERVER_NAME'] : $_SERVER['SERVER_ADDR'];
+ 
+$PROTO = isset($_SERVER['HTTPS']) ? 'https' : 'http';
+$base = $PROTO.'://'.$SERVER_BASE;
+$home = $base.'/vshell/';
 
+///////////////////end patch /////////
 
-
-
-//define base url 
-if(isset($_SERVER['SERVER_NAME']))
-{
-	$home = 'http://'.$_SERVER['SERVER_NAME'].'/vshell/';
-	$base = 'http://'.$_SERVER['SERVER_NAME'];
-}
-else
-{
-	$home = 'http://'.$_SERVER['SERVER_ADDR'].'/vshell/';
-	$base = 'http://'.$_SERVER['SERVER_ADDR'];
-}
 
 //server root information 
 define("BASEURL", $home);

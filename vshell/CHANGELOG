@@ -1,6 +1,11 @@
 
+=======11-18-2010==Patch by Dave Worth:
+- Added support for https protocal
+- Added support for wildcard '*' option in the cgi.cfg file for user permissions.  
 
--Nov - 2010 - Mike Guthrie:  mguthrie@nagios.com
+
+
+=======Nov - 2010 - Mike Guthrie:  mguthrie@nagios.com
 - fixed an issue with the table data fields resizing while the page was loading 
 - added fixed width to some of the <td> fields for better viewing 
 - tweaked some of the colors for easier reading of the tables 
