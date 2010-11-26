@@ -1,8 +1,12 @@
 
-=======11-18-2010==Patch by Dave Worth:
+======Nov 26 - 2010: 
+- code improvements on read_objects.php - submitted by Dave Worth
+- Bug fix for service groups displaying the same group of services for all groups - submitted by Dave Worth 
+- Fixed potential bug with servicegroups without an alias. 
+
+======Nov 2010 - Patches submitted by Dave Worth 
 - Added support for https protocal
 - Added support for wildcard '*' option in the cgi.cfg file for user permissions.  
-
 
 
 =======Nov - 2010 - Mike Guthrie:  mguthrie@nagios.com

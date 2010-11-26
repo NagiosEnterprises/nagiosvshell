@@ -37,5 +37,6 @@ DOC
 
 --need documentation for user authentication/viewing for apache (when using Nagios XI)
 
-
+MISC
+- 'ereg' function is now officially deprecated in php5.3.3, need to update to preg_match or one of the newer functions.  
 
