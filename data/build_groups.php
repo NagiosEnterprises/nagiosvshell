@@ -49,8 +49,6 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
-
 //creates group array based on type 
 //$objectarray - expecting an object group array -> $hostgroups_objs $servicegroups_objs $contactgroups
 //				-these groups are read from objects.cache file  
@@ -89,9 +87,8 @@ function build_group_array($objectarray, $type)
 				
 				//convert lineitems into associative array so the hostname is paired with service_desc
 				$sg_members = array();
-				$i=0;	
 				$c=0;		
-				foreach($lineitems as $items)
+        for ($i = 0; $i < count($lineitems); $i+=2)
 				{
 					$h = $lineitems[$i];
 					$s = $lineitems[$i+1];
@@ -169,29 +166,35 @@ function build_host_servicegroup_details($groups)
 //
 //returns a list of groups separated by spaces  
 // 
-function check_membership($hostname='', $servicename='')
+function check_membership($hostname='', $servicename='', $servicegroup_name='')
 {
 	global $hostgroups_objs;
 	global $servicegroups_objs;
+
 	//print_r($servicegroups_objs);	
 	$memberships = ''; 
-	if($servicename!='' && $hostname!='')
+	if($hostname!='' && $servicename!='')
 	{
 		//search servicegroups array 
 		
 		//create reg expression string for 'host,service'
 		//$string = '/'.trim($hostname).','.trim($servicename).'/';
-		$string = trim($hostname).','.trim($servicename);
+		$hostservice = trim($hostname).','.trim($servicename);
 		//check regExpr against servicegroup 'members' index 
 		foreach($servicegroups_objs as $group)
 		{
-			//print '<p>Members: '.$group['members'].'</p>';
-			//print '<p>Alias: '.$group['alias'].'</p>';
-			//print '<p>String: '.$string.'</p>';
-			if(ereg($string, $group['members']))
+
+      if ($servicegroup_name!='' && $group['servicegroup_name'] != $servicegroup_name) {
+        continue;
+      }
+			if(isset($group['members'])) //added to catch 'undefined index' errors 
 			{
-				//print "<h4>$string is a member of ".$group['alias']."</h4>";
-				$memberships .= $group['alias'].' ';
+				if(ereg($hostservice, $group['members']))
+				{
+					//use alias as default display name, else use groupname 
+					$str = isset($group['alias']) ? $group['alias'] : $group['servicegroup_name']; 
+					$memberships .= $str.' ';
+				}
 			}
 		}//end FOREACH 
 	}//end services IF 
@@ -202,22 +205,19 @@ function check_membership($hostname='', $servicename='')
 		
 		foreach($hostgroups_objs as $group)
 		{
-			if(ereg($hostname, $group['members']))
+			if(isset($group['members']))
 			{
-				$memberships .= $group['alias'].' ';
+				if(ereg($hostname, $group['members']))
+				{
+					//use alias as default display name, else use groupname 
+					$str = isset($group['alias']) ? $group['alias'] : $group['hostgroup_name'];
+					$memberships .= $str.' ';
+				}
 			}
-		
 		}
 	}
-	if($memberships!='')
-	{
-		return $memberships;
-	}
-	else 
-	{
-		return;
-	}
 	 
+  return $memberships == '' ? NULL : $memberships;
 }
 
 
@@ -235,12 +235,13 @@ function build_servicegroups_array()
 	$servicegroups_details = array(); //multi-dim array to hold servicegroups 	
 	foreach($servicegroups as $groupname=>$member)
 	{
+
 		//print $groupname; //is title of group 
 		$servicegroups_details[$groupname] = array();
 		
 		foreach($services as $service)
 		{
-			$membership = check_membership($service['host_name'], $service['service_description']);
+			$membership = check_membership($service['host_name'], $service['service_description'], $groupname);
 			if($membership)
 			{
 			
@@ -252,6 +253,7 @@ function build_servicegroups_array()
 			
 		}
 	}
+
 	return $servicegroups_details; 
 }
 

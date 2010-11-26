@@ -50,222 +50,69 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-$objs_file = fopen(OBJECTSFILE, "r") or exit("Unable to open objects.cache file!");
+// Revision submitted by Dave Worth 
 
+/*  Open and parse the Nagios objects file.
+ *
+ *  Returns an array of the following arrays:
+ *
+ * $hosts_objs
+ * $services_objs
+ * $hostgroups_objs
+ * $servicegroups_objs
+ * $contacts
+ * $contactgroups
+ * $timeperiods
+ * $commands
+ */
+function parse_objects_file($objfile = OBJECTSFILE) {
 
-//establish sentry arrays 
-$hosts_objs = array(); //used different naming to prevent overwriting status arrays 
-$services_objs = array();
-$hostgroups_objs = array();
-$servicegroups_objs = array();
-$contacts = array();
-$contactgroups = array();
-$timeperiods = array();
-$commands = array();
+  $objs_file = fopen($objfile, "r") or exit("Unable to open objects.cache file!");
 
+  $defmatches = array();
+  $curdeftype = NULL;
+  $kvp = array();
+  $object_collector = array();
 
-//counters for iteration through file 
-$hostcounter = 0;
-$servicecounter = 0;
-$hostgroupcounter = 0;
-$servicegroupcounter = 0;
-$contactcounter = 0;
-$contactgroupcounter = 0;
-$timeperiodcounter = 0;
-$commandcounter = 0;
-	
-$case = 0;
-	
-while(!feof($objs_file)) //read through file and assign host and service status into separate arrays 
-{
+  while(!feof($objs_file)) //read through the file and read object definitions
+  {
 
 	//var_dump($line)."<br />";
 	$line = fgets($objs_file); //Gets a line from file pointer.
 	
-	if(ereg('define host', $line) && !ereg('define hostgroup', $line))
-	{
-		$case = 1; //enable grabbing of host variables
-		$hostcounter++;			
-		$hosts_objs[$hostcounter] = array(); //starts a new host array 
+    if (preg_match('/^\s*define\s+(\w+)\s*{\s*$/', $line, $defmatches)) {
+      # Beginning of a new definition;
+      $curdeftype = $defmatches[1];
+	
+    } elseif (preg_match('/^\s*}\s*$/', $line)) {
+      #End of a definition.  Assign key-value pairs and reset variables
+      $object_collector[$curdeftype][] = $kvp;
+      $curdeftype = NULL;
+      $kvp = array();
 		
-		 				
-	}	
-	if(ereg('define service', $line) && !ereg('define servicegroup', $line) )
-	{
-		$case = 2; //enable grabbing of service variables
-		$servicecounter++;
-		$services_objs[$servicecounter] = array(); //starts a new service array 
-		 		
-	}
-	
-	if(ereg('define command', $line) )
-	{
-		$case = 3; //enable grabbing of variables
-		$commandcounter++;
-		$commands[$commandcounter] = array(); //starts a new commands array 		 		
-	}
-	
-	if(ereg('define timeperiod', $line) )
-	{
-		$case = 4; //enable grabbing of variables
-		$timeperiodcounter++;
-		$timeperiods[$timeperiodcounter] = array(); //starts a new timeperiod array 		 		
-	}
-	
-	if(ereg('define hostgroup', $line) )
-	{
-		$case = 5; //enable grabbing of variables
-		$hostgroupcounter++;
-		$hostgroups_objs[$hostgroupcounter] = array(); //starts a new hostgroup array 		 		
+    } elseif($curdeftype != NULL) {
+      # Collect the key-value pairs for the definition
+		  $strings = explode("\t", trim($line), 2);
+			$key = $strings[0];
+			$value = $strings[1];
+      $kvp[$key] = $value;
+		
+    } else {
+      # outside of definitions? Comments and whitespace should be caught
+		}
+		
+  } //end of while
+		
+  fclose($objs_file);	
+		
+  $return_array = array();
+		
+  foreach (array('host', 'service', 'hostgroup', 'servicegroup', 
+    'contact', 'contactgroup', 'timeperiod', 'command') as $name) {
+    $return_array[]= $object_collector[$name];
 	}	
 	
-	if(ereg('define contact', $line) && !ereg('define contactgroup', $line) )
-	{
-		$case = 6; 
-		$contactcounter++;
-		$contacts[$contactcounter] = array(); 		 		
-	}	
-	
-	if(ereg('define contactgroup', $line) )
-	{
-		$case = 7; //enable grabbing of service variables
-		$contactgroupcounter++;
-		$contactgroups[$contactgroupcounter] = array(); //starts a new service array 		 		
-	}
-	
-	if(ereg('define servicegroup', $line) )
-	{
-		$case = 8; //enable grabbing of service variables
-		$servicegroupcounter++;
-		$servicegroups_objs[$servicegroupcounter] = array(); //starts a new service array 		 		
-	}
-	
-	if(ereg('}', $line) )
-	{	 
-		$case = 0; //turn off switches once a definition ends 		
-	}
-
-	
-	//grab variables according to the enabled boolean switch
-
-	switch($case) 
-	{
-		case 0:
-		//switches are off, do nothing 
-		break;
-				
-		case 1: //host definition
-		//do something
-		if(!ereg('define host', $line) ) //eliminate definition line 
-		{
-			$strings = explode("\t", trim($line));			
-			$key = $strings[0];
-			$value = $strings[1];
-			$hosts_objs[$hostcounter][$key]= $value;
-		}
-		break;
-		
-		case 2: //service definition
-		if(!ereg('define service', $line) ) //eliminate definition line 
-		{
-			$strings = explode("\t", trim($line));
-			$key = $strings[0];
-			$value = $strings[1];
-			$services_objs[$servicecounter][$key]=$value;
-		}
-		break;
-		
-		case 3: //command definition
-		if(!ereg('define command', $line) ) //eliminate definition line 
-		{
-			$strings = explode("\t", trim($line));
-			$key = $strings[0];
-			$value = $strings[1];
-			$commands[$commandcounter][$key]=$value;
-		}
-		break;
-		
-		case 4: //timeperiod definition
-		if(!ereg('define timeperiod', $line) ) //eliminate definition line 
-		{
-			$strings = explode("\t", trim($line));
-			$key = $strings[0];
-			$value = $strings[1];
-			$timeperiods[$timeperiodcounter][$key]=$value;
-		}
-		break;	
-		
-		case 5: //define hostgroups 
-		if(!ereg('define hostgroup', $line) ) //eliminate definition line 
-		{
-			$strings = explode("\t", trim($line));
-			$key = $strings[0];
-			$value = $strings[1];
-			$hostgroups_objs[$hostgroupcounter][$key]=$value;
-		}	
-		break;
-		
-		case 6: //define contact
-		if(!ereg('define contact', $line) ) //eliminate definition line 
-		{
-			$strings = explode("\t", trim($line));
-			$key = $strings[0];
-			$value = $strings[1];
-			$contacts[$contactcounter][$key]=$value;
-		}	
-		break;			
-		
-		case 7: //define contactgroup
-		if(!ereg('define contactgroup', $line) ) //eliminate definition line 
-		{
-			$strings = explode("\t", trim($line));
-			$key = $strings[0];
-			$value = $strings[1];
-			$contactgroups[$contactgroupcounter][$key]=$value;
-		}
-		break;
-		
-		case 8: //define servicegroup 
-		if(!ereg('define servicegroup', $line) ) //eliminate definition line 
-		{
-			$strings = explode("\t", trim($line));
-			$key = $strings[0];
-			$value = $strings[1];
-			$servicegroups_objs[$servicegroupcounter][$key]=$value;
-		}
-		break;
-	}	
-	
-
-	
-} //end of while
-
-//print_r($hosts_objs); //tested, works
-//var_dump($services_objs); //tested, works
-//var_dump($hostgroups); //tested, works 
-//var_dump($contacts); //tested, works 
-//var_dump($contactgroups); //tested, works 
-//var_dump($servicegroups); //tested, works 
-//var_dump($commands); //tested, works 
-//var_dump($timeperiods);
-	
-
-fclose($objs_file);	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  return $return_array;
+}
 
 ?>

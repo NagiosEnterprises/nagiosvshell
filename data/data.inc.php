@@ -55,15 +55,14 @@
 
 //future releases will isolate array builds into separate functions to improve performance 
 
-include('read_objects.php');//returns arrays for the following objects:
-												//$hosts_objs 
-												//$service_objs
-												//$hostgroups 
-												//$servicegroups 
-												//$contacts 
-												//$contactgroups
-												//$timeperiods 
-												//$commands
+include('read_objects.php');
+//Function returns the following array or arrays: 
+// [$hosts_objs, $services_objs, $hostgroupss_objs, $servicegroups_objs,
+//   $contacts, $contactgroups, $timeperiods, $commands]
+
+list($hosts_objs, $services_objs, $hostgroups_objs, $servicegroups_objs,
+     $contacts, $contactgroups, $timeperiods, $commands) = parse_objects_file();
+
 												
 include('read_perms.php');//returns $permissions array from cgi.cgf
 
