@@ -52,7 +52,7 @@
 
 
 //expecting array of service status and returns a service table  
-function display_services($services)
+function display_services($services,$start,$limit)
 {
 	//Table header generation 
 	print '
@@ -64,40 +64,55 @@ function display_services($services)
 	<th class="attempt">Attempt</th>
 	<th class="last_check">Last Check</th>
 	<th class="plugin_output">Status Information</th></tr>';
-
+		
+	$resultsCount = count($services);
+	//if results are greater than number that the page can display, create page links
+	//if no result limit is defined, page will display all results.  Default limit is 100 results
+	//calculate number of pages 
+	$pageCount = (($resultsCount / $limit) < 1) ? 1 : intval($resultsCount/$limit);
+	
+	//check if more than one page is needed 
+	if($pageCount * $limit < $resultsCount)
+	{
+		do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
+	}
+	
+	//creates notes for total results as well as form for setting page limits 
+	do_result_notes($start,$limit,$resultsCount,'services');
 
 	//process service array   
 	//service table rows 
 	$count = 0;
-	foreach($services as $service)
+	for($i=$start; $i<=($start+$limit); $i++)
 	{
+		if(!isset($services[$i])) continue; //skip undefined indexes of array
 		$count++; 
-		$tr = get_color_code($service);
-		$url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$service['serviceID']);
-		$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$service['host_name']);
-		$color = get_host_status_color($service['host_name']);
-		$icon = return_icon_link($service['host_name']);
-		$comments = comment_icon($service['host_name'], $service['service_description']);
-		$h_comments = comment_icon($service['host_name']);
-		$dt_icon = downtime_icon($service['scheduled_downtime_depth']);
-		$host_dt = downtime_icon(get_host_downtime($service['host_name']) );
+		$tr = get_color_code($services[$i]);
+		$url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$services[$i]['serviceID']);
+		$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$services[$i]['host_name']);
+		$color = get_host_status_color($services[$i]['host_name']);
+		$icon = return_icon_link($services[$i]['host_name']);
+		$comments = comment_icon($services[$i]['host_name'], $services[$i]['service_description']);
+		$h_comments = comment_icon($services[$i]['host_name']);
+		$dt_icon = downtime_icon($services[$i]['scheduled_downtime_depth']);
+		$host_dt = downtime_icon(get_host_downtime($services[$i]['host_name']) );
 		//removing duplicate host names from table for a cleaner look
 		if(isset($_GET['view']))
 		{	 
-			if(isset($services[($count-1)]['host_name']) && $services[($count-1)]['host_name'] == $service['host_name'])
+			if(isset($services[($i-1)]['host_name']) && $services[($i-1)]['host_name'] == $services[$i]['host_name'] && $count!=1)
 			{
 				$td1 = '<td></td>';		
 			}
 			else
 			{
 				$hostlink = "<a class='highlight' href='$host_url' title='View Host Details'>";
-				$td1 = "<td class='$color'><div class='hostname'>$hostlink".$service['host_name']."</a> $icon $host_dt $h_comments</div></td>";
+				$td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $icon $host_dt $h_comments</div></td>";
 			}
 		}
 		else
 		{
 			$hostlink = "<a class='hightlight' href='$host_url' title='View Host Details'>";
-			$td1 = "<td class='$color'><div class='hostname'>$hostlink".$service['host_name']."</a> $icon $host_dt $h_comments</div></td>";
+			$td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $icon $host_dt $h_comments</div></td>";
 		}
 		
 		//table data generation 				
@@ -106,12 +121,12 @@ function display_services($services)
 		
 		<tr class='statustablerow'>	
 			{$td1}
-			<td class='service_description'><div class='service_description'><a href="{$url}">{$service['service_description']}</a>{$comments}{$dt_icon}</div></td>
-			<td class="{$tr}">{$service['current_state']}</td>
-			<td class='duration'>{$service['duration']}</td>
-			<td class='attempt'>{$service['attempt']}</td>
-			<td class='last_check'>{$service['last_check']}</td>
-			<td class='plugin_output'><div class='plugin_output'>{$service['plugin_output']}</div></td>
+			<td class='service_description'><div class='service_description'><a href="{$url}">{$services[$i]['service_description']}</a>{$comments}{$dt_icon}</div></td>
+			<td class="{$tr}">{$services[$i]['current_state']}</td>
+			<td class='duration'>{$services[$i]['duration']}</td>
+			<td class='attempt'>{$services[$i]['attempt']}</td>
+			<td class='last_check'>{$services[$i]['last_check']}</td>
+			<td class='plugin_output'><div class='plugin_output'>{$services[$i]['plugin_output']}</div></td>
 		</tr>
 		
 TABLE;
@@ -123,14 +138,3 @@ TABLE;
 }
 //end php 
 ?>
-
-
-
-
-
-
-
-
-
-
-

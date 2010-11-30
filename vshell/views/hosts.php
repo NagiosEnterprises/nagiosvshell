@@ -51,7 +51,7 @@
 
 
 //displays hosts table for any array of hosts 
-function display_hosts($hosts)
+function display_hosts($hosts, $start,$limit)
 {
 
 	print '<table class="statustable"><tr> 
@@ -61,22 +61,37 @@ function display_hosts($hosts)
 			<th>Attempt</th>
 			<th>Last Check</th>
 			<th>Status Information</th></tr>';
-	 
+
+	$resultsCount = count($hosts);
+	//if results are greater than number that the page can display, create page links
+	//if no result limit is defined, page will display all results.  Default limit is 100 results
+	//calculate number of pages 
+	$pageCount = (($resultsCount / $limit) < 1) ? 1 : intval($resultsCount/$limit);
 	
-	foreach($hosts as $host)
+	//check if more than one page is needed 
+	if($pageCount * $limit < $resultsCount)
 	{
-		$tr = get_color_code($host); // CSS style class based on status 
-		$url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$host['host_name']);
-		$comments = comment_icon($host['host_name']); //has comments icon 
-		$dt_icon = downtime_icon($host['scheduled_downtime_depth']); //scheduled downtime icon 
+		do_pagenumbers($pageCount,$start,$limit,$resultsCount,'hosts');
+	}
+	
+	//creates notes for total results as well as form for setting page limits 
+	do_result_notes($start,$limit,$resultsCount,'hosts');	
+	//begin looping table results 
+	for($i=$start; $i<=($start+$limit); $i++)
+	{
+		if(!isset($hosts[$i])) continue; //skip undefined indexes of hosts array 
+		$tr = get_color_code($hosts[$i]); // CSS style class based on status 
+		$url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$hosts[$i]['host_name']);
+		$comments = comment_icon($hosts[$i]['host_name']); //has comments icon 
+		$dt_icon = downtime_icon($hosts[$i]['scheduled_downtime_depth']); //scheduled downtime icon 
 		$tablerow = <<<TABLE
 	
 		<tr>	
-			<td><a href="{$url}">{$host['host_name']}</a>{$comments}{$dt_icon}</td><td class="{$tr}">{$host['current_state']}</td>
-			<td>{$host['duration']}</td>
-			<td>{$host['attempt']}</td>
-			<td>{$host['last_check']}</td>
-			<td>{$host['plugin_output']}</td>
+			<td><a href="{$url}">{$hosts[$i]['host_name']}</a>{$comments}{$dt_icon}</td><td class="{$tr}">{$hosts[$i]['current_state']}</td>
+			<td>{$hosts[$i]['duration']}</td>
+			<td>{$hosts[$i]['attempt']}</td>
+			<td>{$hosts[$i]['last_check']}</td>
+			<td>{$hosts[$i]['plugin_output']}</td>
 		</tr>
 			
 TABLE;
@@ -85,5 +100,8 @@ TABLE;
 	
 	
 	print '</table>';
+	
+	//print the page numbers here accordingly 
 
 } 
+?>

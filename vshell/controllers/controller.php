@@ -199,19 +199,31 @@ function switchboard($type, $arg) //$type = $_GET[xml, view, object]   $arg=one 
 			
 			case 'view':
 			//build_table($array);
+			//check for start and stop variables for pagination
+			$start = isset($_GET['start']) ? htmlentities($_GET['start']) : 0;
+			//$stop = isset($_GET['stop']) ? htmlentities($_GET['stop']) : 0;
+			//create page limit variable site wide, default to 50 results  
+			$limit = isset($_COOKIE['limit']) ? $_COOKIE['limit'] : RESULTLIMIT;
+			if(isset($_POST['pagelimit']))
+			{	
+				//set a site-wide cookie for the display limit 
+				setcookie('limit', $_POST['pagelimit']);
+				$limit = $_POST['pagelimit'];
+			}
+					
 			switch($arg)
 			{
 				case 'services':
 				if($authorizations['services']==1)
 				{
-					display_services($array);
+					display_services($array, $start, $limit);
 				}	
 				break;
 				
 				case 'hosts':
 				if($authorizations['hosts']==1)
 				{
-					display_hosts($array);
+					display_hosts($array,$start,$limit);
 				}	  
 				break;
 				

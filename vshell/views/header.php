@@ -1,5 +1,5 @@
 <?php //header.php  this page contains all of the html head information, used as an include file 
-//xml and DOCTYPE declarations are made at the top of the index.php file
+
 
 
 // Nagios V-Shell
@@ -48,15 +48,17 @@
 // GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, STRICT LIABILITY, TORT (INCLUDING 
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 
 
 
 //begin browser output  
-?> 
+ 
+?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://dublincore.org">
-<title><?php echo $page_title;
- ?></title>
+<title><?php echo $page_title; ?></title>
 
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <link rel="schema.DC" href="http://dublincore.org/2008/01/14/dcelements.rdf#" />
@@ -66,7 +68,7 @@
 <meta http-equiv="content-style-type" content="text/css" />
 <meta http-equiv="content-language" content="en" />
 <meta name="site" content="Nagios" />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="./jquery-1.4.4.min.js"></script>
 
 <script type="text/javascript">
 

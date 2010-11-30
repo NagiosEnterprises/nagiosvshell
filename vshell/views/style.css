@@ -145,7 +145,7 @@ div.corelink
 .main
 {
 	position: relative;
-	top: 10px;
+	top:2px;
 	bottom: 30px;
 	margin: 10px;
 	height: 90%;
@@ -182,8 +182,8 @@ div.corelink
 .note
 {
 	font-style: italic;
-	font-size: 7pt;
-	color: #aaa;
+	font-size: 8pt;
+	color: #989898;
 }
 
 .servicetable th, .servicetable td, .statustable th, .statustable td 
@@ -291,3 +291,22 @@ img.label
 	padding-left: 3px;
 	padding-right: 3px;
 }
+
+div.pagenumbers
+{
+	margin-left: auto;
+	margin-right: auto;
+}
+div.tablenotes
+{
+	float: left;
+	width: 75%;
+}
+
+div.resultLimit /*select list for limiting table results */
+{
+	float: right;
+	width: 20%;
+}
+
+.deselect { color: #999; }
