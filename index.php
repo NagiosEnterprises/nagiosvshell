@@ -1,8 +1,5 @@
-<?php    ob_start(); 		print '<?xml version="1.0" encoding="UTF-8"?>'; ?> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<?php   //main index page for nagios V-Shell, handles all page routing and viewing 
 
-<?php 
 
 // Nagios V-Shell
 // Copyright (c) 2010 Nagios Enterprises, LLC.
@@ -52,8 +49,10 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
-//session_start(); no need for sessions at this time 
+session_start(); //no need for sessions at this time
+ob_start();
+echo '<?xml version="1.0" encoding="UTF-8"?>'; 		
+ 
 include(dirname(__FILE__).'/inc.inc.php'); //master include file 
 $page_title = 'Nagios Visual Shell';
 

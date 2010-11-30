@@ -228,8 +228,3 @@ function get_info()
 
 
 ?>
-
-
-
-
-

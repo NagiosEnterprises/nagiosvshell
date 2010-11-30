@@ -30,4 +30,3 @@ function check_auth() //return $username if logged into nagios
 
 
 ?>	
-		

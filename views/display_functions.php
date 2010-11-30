@@ -527,6 +527,54 @@ function downtime_icon($arg)
 }
 
 
+//expecting values passed from hosts.php or services.php 
+//creates page numbers based on how many results are being processed for the tables 
+function do_pagenumbers($pageCount,$start,$limit,$resultsCount,$type)
+{	
+	print "<div class='pagenumbers'>";
+	$begin = 0;
+	for($i=0;$i<=$pageCount;$i++)
+	{
+		//if end is greater than total results, set end to be the resultCount  
+		//$end = ($begin + $limit) < $resultsCount ? ($begin + $limit) : $resultsCount;
+		$link = "index.php?view=$type&start=$begin";
+		$page = $i+1;
+		//check if the link is the current page  
+		$cp_start = isset($_GET['start']) ? htmlentities($_GET['start']) : 0;
+		//if we're on current page, don't print a link 
+		if($cp_start == $begin) print "<span class='deselect'> $page </span>";
+		else print "<a class='pagenumbers' href='$link'> $page </a>"; 
+		//print "Page $i, start= $begin, end = $end <br />";	
+		//submit a hidden post page number 	
+		$begin = ($begin + $limit) < $resultsCount ? ($begin + $limit) : $resultsCount;
+	}	
+	print "</div>";
+}	//end do_pagenumbers()	
+
+//creates notes and page limit form above host and service tables 
+function do_result_notes($start,$limit,$resultsCount,$type)
+{
+	//check maximum display number for page 
+	$end = (($start+$limit)<$resultsCount) ? ($start+$limit) : $resultsCount; 
+	print "	
+			<div class='tablenotes'>
+				<p class='note'>Showing results $start - $end of $resultsCount results</p>
+				<p class='note'>Current Result Limit: $limit</p>
+			</div>
+			
+			<div class='resultLimit'>	
+			<form id='limitform' action='".$_SERVER['PHP_SELF']."?view=$type' method='post'>
+			<label class='label' for='pagelimit'>Limit Results</label>
+			<select id='pagelimit1' name='pagelimit'>
+				<option value='15'>15</option>
+				<option selected='selected' value='30'>30</option>
+				<option value='50'>50</option>
+				<option value='100'>100</option>
+				<option value='250'>250</option>				
+			</select>
+			<input type='submit' name='submit' value='Set Limit' />		
+		</form></div>";	
+} //end do_result_notes() 
 
 
 ?>

@@ -132,7 +132,3 @@ foreach($hostgroups as $group=>$members)
 
 
 ?>
-
-
-
-
