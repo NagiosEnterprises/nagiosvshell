@@ -154,12 +154,12 @@ function cache_or_disk($keyword, $backing_file, $cache_keys) {
 
       apc_store('last_'.$keyword.'_read', time());
 
-      fb("$keyword data from disk!");
+      //fb("$keyword data from disk!");
     }
   } else {
     read_disk($keyword, $cache_keys);
 
-    fb("APC failed... loaded $keyword from disk");
+    //fb("APC failed... loaded $keyword from disk");
   }
 
   $end_time = microtime(TRUE);
