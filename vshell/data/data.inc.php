@@ -49,28 +49,42 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+require_once('cache_or_disk.php');
 
-
-
+$useAPC = useAPC();
+//if ($useAPC) {
+//  apc_clear_cache();
+//  apc_clear_cache('user');
+//}
 
 //future releases will isolate array builds into separate functions to improve performance 
+//include('read_objects.php');
+//list('hosts_objs', 'services_objs', 'hostgroups_objs', 'servicegroups_objs',
+//  'contacts', 'contactgroups', 'timeperiods', 'commands') = parse_objects_file();
+$disk_cache_keys = array('hosts_objs', 'services_objs', 'hostgroups_objs', 'servicegroups_objs', 
+  'contacts', 'contactgroups', 'timeperiods', 'commands');
+cache_or_disk('objects', OBJECTSFILE, $disk_cache_keys);
+//fb($hosts_objs, 'hosts_objs from read_obects');
+//fb($services_objs, 'services_objs from read_obects');
+//fb($hostgroups_objs, 'hostgroups_objs from read_obects');
+//fb($servicegroups_objs, 'servicegroups_objs from read_obects');
+//fb($contacts, 'contacts from read_obects');
+//fb($contactgroups, 'contactgroups from read_obects');
+//fb($timeperiods, 'timeperiods from read_obects');
+//fb($commands, 'commands from read_obects');
 
-include('read_objects.php');
-//Function returns the following array or arrays: 
-// [$hosts_objs, $services_objs, $hostgroupss_objs, $servicegroups_objs,
-//   $contacts, $contactgroups, $timeperiods, $commands]
+//include('read_perms.php');//returns $permissions array from cgi.cgf
+//list($permissions) = parse_perms_file();
+cache_or_disk('perms', CGICFG, array('permissions'));
+//fb($permissions, 'permissions from read_perms');
 
-list($hosts_objs, $services_objs, $hostgroups_objs, $servicegroups_objs,
-     $contacts, $contactgroups, $timeperiods, $commands) = parse_objects_file();
+cache_or_disk('status', STATUSFILE, array('hosts', 'services', 'comments', 'info', 'details'));
+//fb($hosts, 'hosts from read_status');
+//fb($services, 'services from read_status');
+//fb($comments, 'comments from read_status');
+//fb($info, 'info from read_status');
+//fb($details, 'details from read_status');
 
-												
-include('read_perms.php');//returns $permissions array from cgi.cgf
-
-include('read_status.php');//returns status data arrays for: 
-												//$hosts  
-												//$services	
-
-include('read_details.php'); //returns full status details for all hosts and services 												
-include('build_groups.php'); //returns host and service groups into global array 												
-include('read_comments.php'); //returns global host/service comments array  												
+require('build_groups.php'); //returns host and service groups into global array 												
+require('read_details.php');
 ?>
