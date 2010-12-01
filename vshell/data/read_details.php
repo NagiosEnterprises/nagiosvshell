@@ -49,81 +49,10 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
-//expects 'host' or 'service' or 'program' as an argument 
-function grab_details($type)
-{
-
-	$f = fopen(STATUSFILE, "r") or exit("Unable to open status.dat file!"); 
-	$details = array(); 
-	
-	//counters for iteration through file 
-	$counter = 0;		
-	$case = 0;
-
-		$keystring = $type.'status {';
-		//echo "key is $keystring";
-
-		
-	while(!feof($f)) //read through file and assign host and service status into separate arrays 
-	{
-	
-		//var_dump($line)."<br />";
-		$line = fgets($f); //Gets a line from file pointer.
-		
-		if(ereg($keystring, $line))
-		{
-			//echo "starting grab?<br /><br />";
-			$case = 1; //enable grabbing of host variables
-			$counter++;			
-			$details[$type.$counter] = array(); //starts a new host array 		 				
-		}	
-		
-		if(ereg('}', $line) )
-		{	 
-			$case = 0; //turn off switches once a definition ends 		
-		}
-		
-		//grab variables according to the enabled boolean switch
-	
-		switch($case) 
-		{
-			case 0:
-			//switches are off, do nothing 
-			break;
-					
-			case 1: //host definition
-			//do something
-			if(!ereg($keystring, $line) ) //eliminate definition line 
-			{
-				//echo "should be grabbing a line<br />";
-				$strings = explode('=', trim($line));			
-				$key = (isset($strings[0]) ? $strings[0] : false );
-				$value = (isset($strings[1]) ? $strings[1] : false );
-				//added conditional to count for '=' signs in the performance data 
-				if(isset($strings[2]))
-				{
-					$i=2;
-					while(isset($strings[$i]))
-					{
-						$value.='='.$strings[$i];
-						$i++;
-					}
-				}
-				if(isset($key, $value))
-				{
-					$details[$type.$counter][$key]= $value;
-				}
-			}
-			break;
-			
-		}	//end of switch 				
-	} //end of while	
-	return $details;
-	fclose($f);	
-
-}//end of grab_host_details function 
-
+function grab_details($type) {
+  global $details;
+  return $details[$type];
+}
 
 
 //status detail arrays for application use 
@@ -147,84 +76,25 @@ function grab_details($type)
 //
 function get_details_by($type, $arg)
 {
+  $retval = NULL;
+
 	if($type=='service')
 	{
-		$details = grab_details($type);
-		return $details[$arg];
-	}
+    $details = grab_details($type);
+    $retval = $details[$arg];
+  }
 	if($type=='host')
 	{
-		$details = grab_details($type);
-		foreach($details as $host)
+		foreach(grab_details($type) as $host_details)
 		{
-			if(trim($host['host_name']) == trim($arg)) 
+			if(trim($host_details['host_name']) == trim($arg)) 
 			{
-				return $host;
+        $retval = $host_details;
+        break;
 			}
 		}
-	}
+  }
+  return $reval;
 }
-
-
-//print_r($host_a);
-
-//gets nagios program info from status.dat file 
-function get_info()
-{
-
-	$f = fopen(STATUSFILE, "r") or exit("Unable to open status.dat file!");
-	$case = 0;
-	$keystring = 'info {';
-	//echo "key is $keystring";
-		
-	while(!feof($f)) //read through file and assign host and service status into separate arrays 
-	{	
-		//var_dump($line)."<br />";
-		$line = fgets($f); //Gets a line from file pointer.
-		
-		if(ereg($keystring, $line))
-		{
-			//echo "starting grab?<br /><br />";
-			$case = 1; //enable grabbing of host variables		
-			$info = array(); //starts a new host array 		 				
-		}	
-		
-		if(ereg('}', $line) )
-		{	 
-			$case = 0; //turn off switches once a definition ends 		
-		}
-		
-		//grab variables according to the enabled boolean switch
-	
-		switch($case) 
-		{
-			case 0:
-			//switches are off, do nothing 
-			break;
-					
-			case 1: //host definition
-			//do something
-			if(!ereg($keystring, $line) ) //eliminate definition line 
-			{
-				//echo "should be grabbing a line<br />";
-				$strings = explode('=', trim($line));			
-				$key = $strings[0];
-				$value = $strings[1];
-				$info[$key]= $value;
-			}
-			break;
-			
-		}	//end of switch 				
-	} //end of while	
-	return $info;
-	fclose($f);	
-
-}//end of grab_host_details function 
-
-
-
-
-
-
 
 ?>
