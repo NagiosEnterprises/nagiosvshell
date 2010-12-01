@@ -199,10 +199,12 @@ function get_services_by_state($state, $array)
 function check_boolean($type,$arg,$int) 
 //arg is a host/service detail like "notifications_enabled"
 {
-	$array = grab_details($type); //grab full status details for host/service 
+  $reval = false;
+
+  $details = grab_details($type); //grab full status details for host/service 
 	$count = 0;
 
-	foreach($array as $object)
+	foreach($details as $object)
 	{
 		if($object[$arg] == $int)
 		{
@@ -211,13 +213,11 @@ function check_boolean($type,$arg,$int)
 	}
 	if($count>0)
 	{
-		return $count;
-	}
-	else
-	{
-		return false;
-	}
+		$retval = $count;
+  }
 
+  //fb("{$count} hosts have property {$arg} set to {$int}");
+  return $reval;
 }
 ////////////////////////////////////////////////
 //
