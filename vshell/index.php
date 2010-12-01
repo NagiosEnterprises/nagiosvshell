@@ -69,7 +69,7 @@ if($username) //if logged in, display the page
 	page_router(); //route page through switchboard() based on $_GET request 
 						//see controller.php for details 
 						
-	include('views/footer.php');  //html footer 
+	include(dirname(__FILE__).'/views/footer.php');  //html footer 
 }
 else
 {
