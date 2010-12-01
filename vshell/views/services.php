@@ -49,8 +49,6 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
-
 //expecting array of service status and returns a service table  
 function display_services($services,$start,$limit)
 {
@@ -82,11 +80,11 @@ function display_services($services,$start,$limit)
 
 	//process service array   
 	//service table rows 
-	$count = 0;
-	for($i=$start; $i<=($start+$limit); $i++)
+  $last_displayed_host = NULL;
+  for($i=$start; $i<=($start+$limit); $i++)
 	{
-		if(!isset($services[$i])) continue; //skip undefined indexes of array
-		$count++; 
+    if(!isset($services[$i])) continue; //skip undefined indexes of array
+
 		$tr = get_color_code($services[$i]);
 		$url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$services[$i]['serviceID']);
 		$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$services[$i]['host_name']);
@@ -97,16 +95,17 @@ function display_services($services,$start,$limit)
 		$dt_icon = downtime_icon($services[$i]['scheduled_downtime_depth']);
 		$host_dt = downtime_icon(get_host_downtime($services[$i]['host_name']) );
 		//removing duplicate host names from table for a cleaner look
-		if(isset($_GET['view']))
-		{	 
-			if(isset($services[($i-1)]['host_name']) && $services[($i-1)]['host_name'] == $services[$i]['host_name'] && $count!=1)
+    if(isset($_GET['view']))
+    {	 
+      if ($services[$i]['host_name'] == $last_displayed_host)
 			{
-				$td1 = '<td></td>';		
+        $td1 = '<td></td>';
 			}
 			else
-			{
+      {
+        $last_displayed_host = $services[$i]['host_name'];
 				$hostlink = "<a class='highlight' href='$host_url' title='View Host Details'>";
-				$td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $icon $host_dt $h_comments</div></td>";
+        $td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $icon $host_dt $h_comments</div></td>";
 			}
 		}
 		else
