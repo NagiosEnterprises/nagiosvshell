@@ -88,7 +88,7 @@ function build_group_array($objectarray, $type)
 				//convert lineitems into associative array so the hostname is paired with service_desc
 				$sg_members = array();
 				$c=0;		
-        for ($i = 0; $i < count($lineitems); $i+=2)
+				for ($i = 0; $i < count($lineitems); $i+=2)
 				{
 					$h = $lineitems[$i];
 					$s = $lineitems[$i+1];
@@ -171,6 +171,7 @@ function check_membership($hostname='', $servicename='', $servicegroup_name='')
 	global $hostgroups_objs;
 	global $servicegroups_objs;
 
+
 	//print_r($servicegroups_objs);	
 	$memberships = ''; 
 	if($hostname!='' && $servicename!='')
@@ -182,19 +183,20 @@ function check_membership($hostname='', $servicename='', $servicegroup_name='')
 		$hostservice = trim($hostname).','.trim($servicename);
 		//check regExpr against servicegroup 'members' index 
 		foreach($servicegroups_objs as $group)
-		{
+    {
 
       if ($servicegroup_name!='' && $group['servicegroup_name'] != $servicegroup_name) {
         continue;
       }
-			if(isset($group['members'])) //added to catch 'undefined index' errors 
+
+			//print '<p>Members: '.$group['members'].'</p>';
+			//print '<p>Alias: '.$group['alias'].'</p>';
+			//print '<p>String: '.$string.'</p>';
+			if(isset($group['members']) && preg_match("/$hostservice/", $group['members']))
 			{
-				if(ereg($hostservice, $group['members']))
-				{
-					//use alias as default display name, else use groupname 
-					$str = isset($group['alias']) ? $group['alias'] : $group['servicegroup_name']; 
-					$memberships .= $str.' ';
-				}
+				//use alias as default display name, else use groupname 
+				$str = isset($group['alias']) ? $group['alias'] : $group['servicegroup_name']; 
+				$memberships .= $str.' ';
 			}
 		}//end FOREACH 
 	}//end services IF 
@@ -205,14 +207,11 @@ function check_membership($hostname='', $servicename='', $servicegroup_name='')
 		
 		foreach($hostgroups_objs as $group)
 		{
-			if(isset($group['members']))
+			if(isset($group['members']) && preg_match("/$hostname/", $group['members']))
 			{
-				if(ereg($hostname, $group['members']))
-				{
-					//use alias as default display name, else use groupname 
-					$str = isset($group['alias']) ? $group['alias'] : $group['hostgroup_name'];
-					$memberships .= $str.' ';
-				}
+				//use alias as default display name, else use groupname 
+				$str = isset($group['alias']) ? $group['alias'] : $group['hostgroup_name'];
+				$memberships .= $str.' ';
 			}
 		}
 	}
@@ -231,14 +230,15 @@ function build_servicegroups_array()
 	global $servicegroups; //global array of servicegroup members 
 	global $services;
 	//print_r($servicegroups);
-	
+
 	$servicegroups_details = array(); //multi-dim array to hold servicegroups 	
 	foreach($servicegroups as $groupname=>$member)
 	{
 
+
 		//print $groupname; //is title of group 
 		$servicegroups_details[$groupname] = array();
-		
+  
 		foreach($services as $service)
 		{
 			$membership = check_membership($service['host_name'], $service['service_description'], $groupname);
@@ -253,6 +253,7 @@ function build_servicegroups_array()
 			
 		}
 	}
+
 
 	return $servicegroups_details; 
 }
