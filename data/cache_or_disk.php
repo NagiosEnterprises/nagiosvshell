@@ -59,7 +59,6 @@ function useAPC() {
   if ($havePHP && $haveAPC) {
     // if APC and upload tracking is enabled
     if (ini_get('apc.enabled')) {
-      //fb("APC enabled.. rolling");
       $useAPC = TRUE;
 
       if (ini_get('apc.rfc1867')) {
@@ -67,7 +66,7 @@ function useAPC() {
         $key = ini_get('apc.rfc1867_prefix') . $_REQUEST['apcid'];
         $stats = apc_fetch($key);
 
-        fb($stats, "APC stats");
+        //fb($stats, "APC stats");
       }
     }
   }
@@ -87,7 +86,7 @@ function cache_or_disk($keyword, $backing_file, $cache_keys) {
   $known_keywords = array('objects', 'status', 'perms');
   if (!in_array($keyword, $known_keywords)) {
     // XXX do something better
-    fb($keyword, "Unknown keyword");
+    //fb($keyword, "Unknown keyword");
     die("Unknown keyword '$keyword'");
   }
 
