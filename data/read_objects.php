@@ -50,8 +50,6 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-// Revision submitted by Dave Worth 
-
 /*  Open and parse the Nagios objects file.
  *
  *  Returns an array of the following arrays:
@@ -67,52 +65,50 @@
  */
 function parse_objects_file($objfile = OBJECTSFILE) {
 
-  $objs_file = fopen($objfile, "r") or exit("Unable to open objects.cache file!");
-
-  $defmatches = array();
-  $curdeftype = NULL;
-  $kvp = array();
-  $object_collector = array();
-
-  while(!feof($objs_file)) //read through the file and read object definitions
-  {
-
-	//var_dump($line)."<br />";
-	$line = fgets($objs_file); //Gets a line from file pointer.
+	$objs_file = fopen($objfile, "r") or die("Unable to open '$objfile' file!");
 	
-    if (preg_match('/^\s*define\s+(\w+)\s*{\s*$/', $line, $defmatches)) {
-      # Beginning of a new definition;
-      $curdeftype = $defmatches[1];
+	$defmatches = array();
+	$curdeftype = NULL;
+	$kvp = array();
+	$object_collector = array();
 	
-    } elseif (preg_match('/^\s*}\s*$/', $line)) {
-      #End of a definition.  Assign key-value pairs and reset variables
-      $object_collector[$curdeftype][] = $kvp;
-      $curdeftype = NULL;
-      $kvp = array();
-		
-    } elseif($curdeftype != NULL) {
-      # Collect the key-value pairs for the definition
-		  $strings = explode("\t", trim($line), 2);
-			$key = $strings[0];
-			$value = $strings[1];
-      $kvp[$key] = $value;
-		
-    } else {
-      # outside of definitions? Comments and whitespace should be caught
-		}
-		
-  } //end of while
-		
-  fclose($objs_file);	
-		
-  $return_array = array();
-		
-  foreach (array('host', 'service', 'hostgroup', 'servicegroup', 
-    'contact', 'contactgroup', 'timeperiod', 'command') as $name) {
-    $return_array[]= $object_collector[$name];
-	}	
+	while(!feof($objs_file)) //read through the file and read object definitions
+	{
 	
-  return $return_array;
+		//var_dump($line)."<br />";
+		$line = fgets($objs_file); //Gets a line from file pointer.
+	
+	if (preg_match('/^\s*define\s+(\w+)\s*{\s*$/', $line, $defmatches)) {
+		// Beginning of a new definition;
+		$curdeftype = $defmatches[1];
+	
+	} elseif (preg_match('/^\s*}\s*$/', $line)) {
+		// End of a definition.  Assign key-value pairs and reset variables
+		$object_collector[$curdeftype][] = $kvp;
+		$curdeftype = NULL;
+		$kvp = array();
+	
+	} elseif($curdeftype != NULL) {
+		// Collect the key-value pairs for the definition
+		list($key, $value) = explode("\t", trim($line), 2);
+		$kvp[$key] = $value;
+	
+	} else {
+		// outside of definitions? Comments and whitespace should be caught
+	}
+	      
+	} //end of while
+	
+	fclose($objs_file);	
+	
+	$return_array = array();
+	
+	foreach (array('host', 'service', 'hostgroup', 'servicegroup', 
+	  'contact', 'contactgroup', 'timeperiod', 'command') as $name) {
+		$return_array[]= $object_collector[$name];
+	}
+	
+	return $return_array;
 }
 
 ?>
