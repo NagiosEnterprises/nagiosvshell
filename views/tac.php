@@ -78,8 +78,6 @@
 		<td>
 			<?php 
 			
-			$info = get_info();
-			//print_r($info);
 			$last_command = settype($info['last_command_check'], 'integer') ;	
 			$now = time();
 			$last_command = $now - $last_command;						 
