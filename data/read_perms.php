@@ -57,49 +57,39 @@ function grab_value($line) //grabs value after equal sign   ####REMOVE once this
 	return $stat;
 }
 
-
-function get_auth() //returns array of authorization => users[array] 
+function parse_perms_file($permsfile = CGICFG) //returns array of authorization => users[array] 
 {
-	$cgi = fopen(CGICFG, "r") or exit("Unable to open 'cgi.cfg' file!");
+	$cgi = fopen($permsfile, "r") or exit("Unable to open '$permsfile' file!");
 	
 	if(!$cgi)
 	{
 		die('cgi.cfg not found');
 	}
 
-	
 	$keywords = array('host_commands', 'hosts', 'service_commands', 'services',
-						'configuration_information', 'system_commands', 'system_information');
-						
-	
+			'configuration_information', 'system_commands', 'system_information');
+	$keyword_regex = '/('.join('|', $keywords).')/';
+
 	while(!feof($cgi)) //read through file and assign host and service status into separate arrays 
 	{
 
 		$line = fgets($cgi); //Gets a line from file pointer. 
-		foreach($keywords as $kword)
-		{
-			//filter out authorization cfg from file 
-			if(ereg($kword, $line) && trim($line[0])!='#' )
-			{		
-					$userlist = grab_value($line); //csv namelist 
-					$users = explode(',', $userlist); //turns namelist into array 
-					foreach($users as $u)
-					{
-						$u = trim($u);
-					}
-					$perms[$kword] = $users;
-					 				
-			}		//end of IF conditional	
-		}//end of FOREACH 	
+
+		if (!preg_match('/^\s*#/', $line) && preg_match($keyword_regex, $line, $keyword_matches)) {
+			$perm = $keyword_matches[1];
+			
+			trim($line);
+			list($actual_perm, $userlist) = explode('=', $line, 2);
+			
+			$permusers = explode(',', $userlist);
+			foreach($permusers as $user) { $user = trim($user); }
+			$perms[$perm] = $permusers;
+		}
+
 	}//end of WHILE 
 	fclose($cgi);
-	return $perms;
+
+	return array($perms);
 }//end of FUNCTION  
-
-
-/////////////////GLOBAL PERMISSIONS ARRAY 
-$permissions = get_auth();
-//print_r($permission);
-
 
 ?>
