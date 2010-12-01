@@ -50,303 +50,161 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-//TODO 
-	//modify to explode() lines as key and value, and use '=' as delimiter 
-	//create status arrays for hostgroups and servicegroups 
-	//put inside of a function to prevent variable overlap 
+/* TODO 
+ * - create status arrays for hostgroups and servicegroups 
+ */
 
+/* Parse STATUSFILE for status information, nagios information, as well as 
+ * build the details array and collect comments
+ */
+function parse_status_file($statusfile = STATUSFILE) {
 
-
-
-$file = fopen(STATUSFILE, "r") or exit("Unable to open 'status.dat' file!");
-
-if(!$file)
-{
-	die('File status.dat not found!');
+	$file = fopen($statusfile, "r") or die("Unable to open '$statusfile' file!");
 	
-}
-$hosts = array();  //global array of host status information used for main tables 
-$services = array(); //global array of service status info for tables 
-$hostcount = 0;
-$servicecount = 0;
-
-//keywords to pull from status file 
- $hostname = 'host_name=';
- $servicedes = 'service_description=';
- $currstate = 'current_state='; //status 
- $pluginout = 'plugin_output='; //status details 
- $lastcheck = 'last_check=';
- $ackcheck = 'been_acknowledged=';
- $discheck = 'active_checks_enabled=';
- $currattempt = 'current_attempt=';
- $maxattempt = 'max_attempts=';
- $perf_data = 'performance_data=';
- $laststate = 'last_state_change='; 
- $longplugin = 'long_plugin_output='; 
- $sched_downtime = 'scheduled_downtime_depth';
-
-
-while(!feof($file)) //read through file and assign host and service status into separate arrays 
-{
-
-	$line = fgets($file); //Gets a line from file pointer.
-
-	if(preg_match('/hoststatus/', $line) )
+	if(!$file)
 	{
-		$case = 1; //enable grabbing of host variables
-		$hostcount++;
-		$hosts[$hostcount] = array(); //starts a new host array 
-		 				
-	}
-
-	if(preg_match('/servicestatus/', $line) )
-	{
-		$case = 2; //enable grabbing of service variables
-		$servicecount++;
-		$services[$servicecount] = array(); //starts a new service array 
-		 		
-	}
-
-	if(preg_match('/}/', $line) )
-	{	 
-		$case = 0; //turn off switches once a definition ends 		
+		die("File '$statusfile' not found!");
 	}
 	
+	$status_collector = array();  
+	$comments = array();
+	$info = array();
+
+	list($matches, $curtype, $cursubtype) = array(NULL, NULL, NULL);	
+	$kvp = array();
 	
-	//grab variables according to the enabled boolean switch 
-	if(isset($case) )
+	while(!feof($file)) //read through file and assign host and service status into separate arrays 
 	{
-		//print "case is set<br />";
 	
-		switch($case) 
-		{
-			
-			case 0:
-			//print "<p>Switches are off</p>";	//switches are off, do nothing 
-			break;
-			
-	//#########################HOST STATUS ##############################		
-			case 1: //grab host status lines and put into an array 
-			//strpos to check for field line by line
-		  	$hostposition = strpos($line,$hostname); //hostname
-			if ($hostposition)
-			{
-				 $name = grab_value($line);	 
-				 //print $name."<br />";
-				 $hosts[$hostcount]['host_name'] = $name;		 	 
-			}	
-	
-			$stateposition = strpos($line,$currstate); //current state 
-			if($stateposition)
-			{
-				$state = grab_value($line);
-				//print 'State is: '.$state."<br />";
-				switch($state)
-				{
-					case 0:
-					$state = 'UP';
-					break;
-					case 1:
-					$state = 'DOWN';
-					break;
-					case 2:
-					$state = 'UNREACHABLE';
-					break;
-					case 3:
-					$state = 'UNKNOWN';
-					break;
-					default:
-					$state = 'UNKNOWN';
-					break;
-				}					
-				$hosts[$hostcount]['current_state'] = $state;
-			}
-			
-			$attempts = strpos($line,$currattempt); //current attempt
-			if($attempts)
-			{
-				 $num1 = grab_value($line);
-			}	 		 			 	 	 			
-			$maxatts = strpos($line, $maxattempt);  //max attempts 	
-			if ($maxatts)
-			{
-				 $num2 = grab_value($line);
-				// print 'Attempts: '.$num1.'/ '.$num2.'<br />';
-				 $attempt = $num1.'/ '.$num2;
-				 $hosts[$hostcount]['attempt'] = $attempt;
-				 //print 'Attempts: '.$num1.'/'.$num2.'<br />';		 			 	 	 
-			}			
-			
-			$laststatechange = strpos($line, $laststate);  //last state change	
-			if ($laststatechange)
-			{
-			 	$now=time();					//calculating Duration for service 
-			 	$dur = grab_value($line);
-			 	
-			 	//make function to calculate duration 
-				$duration=($now - $dur);
-				$fdir = date('d\d-H\h-i\m-s\s', $duration);
-				//print 'Duration: '.$fdir; 	 
-				$hosts[$hostcount]['duration'] = $fdir;	 	 
-			}		
-	
-			$pluginoutput = strpos($line,$pluginout); //plugin output 
-			$check = strpos($line, $longplugin); //check to make sure it's not the long plugin data 
-			if($pluginoutput && (!$check) )
-			{
-				$output = grab_value($line);
-				//print 'Status Information: '.$output."<br />";
-				$hosts[$hostcount]['plugin_output'] = $output;
-			}			
-	
-			$last_check = strpos($line,$lastcheck); //last check
-			if($last_check)
-			{
-				 $l_check = trim(grab_value($line));
-				// print "<p>$l_check:</p>";				 
-				 $lastchk = date('M d H:i\:s\s Y', $l_check);
-				 //print 'Last Check: '.$lastchk.'<br /><br />'; 
-				 $hosts[$hostcount]['last_check'] = $lastchk;
-			}
-			$hosts[$hostcount]['hostID'] = 'Host'.$hostcount;	
-			
-			$sched_dt = strpos($line,$sched_downtime);
-			if($sched_dt)
-			{
-				 $dt = grab_value($line);	 
-				 //print $name."<br />";
-				 $hosts[$hostcount]['scheduled_downtime_depth'] = $dt;		 	 
-			}		
-			
-			break;
-			
-	//#########################################Service Status ######################		
-	
-			case 2: //grab service status lines and put into an array 
-								
-				//strpos to check for field line by line
-		  	$hostposition = strpos($line,$hostname);
-			if ($hostposition)
-			{
-				 $name = grab_value($line);	 
-				 //print $name."<br />";
-				 $services[$servicecount]['host_name'] = $name;		 	 
-			}	
-			$servdes = strpos($line, $servicedes);
-			if($servdes)
-			{
-				$desc = grab_value($line);
-				//print 'Service: '.$desc.'<br />';
-				$services[$servicecount]['service_description'] = $desc;	
-			}
-			$stateposition = strpos($line,$currstate);
-			if($stateposition)
-			{
-				$state = grab_value($line);
-				//print 'State is: '.$state."<br />";
-				switch($state)
-				{
-					case 0:
-					$state = 'OK';
-					break;
-					case 1:
-					$state = 'WARNING';
-					break;
-					case 2:
-					$state = 'CRITICAL';
-					break;
-					case 3:
-					$state = 'UNKNOWN';
-					break;
-					default:
-					$state = 'UNKNOWN';
-					break;
-				}
-				$services[$servicecount]['current_state'] = $state;
-			}
-			
-			$attempts = strpos($line,$currattempt); //current attempt
-			if($attempts)
-			{
-				 $num1 = grab_value($line);
-			}	 		 			 	 	 			
-			$maxatts = strpos($line, $maxattempt);  //max attempts 	
-			if ($maxatts)
-			{
-				 $num2 = grab_value($line);
-				// print 'Attempts: '.$num1.'/ '.$num2.'<br />';
-				 $attempt = $num1.'/ '.$num2;
-				 $services[$servicecount]['attempt'] = $attempt;
-				 //print 'Attempts: '.$num1.'/'.$num2.'<br />';		 			 	 	 
-			}			
-			
-			$laststatechange = strpos($line, $laststate);  //last state change	
-			if ($laststatechange)
-			{
-			 	$now=time();					//calculating Duration for service 
-			 	$dur = grab_value($line);
-				$duration=($now - $dur);
-				$fdir = date('d\d-H\h-i\m-s\s', $duration);
-				//print 'Duration: '.$fdir; 	 
-				$services[$servicecount]['duration'] = $fdir;	 	 
-			}		
-	
-			$pluginoutput = strpos($line,$pluginout);
-			$check = strpos($line, $longplugin); //check to make sure it's not the long plugin data 
-			if($pluginoutput && (!$check) )
-			{
-				$output = grab_value($line);
-				//print 'Status Information: '.$output."<br />";
-				$services[$servicecount]['plugin_output'] = $output;
-			}			
-	
-			$last_check = strpos($line,$lastcheck); //last check
-			if($last_check)
-			{
-				 $val = trim(grab_value($line));
-				 //$l_check = settype( grab_value($line), 'integer');
-				// print "<p>$l_check</p>";
-				 $lastchk = date('M d H:i\:s\s Y', $val);
-				 //print 'Last Check: '.$lastchk.'<br /><br />'; 
-				 $services[$servicecount]['last_check'] = $lastchk; 			 
-			}	
-			$services[$servicecount]['serviceID'] = 'service'.$servicecount;
-			
-			$sched_dt = strpos($line,$sched_downtime);
-			if($sched_dt)
-			{
-				 $dt = grab_value($line);	 
-				 //print $name."<br />";
-				 $services[$servicecount]['scheduled_downtime_depth'] = $dt;		 	 
-			}			
-			
-			break;	
-			
-			//case default:
-				//print 'doing nothing';//do nothing
-			//break;
-		}	//end of SWITCH 
+		$line = fgets($file); //Gets a line from file pointer.
 		
-		}//test IF 	
-	else
-	{
-		//print "case is not set<br />";
+		if (preg_match('/(host|service|program)(status|comment)/', $line, $matches)) {
+		
+		list($fullmatch, $cursubtype, $curtype) = $matches;
+		 
+		} elseif (preg_match('/^\s*info\s*{\s*$/', $line)) {
+			$curtype = 'info';
+		
+		} elseif (preg_match('/^\s*}\s*$/', $line)) {
+		
+			if ($curtype == 'status') {
+				if ($cursubtype == 'host') {
+					$kvp = process_host_status_keys($kvp); 
+				}
+				elseif ($cursubtype == 'service') {
+					$kvp = process_service_status_keys($kvp);
+				}
+				
+				$status_collector[$cursubtype][] = $kvp;
+				$details[$cursubtype][] = $kvp;
+		
+			} elseif ($curtype == 'comment') {
+				$comments[] = $kvp;
+		
+			} elseif ($curtype == 'info') {
+				$info = $kvp;
+	
+			} else {
+				// another type!
+			}
+		
+			list($cursubtype, $curtype) = array(NULL, NULL);
+			$kvp = array();
+		
+		} elseif ($curtype != NULL) {
+			# Collect the key-value pairs for the definition
+			list($key, $value) = explode('=', trim($line), 2);
+			$kvp[$key] = $value;
+		
+		} else {
+			// outside of a status
+		}
+	} //end of WHILE 
+	
+	fclose($file);
+	
+	//print "Dumping Hosts<br />";	
+	//var_dump($hosts);
+	//print "Dumping Services<br />";		
+	//var_dump($services);	
+	
+	//fb($status_collector['host'], "host status read");
+	//fb($status_collector['service'], "service status read");
+	
+	//fb($comments, "comments from read_status.php");
+	//fb($info, "info from read_status.php");
+	//fb($details, "details from read_status.php");
+	
+	return array($status_collector['host'], $status_collector['service'], $comments, $info, $details);
+}
+
+/* Given the raw data for a collected host process it into usable information
+ * Maps host states from integers into "standard" nagios values
+ * Assigns to each collected service a hostID
+ */
+function process_host_status_keys($rawdata) {
+
+	static $hostindex = 1;
+	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth'));
+	
+	$processed_data['hostID'] = 'Host'.$hostindex++;
+	
+	$host_states = array( 0 => 'UP', 1 => 'DOWN', 2 => 'UNREACHABLE', 3 => 'UNKNOWN' );
+	$processed_data['current_state'] = state_map($rawdata['current_state'], $host_states);
+	
+	return $processed_data;
+}
+
+/* Given the raw data for a collected service process it into usable information
+ * Maps service states from integers into "standard" nagios values
+ * Assigns to each collected service a serviceID
+ */
+function process_service_status_keys($rawdata) {
+
+	static $serviceindex = 1;
+	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth', 'service_description'));
+	
+	$processed_data['serviceID'] = 'service'.$serviceindex++;
+	
+	$service_states = array( 0 => 'OK', 1 => 'WARNING', 2 => 'CRITICAL', 3 => 'UNKNOWN' );
+	$processed_data['current_state'] = state_map($rawdata['current_state'], $service_states);
+	
+	return $processed_data;
+}
+
+/* given some raw data return an array of shared ("standard values") and 
+ *  keys which need to be copied verbatim into the output
+ */
+function get_standard_values($rawdata, $identical_keys) {
+	$standard_values = array();
+	
+	foreach($identical_keys as $key) { 
+		$standard_values[$key] = $rawdata[$key];
 	}
 	
-} //end of WHILE 
-
-fclose($file);
-
-
-
-//print "Dumping Hosts<br />";	
-//var_dump($hosts);
-//print "Dumping Services<br />";		
-//var_dump($services);	
-
-
-
+	$standard_values['attempt'] = $rawdata['current_attempt'].' / '.$rawdata['max_attempts'];
+	$standard_values['duration'] = calculate_duration($rawdata['last_state_change']);
+	$standard_values['last_check'] = date('M d H:i\:s\s Y', $rawdata['last_check']);
 	
-	
+	return $standard_values;
+}
+
+/* Given an integer state and an associative array mapping integer states into
+ *   human readable values, return the associated value to that state.  If no
+ *   appropriate value is provided return 'UNKNOWN'
+ */
+function state_map($cur_state, $states) {
+	return array_key_exists($cur_state, $states) ? $states[$cur_state] : 'UNKNOWN';
+}
+
+/* Given a timestamp calculate how long ago, in seconds, that timestamp was.
+ * Returns a human readable version of that difference
+ */
+function calculate_duration($beginning) {
+	$now = time();
+	$duration = ($now - $beginning);
+	$retval = date('d\d-H\h-i\m-s\s', $duration);
+	return $retval;
+}
 
 ?>
