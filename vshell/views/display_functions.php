@@ -531,8 +531,24 @@ function downtime_icon($arg)
 //creates page numbers based on how many results are being processed for the tables 
 function do_pagenumbers($pageCount,$start,$limit,$resultsCount,$type)
 {	
+
 	print "<div class='pagenumbers'>";
 	$begin = 0;
+	$cp_start = isset($_GET['start']) ? htmlentities($_GET['start']) : 0;
+
+	// Build the pagination back arrow
+	$back_arrow = NULL;
+	$back_arrow_entities = '&laquo;';
+	if ($cp_start > 0) {
+		//fb($cp_start, "cp_start");
+		$link ="index.php?view=$type&start=".($cp_start-$limit);
+		$back_arrow = "<a href='$link' class='pagenumbers'>$back_arrow_entities</a>";
+	} else { 
+		$back_arrow = "<span class='deselect'>$back_arrow_entities</span>";
+	}
+	print "$back_arrow";
+
+	// Build the direct page links
 	for($i=0;$i<=$pageCount;$i++)
 	{
 		//if end is greater than total results, set end to be the resultCount  
@@ -540,14 +556,25 @@ function do_pagenumbers($pageCount,$start,$limit,$resultsCount,$type)
 		$link = "index.php?view=$type&start=$begin";
 		$page = $i+1;
 		//check if the link is the current page  
-		$cp_start = isset($_GET['start']) ? htmlentities($_GET['start']) : 0;
 		//if we're on current page, don't print a link 
 		if($cp_start == $begin) print "<span class='deselect'> $page </span>";
 		else print "<a class='pagenumbers' href='$link'> $page </a>"; 
 		//print "Page $i, start= $begin, end = $end <br />";	
 		//submit a hidden post page number 	
 		$begin = ($begin + $limit) < $resultsCount ? ($begin + $limit) : $resultsCount;
-	}	
+	}
+
+	// Build the pagination forward arrow
+	$forward_arrow = NULL;
+	$forward_arrow_entities = '&raquo;';
+	if ($cp_start + $limit < $resultsCount) {
+		$link = "index.php?view=$type&start=".($cp_start+$limit);
+		$forward_arrow = "<a href='$link' class='pagenumbers'>$forward_arrow_entities</a>";
+	} else {
+		$forward_arrow = "<span class='deselect'>$forward_arrow_entities</span>";
+	}
+	print $forward_arrow;
+
 	print "</div>";
 }	//end do_pagenumbers()	
 
@@ -565,13 +592,13 @@ function do_result_notes($start,$limit,$resultsCount,$type)
 			<div class='resultLimit'>	
 			<form id='limitform' action='".$_SERVER['PHP_SELF']."?view=$type' method='post'>
 			<label class='label' for='pagelimit'>Limit Results</label>
-			<select id='pagelimit1' name='pagelimit'>
-				<option value='15'>15</option>
-				<option selected='selected' value='30'>30</option>
-				<option value='50'>50</option>
-				<option value='100'>100</option>
-				<option value='250'>250</option>				
-			</select>
+			<select id='pagelimit1' name='pagelimit'>";
+			foreach (array(15, 30, 50, 100, 250) as $possible_limit) {
+				$selected = ($possible_limit == $limit) ? "selected='selected'" : NULL;
+				print "<option value=$possible_limit $selected>$possible_limit</option>\n";
+			}
+
+	print"</select>
 			<input type='submit' name='submit' value='Set Limit' />		
 		</form></div>";	
 } //end do_result_notes() 
