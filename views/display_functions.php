@@ -536,12 +536,16 @@ function do_pagenumbers($pageCount,$start,$limit,$resultsCount,$type)
 	$begin = 0;
 	$cp_start = isset($_GET['start']) ? htmlentities($_GET['start']) : 0;
 
+	parse_str($_SERVER['QUERY_STRING'], $query_vars);
+	unset($query_vars['start']);
+	$link_base = 'index.php?' . http_build_query($query_vars);
+
 	// Build the pagination back arrow
 	$back_arrow = NULL;
 	$back_arrow_entities = '&laquo;';
 	if ($cp_start > 0) {
 		//fb($cp_start, "cp_start");
-		$link ="index.php?view=$type&start=".($cp_start-$limit);
+		$link = $link_base . '&start='.($cp_start-$limit);
 		$back_arrow = "<a href='$link' class='pagenumbers'>$back_arrow_entities</a>";
 	} else { 
 		$back_arrow = "<span class='deselect'>$back_arrow_entities</span>";
@@ -553,7 +557,7 @@ function do_pagenumbers($pageCount,$start,$limit,$resultsCount,$type)
 	{
 		//if end is greater than total results, set end to be the resultCount  
 		//$end = ($begin + $limit) < $resultsCount ? ($begin + $limit) : $resultsCount;
-		$link = "index.php?view=$type&start=$begin";
+		$link = $link_base . "&start=$begin";
 		$page = $i+1;
 		//check if the link is the current page  
 		//if we're on current page, don't print a link 
@@ -568,7 +572,7 @@ function do_pagenumbers($pageCount,$start,$limit,$resultsCount,$type)
 	$forward_arrow = NULL;
 	$forward_arrow_entities = '&raquo;';
 	if ($cp_start + $limit < $resultsCount) {
-		$link = "index.php?view=$type&start=".($cp_start+$limit);
+		$link = $link_base . '&start='.($cp_start+$limit);
 		$forward_arrow = "<a href='$link' class='pagenumbers'>$forward_arrow_entities</a>";
 	} else {
 		$forward_arrow = "<span class='deselect'>$forward_arrow_entities</span>";
