@@ -66,7 +66,8 @@ function parse_status_file($statusfile = STATUSFILE) {
 		die("File '$statusfile' not found!");
 	}
 	
-	$status_collector = array();  
+	$status_collector = array();
+	$details = array();
 	$comments = array();
 	$info = array();
 
@@ -104,6 +105,7 @@ function parse_status_file($statusfile = STATUSFILE) {
 		
 			} elseif ($curtype == 'info') {
 				$info = $kvp;
+				fb($info, "Info");
 	
 			} else {
 				// another type!
