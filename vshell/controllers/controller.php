@@ -200,16 +200,17 @@ function switchboard($type, $arg) //$type = $_GET[xml, view, object]   $arg=one 
 			case 'view':
 			//build_table($array);
 			//check for start and stop variables for pagination
-			$start = isset($_GET['start']) ? htmlentities($_GET['start']) : 0;
-			//$stop = isset($_GET['stop']) ? htmlentities($_GET['stop']) : 0;
-			//create page limit variable site wide, default to 50 results  
-			$limit = isset($_COOKIE['limit']) ? $_COOKIE['limit'] : RESULTLIMIT;
-			if(isset($_POST['pagelimit']))
-			{	
-				//set a site-wide cookie for the display limit 
-				setcookie('limit', $_POST['pagelimit']);
-				$limit = $_POST['pagelimit'];
-			}
+//			$start = isset($_GET['start']) ? htmlentities($_GET['start']) : 0;
+//			//$stop = isset($_GET['stop']) ? htmlentities($_GET['stop']) : 0;
+//			//create page limit variable site wide, default to 50 results  
+//			$limit = isset($_COOKIE['limit']) ? $_COOKIE['limit'] : RESULTLIMIT;
+//			if(isset($_POST['pagelimit']))
+//			{	
+//				//set a site-wide cookie for the display limit 
+//				setcookie('limit', $_POST['pagelimit']);
+//				$limit = $_POST['pagelimit'];
+//			}
+			list($start, $limit) = get_pagination_values();
 					
 			switch($arg)
 			{
@@ -254,11 +255,22 @@ function switchboard($type, $arg) //$type = $_GET[xml, view, object]   $arg=one 
 	else
 	{
 		include_once(DIRBASE.'/views/tac.php');
-	}
-	
-
-	
+	}	
 }
+
+function get_pagination_values() {
+	$start = isset($_GET['start']) ? htmlentities($_GET['start']) : 0;
+	$limit = isset($_COOKIE['limit']) ? $_COOKIE['limit'] : RESULTLIMIT;
+	if(isset($_POST['pagelimit']))
+	{       
+		//set a site-wide cookie for the display limit 
+		setcookie('limit', $_POST['pagelimit']);
+		$limit = $_POST['pagelimit'];
+	}
+
+	return array($start, $limit);
+}
+
 ////////////////////////////////////////////////////////////
 //$username is obtained from $_SERVER authorized user for nagios 
 //
