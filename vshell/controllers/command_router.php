@@ -92,7 +92,8 @@ function command_router($cmd, $arg)
 			$servs = get_services_by_state($arg,$services); 
 			//include(DIRBASE.'/views/services.php');
 			//see views/services.php 
-			display_services($servs);
+			list($start, $limit) = get_pagination_values();
+			display_services($servs, $start, $limit);
 		}
 		break;
 		
@@ -102,7 +103,8 @@ function command_router($cmd, $arg)
 			global $hosts;
 			$f_hosts = get_hosts_by_state($arg,$hosts); 
 			//include(DIRBASE.'/views/services.php');
-			display_hosts($f_hosts);
+			list($start, $limit) = get_pagination_values();
+			display_hosts($f_hosts, $start, $limit);
 		}
 		break;
 		
