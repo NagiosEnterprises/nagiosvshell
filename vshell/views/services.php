@@ -80,10 +80,10 @@ function display_services($services,$start,$limit)
 
 	//process service array   
 	//service table rows 
-  $last_displayed_host = NULL;
-  for($i=$start; $i<=($start+$limit); $i++)
+	$last_displayed_host = NULL;
+	for($i=$start; $i<=($start+$limit); $i++)
 	{
-    if(!isset($services[$i])) continue; //skip undefined indexes of array
+		if(!isset($services[$i])) continue; //skip undefined indexes of array
 
 		$tr = get_color_code($services[$i]);
 		$url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$services[$i]['serviceID']);
@@ -94,18 +94,19 @@ function display_services($services,$start,$limit)
 		$h_comments = comment_icon($services[$i]['host_name']);
 		$dt_icon = downtime_icon($services[$i]['scheduled_downtime_depth']);
 		$host_dt = downtime_icon(get_host_downtime($services[$i]['host_name']) );
+
 		//removing duplicate host names from table for a cleaner look
-    if(isset($_GET['view']))
-    {	 
-      if ($services[$i]['host_name'] == $last_displayed_host)
+		if(isset($_GET['view']))
+		{	 
+			if ($services[$i]['host_name'] == $last_displayed_host)
 			{
-        $td1 = '<td></td>';
+				$td1 = '<td></td>';
 			}
 			else
-      {
-        $last_displayed_host = $services[$i]['host_name'];
+			{
+				$last_displayed_host = $services[$i]['host_name'];
 				$hostlink = "<a class='highlight' href='$host_url' title='View Host Details'>";
-        $td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $icon $host_dt $h_comments</div></td>";
+				$td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $icon $host_dt $h_comments</div></td>";
 			}
 		}
 		else
