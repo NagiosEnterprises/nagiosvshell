@@ -76,25 +76,25 @@ function grab_details($type) {
 //
 function get_details_by($type, $arg)
 {
-  $retval = NULL;
+	$retval = NULL;
 
 	if($type=='service')
 	{
-    $details = grab_details($type);
-    $retval = $details[$arg];
-  }
+		$details = grab_details($type);
+		$retval = $details[$arg];
+	}
 	if($type=='host')
 	{
 		foreach(grab_details($type) as $host_details)
 		{
 			if(trim($host_details['host_name']) == trim($arg)) 
 			{
-        $retval = $host_details;
-        break;
+				$retval = $host_details;
+				break;
 			}
 		}
-  }
-  return $reval;
+	}
+	return $retval;
 }
 
 ?>
