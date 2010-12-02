@@ -88,6 +88,8 @@ function parse_status_file($statusfile = STATUSFILE) {
 		} elseif (preg_match('/^\s*}\s*$/', $line)) {
 		
 			if ($curtype == 'status') {
+				$details[$cursubtype][] = $kvp;
+
 				if ($cursubtype == 'host') {
 					$kvp = process_host_status_keys($kvp); 
 				}
@@ -96,7 +98,6 @@ function parse_status_file($statusfile = STATUSFILE) {
 				}
 				
 				$status_collector[$cursubtype][] = $kvp;
-				$details[$cursubtype][] = $kvp;
 		
 			} elseif ($curtype == 'comment') {
 				$comments[] = $kvp;
