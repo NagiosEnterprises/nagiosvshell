@@ -105,7 +105,6 @@ function parse_status_file($statusfile = STATUSFILE) {
 		
 			} elseif ($curtype == 'info') {
 				$info = $kvp;
-				fb($info, "Info");
 	
 			} else {
 				// another type!
