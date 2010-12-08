@@ -70,6 +70,7 @@ function parse_status_file($statusfile = STATUSFILE) {
 	$details = array();
 	$comments = array();
 	$info = array();
+	$service_counter = 0;
 
 	list($matches, $curtype, $cursubtype) = array(NULL, NULL, NULL);	
 	$kvp = array();
@@ -88,14 +89,18 @@ function parse_status_file($statusfile = STATUSFILE) {
 		
 		} elseif (preg_match('/^\s*}\s*$/', $line)) {
 		
-			if ($curtype == 'status') {
+			if ($curtype == 'status') {			
 				$details[$cursubtype][] = $kvp;
-
+				
 				if ($cursubtype == 'host') {
 					$kvp = process_host_status_keys($kvp); 
 				}
 				elseif ($cursubtype == 'service') {
+					$kvp['serviceID']=$service_counter++; //added serviceID to details array 
 					$kvp = process_service_status_keys($kvp);
+					//print "<br /><br />";
+					//print_r($kvp);
+					//die();
 				}
 				
 				$status_collector[$cursubtype][] = $kvp;
@@ -163,14 +168,15 @@ function process_host_status_keys($rawdata) {
  */
 function process_service_status_keys($rawdata) {
 
-	static $serviceindex = 1;
+	static $serviceindex = 0;
 	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth', 'service_description'));
 	
 	$processed_data['serviceID'] = 'service'.$serviceindex++;
-	
+	//print "$serviceindex<br />";
 	$service_states = array( 0 => 'OK', 1 => 'WARNING', 2 => 'CRITICAL', 3 => 'UNKNOWN' );
 	$processed_data['current_state'] = state_map($rawdata['current_state'], $service_states);
-	
+	//print_r($processed_data);
+	//print "<br /><br />";
 	return $processed_data;
 }
 
