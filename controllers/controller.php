@@ -243,6 +243,8 @@ function switchboard($type, $arg) //$type = $_GET[xml, view, object]   $arg=one 
 			   $authorizations['service_commands']==1 ||
 			   $authorizations['system_commands']==1)
 			{ 
+				//moved build_object_list to config_viewer.php page for easier editing 
+				include(DIRBASE.'/views/config_viewer.php');
 				build_object_list($array, $arg);
 			}	
 			break;

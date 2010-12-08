@@ -204,9 +204,11 @@ th.plugin_output, td.plugin_output, div.plugin_output{width: 370px; }
 tr.statustablerow { width: 1400px; height: 1em; }
 
 
-tr.objectList 
+table.objectList, tr.objectList 
 {
 	background-color: #EDEDED;
+	margin: 0px;
+	
 }
 table.tac
 {
@@ -310,3 +312,12 @@ div.resultLimit /*select list for limiting table results */
 }
 
 .deselect { color: #999; }
+
+/* expandable configuration list */ 
+ul.configlist, li.configlist { 
+	font-size: 8pt; 
+	margin: 1px; 
+	padding: 0px; 
+	list-style:none; 
+	}
+

@@ -81,7 +81,11 @@ function get_details_by($type, $arg)
 	if($type=='service')
 	{
 		$details = grab_details($type);
-		$retval = $details[$arg];
+		//serviceID index no longer exists, had to call array by index number instead 
+		$id = str_replace('service', '', trim($arg)); 
+		//print "<p>$id</p>";
+		$retval = $details[$id];	//call service details by array index 
+
 	}
 	if($type=='host')
 	{
