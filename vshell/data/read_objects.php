@@ -105,7 +105,15 @@ function parse_objects_file($objfile = OBJECTSFILE) {
 	
 	foreach (array('host', 'service', 'hostgroup', 'servicegroup', 
 	  'contact', 'contactgroup', 'timeperiod', 'command') as $name) {
-		$return_array[]= $object_collector[$name];
+		if(isset($object_collector[$name]))
+		{	
+		 $return_array[]= $object_collector[$name];
+		}
+		else 
+		{
+		  $object_collector[$name] = NULL;
+		  $return_array[] = $object_collector[$name];
+		}
 	}
 	
 	return $return_array;
