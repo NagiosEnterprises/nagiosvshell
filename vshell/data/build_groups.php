@@ -262,16 +262,13 @@ function build_servicegroups_array()
 
 //create group arrays for global use 
 ///////////////////////////////////////////////////GLOBAL ARRAYS//////////////////   
-if(isset($hostgroups_objs, $servicegroups_objs))
-{
 	//print "blah!";
-	$hostgroups = isset($hostgroups_objs) ? build_group_array($hostgroups_objs, 'host'): "";
-	$servicegroups = isset($servicegroups_objs) ? build_group_array($servicegroups_objs, 'service') : "";
-}
-else 
-{
-	print "Host and/or Servicegroups objects are not defined. ";
-}
+	$hostgroups = isset($hostgroups_objs) ? build_group_array($hostgroups_objs, 'host'): NULL;
+	$servicegroups = isset($servicegroups_objs) ? build_group_array($servicegroups_objs, 'service') : NULL;
+//else 
+//{
+//	print "Host and/or Servicegroups objects are not defined. ";
+//}
 
 
 ?>
