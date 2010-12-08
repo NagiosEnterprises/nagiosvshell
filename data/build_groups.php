@@ -265,8 +265,8 @@ function build_servicegroups_array()
 if(isset($hostgroups_objs, $servicegroups_objs))
 {
 	//print "blah!";
-	$hostgroups = build_group_array($hostgroups_objs, 'host');
-	$servicegroups = build_group_array($servicegroups_objs, 'service');
+	$hostgroups = isset($hostgroups_objs) ? build_group_array($hostgroups_objs, 'host'): "";
+	$servicegroups = isset($servicegroups_objs) ? build_group_array($servicegroups_objs, 'service') : "";
 }
 else 
 {
