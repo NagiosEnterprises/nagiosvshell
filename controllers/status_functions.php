@@ -63,65 +63,35 @@
 //
 //used for tactical overview tables 
 //
-function get_state_of($type) //create host or service arrays by status 
+function get_state_of($type, $array=NULL) //create host or service arrays by status 
 {
-	global $hosts;
-	global $services;
-	$s0 = 0;
-	$s1 = 0;
-	$s2 = 0;
-	$s3 = 0;
+	global $NagiosData;
+
 	if($type == 'services')
 	{
-		$zero = 'OK';
-		$one = 'WARNING';
-		$two = 'CRITICAL';
-		$three = 'UNKNOWN';
-		$array = $services;	
-	}
-	else
-	{
-		$zero = 'UP';
-		$one = 'DOWN';
-		$two = 'UNREACHABLE';
-		$three = 'UNKNOWN';
-		$array = $hosts;
-	}
-	foreach($array as $a)
-	{
-		//print "State is :".$a['current_state'];
-		switch($a['current_state'])
-		{
-			case $zero:
-			//print "$type: ".$a['host_name']." is UP.<br />";
-			$s0++;
-			break;
-			
-			case $one:
-			//print "$type: ".$a['host_name']." is DOWN.<br />";
-			$s1++;
-			break;
-			
-			case $two:
-			//print "$type: ".$a['host_name']." is UNREACHABLE.<br />";
-			$s2++;
-			break;
-			
-			case $three:
-			//print "$type: ".$a['host_name']." is UNNOWN.<br />";
-			$s3++;
-			break;
-			
-			
+		$state_counts = array('OK'=>0, 'WARNING'=>0, 'CRITICAL'=>0, 'UNKNOWN'=>0);	
+		if (is_null($array)) {
+			$array = $NagiosData->getProperty('services');
 		}
 	}
+	elseif($type == 'hosts')
+	{
+		$state_counts = array('UP'=>0, 'DOWN'=>0, 'UNREACHABLE'=>0, 'UNKNOWN'=>0);
+		if (is_null($array)) {
+			$array = $NagiosData->getProperty('hosts');
+		}
+	}
+	else {
+		// XXX handle better
+		die("Unknown type for this function");
+	}
+
+	foreach($array as $a)
+	{
+		$state_counts[$a['current_state']]++;
+	}
 	
-	//creates count array for service/host status 
-	$states = array( $zero => $s0,
-						  $one => $s1,
-						  $two => $s2,
-						  $three => $s3 );	
-	return $states;					  
+	return $state_counts;					  
 }
 //testing... 
 //$stats = get_state_of($hosts, 'host');
@@ -143,19 +113,9 @@ function get_state_of($type) //create host or service arrays by status
 //
 //USAGE: $up_hosts = get_host_by_state('UP');
 //
-function get_hosts_by_state($state, $array)
+function get_hosts_by_state($state, $host_data)
 {
-	$hosts_by_state = array();
-	
-	foreach($array as $a)
-	{
-		if($a['current_state'] == $state)
-		{
-			//echo $host['host_name']." is $state<br />";
-			$hosts_by_state[] = $a;
-		}
-	}
-	return $hosts_by_state;
+	return get_by_state($state, $host_data);
 }
 
 
@@ -170,20 +130,15 @@ function get_hosts_by_state($state, $array)
 //
 //USAGE: $s = get_services_by_state(2); 
 //
-function get_services_by_state($state, $array)
+function get_services_by_state($state, $service_data)
 {
+	return get_by_state($state, $service_data);
+}
 
-	$services_by_state = array();
-	
-	foreach($array as $a)
-	{
-		if(trim($a['current_state']) == trim($state))
-		{
-			//echo $service['host_name']." is $state<br />";
-			$services_by_state[] = $a;
-		}
-	}
-	return $services_by_state;
+function get_by_state($state, $data) {
+
+	return array_filter($data, create_function('$d', 'return $d[\'current_state\'] == \''.$state.'\';'));
+
 }
 
 ////////////////////////////////////////////
@@ -201,7 +156,8 @@ function check_boolean($type,$arg,$int)
 {
 	$retval = false;
 
-	$details = grab_details($type); //grab full status details for host/service 
+	global $NagiosData;
+	$details = $NagiosData->grab_details($type); //grab full status details for host/service
 	$count = 0;
 
 	foreach($details as $object)
@@ -243,24 +199,7 @@ function count_by_state($state, $array)
 //returns status as a string 
 function return_service_state($arg)
 {
-		switch($arg)
-		{
-			case 0:
-			return 'OK';
-						
-			case 1:
-			return 'WARNING';
-
-			case 2:
-			return 'CRITICAL';
-
-			case 3:
-			return 'UNKNOWN';
-	
-			default:
-			return 'UNKNOWN';
-
-		}	
+	return index_or_default($arg, array('OK', 'WARNING', 'CRITICAL'), 'UNKNOWN');
 }
 
 
@@ -269,38 +208,16 @@ function return_service_state($arg)
 //returns status as a string 
 function return_host_state($arg)
 {
-		switch($arg)
-		{		
-			case 0:
-			return 'UP';
-						
-			case 1:
-			return 'DOWN';
-	
-			case 2:
-			return 'UNREACHABLE';
-	
-			default:
-			return 'UNKNOWN';
-		}
+	return index_or_default($arg, array('UP', 'DOWN', 'UNREACHABLE'), 'UNKNOWN');
 }
+
 
 ///////////////////////////////////////////////////////
 //expecting a status code, 0-1 
 //returns status as a string 
 function return_state_type($arg)
 {
-		switch($arg)
-		{		
-			case 0:
-			return 'Soft';
-						
-			case 1:			
-			return 'Hard';
-	
-			default:
-			return 'Unknown';
-		}
+	return index_or_default($arg, array('Soft', 'Hard'), 'Unknown');
 }
 
 ///////////////////////////////////////////////////////
@@ -308,17 +225,11 @@ function return_state_type($arg)
 //returns status as a string 
 function return_enabled($arg)
 {
-		switch($arg)
-		{		
-			case 0:
-			return 'Disabled';
-						
-			case 1:			
-			return 'Enabled';
-	
-			default:
-			return 'Unknown';
-		}
+	return index_or_default($arg, array('Disabled', 'Enabled'), 'Unknown');
+}
+
+function index_or_default($arg, $vals, $default) {
+	return (isset($vals[$arg]) ? $vals[$arg] : $default);
 }
 
 ///////////////////////////////////
@@ -328,7 +239,10 @@ function return_enabled($arg)
 //
 function check_comments($hostname='',$servicename='')
 {
-	global $comments;
+	//global $comments;
+	global $NagiosData;
+	$comments = $NagiosData->getProperty('comments');
+
 	$count = 0;
 	if($hostname!='' && $servicename!='') //checking for service comment 
 	{
@@ -362,7 +276,9 @@ function check_comments($hostname='',$servicename='')
 
 function get_host_downtime($hostname)
 {
-	$host = get_details_by('host', $hostname);
+	global $NagiosData;
+	$host = $NagiosData->get_details_by('host', $hostname);
+
 	return trim($host['scheduled_downtime_depth']); //returns integer 
 
 }

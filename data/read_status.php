@@ -94,16 +94,20 @@ function parse_status_file($statusfile = STATUSFILE) {
 				
 				if ($cursubtype == 'host') {
 					$kvp = process_host_status_keys($kvp); 
+					$status_collector[$cursubtype][$kvp['host_name']] = $kvp;
 				}
 				elseif ($cursubtype == 'service') {
 					$kvp['serviceID']=$service_counter++; //added serviceID to details array 
 					$kvp = process_service_status_keys($kvp);
+					$status_collector[$cursubtype][] = $kvp;
+					$status_collector['host'][$kvp['host_name']]['services'][] = $kvp;
 					//print "<br /><br />";
 					//print_r($kvp);
 					//die();
 				}
-				
-				$status_collector[$cursubtype][] = $kvp;
+				else {	
+					$status_collector[$cursubtype][] = $kvp;
+				}
 		
 			} elseif ($curtype == 'comment') {
 				$comments[] = $kvp;
@@ -121,7 +125,7 @@ function parse_status_file($statusfile = STATUSFILE) {
 		} elseif ($curtype != NULL) {
 			# Collect the key-value pairs for the definition
 			list($key, $value) = explode('=', trim($line), 2);
-			$kvp[$key] = $value;
+			$kvp[trim($key)] = trim($value);
 		
 		} else {
 			// outside of a status
@@ -142,7 +146,12 @@ function parse_status_file($statusfile = STATUSFILE) {
 	//fb($info, "info from read_status.php");
 	//fb($details, "details from read_status.php");
 	
-	return array($status_collector['host'], $status_collector['service'], $comments, $info, $details);
+	return array(
+		'hosts' => $status_collector['host'], 
+		'services' => $status_collector['service'], 
+		'comments' => $comments, 
+		'info' => $info, 
+		'details' => $details);
 }
 
 /* Given the raw data for a collected host process it into usable information

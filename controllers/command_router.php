@@ -67,6 +67,8 @@
 function command_router($cmd, $arg)
 {
 	global $authorizations;
+	global $NagiosData;
+
 	switch($cmd)
 	{
 		case 'getservicedetail':
@@ -88,7 +90,9 @@ function command_router($cmd, $arg)
 		case 'filterservices':
 		if($authorizations['services']==1)
 		{
-			global $services;
+			//global $services;
+			$services = $NagiosData->getProperty('services');
+
 			$servs = get_services_by_state($arg,$services); 
 			//include(DIRBASE.'/views/services.php');
 			//see views/services.php 
@@ -100,7 +104,9 @@ function command_router($cmd, $arg)
 		case 'filterhosts':
 		if($authorizations['hosts']==1)
 		{
-			global $hosts;
+			//global $hosts;
+			$hosts = $NagiosData->getProperty('hosts');
+
 			$f_hosts = get_hosts_by_state($arg,$hosts); 
 			//include(DIRBASE.'/views/services.php');
 			list($start, $limit) = get_pagination_values();
@@ -123,8 +129,8 @@ function command_router($cmd, $arg)
 //$arg = 'service15';
 function process_service_detail($arg)
 {
-
-	$sd= get_details_by('service', $arg);
+	global $NagiosData;
+	$sd = $NagiosData->get_details_by('service', $arg);
 	//print_r($sd);
 	
 	//make necessary calculations with array elements 
@@ -259,7 +265,8 @@ function process_service_detail($arg)
 //
 function process_host_detail($arg)
 {
-	$hd=get_details_by('host', $arg);
+	global $NagiosData;
+	$hd = $NagiosData->get_details_by('host', $arg);
 	$now = time();
 	$duration =  $now-$hd['last_state_change']; //calculate duration
 	$duration = date('d\d-H\h-i\m-s\s', $duration); 

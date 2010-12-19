@@ -49,113 +49,46 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-//creates group array based on type 
-//$objectarray - expecting an object group array -> $hostgroups_objs $servicegroups_objs $contactgroups
-//				-these groups are read from objects.cache file  
-//$type - expecting 'host' 'service' or 'contact'  
-
-function build_group_array($objectarray, $type)
-{
-	$membersArray = array(); 
-	$index = $type.'group_name';
-	//print "<p>$index</p>";
-	if($type=='host' || $type =='contact')
-	{
-		foreach($objectarray as $object)
-		{
-			$group = $object[$index];
-			//print "<p>$group</p>";
-			$members = $object['members'];
-			$membersArray[$group] = explode(',', trim($members));			
-		}
-	}
-
-	
-	if($type=='service')
-	{
-		foreach($objectarray as $object)
-		{
-			$group = $object[$index];
-			//print "<p>group is: $group</p>";
-			//print_r($group);
-			//get line from cfg that displays: host,service
-			if(isset($object['members']))
-			{ 
-				$members = $object['members'];
-				//explode line items into an array 
-				$lineitems = explode(',', trim($members));
-				
-				//convert lineitems into associative array so the hostname is paired with service_desc
-				$sg_members = array();
-				$c=0;		
-				for ($i = 0; $i < count($lineitems); $i+=2)
-				{
-					$h = $lineitems[$i];
-					$s = $lineitems[$i+1];
-					$sg_members[$c]['host_name'] = $h;
-					$sg_members[$c]['service_description'] = $s;
-					$c++;
-				}
-				
-				//print "<h4>$members</h4>";
-				$membersArray[$group] = $sg_members;	
-			}//end if(isset)		
-		}//end foreach 
-	}//end main IF 
-	
-	//ARRAY MEMBERS NEED SPACES TRIMMED!!!!!!!! 
-	return $membersArray;
-}
-
 //////////////////////////////////////////////////
 //returns group status details array 
 //
 //$groups = $hostsgroups or $servicegroups 
 //
-function build_hostgroup_details($groups) //make this return the totals array for hosts and services 
+function build_hostgroup_details($group_members) //make this return the totals array for hosts and services 
 {
-	global $hosts;
-	
-	$new_array = array();
-	foreach($groups as $member)
+	global $NagiosData;
+	$hosts = $NagiosData->getProperty('hosts');
+
+	$hostgroup_details = array();
+	foreach($group_members as $member)
 	{
-		//print $member."<br />"; //member = host name 
-		$member = trim($member); //trim whitespace
-			foreach($hosts	as $host)
-			{
-				if(trim($host['host_name']) == $member)
-				{
-					//print "adding new host:";
-					$new_array[] = $host;					
-				}
-			}									
+		$hostgroup_details[] = $hosts[$member];
 	}
-	return $new_array;
+
+	return $hostgroup_details;
 }
 
 //returns group details array.  This function is used on the hostgroups page for the grid view 
 // 
 //$groups = $hostsgroups or $servicegroups 
 //
-function build_host_servicegroup_details($groups)  
+function build_host_servicegroup_details($group_members)  
 {
-	global $services;
-	
-	$new_array = array();
-	foreach($groups as $member)
+	global $NagiosData;
+	$hosts = $NagiosData->getProperty('hosts');
+
+	$servicegroup_details = array();
+	foreach($group_members as $member)
 	{
-		//print $member."<br />"; //member = host name 
-		$member = trim($member); //trim whitespace
-			foreach($services	as $service)
+		if (isset($hosts[$member]['services']))
+		{
+			foreach ($hosts[$member]['services'] as $service)
 			{
-				if(trim($service['host_name']) == $member)
-				{
-					//print "adding new host:";
-					$new_array[] = $service;					
-				}
-			}									
+				$servicegroup_details[] = $service;
+			}
+		}
 	}
-	return $new_array;
+	return $servicegroup_details;
 }
 
 
@@ -168,12 +101,14 @@ function build_host_servicegroup_details($groups)
 // 
 function check_membership($hostname='', $servicename='', $servicegroup_name='')
 {
-	global $hostgroups_objs;
-	global $servicegroups_objs;
-
+	//global $hostgroups_objs;
+	//global $servicegroups_objs;
+	global $NagiosData;
+	$hostgroups_objs = $NagiosData->getProperty('hostgroups_objs');
+	$servicegroups_objs = $NagiosData->getProperty('servicegroups_objs');
 
 	//print_r($servicegroups_objs);	
-	$memberships = ''; 
+	$memberships = array();
 	if($hostname!='' && $servicename!='')
 	{
 		//search servicegroups array 
@@ -181,42 +116,45 @@ function check_membership($hostname='', $servicename='', $servicegroup_name='')
 		//create reg expression string for 'host,service'
 		//$string = '/'.trim($hostname).','.trim($servicename).'/';
 		$hostservice = trim($hostname).','.trim($servicename);
+		$hostservice_regex = preg_quote($hostservice, '/');
 		//check regExpr against servicegroup 'members' index 
-		foreach($servicegroups_objs as $group)
-    {
-
-      if ($servicegroup_name!='' && $group['servicegroup_name'] != $servicegroup_name) {
-        continue;
-      }
-
-			//print '<p>Members: '.$group['members'].'</p>';
-			//print '<p>Alias: '.$group['alias'].'</p>';
-			//print '<p>String: '.$string.'</p>';
-			if(isset($group['members']) && preg_match("/$hostservice/", $group['members']))
-			{
-				//use alias as default display name, else use groupname 
+		if ($servicegroup_name!='' && isset($servicegroups_objs[$servicegroup_name])) {
+			$group = $servicegroups_objs[$servicegroup_name];
+			if (preg_match("/$hostservice_regex/", $group['members'])) {
 				$str = isset($group['alias']) ? $group['alias'] : $group['servicegroup_name']; 
-				$memberships .= $str.' ';
+				$memberships[] = $str;
 			}
-		}//end FOREACH 
+
+		} else {
+			foreach($servicegroups_objs as $group)
+			{
+				if(isset($group['members']) && preg_match("/$hostservice_regex/", $group['members']))
+				{
+					//use alias as default display name, else use groupname 
+					$str = isset($group['alias']) ? $group['alias'] : $group['servicegroup_name']; 
+					$memberships[] = $str;
+				}
+			}//end FOREACH 
+		}
 	}//end services IF 
 	
 	//check for host membership 
 	elseif($hostname!='' && $servicename=='')
 	{
-		
+	
+		$hostname_regex = preg_quote($hostname);
 		foreach($hostgroups_objs as $group)
 		{
-			if(isset($group['members']) && preg_match("/$hostname/", $group['members']))
+			if(isset($group['members']) && preg_match("/$hostname_regex/", $group['members']))
 			{
 				//use alias as default display name, else use groupname 
 				$str = isset($group['alias']) ? $group['alias'] : $group['hostgroup_name'];
-				$memberships .= $str.' ';
+				$memberships[] = $str;
 			}
 		}
 	}
 	 
-  return $memberships == '' ? NULL : $memberships;
+  return empty($memberships) ? NULL : join(' ', $memberships);
 }
 
 
@@ -227,15 +165,16 @@ function check_membership($hostname='', $servicename='', $servicegroup_name='')
 //
 function build_servicegroups_array()
 {
-	global $servicegroups; //global array of servicegroup members 
-	global $services;
+	//global $servicegroups; //global array of servicegroup members 
+	//global $services;
 	//print_r($servicegroups);
+	global $NagiosData;
+	$servicegroups = $NagiosData->getProperty('servicegroups');
+	$services = $NagiosData->getProperty('services');
 
 	$servicegroups_details = array(); //multi-dim array to hold servicegroups 	
-	foreach($servicegroups as $groupname=>$member)
+	foreach($servicegroups as $groupname => $member)
 	{
-
-
 		//print $groupname; //is title of group 
 		$servicegroups_details[$groupname] = array();
   
@@ -257,18 +196,5 @@ function build_servicegroups_array()
 
 	return $servicegroups_details; 
 }
-
-
-
-//create group arrays for global use 
-///////////////////////////////////////////////////GLOBAL ARRAYS//////////////////   
-	//print "blah!";
-	$hostgroups = isset($hostgroups_objs) ? build_group_array($hostgroups_objs, 'host'): NULL;
-	$servicegroups = isset($servicegroups_objs) ? build_group_array($servicegroups_objs, 'service') : NULL;
-//else 
-//{
-//	print "Host and/or Servicegroups objects are not defined. ";
-//}
-
 
 ?>

@@ -50,27 +50,60 @@
 
 // Check for Alternative PHP Cache enabled on the system
 function useAPC() {
-  $useAPC = FALSE;
+	$useAPC = FALSE;
 
-  // if we have PHP and APC
-  $havePHP = (1 === version_compare(PHP_VERSION, '5.2.0') ? true : false);
-  $haveAPC = (extension_loaded('apc') && 1 === version_compare(phpversion('apc'), '3.0.13') ? true : false);
+	// if we have PHP and APC
+	$havePHP = (1 === version_compare(PHP_VERSION, '5.2.0') ? true : false);
+	$haveAPC = (extension_loaded('apc') && 1 === version_compare(phpversion('apc'), '3.0.13') ? true : false);
 
-  if ($havePHP && $haveAPC) {
-    // if APC and upload tracking is enabled
-    if (ini_get('apc.enabled')) {
-      $useAPC = TRUE;
+	if ($havePHP && $haveAPC) {
+		// if APC and upload tracking is enabled
+		if (ini_get('apc.enabled')) {
+			$useAPC = TRUE;
 
-      if (ini_get('apc.rfc1867')) {
-        // get the stats
-        $key = ini_get('apc.rfc1867_prefix') . $_REQUEST['apcid'];
-        $stats = apc_fetch($key);
+			if (ini_get('apc.rfc1867')) {
+				// get the stats
+				$key = ini_get('apc.rfc1867_prefix') . $_REQUEST['apcid'];
+				$stats = apc_fetch($key);
 
-        //fb($stats, "APC stats");
-      }
-    }
-  }
-  return $useAPC;
+				//fb($stats, "APC stats");
+			}
+		}
+	}
+	return $useAPC;
+}
+
+function cache_needs_update($keyword, $backing_file)
+{
+
+	$known_keywords = array('objects', 'status', 'perms');
+	if (!in_array($keyword, $known_keywords))
+	{
+		// XXX do something better
+		die("Unknown keyword '$keyword'");
+	}
+
+	$retval = TRUE;
+	$useAPC = useAPC();
+
+	if ($useAPC)
+	{
+		// Check for the last time the file was read and cached and compare it to the 
+		// last time it was updated
+		// The success variable determines if the last read key was in the cache
+		$last_disk_read = apc_fetch('last_'.$keyword.'_read', $success);
+		$file_modified_time = filemtime($backing_file);
+
+//		fb("success: {$success}; last read timestamp {$last_disk_read}, last modified timestamp {$file_modified_time}");
+//		fb($last_disk_read - $file_modified_time, "modification difference");
+
+		if ($success) {
+			$read_file = $last_disk_read - $file_modified_time < 0;
+			$retval = $read_file;
+		}
+	}
+
+	return $retval;
 }
 
 // Read nagios information from APC (if enabled) or the backing files on disk
@@ -83,110 +116,87 @@ function cache_or_disk($keyword, $backing_file, $cache_keys) {
 //  fb("cache_or_disk({$keyword}, {$backing_file}, ...");
 //  fb($cache_keys, "cache_keys");
 
-  $known_keywords = array('objects', 'status', 'perms');
-  if (!in_array($keyword, $known_keywords)) {
-    // XXX do something better
-    //fb($keyword, "Unknown keyword");
-    die("Unknown keyword '$keyword'");
-  }
+	$known_keywords = array('objects', 'status', 'perms');
+	if (!in_array($keyword, $known_keywords))
+	{
+		// XXX do something better
+		die("Unknown keyword '$keyword'");
+	}
 
-  global $useAPC;
+	$useAPC = useAPC();
 
-  // Make the keys each global for modification
-  //array_walk($cache_keys, create_function('$v,$k', 'eval(\'global $\'.$v.\';\');'));
-  foreach($cache_keys as $key) {
-    $globalize = 'global $'.$key.';';
-    eval($globalize);
-    //fb("Globalized \$$key");
-  }
+	$start_time = microtime(TRUE);
 
-  list($start_time, $end_time) = array(NULL, NULL);
-  if ($useAPC) {
+	$array = NULL;
 
-    //fb(apc_cache_info('user'), "user cache info");
+	//fb($keyword, "doing cache_or_disk($keyword)");
+	if ($useAPC) {
 
-    // Check for the last time the file was read and cached and compare it to the 
-    // last time it was updated
-    // The success variable determins if the last read key was in the cache
-    $last_disk_read = apc_fetch('last_'.$keyword.'_read', $success);
-    $file_modified_time = filemtime($backing_file);
+		//fb(apc_cache_info(), "apc cache info");
 
-    $read_file = $last_disk_read - $file_modified_time < 0;
+		$read_file = cache_needs_update($keyword, $backing_file);	
+		
+		$cacheFail = FALSE;
+		$success = FALSE;
+		if (!$read_file) {
 
-//    fb("success: {$success}; last read timestamp {$last_disk_read}, last modified timestamp {$file_modified_time}");
-//    fb($last_disk_read - $file_modified_time, "modification difference");
-   
-    $start_time = microtime(TRUE);
+			// Loop through each variables cached value.  If a read fails note it and
+			// read from disk
+			foreach($cache_keys as $key) {
+				$array[$key] = apc_fetch($key, $success);
 
-    $cacheFail = FALSE;
-    if ($success && !$read_file) {
+				if (!$success) {
+					$cacheFail = TRUE;
+					fb("Cache Fail for key {$key}!");
+					break;
+				}
+			}
+	
+			if (!$cacheFail) { 
+				// Every key was found in cache
+				fb("$keyword data from cache!");
+			}
+		}
+	}
 
-      // Loop through each variables cached value.  If a read fails note it and
-      // read from disk
-      foreach($cache_keys as $key) {
-        $cmd = '$'.$key.' = apc_fetch(\''.$key.'\', $success);';
-        //fb($cmd, "cache load command");
-        eval($cmd);
-        if (!$success) {
-          $cacheFail = TRUE;
-          //fb("Cache Fail for key {$key}!");
-          break;
-        }
-      }
+	// The cache is not enabled or 
+	//  the cache is enabled and of the following three conditions occurred
+	//  There was a cache miss
+	//  The data file is newer than the cached version
+	if (!$useAPC || !$success || $read_file || $cacheFail) {
 
-      if (!$cacheFail) { 
-        // Every key was found in cache
-        //fb("$keyword data from cache!");
-      }
-    }
+		$array = read_disk($keyword, $cache_keys);
 
-    // The cache is enabled and of the following three conditions occurred
-    //  There was a cache miss
-    //  The data file is newer than the cached version
-    if (!$success || $read_file || $cacheFail) {
+		if ($useAPC) {
+			//foreach($cache_keys as $key) {
+			foreach(array_keys($array) as $key) {
+				apc_store($key, $array[$key]);
+			}
+		
+			apc_store('last_'.$keyword.'_read', time());
+			fb('stored keys to cache');
+		}
+	
+		fb("$keyword data from disk!");
+	}
+	
+	
+	$end_time = microtime(TRUE);
+	//fb($end_time - $start_time, "Elapsed load time {$end_time} - {$start_time}");
 
-      read_disk($keyword, $cache_keys);
-
-      foreach($cache_keys as $key) {
-        eval('apc_store(\''.$key.'\', $'.$key.');'); 
-      }
-
-      apc_store('last_'.$keyword.'_read', time());
-
-      //fb("$keyword data from disk!");
-    }
-  } else {
-    read_disk($keyword, $cache_keys);
-
-    //fb("APC failed... loaded $keyword from disk");
-  }
-
-  $end_time = microtime(TRUE);
-  //fb($end_time - $start_time, "Elapsed load time");
+	return $array;
 }
 
 // If we have to read from disk, call the appropriate parsing
 // function
 function read_disk($keyword, $cache_keys) {
-  include("read_$keyword.php");
+	include("read_$keyword.php");
 
-  // Make the keys each global for modification
-  //array_walk($cache_keys, create_function('$v,$k', 'eval(\'global $\'.$v.\';\');'));
-  foreach($cache_keys as $key) {
-    $globalize = 'global $'.$key.';';
-    eval($globalize);
-    //fb("Globalized \$$key");
-  }
+	$func = 'parse_'.$keyword.'_file';
+	$filevars = $func();
 
-
-  // Call the appropriate parse_ _file() function
-  array_walk($cache_keys, create_function('&$v,$k', '$v = \'$\'.$v;'));
-
-  $disk_read_string = 'list(';
-  $disk_read_string .= join(", ", $cache_keys);
-  $disk_read_string .= ') = parse_'.$keyword.'_file();';
-
-  eval($disk_read_string);
+	//fb($filevars);
+	return($filevars);
 }
 
 ?>

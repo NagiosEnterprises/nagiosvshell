@@ -89,7 +89,7 @@ function parse_perms_file($permsfile = CGICFG) //returns array of authorization 
 	}//end of WHILE 
 	fclose($cgi);
 
-	return array($perms);
+	return array('permissions' => $perms);
 }//end of FUNCTION  
 
 ?>

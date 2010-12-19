@@ -77,17 +77,19 @@
 	<tr>
 		<td>
 			<?php 
+			global $username;
+			global $NagiosData;
+			$info = $NagiosData->getProperty('info');
 
 			$last_command = settype($info['last_command_check'], 'integer') ;	
 			$now = time();
-			$last_command = $now - $last_command;						 
+			$last_command = $now - $last_command;
+            // XXX Timezone warning here.  Fix
 			$lastcmd = date('D M d H:i s\s', $last_command);
 			//Fri Sep 3 13:42:55 CDT 2010
 			print 'Last Check: '.$lastcmd."<br />\n"; 				 				 			
 			print "Updated every 90 seconds<br />\n";
-			global $info;
 			print 'Nagios® Core™ '.$info['version'].' - www.nagios.org<br />';
-			global $username;
 			print 'Logged in as '.$username.'<br />';
 
 						

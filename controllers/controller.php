@@ -62,15 +62,19 @@ function send_home() //redirects user to index page
 //It processes all requests sent from the browser 
 //
 //
-//
+
+// view=<view> => mode=view&type=<view>
+// cmd=<cmd>&arg=<arg> => mode=cmd&type=<cmd>&arg=<arg>
+
 function page_router()
 {
+
 	//Page will display tactical overview by default 
 	if(isset($_GET['view']))
 	{
 		$arg = htmlentities($_GET['view']);
 		$type = 'view';
-		switchboard($type, $arg);
+		switchboard($type, $arg); // switchboard('view', $_GET['view']) => switchboard($mode, $type);
 	}
 	elseif(isset($_GET['object']))
 	{
@@ -102,87 +106,34 @@ function page_router()
 function switchboard($type, $arg) //$type = $_GET[xml, view, object]   $arg=one of the global data arrays 
 {
 
-	global $hosts;
-	global $services;
-	global $hostgroups;
-	global $servicegroups;
-	global $services_objs;
-	global $servicegroups_objs;
-	global $hosts_objs;
-	global $hostgroups_objs;
-	global $commands;
-	global $timeperiods;
-	global $contacts;
-	global $contactgroups;
 	global $authorizations;
 
 	//make conditional based on site permissions 
 	
 	//$type = valid $_GET variable 
 	//calls page display functions based on get variable and displays in index page
-	
+
 	switch($arg)
 	{
 		case 'services':
-		$title = 'Services';
-		$array = $services;
-		break;	
-			
 		case 'hosts':
-		$title = 'Hosts';
-		$array = $hosts;
-		break;
-		
 		case 'hosts_objs':
-		$title = 'Host Objects';
-		$array = $hosts_objs;
-		break;
-		
 		case 'services_objs':
-		$title = 'Services Objects';
-		$array = $services_objs;
-		break;
-		
 		case 'timeperiods':
-		$title = 'Timeperiods';
-		$array = $timeperiods;
-		break;
-		
 		case 'contacts':
-		$title = 'Contacts';
-		$array = $contacts;
-		break;
-		
 		case 'servicegroups':
-		$title = 'Service Groups';
-		$array = $servicegroups; //this needs to be status, not object info 
-		break;
-		
 		case 'hostgroups':
-		$title = 'Host Groups';
-		$array = $hostgroups;//this needs to be status, not object info
-		break;
-		
 		case 'contactgroups':
-		$title = 'Contact Groups';
-		$array = $contactgroups;
-		break;
-		
 		case 'commands':
-		$title = 'Commands';
-		$array = $commands;
-		break;
-		
 		case 'hostgroups_objs':
-		$title = 'Host Groups';
-		$array = $hostgroups_objs;
-		break;
-		
 		case 'servicegroups_objs':
-		$title = 'Service Groups';
-		$array = $servicegroups_objs;
+	
+			global $NagiosData;
+			$array = $NagiosData->getProperty($arg);
+
+			$title = ucwords(preg_replace('/objs/', 'Objects', preg_replace('/_/', ' ', $arg)));
 		break;
-		
+
 		default:
 		//initialize main data arrays 
 		include_once(DIRBASE.'/views/tac.php');
@@ -199,17 +150,6 @@ function switchboard($type, $arg) //$type = $_GET[xml, view, object]   $arg=one 
 			
 			case 'view':
 			//build_table($array);
-			//check for start and stop variables for pagination
-//			$start = isset($_GET['start']) ? htmlentities($_GET['start']) : 0;
-//			//$stop = isset($_GET['stop']) ? htmlentities($_GET['stop']) : 0;
-//			//create page limit variable site wide, default to 50 results  
-//			$limit = isset($_COOKIE['limit']) ? $_COOKIE['limit'] : RESULTLIMIT;
-//			if(isset($_POST['pagelimit']))
-//			{	
-//				//set a site-wide cookie for the display limit 
-//				setcookie('limit', $_POST['pagelimit']);
-//				$limit = $_POST['pagelimit'];
-//			}
 			list($start, $limit) = get_pagination_values();
 					
 			switch($arg)
@@ -278,7 +218,10 @@ function get_pagination_values() {
 //
 function set_perms($username)
 {
-	global $permissions;  //Array read from cgi.cfg file: permissions => users array 
+	//global $permissions;  //Array read from cgi.cfg file: permissions => users array 
+
+	global $NagiosData;
+	$permissions = $NagiosData->getProperty('permissions');
 	
 	foreach($permissions as $key => $array)//perms  = array('system_information'
 	{

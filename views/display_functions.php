@@ -82,6 +82,7 @@ function build_table_data($array) //expecting global $hosts, $services, $service
 function build_nav_links() //build page links based on user's permission level 
 {
 	global $authorizations;
+
 	$keys = array();
 	foreach($authorizations as $key => $value)
 	{
@@ -251,7 +252,10 @@ function get_color_code($array)
 
 function get_host_status_color($hostname)
 {
-	global $hosts;
+	//global $hosts;
+	global $NagiosData;
+	$hosts = $NagiosData->getProperty('hosts');
+
 	$color = '';
 	if(isset($hosts))
 	{
@@ -273,7 +277,11 @@ function get_host_status_color($hostname)
 function return_icon_link($hostname)
 {
 
-	global $hosts_objs;
+	//global $hosts_objs;
+	global $NagiosData;
+	$hosts_objs = $NagiosData->getProperty('hosts_objs');
+	
+
 	$link = '';
 	foreach($hosts_objs as $host)
 	{
@@ -309,7 +317,10 @@ function get_host_comments($host='')
 	$hostcomments = check_comments($host);
 	if($hostcomments)
 	{
-		global $comments;
+		//global $comments;
+		global $NagiosData;
+		$comments = $NagiosData->getProperty('comments');
+
 		foreach($comments as $comment)
 		{
 			if(trim($comment['host_name'])==trim($host) )
@@ -349,7 +360,10 @@ function get_service_comments($host='', $service='')
 	$hostcomments = check_comments($host, $service);
 	if($hostcomments)
 	{
-		global $comments;
+		//global $comments;
+		global $NagiosData;
+		$comments = $NagiosData->getProperty('comments');
+
 		foreach($comments as $comment)
 		{
 			if(isset($comment['service_description']))

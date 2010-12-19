@@ -76,22 +76,28 @@ function display_hosts($hosts, $start,$limit)
 	
 	//creates notes for total results as well as form for setting page limits 
 	do_result_notes($start,$limit,$resultsCount,'hosts');	
+
+	$hostnames = array_keys($hosts);
+	sort($hostnames);
+
 	//begin looping table results 
 	for($i=$start; $i<=($start+$limit); $i++)
 	{
-		if(!isset($hosts[$i])) continue; //skip undefined indexes of hosts array 
-		$tr = get_color_code($hosts[$i]); // CSS style class based on status 
-		$url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$hosts[$i]['host_name']);
-		$comments = comment_icon($hosts[$i]['host_name']); //has comments icon 
-		$dt_icon = downtime_icon($hosts[$i]['scheduled_downtime_depth']); //scheduled downtime icon 
+		if(!isset($hosts[$hostnames[$i]])) continue; //skip undefined indexes of hosts array 
+		$host = $hosts[$hostnames[$i]];
+
+		$tr = get_color_code($host); // CSS style class based on status 
+		$url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$host['host_name']);
+		$comments = comment_icon($host['host_name']); //has comments icon 
+		$dt_icon = downtime_icon($host['scheduled_downtime_depth']); //scheduled downtime icon 
 		$tablerow = <<<TABLE
 	
 		<tr>	
-			<td><a href="{$url}">{$hosts[$i]['host_name']}</a>{$comments}{$dt_icon}</td><td class="{$tr}">{$hosts[$i]['current_state']}</td>
-			<td>{$hosts[$i]['duration']}</td>
-			<td>{$hosts[$i]['attempt']}</td>
-			<td>{$hosts[$i]['last_check']}</td>
-			<td>{$hosts[$i]['plugin_output']}</td>
+			<td><a href="{$url}">{$host['host_name']}</a>{$comments}{$dt_icon}</td><td class="{$tr}">{$host['current_state']}</td>
+			<td>{$host['duration']}</td>
+			<td>{$host['attempt']}</td>
+			<td>{$host['last_check']}</td>
+			<td>{$host['plugin_output']}</td>
 		</tr>
 			
 TABLE;
