@@ -61,7 +61,7 @@ $services = $NagiosData->getProperty('services');
 // hosts optimization: 13.4s, 11.9s
 // hosts+services optimization: 7.5s
 
-$start_time = microtime(TRUE);
+//$start_time = microtime(TRUE);
 
 //foreach($hostgroups as $group => $members) {
 //	print "<a href=\"#$group\">$group</a>\n";
@@ -135,6 +135,6 @@ foreach($hostgroups as $group=>$members)
 }
 
 
-$end_time = microtime(TRUE);
-fb($end_time - $start_time, "Elapsed time in hostgroups");
+//$end_time = microtime(TRUE);
+//fb($end_time - $start_time, "Elapsed time in hostgroups");
 ?>

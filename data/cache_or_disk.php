@@ -147,14 +147,14 @@ function cache_or_disk($keyword, $backing_file, $cache_keys) {
 
 				if (!$success) {
 					$cacheFail = TRUE;
-					fb("Cache Fail for key {$key}!");
+					//fb("Cache Fail for key {$key}!");
 					break;
 				}
 			}
 	
 			if (!$cacheFail) { 
 				// Every key was found in cache
-				fb("$keyword data from cache!");
+				//fb("$keyword data from cache!");
 			}
 		}
 	}
@@ -174,10 +174,10 @@ function cache_or_disk($keyword, $backing_file, $cache_keys) {
 			}
 		
 			apc_store('last_'.$keyword.'_read', time());
-			fb('stored keys to cache');
+			//fb('stored keys to cache');
 		}
 	
-		fb("$keyword data from disk!");
+		//fb("$keyword data from disk!");
 	}
 	
 	

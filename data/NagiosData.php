@@ -124,7 +124,10 @@ class NagiosData
 		$details = NULL;
 		if (in_array($type, array('service', 'host'))) {
 			$details = self::$instance->grab_details($type);
-		} else { fb("invalid type '$type'"); }
+		} else { 
+			// XXX Do soemthing better here
+			//fb("invalid type '$type'"); 
+		}
 
 		if ($type == 'service')
 		{
@@ -190,7 +193,8 @@ class NagiosData
 		if (self::_is_valid_variable($var)) {
 			$this->_vars[$var] = $value;
 		} else {
-			fb($var, "Invalid property");
+			// XXX Do something better here
+			//fb($var, "Invalid property");
 		}
 	}
 
