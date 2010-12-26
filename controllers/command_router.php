@@ -157,7 +157,7 @@ function process_service_detail($arg)
 	$state = return_service_state($sd['current_state']);
 	
 	//service attributes
-	$ser_desc = preg_replace('/\ /', '+', trim($sd['service_description']));    //replacing spaces with pluses for cgi URL 
+	$ser_desc = preg_replace('/\ /', '+', $sd['service_description']);    //replacing spaces with pluses for cgi URL 
 	//if else statements generate links for Nagios core commands based on status 
 	$active_checks = return_enabled($sd['active_checks_enabled']);
 	if($active_checks == 'Enabled') 
@@ -187,7 +187,7 @@ function process_service_detail($arg)
 	
 	$add_comment = CORECMD.'cmd_typ=3&host='.$sd['host_name'].'&service='.$ser_desc;
 	
-	if(trim($sd['problem_has_been_acknowledged']) == 0)
+	if($sd['problem_has_been_acknowledged'] == 0)
 	{
 		$cmd_acknowledge = CORECMD.'cmd_typ=34&host='.$sd['host_name'].'&service='.$ser_desc;//acknowledge problem 33 
 		$ack_title = 'Ackowledge Problem';
@@ -317,7 +317,7 @@ function process_host_detail($arg)
 	
 	$add_comment = CORECMD.'cmd_typ=1&host='.$hd['host_name'];
 	
-	if(trim($hd['problem_has_been_acknowledged']) == 0)
+	if($hd['problem_has_been_acknowledged'] == 0)
 	{
 		$cmd_acknowledge = CORECMD.'cmd_typ=33&host='.$hd['host_name'];//acknowledge problem 33 
 		$ack_title = 'Ackowledge Problem';
