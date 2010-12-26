@@ -110,6 +110,7 @@ function parse_status_file($statusfile = STATUSFILE) {
 				}
 		
 			} elseif ($curtype == 'comment') {
+				$kvp['comment_data'] = htmlentities($kvp['comment_data'], ENT_QUOTES);
 				$comments[] = $kvp;
 		
 			} elseif ($curtype == 'info') {
