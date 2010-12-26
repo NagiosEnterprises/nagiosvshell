@@ -212,42 +212,10 @@ LINK;
 //
 function get_color_code($array) 
 {
-	switch($array['current_state'])
-	{
-		case 'OK':
-		$tr = 'ok';
-		break;
-		
-		case 'UP':
-		$tr = 'ok';
-		break;
-		
-		case 'DOWN':
-		$tr = 'down';
-		break;
-		
-		case 'WARNING':
-		$tr = 'warning';
-		break;
-		
-		case 'UNKNOWN':
-		$tr = 'unknown';
-		break;
-		
-		case 'UNREACHABLE':
-		$tr = 'unreachable';
-		break;
-		
-		case 'CRITICAL':
-		$tr = 'critical';
-		break;
-		
-		default:
-		$tr = 'unknown';
-		break;
-	
-	} 
-	return $tr;
+
+	$vals = array('OK', 'UP', 'DOWN', 'WARNING', 'UNKNOWN', 'CRITICAL');
+	$str = strtolower( (in_array($array['current_state'], $vals) ? $array['current_state'] : 'UNKNOWN') );
+	return $str;
 }
 
 function get_host_status_color($hostname)
