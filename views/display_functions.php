@@ -240,19 +240,18 @@ function get_host_status_color($hostname)
  */
 function return_icon_link($hostname)
 {
+	$hostname = trim($hostname);
 
-	//global $hosts_objs;
 	global $NagiosData;
 	$hosts_objs = $NagiosData->getProperty('hosts_objs');
-	
 
 	$link = '';
 	foreach($hosts_objs as $host)
 	{
-		if(trim($hostname) == trim($host['host_name']) && isset($host['icon_image']) )
+		if($hostname == $host['host_name'] && isset($host['icon_image']) )
 		{
 			$icon = $host['icon_image'];
-			$link = '<img class="tableIcon" border="0" width="15" height="15" title="" alt="Icon" src="views/images/logos/'.trim($host['icon_image']).'">';
+			$link = '<img class="tableIcon" border="0" width="15" height="15" title="" alt="Icon" src="views/images/logos/'.$host['icon_image'].'">';
 		}
 		
 	}
