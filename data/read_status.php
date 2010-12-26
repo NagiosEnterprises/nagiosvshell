@@ -106,7 +106,6 @@ function parse_status_file($statusfile = STATUSFILE) {
 				}
 		
 			} elseif ($curtype == 'comment') {
-				$kvp['comment_data'] = htmlentities($kvp['comment_data'], ENT_QUOTES);
 				$status_collector['host'][$kvp['host_name']]['comments'][] = $kvp;
 				$comments[] = $kvp;
 		
@@ -123,7 +122,7 @@ function parse_status_file($statusfile = STATUSFILE) {
 		} elseif ($curtype != NULL) {
 			# Collect the key-value pairs for the definition
 			list($key, $value) = explode('=', trim($line), 2);
-			$kvp[trim($key)] = trim($value);
+			$kvp[trim($key)] = htmlentities(trim($value), ENT_QUOTES);
 		
 		} else {
 			// outside of a status
