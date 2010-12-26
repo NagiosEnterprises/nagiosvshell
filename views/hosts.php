@@ -83,6 +83,7 @@ function display_hosts($hosts, $start,$limit)
 	//begin looping table results 
 	for($i=$start; $i<=($start+$limit); $i++)
 	{
+		if ($i >= $resultsCount) break;
 		if(!isset($hosts[$hostnames[$i]])) continue; //skip undefined indexes of hosts array 
 		$host = $hosts[$hostnames[$i]];
 
