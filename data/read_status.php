@@ -81,8 +81,7 @@ function parse_status_file($statusfile = STATUSFILE) {
 		$line = fgets($file); //Gets a line from file pointer.
 		
 		if (preg_match('/(host|service|program)(status|comment)/', $line, $matches)) {
-		
-		list($fullmatch, $cursubtype, $curtype) = $matches;
+			list($fullmatch, $cursubtype, $curtype) = $matches;
 		 
 		} elseif (preg_match('/^\s*info\s*{\s*$/', $line)) {
 			$curtype = 'info';
