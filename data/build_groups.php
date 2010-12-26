@@ -117,7 +117,7 @@ function check_membership($hostname='', $servicename='', $servicegroup_name='')
 		$hostservice = "$hostname,$servicename";
 		$hostservice_regex = preg_quote($hostservice, '/');
 
-		//check regExpr against servicegroup 'members' index 
+		//check regex against servicegroup 'members' index 
 		if ($servicegroup_name!='' && isset($servicegroups_objs[$servicegroup_name])) {
 			$group = $servicegroups_objs[$servicegroup_name];
 			if (preg_match("/$hostservice_regex/", $group['members'])) {
