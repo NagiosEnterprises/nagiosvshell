@@ -110,7 +110,6 @@ foreach($hostgroups as $group=>$members)
 	foreach($members as $member)
 	{
 		print "<tr>\n";
-		$member = trim($member); //trim whitespace 
 
 		//pull group member data from global $hosts array
 		$host = $hosts[$member];
