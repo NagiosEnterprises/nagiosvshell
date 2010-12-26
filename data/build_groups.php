@@ -134,9 +134,9 @@ function check_membership($hostname='', $servicename='', $servicegroup_name='')
 					$str = isset($group['alias']) ? $group['alias'] : $group['servicegroup_name']; 
 					$memberships[] = $str;
 				}
-			}//end FOREACH 
+			}
 		}
-	}//end services IF 
+	}
 	
 	//check for host membership 
 	elseif($hostname!='' && $servicename=='')
@@ -165,9 +165,6 @@ function check_membership($hostname='', $servicename='', $servicegroup_name='')
  */ 
 function build_servicegroups_array()
 {
-	//global $servicegroups; //global array of servicegroup members 
-	//global $services;
-	//print_r($servicegroups);
 	global $NagiosData;
 	$servicegroups = $NagiosData->getProperty('servicegroups');
 	$services = $NagiosData->getProperty('services');
@@ -175,7 +172,6 @@ function build_servicegroups_array()
 	$servicegroups_details = array(); //multi-dim array to hold servicegroups 	
 	foreach($servicegroups as $groupname => $member)
 	{
-		//print $groupname; //is title of group 
 		$servicegroups_details[$groupname] = array();
   
 		foreach($services as $service)
@@ -183,16 +179,11 @@ function build_servicegroups_array()
 			$membership = check_membership($service['host_name'], $service['service_description'], $groupname);
 			if($membership)
 			{
-			
-				//print $groupname.$service['host_name'].$service['service_description'].'<br />';
-				//print_r($service);
 				$servicegroups_details[$groupname][] = $service;
-				//print "member!";
 			}
 			
 		}
 	}
-
 
 	return $servicegroups_details; 
 }
