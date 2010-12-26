@@ -107,8 +107,8 @@ function build_object_list($array, $arg) //expecting arrays from read_objects.ph
 			 
 		}	
 		
-		$id = preg_replace('/\./', '_', $linkkey); //replacing dots with underscores
-		$id = preg_replace('/\ /', '_', $id);    //replacing spaces with underscores
+		$id = preg_replace('/[\. ]/', '_', $linkkey); //replacing dots with underscores
+		#$id = preg_replace('/\ /', '_', $id);    //replacing spaces with underscores
 		//using HEREDOC string syntax 
 		$confighead=<<<CONFIG
 				

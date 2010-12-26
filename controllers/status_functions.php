@@ -238,7 +238,6 @@ function check_comments($hostname='',$servicename='')
 	global $NagiosData;
 	$hosts = $NagiosData->getProperty('hosts');
 
-	$servicename = trim($servicename);
 	$hostname = trim($hostname);
 
 	$count = 0;
@@ -246,6 +245,7 @@ function check_comments($hostname='',$servicename='')
 	if ($hostname != '') {
 		if (isset($hosts[$hostname]) && isset($hosts[$hostname]['comments'])) {
 
+			$servicename = trim($servicename);
 			if ($servicename != '') {
 				foreach($hosts[$hostname]['comments'] as $comment) {
 					if ($comment['service_description'] == $servicename) {

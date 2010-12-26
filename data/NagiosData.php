@@ -119,6 +119,7 @@ class NagiosData
 	 */
 	public function get_details_by($type, $arg)
 	{
+		$arg = trim($arg);
 		$retval = NULL;
 
 		$details = NULL;
@@ -134,7 +135,7 @@ class NagiosData
 			/* serviceID index no longer exists, had to call array by index 
 			 * number instead 
 			 */
-			$id = str_replace('service', '', trim($arg)); 
+			$id = str_replace('service', '', $arg); 
 			$retval = $details[$id];	//call service details by array index 
 	
 		}
@@ -142,7 +143,7 @@ class NagiosData
 		{
 			foreach($details as $host_details)
 			{
-				if(trim($host_details['host_name']) == trim($arg)) 
+				if($host_details['host_name'] == $arg) 
 				{
 					$retval = $host_details;
 					break;
