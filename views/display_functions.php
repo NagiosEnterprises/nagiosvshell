@@ -221,22 +221,17 @@ function get_color_code($array)
  */
 function get_host_status_color($hostname)
 {
-	//global $hosts;
+	$hostname = trim($hostname);
+
 	global $NagiosData;
 	$hosts = $NagiosData->getProperty('hosts');
 
 	$color = '';
-	if(isset($hosts))
+	if(isset($hosts) && isset($hosts[$hostname]))
 	{
-		foreach($hosts as $host)
-		{
-			if(trim($hostname) == trim($host['host_name']))
-			{
-				$color = get_color_code($host);
-			}
-		}
-		 
+		$color = get_color_code($hosts[$hostname]);
 	}
+
 	return $color;
 }
 
