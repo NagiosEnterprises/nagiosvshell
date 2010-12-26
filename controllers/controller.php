@@ -218,16 +218,14 @@ function get_pagination_values() {
 //
 function set_perms($username)
 {
-	//global $permissions;  //Array read from cgi.cfg file: permissions => users array 
-
 	global $NagiosData;
 	$permissions = $NagiosData->getProperty('permissions');
-	
+
 	foreach($permissions as $key => $array)//perms  = array('system_information'
 	{
 		foreach($array as $user)
 		{
-			if(trim($user) == $username || trim($user) == '*') 
+			if($user == $username || $user == '*') 
 			{
 				//print "authorizing $username";
 				authorize($key);
