@@ -49,11 +49,10 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-//////////////////////////////////////////////////
-//returns group status details array 
-//
-//$groups = $hostsgroups or $servicegroups 
-//
+/* returns group status details array 
+ *
+ * $groups = $hostsgroups or $servicegroups 
+ */ 
 function build_hostgroup_details($group_members) //make this return the totals array for hosts and services 
 {
 	global $NagiosData;
@@ -68,10 +67,10 @@ function build_hostgroup_details($group_members) //make this return the totals a
 	return $hostgroup_details;
 }
 
-//returns group details array.  This function is used on the hostgroups page for the grid view 
-// 
-//$groups = $hostsgroups or $servicegroups 
-//
+/* returns group details array.  This function is used on the hostgroups page for the grid view 
+ *  
+ * $groups = $hostsgroups or $servicegroups 
+ */
 function build_host_servicegroup_details($group_members)  
 {
 	global $NagiosData;
@@ -92,13 +91,13 @@ function build_host_servicegroup_details($group_members)
 }
 
 
-//used on host and service details pages 
-//
-//Expecting host name and/or service name 
-//checks against list of groups members 
-//
-//returns a list of groups separated by spaces  
-// 
+/* used on host and service details pages 
+ *
+ * Expecting host name and/or service name 
+ * checks against list of groups members 
+ *
+ * returns a list of groups separated by spaces  
+ */ 
 function check_membership($hostname='', $servicename='', $servicegroup_name='')
 {
 	//global $hostgroups_objs;
@@ -158,11 +157,11 @@ function check_membership($hostname='', $servicename='', $servicegroup_name='')
 }
 
 
-//used on servicegroups page 
-//
-//creates arrays of service details organized by groupnames 
-//Returns 3-dimensional array:groupnames->members->details
-//
+/* used on servicegroups page 
+ *
+ * creates arrays of service details organized by groupnames 
+ * Returns 3-dimensional array:groupnames->members->details
+ */ 
 function build_servicegroups_array()
 {
 	//global $servicegroups; //global array of servicegroup members 
