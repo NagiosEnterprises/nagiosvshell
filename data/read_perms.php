@@ -50,13 +50,6 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-
-function grab_value($line) //grabs value after equal sign   ####REMOVE once this file is an include 
-{
-	$stat = substr($line, (strpos($line,'=')+1), (strlen($line)) );
-	return $stat;
-}
-
 function parse_perms_file($permsfile = CGICFG) //returns array of authorization => users[array] 
 {
 	$cgi = fopen($permsfile, "r") or exit("Unable to open '$permsfile' file!");
