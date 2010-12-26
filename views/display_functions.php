@@ -320,7 +320,6 @@ function get_service_comments($host='', $service='')
 	$hostcomments = check_comments($host, $service);
 	if($hostcomments)
 	{
-		//global $comments;
 		global $NagiosData;
 		$hosts = $NagiosData->getProperty('hosts');
 
@@ -380,7 +379,6 @@ function do_pagenumbers($pageCount,$start,$limit,$resultsCount,$type)
 	$back_arrow = NULL;
 	$back_arrow_entities = '&laquo;';
 	if ($cp_start > 0) {
-		//fb($cp_start, "cp_start");
 		$link = $link_base . '&start='.($cp_start-$limit);
 		$back_arrow = "<a href='$link' class='pagenumbers'>$back_arrow_entities</a>";
 	} else { 
@@ -389,17 +387,16 @@ function do_pagenumbers($pageCount,$start,$limit,$resultsCount,$type)
 	print "$back_arrow";
 
 	// Build the direct page links
-	for($i=0;$i<=$pageCount;$i++)
+	for($i = 0; $i <= $pageCount; $i++)
 	{
 		//if end is greater than total results, set end to be the resultCount  
-		//$end = ($begin + $limit) < $resultsCount ? ($begin + $limit) : $resultsCount;
 		$link = $link_base . "&start=$begin";
 		$page = $i+1;
 		//check if the link is the current page  
 		//if we're on current page, don't print a link 
 		if($cp_start == $begin) print "<span class='deselect'> $page </span>";
 		else print "<a class='pagenumbers' href='$link'> $page </a>"; 
-		//print "Page $i, start= $begin, end = $end <br />";	
+
 		//submit a hidden post page number 	
 		$begin = ($begin + $limit) < $resultsCount ? ($begin + $limit) : $resultsCount;
 	}
