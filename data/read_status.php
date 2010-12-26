@@ -101,9 +101,6 @@ function parse_status_file($statusfile = STATUSFILE) {
 					$kvp = process_service_status_keys($kvp);
 					$status_collector[$cursubtype][] = $kvp;
 					$status_collector['host'][$kvp['host_name']]['services'][] = $kvp;
-					//print "<br /><br />";
-					//print_r($kvp);
-					//die();
 				}
 				else {	
 					$status_collector[$cursubtype][] = $kvp;
@@ -131,7 +128,7 @@ function parse_status_file($statusfile = STATUSFILE) {
 		} else {
 			// outside of a status
 		}
-	} //end of WHILE 
+	}
 	
 	fclose($file);
 	
