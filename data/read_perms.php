@@ -65,24 +65,22 @@ function parse_perms_file($permsfile = CGICFG) //returns array of authorization 
 
 	while(!feof($cgi)) //read through file and assign host and service status into separate arrays 
 	{
-
 		$line = fgets($cgi); //Gets a line from file pointer. 
 
 		if (!preg_match('/^\s*#/', $line) && preg_match($keyword_regex, $line, $keyword_matches)) {
 			$perm = $keyword_matches[1];
 			
-			trim($line);
-			list($actual_perm, $userlist) = explode('=', $line, 2);
+			list($actual_perm, $userlist) = explode('=', trim($line), 2);
 			
 			$permusers = explode(',', $userlist);
-			foreach($permusers as $user) { $user = trim($user); }
+			array_walk($permusers, create_function('&$v', 'trim($v);'));
 			$perms[$perm] = $permusers;
 		}
 
-	}//end of WHILE 
+	}
 	fclose($cgi);
 
 	return array('permissions' => $perms);
-}//end of FUNCTION  
+}
 
 ?>
