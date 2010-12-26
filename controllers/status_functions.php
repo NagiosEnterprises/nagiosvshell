@@ -179,15 +179,11 @@ function check_boolean($type,$arg,$int)
 //RETURNS: integer of hosts or services with 'current_state' matching $state 
 function count_by_state($state, $array)
 {
-
-	//$array_by_state = array();
 	$count = 0;
-	
 	foreach($array as $a)
 	{
 		if($a['current_state'] == $state)
 		{
-			//echo $a['host_name']." is $state<br />";
 			$count++;
 		}
 	}
@@ -270,7 +266,7 @@ function get_host_downtime($hostname)
 	global $NagiosData;
 	$host = $NagiosData->get_details_by('host', $hostname);
 
-	return trim($host['scheduled_downtime_depth']); //returns integer 
+	return $host['scheduled_downtime_depth']; //returns integer 
 
 }
 
