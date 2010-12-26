@@ -78,11 +78,19 @@ function display_services($services,$start,$limit)
 	//creates notes for total results as well as form for setting page limits 
 	do_result_notes($start,$limit,$resultsCount,'services');
 
+	// Fixup post filtering indices
+	$curidx = 0;
+	foreach ($services as $id => $servinfo) {
+			unset($services[$id]);
+			$services[$curidx++] = $servinfo;
+	}
+
 	//process service array   
 	//service table rows 
 	$last_displayed_host = NULL;
 	for($i=$start; $i<=($start+$limit); $i++)
 	{
+		if ($i > $resultsCount) break;      //short circuit
 		if(!isset($services[$i])) continue; //skip undefined indexes of array
 
 		$tr = get_color_code($services[$i]);
