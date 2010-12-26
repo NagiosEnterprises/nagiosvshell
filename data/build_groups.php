@@ -100,22 +100,23 @@ function build_host_servicegroup_details($group_members)
  */ 
 function check_membership($hostname='', $servicename='', $servicegroup_name='')
 {
-	//global $hostgroups_objs;
-	//global $servicegroups_objs;
 	global $NagiosData;
 	$hostgroups_objs = $NagiosData->getProperty('hostgroups_objs');
 	$servicegroups_objs = $NagiosData->getProperty('servicegroups_objs');
 
-	//print_r($servicegroups_objs);	
+	$hostname = trim($hostname);
+	$servicename = trim($servicename);
+	$servicegroup_name = trim($servicegroup_name);
+
 	$memberships = array();
 	if($hostname!='' && $servicename!='')
 	{
 		//search servicegroups array 
 		
-		//create reg expression string for 'host,service'
-		//$string = '/'.trim($hostname).','.trim($servicename).'/';
-		$hostservice = trim($hostname).','.trim($servicename);
+		//create regexp string for 'host,service'
+		$hostservice = "$hostname,$servicename";
 		$hostservice_regex = preg_quote($hostservice, '/');
+
 		//check regExpr against servicegroup 'members' index 
 		if ($servicegroup_name!='' && isset($servicegroups_objs[$servicegroup_name])) {
 			$group = $servicegroups_objs[$servicegroup_name];
