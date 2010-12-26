@@ -142,7 +142,7 @@ function check_membership($hostname='', $servicename='', $servicegroup_name='')
 	elseif($hostname!='' && $servicename=='')
 	{
 	
-		$hostname_regex = preg_quote($hostname);
+		$hostname_regex = preg_quote($hostname, '/');
 		foreach($hostgroups_objs as $group)
 		{
 			if(isset($group['members']) && preg_match("/$hostname_regex/", $group['members']))
