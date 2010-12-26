@@ -239,39 +239,30 @@ function index_or_default($arg, $vals, $default) {
 //
 function check_comments($hostname='',$servicename='')
 {
-	//global $comments;
 	global $NagiosData;
-	$comments = $NagiosData->getProperty('comments');
+	$hosts = $NagiosData->getProperty('hosts');
+
+	$servicename = trim($servicename);
+	$hostname = trim($hostname);
 
 	$count = 0;
-	if($hostname!='' && $servicename!='') //checking for service comment 
-	{
-		foreach($comments as $comment)
-		{
-			if(isset($comment['service_description']))
-			{
-				if(trim($comment['host_name']) == trim($hostname) && 
-				   trim($comment['service_description']) == trim($servicename) )
-				{
-					$count++;
-				}//end matching IF 
-			}//end IF 
-		}//end FOREACH 
-	}//end main IF 
-	elseif($hostname!='') //checking for host comment 
-	{
-		foreach($comments as $comment)
-		{
-			if(trim($comment['host_name']) == trim($hostname) )
-			{
-				//echo 'host comment'; 
-				$count++;
-			}//end matching IF 
-		}//end FOREACH 
-	}//end main IF 	
-	else { return false; }
-	if($count == 0){ return false; }	
-	return $count;
+
+	if ($hostname != '') {
+		if (isset($hosts[$hostname]) && isset($hosts[$hostname]['comments'])) {
+
+			if ($servicename != '') {
+				foreach($hosts[$hostname]['comments'] as $comment) {
+					if ($comment['service_description'] == $servicename) {
+						$count++;
+					}
+				}
+			} else {
+				$count = count($hosts[$hostname]['comments']);
+			}
+		}
+	}
+
+	return ($count == 0 ? false : $count);
 }
 
 function get_host_downtime($hostname)
