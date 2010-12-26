@@ -134,18 +134,6 @@ function parse_status_file($statusfile = STATUSFILE) {
 	
 	fclose($file);
 	
-	//print "Dumping Hosts<br />";	
-	//var_dump($hosts);
-	//print "Dumping Services<br />";		
-	//var_dump($services);	
-	
-	//fb($status_collector['host'], "host status read");
-	//fb($status_collector['service'], "service status read");
-	
-	//fb($comments, "comments from read_status.php");
-	//fb($info, "info from read_status.php");
-	//fb($details, "details from read_status.php");
-	
 	return array(
 		'hosts' => $status_collector['host'], 
 		'services' => $status_collector['service'], 
