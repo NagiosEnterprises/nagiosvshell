@@ -263,6 +263,9 @@ function return_icon_link($hostname)
 //
 function comment_icon($host='', $service='')
 {
+	$host = trim($host);
+	$service = trim($service);
+
 	$check = check_comments($host,$service);
 	$img = '';
 	if($check>0)
@@ -287,7 +290,7 @@ function get_host_comments($host='')
 		foreach($hosts[$host]['comments'] as $comment)
 		{
 			$author = $comment['author'];
-			$entrytime = date('M d H:i\:s\s', trim($comment['entry_time']));
+			$entrytime = date('M d H:i\:s\s', $comment['entry_time']);
 			$data = $comment['comment_data'];
 			$desc = '';
 			if(isset($comment['service_description']))
@@ -327,7 +330,7 @@ function get_service_comments($host='', $service='')
 			foreach($hosts[$host]['comments'] as $comment) {
 				if (isset($comment['service_description']) && $comment['service_description'] == $service) {
 					$author = $comment['author'];
-					$entrytime = date('M d H:i\:s\s', trim($comment['entry_time']));
+					$entrytime = date('M d H:i\:s\s', $comment['entry_time']);
 					$data = $comment['comment_data'];
 							
 					$cid = $comment['comment_id'];		
