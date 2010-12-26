@@ -352,14 +352,12 @@ function get_service_comments($host='', $service='')
  */
 function downtime_icon($arg)
 {
+	$img = '';	
 	if(trim($arg)>0)
 	{
 		$img = '<img src="views/images/downtime.png" title="In Downtime" class="tableIcon" alt="DT" height="12" width="12" />'; 
 	}
-	else
-	{
-		$img = '';
-	}
+
 	return $img;
 }
 
