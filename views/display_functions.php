@@ -314,38 +314,32 @@ function comment_icon($host='', $service='')
 //used on host details page 
 function get_host_comments($host='')
 {
+	$host = trim($host);
 	$hostcomments = check_comments($host);
 	if($hostcomments)
 	{
-		//global $comments;
 		global $NagiosData;
-		$comments = $NagiosData->getProperty('comments');
+		$hosts = $NagiosData->getProperty('hosts');
 
-		foreach($comments as $comment)
+		foreach($hosts[$host]['comments'] as $comment)
 		{
-			if(trim($comment['host_name'])==trim($host) )
+			$author = $comment['author'];
+			$entrytime = date('M d H:i\:s\s', trim($comment['entry_time']));
+			$data = $comment['comment_data'];
+			$desc = '';
+			if(isset($comment['service_description']))
 			{
-				$author = $comment['author'];
-				$entrytime = date('M d H:i\:s\s', trim($comment['entry_time']));
-				$data = $comment['comment_data'];
-				if(isset($comment['service_description']))
-				{ 
-					$desc = $comment['service_description'].' : '; 
-				}
-				else
-				{ 
-					$desc = '';  
-				}
-				
-				$cid = $comment['comment_id'];		
-				$row = "<tr><td>$author</td><td>$entrytime</td><td>$desc $data</td><td>
-							<a href='".CORECMD."cmd_typ=2&com_id=$cid' title='Delete Comment'>
-							<img class='iconLink' src='views/images/delete.png' alt='Delete' width='15' height='15' /></a></td></tr>\n";
-				print $row;
-			}	//end if 
-		}//end foreach 
+				$desc = $comment['service_description'].' : ';
+			}
+
+			$cid = $comment['comment_id'];
+			$row = "<tr><td>$author</td><td>$entrytime</td><td>$desc $data</td><td>
+						<a href='".CORECMD."cmd_typ=2&com_id=$cid' title='Delete Comment'>
+						<img class='iconLink' src='views/images/delete.png' alt='Delete' width='15' height='15' /></a></td></tr>\n";
+			print $row;
+		}
 		 
-	}//end if 
+	}
 	else
 	{
 		print "<tr><td colspan='3'>There are no comments associated with this host</td></tr>";
@@ -357,19 +351,19 @@ function get_host_comments($host='')
 //used on host details page 
 function get_service_comments($host='', $service='')
 {
+	$host = trim($host);
+	$service = trim($service);
+
 	$hostcomments = check_comments($host, $service);
 	if($hostcomments)
 	{
 		//global $comments;
 		global $NagiosData;
-		$comments = $NagiosData->getProperty('comments');
+		$hosts = $NagiosData->getProperty('hosts');
 
-		foreach($comments as $comment)
-		{
-			if(isset($comment['service_description']))
-			{
-				if(trim($comment['host_name'])==trim($host) && trim($comment['service_description']) ==trim($service) )
-				{
+		if (isset($hosts[$host]) && isset($hosts[$host]['comments'])) {
+			foreach($hosts[$host]['comments'] as $comment) {
+				if (isset($comment['service_description']) && $comment['service_description'] == $service) {
 					$author = $comment['author'];
 					$entrytime = date('M d H:i\:s\s', trim($comment['entry_time']));
 					$data = $comment['comment_data'];
@@ -379,10 +373,9 @@ function get_service_comments($host='', $service='')
 								<a href='".CORECMD."cmd_typ=4&com_id=$cid' title='Delete Comment'>
 								<img class='iconLink' src='views/images/delete.png' alt='Delete' width='15' height='15' /></a></td></tr>\n";
 					print $row;
-				}	//end if 
-			}//end if isset 
-		}//end foreach 
-		 
+				}
+			}
+		}
 	}//end if 
 	else
 	{
