@@ -131,7 +131,6 @@ function process_service_detail($arg)
 {
 	global $NagiosData;
 	$sd = $NagiosData->get_details_by('service', $arg);
-	//print_r($sd);
 	
 	//make necessary calculations with array elements 
 	$now = time();
@@ -156,7 +155,6 @@ function process_service_detail($arg)
 	
 	$membership = check_membership($sd['host_name'],$sd['service_description']);
 	$state = return_service_state($sd['current_state']);
-	//print "<p>".$sd['current_state']."</p>";
 	
 	//service attributes
 	$ser_desc = preg_replace('/\ /', '+', trim($sd['service_description']));    //replacing spaces with pluses for cgi URL 
