@@ -210,9 +210,9 @@ LINK;
  */
 function get_color_code($array) 
 {
-
-	$vals = array('OK', 'UP', 'DOWN', 'WARNING', 'UNKNOWN', 'CRITICAL');
-	$str = strtolower( (in_array($array['current_state'], $vals) ? $array['current_state'] : 'UNKNOWN') );
+	$state = strtolower($array['current_state']);
+	$vals = array('ok', 'up', 'down', 'warning', 'unknown', 'critical');
+	$str = (in_array($state, $vals) ? $state : 'unknown');
 	return $str;
 }
 
