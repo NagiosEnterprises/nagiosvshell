@@ -182,8 +182,8 @@ function build_nav_links() //build page links based on user's permission level
 	
 }//end function 
 
-//used for initial creation of nav links, but no longer used 
-//
+/* used for initial creation of nav links, but no longer used 
+ */
 function build_link($type, $name, $class, $target)
 {
 	$ucname = ucfirst($name);
@@ -198,18 +198,16 @@ LINK;
 			
 }
 
-////////////////////////////////////
-//
-//FUNCTION: get_color_code()
-//
-//DESC:  returns a style class based on host/service status
-//
-//ARG: expecting a single host or service array 
-//
-//RETURNS: css style for table row 
-//
-//USAGE: $tr_class = get_color_code($host)
-//
+/* FUNCTION: get_color_code()
+ * 
+ * DESC:  returns a style class based on host/service status
+ * 
+ * ARG: expecting a single host or service array 
+ * 
+ * RETURNS: css style for table row 
+ * 
+ * USAGE: $tr_class = get_color_code($host)
+ */
 function get_color_code($array) 
 {
 
@@ -218,6 +216,9 @@ function get_color_code($array)
 	return $str;
 }
 
+/* get_host_status_color($hostname)
+ * based on the hostname provided return the color code from get_color_code()
+ */
 function get_host_status_color($hostname)
 {
 	//global $hosts;
@@ -239,9 +240,9 @@ function get_host_status_color($hostname)
 	return $color;
 }
 
-/////////////////////////////////////////////
-//expecting host name 
-//returns an image icon for the status table if icon exists 
+/* expecting host name 
+ * returns an image icon for the status table if icon exists 
+ */
 function return_icon_link($hostname)
 {
 
@@ -314,9 +315,9 @@ function get_host_comments($host='')
 	}
 }
 
-//////////////////////////////////////////////////////
-//expecting a host name
-//used on host details page 
+/* expecting a host name
+ * used on host details page 
+ */
 function get_service_comments($host='', $service='')
 {
 	$host = trim($host);
@@ -352,8 +353,9 @@ function get_service_comments($host='', $service='')
 }
 
 ///////////////////////////http://localhost/var/www/http_public/nagpui/views/images/hascomments.png
-//Expecting the 'scheduled_downtime_depth' index of a host or service 
-//Returns either an empty string or an img link to the icon 
+/* Expecting the 'scheduled_downtime_depth' index of a host or service 
+ * Returns either an empty string or an img link to the icon 
+ */
 function downtime_icon($arg)
 {
 	if(trim($arg)>0)
@@ -368,8 +370,9 @@ function downtime_icon($arg)
 }
 
 
-//expecting values passed from hosts.php or services.php 
-//creates page numbers based on how many results are being processed for the tables 
+/* expecting values passed from hosts.php or services.php 
+ * creates page numbers based on how many results are being processed for the tables 
+ */
 function do_pagenumbers($pageCount,$start,$limit,$resultsCount,$type)
 {	
 
@@ -423,7 +426,8 @@ function do_pagenumbers($pageCount,$start,$limit,$resultsCount,$type)
 	print "</div>";
 }	//end do_pagenumbers()	
 
-//creates notes and page limit form above host and service tables 
+/* creates notes and page limit form above host and service tables 
+ */
 function do_result_notes($start,$limit,$resultsCount,$type)
 {
 	//check maximum display number for page 
