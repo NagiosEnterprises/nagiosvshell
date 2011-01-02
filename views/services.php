@@ -106,7 +106,7 @@ function display_services($services,$start,$limit)
 		$host_dt = downtime_icon(get_host_downtime($services[$i]['host_name']) );
 
 		//removing duplicate host names from table for a cleaner look
-		if(isset($_GET['view']))
+		if(isset($_GET['mode']) && $_GET['mode'] == 'view')
 		{	 
 			if ($services[$i]['host_name'] == $last_displayed_host)
 			{
