@@ -1,3 +1,29 @@
+======Jan 02 - 2011 - Dave Worth - Devel Branch
+- Major refactoring of page_router() to allow for HTML and JSON output.
+    New routing allows for filtering of various views by name/state
+	JSON output supported for all views by appending &type=json (XML to follow)
+	This is essentially a major MVC change.
+- Calls into CORE by number are now abstracted away by referencing the name
+    of the method rather than by magic numbers.  Numbers are from common.h in nagios 3.2.*
+
+======Dec 26 - 2010 - Dave Worth - Devel Branch
+- major optimization away from trim(...).  All data is trimmed during read-time
+- Small patch for calculating durations more accurately (date(...) didn't do the trick)
+
+======Dec 18 - 2010 - Dave Worth - Devel Branch
+- To improve speed  and readability removed evals and optimized the group building methods
+- fixed up get_<thing>_by_state() methods by abstracting them into get_by_state()
+
+======Dec 16 - 2010 - Dave Worth - Devel Branch
+- Encapsulated all of the previously global variables from read_(data|status|permissions).php methods
+    into an object from which everything can be accessed
+
+======Dec 12 - 2010 - Dave Worth - Devel Branch
+- moved global building into data.inc.php for some variable encapsulation
+
+======Dec 03 - 2010 - Dave Worth - Devel Branch
+- Replaced read_comments.php with comment handling in read_status.php
+- Support varying HTTP(S) ports 
 
 ======Nov 26 - 2010: 
 - code improvements on read_objects.php - submitted by Dave Worth
