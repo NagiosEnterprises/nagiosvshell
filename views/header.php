@@ -68,7 +68,7 @@
 <meta http-equiv="content-style-type" content="text/css" />
 <meta http-equiv="content-language" content="en" />
 <meta name="site" content="Nagios" />
-<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="<?php echo BASEURL.'js/jquery-1.4.4.min.js'; ?>"></script>
 
 <script type="text/javascript">
 
