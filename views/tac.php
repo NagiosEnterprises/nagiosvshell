@@ -107,14 +107,14 @@
 <?php
 
 $states = get_state_of('hosts');
-$hlink = htmlentities(BASEURL.'index.php?mode=filter&type=hosts&state=');
+$hostlink = htmlentities(BASEURL.'index.php?mode=filter&type=hosts&arg=');
 //using HEREDOC string syntax 
 $hostrow = <<<HOSTROW
 
 <tr>
-	<td class="ok"><a href="{$hlink}UP">{$states['UP']}</a> Up</td>
-	<td class="down"><a href="{$hlink}DOWN">{$states['DOWN']}</a> Down</td>
-	<td class="unreachable"><a href="{$hlink}UNREACHABLE">{$states['UNREACHABLE']}</a> Unreachable</td>				
+	<td class="ok"><a href="{$hostlink}UP">{$states['UP']}</a> Up</td>
+	<td class="down"><a href="{$hostlink}DOWN">{$states['DOWN']}</a> Down</td>
+	<td class="unreachable"><a href="{$hostlink}UNREACHABLE">{$states['UNREACHABLE']}</a> Unreachable</td>				
 </tr> 
 
 HOSTROW;
@@ -129,7 +129,7 @@ print $hostrow;
 <?php
 
 $sts = get_state_of('services');
-$servlink = htmlentities(BASEURL.'index.php?mode=filter&type=services&state=');
+$servlink = htmlentities(BASEURL.'index.php?mode=filter&type=services&arg=');
 //using HEREDOC syntax to print table rows 
 $row = <<<TABLEROW
 

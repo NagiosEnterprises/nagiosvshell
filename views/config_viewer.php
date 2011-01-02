@@ -25,7 +25,8 @@ function build_object_list($array, $arg) //expecting arrays from read_objects.ph
 			{
 				$name=$a['host_name'];
 				$linkkey = 'host'.$a['host_name'];
-				$link = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$name);
+				#$link = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$name);
+				$link = htmlentities(BASEURL.'index.php?mode=filter&type=hostdetail&arg='.$name);
 				$title = "Host: <a href='$link' title='Host Details'>$name</a>";
 			}
 			//else{ continue; }
@@ -38,8 +39,10 @@ function build_object_list($array, $arg) //expecting arrays from read_objects.ph
 				$name=$a['service_description'];
 				$linkkey = 'service'.$count;
 				$host = $a['host_name'];
-				$hlink = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$host);
-				$link = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$linkkey);
+				#$hlink = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$host);
+				$hlink = htmlentities(BASEURL.'index.php?mode=filter&type=hostdetail&arg='.$host);
+				#$link = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$linkkey);
+				$link = htmlentities(BASEURL.'index.php?mode=filter&type=servicedetail&arg='.$linkkey);
 				$title = "Host: <a href='$hlink' title='Host Details'>$host</a> 
 							Service:<a href='$link' title='Service Details'>$name</a>";	
 			}							

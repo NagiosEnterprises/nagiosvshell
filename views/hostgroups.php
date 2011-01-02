@@ -113,7 +113,8 @@ foreach($hostgroups as $group=>$members)
 
 		//pull group member data from global $hosts array
 		$host = $hosts[$member];
-		$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$host['host_name']);
+		#$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$host['host_name']);
+		$host_url = htmlentities(BASEURL.'index.php?mode=filter&type=hostdetail&arg='.$host['host_name']);
 		$tr = get_color_code($host);
 		print "<td><a href='$host_url'>".$host['host_name']."</a></td><td class='$tr'>".$host['current_state'].'</td>';
 		print "<td>\n";
@@ -122,7 +123,8 @@ foreach($hostgroups as $group=>$members)
 		if (isset($host['services'])) {
 			foreach($host['services'] as $service)
 			{
-				$service_url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$service['serviceID']);				
+				#$service_url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$service['serviceID']);				
+				$service_url = htmlentities(BASEURL.'index.php?mode=filter&type=servicedetail&arg='.$service['serviceID']);				
 				$tr = get_color_code($service);
 				print " <span class='$tr'><a href='$service_url'>".$service['service_description']."</a></span>&nbsp; ";				
 			}	

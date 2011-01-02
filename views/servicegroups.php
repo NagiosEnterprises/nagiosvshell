@@ -71,8 +71,6 @@ foreach($sg_details as $group=>$members)
 	$crit = count_by_state('CRITICAL', $array[$group]);
 	$uk = count_by_state('UNKNOWN', $array[$group]);	
 
-	
-	//
 	print "<h5>$group</h5>";
 	//summary table 
 	print "<table class='statustable'><tr>
@@ -95,8 +93,10 @@ foreach($sg_details as $group=>$members)
 			
 	foreach($members as $serv)
 	{		//add a hoststatus element to service arrays 
-		$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$serv['host_name']);
-		$service_url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$serv['serviceID']);
+		#$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$serv['host_name']);
+		$host_url = htmlentities(BASEURL.'index.php?mode=filter&type=hostdetail&arg='.$serv['host_name']);
+		#$service_url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$serv['serviceID']);
+		$service_url = htmlentities(BASEURL.'index.php?mode=filter&type=servicedetail&arg='.$serv['serviceID']);
 	
 		print "<tr>
 					<td><a href='$host_url'>".$serv['host_name']."</a></td>

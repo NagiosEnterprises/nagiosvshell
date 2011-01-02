@@ -94,8 +94,10 @@ function display_services($services,$start,$limit)
 		if(!isset($services[$i])) continue; //skip undefined indexes of array
 
 		$tr = get_color_code($services[$i]);
-		$url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$services[$i]['serviceID']);
-		$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$services[$i]['host_name']);
+		#$url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$services[$i]['serviceID']);
+		$url = htmlentities(BASEURL.'index.php?mode=filter&type=servicedetail&arg='.$services[$i]['serviceID']);
+		#$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$services[$i]['host_name']);
+		$host_url = htmlentities(BASEURL.'index.php?mode=filter&type=hostdetail&arg='.$services[$i]['host_name']);
 		$color = get_host_status_color($services[$i]['host_name']);
 		$icon = return_icon_link($services[$i]['host_name']);
 		$comments = comment_icon($services[$i]['host_name'], $services[$i]['service_description']);

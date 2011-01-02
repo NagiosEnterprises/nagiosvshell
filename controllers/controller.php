@@ -68,36 +68,43 @@ function send_home() //redirects user to index page
 // cmd=filter<hosts,services>,arg=<UP,DOWN,WARNING,UNREACHABLE,UNKNOWN>
 
 // *NEW*
-// mode=<view,object,filter,xml,json>
+// mode=<view,filter,xml,json>
 // type=<hosts,services,hostgroups,servicegroups>
-// state=<UP,DOWN,WARNING,UNREACHABLE,UNKNOWN>
+// arg=<UP,DOWN,WARNING,UNREACHABLE,UNKNOWN,hostname>
+
+// *IDEA*
+// mode=<view,data>
+// type=<hosts,services,hostgroups,servicegroups, ...>
+// filter=<hosts,services,hostdetail,servicedetail>
+// * filter_arg=<UP,DOWN,WARNING,UNREACHABLE,UNKNOWN,>
 
 function page_router()
 {
 
-	fb($_GET);
-
 	$mode = NULL;
 	$type = NULL;
+	$state = NULL;
+
 	if (isset($_GET['mode'])) { $mode = strtolower($_GET['mode']); }
 	if (isset($_GET['type'])) { $type = strtolower($_GET['type']); }
 
-	$state = NULL;
-	if ($mode == 'filter' && isset($_GET['state'])) { $state = strtoupper($_GET['state']); }
-	else { $mode = NULL; }
+	if ($mode == 'filter') {
+		if (isset($_GET['arg'])) { $state = $_GET['arg']; }
+		else { $mode = NULL; }
+	}
 
 	switch($mode) {
 		case 'view':
 		case 'object':
 		case 'filter':
 		default:
-
+			
+			$page_title = 'Nagios Visual Shell';
 			include(DIRBASE.'/views/header.php');  //html head 
-
 
 			// Displayed stuff
 			if ($mode == 'filter') {
-				command_router($mode.$type, $state);
+				command_router($type, $state);
 			} else {
 				switchboard($mode, $type);
 			}
@@ -106,6 +113,8 @@ function page_router()
 			break;
 
 		case 'xml':
+			build_xml_page($array,$title);
+			header('Location: '.BASEURL.'tmp/'.$title.'.xml');
 			break;
 
 		case 'json':
@@ -118,7 +127,6 @@ function page_router()
 //secondary controller for page redirection 
 function switchboard($type, $arg) //$type = $_GET[xml, view, object]   $arg=one of the global data arrays 
 {
-
 	global $authorizations;
 
 	//make conditional based on site permissions 
@@ -126,6 +134,8 @@ function switchboard($type, $arg) //$type = $_GET[xml, view, object]   $arg=one 
 	//$type = valid $_GET variable 
 	//calls page display functions based on get variable and displays in index page
 
+	$data = NULL;
+	$title = NULL;
 	switch($arg)
 	{
 		case 'services':
@@ -142,24 +152,21 @@ function switchboard($type, $arg) //$type = $_GET[xml, view, object]   $arg=one 
 		case 'servicegroups_objs':
 	
 			global $NagiosData;
-			$array = $NagiosData->getProperty($arg);
+			$data = $NagiosData->getProperty($arg);
 
 			$title = ucwords(preg_replace('/objs/', 'Objects', preg_replace('/_/', ' ', $arg)));
 		break;
 
 		default:
 		//initialize main data arrays 
-		include_once(DIRBASE.'/views/tac.php');
+		//include_once(DIRBASE.'/views/tac.php');
+		//show_tac();
 		break;		
 	} 	
-	if(isset($array, $title))
+	if(isset($data, $title))
 	{	
 		switch($type) //change to include files for easier maintenance 
 		{
-			case 'xml':
-			build_xml_page($array,$title);
-			header('Location: '.BASEURL.'tmp/'.$title.'.xml');
-			break;
 			
 			case 'view':
 			//build_table($array);
@@ -170,47 +177,56 @@ function switchboard($type, $arg) //$type = $_GET[xml, view, object]   $arg=one 
 				case 'services':
 				if($authorizations['services']==1)
 				{
-					display_services($array, $start, $limit);
+					display_services($data, $start, $limit);
 				}	
 				break;
 				
 				case 'hosts':
 				if($authorizations['hosts']==1)
 				{
-					display_hosts($array,$start,$limit);
+					display_hosts($data,$start,$limit);
 				}	  
 				break;
 				
-				default:
+				case 'hostgroups':
+				case 'servicegroups':
 				if($authorizations['hosts']==1 && $authorizations['services']==1)
 				{ 
 					include(DIRBASE.'/views/'.urlencode($arg).'.php');
 				}	
 				break;
-			}
-			break;
-			
+
+
+				default:
+				show_tac();
+				break;
+			}			
+						
 			case 'object':  //authorization filter depends on the object, see display_functions.php
 			if($authorizations['configuration_information']==1 || 
 			   $authorizations['host_commands']==1 ||
 			   $authorizations['service_commands']==1 ||
 			   $authorizations['system_commands']==1)
-			{ 
+			{
 				//moved build_object_list to config_viewer.php page for easier editing 
 				include(DIRBASE.'/views/config_viewer.php');
-				build_object_list($array, $arg);
+				build_object_list($data, $arg);
 			}	
 			break;
-						
+
 			default:
-			include_once(DIRBASE.'/views/tac.php');
+			show_tac();
 			break;		
 		}	
 	}
 	else
 	{
-		include_once(DIRBASE.'/views/tac.php');
+		show_tac();
 	}	
+}
+
+function show_tac() {
+	include_once(DIRBASE.'/views/tac.php');
 }
 
 function get_pagination_values() {

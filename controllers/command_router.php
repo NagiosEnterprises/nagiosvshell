@@ -69,9 +69,11 @@ function command_router($cmd, $arg)
 	global $authorizations;
 	global $NagiosData;
 
+	//fb("command_router($cmd, $arg)");
+
 	switch($cmd)
 	{
-		case 'getservicedetail':
+		case 'servicedetail':
 		if($authorizations['services']==1)
 		{
 			$dets = process_service_detail($arg);
@@ -79,7 +81,7 @@ function command_router($cmd, $arg)
 		}	  
 		break;
 		
-		case 'gethostdetail':
+		case 'hostdetail':
 		if($authorizations['hosts']==1)
 		{
 			$dets = process_host_detail($arg);
@@ -87,26 +89,26 @@ function command_router($cmd, $arg)
 		}	
 		break;
 		
-		case 'filterservices':
+		case 'services':
 		if($authorizations['services']==1)
 		{
 			//global $services;
 			$services = $NagiosData->getProperty('services');
 
-			$servs = get_services_by_state($arg,$services); 
+			$servs = get_services_by_state(strtoupper($arg),$services); 
 			//see views/services.php 
 			list($start, $limit) = get_pagination_values();
 			display_services($servs, $start, $limit);
 		}
 		break;
 		
-		case 'filterhosts':
+		case 'hosts':
 		if($authorizations['hosts']==1)
 		{
 			//global $hosts;
 			$hosts = $NagiosData->getProperty('hosts');
 
-			$f_hosts = get_hosts_by_state($arg,$hosts); 
+			$f_hosts = get_hosts_by_state(strtoupper($arg),$hosts); 
 			//include(DIRBASE.'/views/services.php');
 			list($start, $limit) = get_pagination_values();
 			display_hosts($f_hosts, $start, $limit);
