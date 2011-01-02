@@ -6,15 +6,9 @@ BUGS
 
 MODEL/DATA
 
--page_router() calls function to build appropriate array and then send it to the correct page for display    
 - turn the data that is read from the cgi.cfg file into session data so it only has to be read once
-- Eventually the "read_status" and "read_detail" need to be restructured so that it only reads the status file once and then the controller determines how the info should be processed (either for a table or a host/service details page).  This would probably be a bigger change.
 
 CONTROLLER
-
-
--filtering functions for hosts and services (warning, OK, critical) for group pages
-## same as above, just needs a filtering function for the host and services arrays, and then the array can be passed to the hosts.php or services.php pages to view a table of "all hosts with notifications disabled," or something to that effect.
 
 -create filtered tables based on Monitoring Features on tactical overview 
 - update xml viewer for all pages and insert links into pages  
@@ -25,8 +19,6 @@ VIEW
 
 - create "problems" table for tactical overview page 
 # need a table and a filter for "unhandled problems" that haven't been acknowledged.  This is in the tactical overview in core, and I think a lot of people use it.
-- search ability for hosts and services 
-# need to be able to filter a services table by a search string so people with 8000 services can find what they need
 
 - tactical overview - additional data about monitoring performance??
 - tactical overview - filter for flapping, notification, event handlers, active checks, passive checks 

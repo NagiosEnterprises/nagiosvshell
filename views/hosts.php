@@ -92,7 +92,9 @@ STATUSFILTER;
 		}
 
 	$table .= <<<STATUSFILTER
-		</select>
+		</select><br />
+		<label class='label' for='name_filter'>Search String</label>
+		<input type="text" name='name_filter' value=""></input>
 		<input type='submit' name='submitbutton' value='Filter' />
 	</form>
 </div>

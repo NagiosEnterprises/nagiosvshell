@@ -192,7 +192,14 @@ function hosts_and_services_data($type, $state_filter, $name_filter)
 	}
 	if ($name_filter)
 	{
-		$data = get_by_name($name_filter, $data);
+		$name_data = get_by_name($name_filter, $data);
+		$service_data = get_by_name($name_filter, $data, 'service_description');
+
+		$data = $name_data;
+		foreach ($service_data as $i => $service)
+		{
+			if (!isset($data[$i])) { $data[$i] = $service; }
+		}
 	}
 	return $data;
 }
