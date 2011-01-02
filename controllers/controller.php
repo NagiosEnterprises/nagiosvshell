@@ -200,7 +200,8 @@ function switchboard($mode, $type) //$type = $_GET[xml, view, object]   $arg=one
 				default:
 				show_tac();
 				break;
-			}			
+			}
+			break;
 						
 			case 'object':  //authorization filter depends on the object, see display_functions.php
 			if($authorizations['configuration_information']==1 || 
