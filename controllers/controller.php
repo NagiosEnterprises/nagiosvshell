@@ -74,16 +74,57 @@ function send_home() //redirects user to index page
 
 // *IDEA*
 // mode=<view,data>
-// type=<hosts,services,hostgroups,servicegroups,hostdetail,servicedetail >
-// filter=<status [ip,down,etc...]>
-// * filter_arg=<UP,DOWN,WARNING,UNREACHABLE,UNKNOWN,>
+// type=<overview (default), hosts,services,hostgroups,servicegroups,hostdetail,servicedetail,object>
+// filter=<filter_arg>
+// * filter_arg=<UP,DOWN,WARNING,UNREACHABLE,UNKNOWN,critical|object type>
+
+function router()
+{
+
+	$mode = NULL;
+	$type = NULL;
+	$filter = NULL;
+
+	if (isset($_GET['mode'])) { $mode = strtolower($_GET['mode']); }
+	else { $mode = 'view'; }
+	if (isset($_GET['type'])) { $type = strtolower($_GET['type']); }
+	if (isset($_GET['filter'])) { $filter = $_GET['filter']; }
+
+	global $NagiosData;
+	switch($type) {
+		case 'services':
+		case 'hosts':
+		case 'hostgroups':
+		case 'servicegroups':
+		case 'hostdetail':
+		case 'servicedetail':
+			$data = $NagiosData->getProperty($type);
+			if ($filter && ($type == 'hosts' || $type == 'services')) {
+			}
+
+			$title = ucwords(preg_replace('/objs/', 'Objects', preg_replace('/_/', ' ', $type)));
+		break;
+
+		case 'object':
+			$obj_filters = array('hosts_objs', 'services_objs', 'hostgroups_objs', 'servicegroups_objs',
+				'timeperiods', 'contacts', 'contactgroups', 'commands');
+
+			if (in_array($filter, $obj_filters)) {
+				$data = $NagiosData->getProperty($filter);
+			}
+		break;
+
+		default:
+		break;
+	}
+}
 
 function page_router()
 {
 
 	$mode = NULL;
 	$type = NULL;
-	$state = NULL;
+	$filter = NULL;
 
 	if (isset($_GET['mode'])) { $mode = strtolower($_GET['mode']); }
 	if (isset($_GET['type'])) { $type = strtolower($_GET['type']); }
