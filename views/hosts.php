@@ -77,6 +77,27 @@ function display_hosts($hosts, $start,$limit)
 	//creates notes for total results as well as form for setting page limits 
 	$table .= do_result_notes($start,$limit,$resultsCount,'hosts');	
 
+	$table .= <<<STATUSFILTER
+<div class='resultFilter'>
+	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
+		<input type="hidden" name="type" value="hosts">
+		<label class='label' for='pagelimit'>Filter Results</label>
+		<select id='resultfilter' name='state_filter' onChange='this.form.submit();'>
+STATUSFILTER;
+
+		foreach (array('UP', 'DOWN', 'UNREACABLE') as $val)
+		{
+			$selected = (isset($_GET['state_filter']) && $_GET['state_filter'] == $val) ? "selected='selected'" : '';
+			$table .= "<option value=\"$val\" $selected>$val</option>\n";
+		}
+
+	$table .= <<<STATUSFILTER
+		</select>
+		<input type='submit' name='submitbutton' value='Filter' />
+	</form>
+</div>
+STATUSFILTER;
+
 	$hostnames = array_keys($hosts);
 	sort($hostnames);
 

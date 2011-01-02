@@ -399,14 +399,14 @@ function do_result_notes($start,$limit,$resultsCount,$type)
 			<div class='resultLimit'>	
 			<form id='limitform' action='".$_SERVER['PHP_SELF']."?type=$type' method='post'>
 			<label class='label' for='pagelimit'>Limit Results</label>
-			<select id='pagelimit1' name='pagelimit'>";
+			<select id='pagelimit1' name='pagelimit' onChange='this.form.submit();'>";
 			foreach (array(15, 30, 50, 100, 250) as $possible_limit) {
 				$selected = ($possible_limit == $limit) ? "selected='selected'" : NULL;
 				$resultnotes .= "<option value=$possible_limit $selected>$possible_limit</option>\n";
 			}
 
 	$resultnotes .= "</select>
-			<input type='submit' name='submit' value='Set Limit' />		
+			<input type='submit' name='submitbutton' value='Set Limit' />
 		</form></div>";	
 	return $resultnotes;
 } //end do_result_notes() 

@@ -78,6 +78,27 @@ function display_services($services,$start,$limit)
 	//creates notes for total results as well as form for setting page limits 
 	$table .= do_result_notes($start,$limit,$resultsCount,'services');
 
+	$table .= <<<STATUSFILTER
+<div class='resultFilter'>
+	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
+		<input type="hidden" name="type" value="services">
+		<label class='label' for='pagelimit'>Filter Results</label>
+		<select id='resultfilter' name='state_filter' onChange='this.form.submit();'>
+STATUSFILTER;
+
+		foreach (array('OK', 'WARNING', 'CRITICAL', 'UNKNOWN') as $val)
+		{
+			$selected = (isset($_GET['state_filter']) && $_GET['state_filter'] == $val) ? "selected='selected'" : '';
+			$table .= "<option value=\"$val\" $selected>$val</option>\n";
+		}
+
+	$table .= <<<STATUSFILTER
+		</select>
+		<input type='submit' name='submitbutton' value='Filter' />
+	</form>
+</div>
+STATUSFILTER;
+
 	// Fixup post filtering indices
 	$curidx = 0;
 	foreach ($services as $id => $servinfo) {
