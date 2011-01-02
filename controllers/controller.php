@@ -135,7 +135,8 @@ function page_router()
 
 		case 'overview':
 		default:
-			show_tac();
+			require(DIRBASE.'/views/tac.php');
+			print get_tac();
 		break;
 	}
 
