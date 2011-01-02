@@ -102,10 +102,10 @@ function build_nav_links() //build page links based on user's permission level
 		
 	if(isset($keys['hosts'], $keys['services'])) 
 	{		
-		print "<li class='nav'><a href='".$base."view=hosts' class='nav' rel='internal'>Hosts</a></li>"; //hosts
-		print "<li class='nav'><a href='".$base."view=services' class='nav' rel='internal'>Services</a></li>"; //services
-		print "<li class='nav'><a href='".$base."view=hostgroups' class='nav' rel='internal'>Hostgroups</a></li>"; //hostgroups
-		print "<li class='nav'><a href='".$base."view=servicegroups' class='nav' rel='internal'>Servicegroups</a></li>"; //servicegroups
+		print "<li class='nav'><a href='".$base."mode=view&type=hosts' class='nav' rel='internal'>Hosts</a></li>"; //hosts
+		print "<li class='nav'><a href='".$base."mode=view&type=services' class='nav' rel='internal'>Services</a></li>"; //services
+		print "<li class='nav'><a href='".$base."mode=view&type=hostgroups' class='nav' rel='internal'>Hostgroups</a></li>"; //hostgroups
+		print "<li class='nav'><a href='".$base."mode=view&type=servicegroups' class='nav' rel='internal'>Servicegroups</a></li>"; //servicegroups
 	}
 
 
@@ -118,19 +118,19 @@ function build_nav_links() //build page links based on user's permission level
 	
 	
 	
-		print "<li><a class='nav' href='".$base."object=hosts_objs'>Hosts</a></li>\n"; //hosts
-		print "<li><a class='nav' href='".$base."object=services_objs'>Services</a></li>\n"; //services
-		print "<li><a class='nav' href='".$base."object=hostgroups_objs'>Hostgroups</a></li>\n"; //hostgroups
-		print "<li><a class='nav' href='".$base."object=servicegroups_objs'>Servicegroups</a></li>\n"; //servicegroups
-		print "<li><a class='nav' href='".$base."object=timeperiods'>Timeperiods</a></li>\n"; //timeperiods
-		print "<li><a class='nav' href='".$base."object=contacts'>Contacts</a></li>\n"; //contacts
-		print "<li><a class='nav' href='".$base."object=contactgroups'>Contactgroups</a></li>\n"; //contactgroups
+		print "<li><a class='nav' href='".$base."mode=object&type=hosts_objs'>Hosts</a></li>\n"; //hosts
+		print "<li><a class='nav' href='".$base."mode=object&type=services_objs'>Services</a></li>\n"; //services
+		print "<li><a class='nav' href='".$base."mode=object&type=hostgroups_objs'>Hostgroups</a></li>\n"; //hostgroups
+		print "<li><a class='nav' href='".$base."mode=object&type=servicegroups_objs'>Servicegroups</a></li>\n"; //servicegroups
+		print "<li><a class='nav' href='".$base."mode=object&type=timeperiods'>Timeperiods</a></li>\n"; //timeperiods
+		print "<li><a class='nav' href='".$base."mode=object&type=contacts'>Contacts</a></li>\n"; //contacts
+		print "<li><a class='nav' href='".$base."mode=object&type=contactgroups'>Contactgroups</a></li>\n"; //contactgroups
 		
 				//COMMAND VIEW 
 		if(isset($keys['host_commands'],$keys['service_commands'], $keys['system_commands']))
 		{	
 			//make link for commands 
-			print "<li><a href='".$base."object=commands' class='nav'>Commands</a></li>\n"; //commands config
+			print "<li><a href='".$base."mode=object&type=commands' class='nav'>Commands</a></li>\n"; //commands config
 		}	
 	 
 		print '</ul></div></li>';

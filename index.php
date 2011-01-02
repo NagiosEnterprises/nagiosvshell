@@ -64,12 +64,12 @@ $username = check_auth();
 set_perms($username); //set global $authorization 
 if($username) //if logged in, display the page 
 {		
-	include(dirname(__FILE__).'/views/header.php');  //html head 
+	//include(dirname(__FILE__).'/views/header.php');  //html head 
 	//php goodness 	
 	page_router(); //route page through switchboard() based on $_GET request 
 						//see controller.php for details 
 						
-	include(dirname(__FILE__).'/views/footer.php');  //html footer 
+	//include(dirname(__FILE__).'/views/footer.php');  //html footer 
 }
 else
 {

@@ -107,7 +107,7 @@
 <?php
 
 $states = get_state_of('hosts');
-$hlink = htmlentities(BASEURL.'index.php?cmd=filterhosts&arg=');
+$hlink = htmlentities(BASEURL.'index.php?mode=filter&type=hosts&state=');
 //using HEREDOC string syntax 
 $hostrow = <<<HOSTROW
 
@@ -129,15 +129,15 @@ print $hostrow;
 <?php
 
 $sts = get_state_of('services');
-$link = htmlentities(BASEURL.'index.php?cmd=filterservices&arg=');
+$servlink = htmlentities(BASEURL.'index.php?mode=filter&type=services&state=');
 //using HEREDOC syntax to print table rows 
 $row = <<<TABLEROW
 
   <tr>
-	   <td class='ok'><a href='{$link}OK'>{$sts['OK']}</a> Ok</td>
-	   <td class="critical"><a href="{$link}CRITICAL">{$sts['CRITICAL']}</a> Critical</td>
-		<td class="warning"><a href="{$link}WARNING">{$sts['WARNING']}</a> Warning</td>		
-		<td class="unknown"><a href="{$link}UNKNOWN">{$sts['UNKNOWN']}</a> Unknown</td>
+	   <td class='ok'><a href='{$servlink}OK'>{$sts['OK']}</a> Ok</td>
+	   <td class="critical"><a href="{$servlink}CRITICAL">{$sts['CRITICAL']}</a> Critical</td>
+		<td class="warning"><a href="{$servlink}WARNING">{$sts['WARNING']}</a> Warning</td>		
+		<td class="unknown"><a href="{$servlink}UNKNOWN">{$sts['UNKNOWN']}</a> Unknown</td>
   </tr>
   
 TABLEROW;

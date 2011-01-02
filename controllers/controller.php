@@ -63,41 +63,54 @@ function send_home() //redirects user to index page
 //
 //
 
-// view=<view> => mode=view&type=<view>
-// cmd=<cmd>&arg=<arg> => mode=cmd&type=<cmd>&arg=<arg>
+// *OLD*
+// view=<hosts,services,hostgroups,servicegroups>
+// cmd=filter<hosts,services>,arg=<UP,DOWN,WARNING,UNREACHABLE,UNKNOWN>
+
+// *NEW*
+// mode=<view,object,filter,xml,json>
+// type=<hosts,services,hostgroups,servicegroups>
+// state=<UP,DOWN,WARNING,UNREACHABLE,UNKNOWN>
 
 function page_router()
 {
 
-	//Page will display tactical overview by default 
-	if(isset($_GET['view']))
-	{
-		$arg = htmlentities($_GET['view']);
-		$type = 'view';
-		switchboard($type, $arg); // switchboard('view', $_GET['view']) => switchboard($mode, $type);
+	fb($_GET);
+
+	$mode = NULL;
+	$type = NULL;
+	if (isset($_GET['mode'])) { $mode = strtolower($_GET['mode']); }
+	if (isset($_GET['type'])) { $type = strtolower($_GET['type']); }
+
+	$state = NULL;
+	if ($mode == 'filter' && isset($_GET['state'])) { $state = strtoupper($_GET['state']); }
+	else { $mode = NULL; }
+
+	switch($mode) {
+		case 'view':
+		case 'object':
+		case 'filter':
+		default:
+
+			include(DIRBASE.'/views/header.php');  //html head 
+
+
+			// Displayed stuff
+			if ($mode == 'filter') {
+				command_router($mode.$type, $state);
+			} else {
+				switchboard($mode, $type);
+			}
+
+			include(DIRBASE.'/views/footer.php');  //html head 
+			break;
+
+		case 'xml':
+			break;
+
+		case 'json':
+			break;
 	}
-	elseif(isset($_GET['object']))
-	{
-		$arg = htmlentities($_GET['object']);
-		$type = 'object';
-		switchboard($type, $arg);
-	}
-	elseif(isset($_GET['xml']))
-	{
-		$arg = htmlentities($_GET['xml']);
-		$type = 'xml';
-		switchboard($type, $arg);
-	}
-	elseif(isset($_GET['cmd']))
-	{
-		$cmd = htmlentities($_GET['cmd']);
-		$arg = htmlentities($_GET['arg']);
-		command_router($cmd, $arg);
-	}
-	else
-	{
-		include_once(DIRBASE.'/views/tac.php');
-	}	
 
 }
 
