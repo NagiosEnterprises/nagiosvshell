@@ -106,7 +106,7 @@ function parse_status_file($statusfile = STATUSFILE) {
 				}
 		
 			} elseif ($curtype == 'comment') {
-				$kvp['comment_data'] = htmlentities($kvp['comment_data']);
+				$kvp['comment_data'] = htmlentities($kvp['comment_data'], ENT_QUOTES);
 				$status_collector['host'][$kvp['host_name']]['comments'][] = $kvp;
 				$comments[] = $kvp;
 		
