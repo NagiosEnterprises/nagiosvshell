@@ -53,11 +53,12 @@
 function get_tac()
 {
 	$tac = "";
-	$tac .= info_table();
+	$tac .= info_table().'<br />';
 	$tac .= overview_table().'<br />';
 	$tac .= hosts_table().'<br />';
 	$tac .= services_table().'<br />';
 	$tac .= features_table();
+	$tac .= search_box().'<br />';
 
 	return $tac;
 }
@@ -152,12 +153,25 @@ SERVICESTABLE;
 	return $services_table;
 }
 
+function search_box() {
+	$box .= <<<FILTERDIV
+<!-- #####################SEARCH BOX####################-->
+<div class='resultFilter'>
+	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
+		<input type="hidden" name="type" value="services">
+		<label class='label' for='name_filter'>Search String</label>
+		<input type="text" name='name_filter'></input>
+		<input type='submit' name='submitbutton' value='Filter' />
+	</form>
+</div>
+FILTERDIV;
+	return $box;
+}
 
 function features_table()
 {
 	$features_table = <<<FEATURESTABLE
 <!-- #####################ENABLED FEATURES TABLE ####################-->
-<br />
 <table class="tac">
 <tr><th>Monitoring Features</th></tr>
 <tr>

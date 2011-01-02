@@ -9,7 +9,21 @@ function build_object_list($data, $arg) //expecting arrays from read_objects.php
 	global $authorizations;
 	$count = 0;
 
-	$object_list = "<ul class='configlist'>";
+	$object_list = '';
+
+	$object_list .= <<<FILTERDIV
+<div class='resultFilter'>
+	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
+		<input type="hidden" name="type" value="{$_GET['type']}">
+		<input type="hidden" name="objtype_filter" value="{$_GET['objtype_filter']}">
+		<label class='label' for='name_filter'>Search String</label>
+		<input type="text" name='name_filter'></input>
+		<input type='submit' name='submitbutton' value='Filter' />
+	</form>
+</div>
+FILTERDIV;
+
+	$object_list .= "<ul class='configlist'>";
 	foreach($data as $a)
 	{
 		//default for no permissions 

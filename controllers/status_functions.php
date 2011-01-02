@@ -137,6 +137,7 @@ function get_by_state($state, $data)
 }
 
 function get_by_name($name, $data, $field='host_name') {
+	$name = preg_quote($name, '/');
 	return array_filter($data, create_function('$d', 'return preg_match("/'.$name.'/i", $d[\''.$field.'\']);'));
 }
 
