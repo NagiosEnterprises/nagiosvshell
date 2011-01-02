@@ -135,8 +135,7 @@ function process_service_detail($arg)
 	
 	//make necessary calculations with array elements 
 	$now = time();
-	$duration =  $now-$sd['last_state_change']; //calculate duration
-	$duration = date('d\d-H\h-i\m-s\s', $duration); 
+	$duration = calculate_duration($sd['last_state_change']);
 	
 	$current_state = return_service_state($sd['current_state']);	
 	$statetype = return_state_type($sd['state_type']); //calculate state 
@@ -267,8 +266,7 @@ function process_host_detail($arg)
 	global $NagiosData;
 	$hd = $NagiosData->get_details_by('host', $arg);
 	$now = time();
-	$duration =  $now-$hd['last_state_change']; //calculate duration
-	$duration = date('d\d-H\h-i\m-s\s', $duration); 
+	$duration = calculate_duration($hd['last_state_change']);
 	$current_state = return_host_state($hd['current_state']);	
 	$statetype = return_state_type($hd['state_type']); //calculate state 
 	$current_check = $hd['current_attempt'].' of '.$hd['max_attempts'];
