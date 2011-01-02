@@ -125,7 +125,7 @@ function page_router()
 
 
 //secondary controller for page redirection 
-function switchboard($type, $arg) //$type = $_GET[xml, view, object]   $arg=one of the global data arrays 
+function switchboard($mode, $type) //$type = $_GET[xml, view, object]   $arg=one of the global data arrays 
 {
 	global $authorizations;
 
@@ -136,7 +136,7 @@ function switchboard($type, $arg) //$type = $_GET[xml, view, object]   $arg=one 
 
 	$data = NULL;
 	$title = NULL;
-	switch($arg)
+	switch($type)
 	{
 		case 'services':
 		case 'hosts':
@@ -152,9 +152,9 @@ function switchboard($type, $arg) //$type = $_GET[xml, view, object]   $arg=one 
 		case 'servicegroups_objs':
 	
 			global $NagiosData;
-			$data = $NagiosData->getProperty($arg);
+			$data = $NagiosData->getProperty($type);
 
-			$title = ucwords(preg_replace('/objs/', 'Objects', preg_replace('/_/', ' ', $arg)));
+			$title = ucwords(preg_replace('/objs/', 'Objects', preg_replace('/_/', ' ', $type)));
 		break;
 
 		default:
@@ -165,14 +165,14 @@ function switchboard($type, $arg) //$type = $_GET[xml, view, object]   $arg=one 
 	} 	
 	if(isset($data, $title))
 	{	
-		switch($type) //change to include files for easier maintenance 
+		switch($mode) //change to include files for easier maintenance 
 		{
 			
 			case 'view':
 			//build_table($array);
 			list($start, $limit) = get_pagination_values();
 					
-			switch($arg)
+			switch($type)
 			{
 				case 'services':
 				if($authorizations['services']==1)
