@@ -94,7 +94,6 @@ function command_router($cmd, $arg)
 			$services = $NagiosData->getProperty('services');
 
 			$servs = get_services_by_state($arg,$services); 
-			//include(DIRBASE.'/views/services.php');
 			//see views/services.php 
 			list($start, $limit) = get_pagination_values();
 			display_services($servs, $start, $limit);
