@@ -55,6 +55,7 @@ if (useAPC() && FALSE) { // For Debugging data from disk
 	apc_clear_cache('user');
 }
 
+require_once('data_utils.php');
 
 require_once('NagiosData.php');
 $NagiosData = NagiosData::singleton();
