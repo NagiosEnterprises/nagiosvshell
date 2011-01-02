@@ -74,8 +74,8 @@ function send_home() //redirects user to index page
 
 // *IDEA*
 // mode=<view,data>
-// type=<hosts,services,hostgroups,servicegroups, ...>
-// filter=<hosts,services,hostdetail,servicedetail>
+// type=<hosts,services,hostgroups,servicegroups,hostdetail,servicedetail >
+// filter=<status [ip,down,etc...]>
 // * filter_arg=<UP,DOWN,WARNING,UNREACHABLE,UNKNOWN,>
 
 function page_router()
