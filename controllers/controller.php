@@ -87,14 +87,14 @@ function page_router()
 	if (isset($_GET['name_filter']))    { $name_filter     = strtolower($_GET['name_filter']);     }
 	if (isset($_GET['objtype_filter'])) { $objtype_filter  = strtolower($_GET['objtype_filter']);  }
 
-	print mode_header($mode);
 
+	$html_output_function = NULL;
 	switch($type) {
 		case 'services':
 		case 'hosts':
 			if ($authorizations[$type] == 1) {
 				$data = hosts_and_services_data($type, $state_filter, $name_filter);
-				print hosts_and_services_output($type, $data, $mode);
+				$html_output_function = 'hosts_and_services_output';
 			}
 		break;
 
@@ -104,7 +104,7 @@ function page_router()
 			{ 
 				if ($type == 'hostgroups' || ($type == 'servicegroups' && $authorizations['services']==1)) {
 					$data = hostgroups_and_servicegroups_data($type);
-					print hostgroups_and_servicegroups_output($type, $data, $mode);
+					$html_output_function = 'hostgroups_and_servicegroups_output';
 				}
 			}	
 
@@ -112,11 +112,11 @@ function page_router()
 
 		case 'hostdetail':
 		case 'servicedetail':
-		if($authorizations['hosts']==1 && $name_filter)
-		{
-			$data = host_and_service_detail_data($type, $name_filter);
-			print host_and_service_detail_output($type, $data, $mode);
-		}	
+			if($authorizations['hosts']==1 && $name_filter)
+			{
+				$data = host_and_service_detail_data($type, $name_filter);
+				$html_output_function = 'host_and_service_detail_output';
+			}
 		break;
 
 		case 'object':
@@ -128,7 +128,8 @@ function page_router()
 				   $authorizations['system_commands']==1)
 				{
 					$data = object_data($objtype_filter, $name_filter);
-					print object_output($objtype_filter, $data, $mode);
+					$type = $objtype_filter;
+					$html_output_function = 'object_output';
 				}
 			}	
 		break;
@@ -136,11 +137,25 @@ function page_router()
 		case 'overview':
 		default:
 			require(DIRBASE.'/views/tac.php');
-			print get_tac();
+			$html_output_function = 'get_tac';
 		break;
 	}
 
-	print mode_footer($mode);
+	$output = NULL;
+	switch($mode) {
+		case 'html':
+		default:
+			$output =  mode_header($mode);
+			$output .= $html_output_function($type, $data, $mode);
+			$output .= mode_footer($mode);
+		break;
+
+		case 'json':
+			header('Content-type: application/json');
+			$output = json_encode($data);
+		break;
+	}
+	print $output;
 
 }
 
@@ -155,10 +170,6 @@ function mode_header($mode)
 			include(DIRBASE.'/views/header.php');  //html head 
 			$retval = display_header($page_title);
 		break;
-
-		case 'json':
-		#case 'xml':
-		break;
 	}
 	return $retval;
 }
@@ -172,10 +183,6 @@ function mode_footer($mode)
 		default:
 			include(DIRBASE.'/views/footer.php');  //html head 
 			$retval = display_footer();
-		break;
-
-		case 'json':
-		#case 'xml':
 		break;
 	}
 	return $retval;
@@ -210,16 +217,11 @@ function hosts_and_services_output($type, $data, $mode)
 	switch($mode)
 	{
 		case 'html':
-		default:
 			list($start, $limit) = get_pagination_values();
 			$title = ucwords(preg_replace('/objs/', 'Objects', preg_replace('/_/', ' ', $type)));
 			include(DIRBASE.'/views/'.$type.'.php');
 			$display_function = 'display_'.$type;
 			$retval = $display_function($data, $start, $limit);
-		break;
-
-		case 'json':
-			$retval = json_encode($data);
 		break;
 	}
 	return $retval;
@@ -239,14 +241,9 @@ function hostgroups_and_servicegroups_output($type, $data, $mode)
 	switch($mode)
 	{
 		case 'html':
-		default:
 			$title = ucwords(preg_replace('/objs/', 'Objects', preg_replace('/_/', ' ', $type)));
 			$display_function = 'display_'.$type;
 			$retval = $display_function($data);
-		break;
-
-		case 'json':
-			$retval = json_encode($data);
 		break;
 	}
 	return $retval;
@@ -265,14 +262,9 @@ function host_and_service_detail_output($type, $data, $mode)
 	switch($mode)
 	{
 		case 'html':
-		default:
 			require(DIRBASE.'/views/'.$type.'s.php');
 			$display_function = 'get_'.preg_replace('/detail/', '_detail', $type).'s';
 			$retval = $display_function($data);
-		break;
-
-		case 'json':
-			$retval = json_encode($data);
 		break;
 	}
 	return $retval;
@@ -308,13 +300,8 @@ function object_output($objtype_filter, $data, $mode)
 	switch($mode)
 	{
 		case 'html':
-		default:
 			include(DIRBASE.'/views/config_viewer.php');
 			$retval = build_object_list($data, $objtype_filter);
-		break;
-
-		case 'json':
-			$retval = json_encode($data);
 		break;
 	}
 	return $retval;
