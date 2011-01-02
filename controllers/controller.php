@@ -101,6 +101,7 @@ function page_router()
 			
 			$page_title = 'Nagios Visual Shell';
 			include(DIRBASE.'/views/header.php');  //html head 
+			print display_header($page_title);
 
 			// Displayed stuff
 			if ($mode == 'filter') {
@@ -110,6 +111,7 @@ function page_router()
 			}
 
 			include(DIRBASE.'/views/footer.php');  //html head 
+			print display_footer();
 			break;
 
 		case 'xml':
@@ -158,9 +160,6 @@ function switchboard($mode, $type) //$type = $_GET[xml, view, object]   $arg=one
 		break;
 
 		default:
-		//initialize main data arrays 
-		//include_once(DIRBASE.'/views/tac.php');
-		//show_tac();
 		break;		
 	} 	
 	if(isset($data, $title))
@@ -177,22 +176,34 @@ function switchboard($mode, $type) //$type = $_GET[xml, view, object]   $arg=one
 				case 'services':
 				if($authorizations['services']==1)
 				{
-					display_services($data, $start, $limit);
+					include(DIRBASE.'/views/services.php');
+					print display_services($data, $start, $limit);
 				}	
 				break;
 				
 				case 'hosts':
 				if($authorizations['hosts']==1)
 				{
-					display_hosts($data,$start,$limit);
+					include(DIRBASE.'/views/hosts.php');
+					print display_hosts($data,$start,$limit);
 				}	  
 				break;
 				
 				case 'hostgroups':
+				if ($authorizations['hosts']==1)
+				{
+					include(DIRBASE.'/views/hostgroups.php');
+					$hostgroup_data = get_hostgroup_data();
+					print display_hostgroups($hostgroup_data);
+				}
+				break;
+
 				case 'servicegroups':
 				if($authorizations['hosts']==1 && $authorizations['services']==1)
 				{ 
-					include(DIRBASE.'/views/'.urlencode($arg).'.php');
+					include(DIRBASE.'/views/servicegroups.php');
+					$servicegroup_data = get_servicegroup_data();
+					print display_servicegroups($servicegroup_data);
 				}	
 				break;
 
@@ -211,7 +222,7 @@ function switchboard($mode, $type) //$type = $_GET[xml, view, object]   $arg=one
 			{
 				//moved build_object_list to config_viewer.php page for easier editing 
 				include(DIRBASE.'/views/config_viewer.php');
-				build_object_list($data, $arg);
+				print build_object_list($data, $type);
 			}	
 			break;
 
@@ -226,11 +237,82 @@ function switchboard($mode, $type) //$type = $_GET[xml, view, object]   $arg=one
 	}	
 }
 
-function show_tac() {
-	include_once(DIRBASE.'/views/tac.php');
+function show_tac()
+{
+	require(DIRBASE.'/views/tac.php');
+	print get_tac();
 }
 
-function get_pagination_values() {
+//////////////////////////////////////////////////////////
+//
+//expecting $cmd = 'getservicedetail' 
+//				$arg = 'serviceID' 
+//
+//processes command and displays page details based on arguments 
+//
+function command_router($cmd, $arg)
+{
+	global $authorizations;
+	global $NagiosData;
+
+	switch($cmd)
+	{
+		case 'servicedetail':
+		if($authorizations['services']==1)
+		{
+			$dets = process_service_detail($arg);
+			require(DIRBASE.'/views/servicedetails.php');
+			print get_service_details($dets);	
+
+		}	  
+		break;
+		
+		case 'hostdetail':
+		if($authorizations['hosts']==1)
+		{
+			$dets = process_host_detail($arg);
+			require(DIRBASE.'/views/hostdetails.php');
+			print get_host_details($dets);
+		}	
+		break;
+		
+		case 'services':
+		if($authorizations['services']==1)
+		{
+			//global $services;
+			$services = $NagiosData->getProperty('services');
+
+			$servs = get_services_by_state(strtoupper($arg),$services); 
+			//see views/services.php 
+			list($start, $limit) = get_pagination_values();
+			include(DIRBASE.'/views/services.php');
+			print display_services($servs, $start, $limit);
+		}
+		break;
+		
+		case 'hosts':
+		if($authorizations['hosts']==1)
+		{
+			//global $hosts;
+			$hosts = $NagiosData->getProperty('hosts');
+
+			$f_hosts = get_hosts_by_state(strtoupper($arg),$hosts); 
+			//include(DIRBASE.'/views/services.php');
+			list($start, $limit) = get_pagination_values();
+			include(DIRBASE.'/views/hosts.php');
+			print display_hosts($f_hosts, $start, $limit);
+		}
+		break;
+		
+		default:
+		#include_once(DIRBASE.'/views/tac.php');
+		show_tac();
+		break;
+	}
+}
+
+function get_pagination_values()
+{
 	$start = isset($_GET['start']) ? htmlentities($_GET['start']) : 0;
 	$limit = isset($_COOKIE['limit']) ? $_COOKIE['limit'] : RESULTLIMIT;
 	if(isset($_POST['pagelimit']))

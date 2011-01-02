@@ -4,11 +4,13 @@
 		//expecting $dets array of processed status details 
 //include additional items by first adding them to the arrays on command_router.php 
 
+function get_host_details($dets)
+{
 //defining string using HEREDOC syntax, which is a format for multiline 
 //   print statements with variables 
 //  
 // 
-$page=<<<PAGE
+	$page=<<<PAGE
 
 	<h3>Host Status Detail</h3>
 	<div class="detailcontainer">
@@ -80,19 +82,15 @@ $page=<<<PAGE
 
 PAGE;
 
-print $page;
 
 	//host comments table from Nagios core 
 	
 	//print host comments in table rows if any exist
 	//see display_functions.php for function  
-	get_host_comments($dets['Host']);
+	$page .= get_host_comments($dets['Host']);
 	//close comment table 
-	print '</table></div><br />';
-
-
-
-
-
+	$page .= '</table></div><br />';
+	return $page;
+}
 
 ?> 

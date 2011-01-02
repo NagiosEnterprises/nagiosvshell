@@ -50,14 +50,21 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+function get_tac()
+{
+	$tac = "";
+	$tac .= info_table();
+	$tac .= overview_table().'<br />';
+	$tac .= hosts_table().'<br />';
+	$tac .= services_table().'<br />';
+	$tac .= features_table();
 
+	return $tac;
+}
 
-//TODO move each table into it's own function to prevent variable overlap 
-
-
-
-
-?>
+function info_table()
+{
+	$info_table =<<<INFOTABLE
 <!-- ##################Nagios Info Table################### -->
 <div id='infodiv'>
 
@@ -70,68 +77,68 @@
    <a href="http://support.nagios.com/forum/viewforum.php?f=19" target="_blank">V-Shell Forum</a>.</p>
 
 </div>
+INFOTABLE;
+	return $info_table;
+}
 
+function overview_table()
+{
+	global $username;
+	global $NagiosData;
+	$info = $NagiosData->getProperty('info');
+	$last_command = settype($info['last_command_check'], 'integer') ;	
+	$now = time();
+	$last_command = $now - $last_command;
+    // XXX Timezone warning here.  Fix
+	$lastcmd = date('D M d H:i s\s', $last_command);
+	//Fri Sep 3 13:42:55 CDT 2010
 
+	$overview_table = <<<OVERVIEWTABLE
 <table class="tac">
 <tr><th>Tactical Monitoring Overview</th></tr>
 	<tr>
 		<td>
-			<?php 
-			global $username;
-			global $NagiosData;
-			$info = $NagiosData->getProperty('info');
-
-			$last_command = settype($info['last_command_check'], 'integer') ;	
-			$now = time();
-			$last_command = $now - $last_command;
-            // XXX Timezone warning here.  Fix
-			$lastcmd = date('D M d H:i s\s', $last_command);
-			//Fri Sep 3 13:42:55 CDT 2010
-			print 'Last Check: '.$lastcmd."<br />\n"; 				 				 			
-			print "Updated every 90 seconds<br />\n";
-			print 'Nagios® Core™ '.$info['version'].' - www.nagios.org<br />';
-			print 'Logged in as '.$username.'<br />';
-
-						
-			?>
+			Last Check: $lastcmd<br />
+			Updated every 90 seconds<br />
+			Nagios® Core™ {$info['version']} - www.nagios.org<br />
+			Logged in as $username<br />
 		</td>
 	</tr>
 </table>
-<br />
+OVERVIEWTABLE;
+	return $overview_table;
+}
 
 
+function hosts_table()
+{
+	$states = get_state_of('hosts');
+	$hostlink = htmlentities(BASEURL.'index.php?mode=filter&type=hosts&arg=');
 
+	$hosts_table =<<<HOSTSTABLE
 <!-- ########################HOSTS TABLE########################## -->
 <table class="tac">
 <tr><th>Hosts</th></tr>
-<?php
-
-$states = get_state_of('hosts');
-$hostlink = htmlentities(BASEURL.'index.php?mode=filter&type=hosts&arg=');
-//using HEREDOC string syntax 
-$hostrow = <<<HOSTROW
-
 <tr>
 	<td class="ok"><a href="{$hostlink}UP">{$states['UP']}</a> Up</td>
 	<td class="down"><a href="{$hostlink}DOWN">{$states['DOWN']}</a> Down</td>
 	<td class="unreachable"><a href="{$hostlink}UNREACHABLE">{$states['UNREACHABLE']}</a> Unreachable</td>				
 </tr> 
 
-HOSTROW;
-print $hostrow;
-?>
-
 </table>
-<br />
+HOSTSTABLE;
+	return $hosts_table;
+}
+
+function services_table()
+{
+	$sts = get_state_of('services');
+	$servlink = htmlentities(BASEURL.'index.php?mode=filter&type=services&arg=');
+
+	$services_table = <<<SERVICESTABLE
 <!-- ######################SERVICES TABLE##################### -->
 <table class="tac">
 <tr><th>Services</th></tr>
-<?php
-
-$sts = get_state_of('services');
-$servlink = htmlentities(BASEURL.'index.php?mode=filter&type=services&arg=');
-//using HEREDOC syntax to print table rows 
-$row = <<<TABLEROW
 
   <tr>
 	   <td class='ok'><a href='{$servlink}OK'>{$sts['OK']}</a> Ok</td>
@@ -140,14 +147,15 @@ $row = <<<TABLEROW
 		<td class="unknown"><a href="{$servlink}UNKNOWN">{$sts['UNKNOWN']}</a> Unknown</td>
   </tr>
   
-TABLEROW;
-//end HEREDOC 
-print $row;
-
-?>
-
 </table>
+SERVICESTABLE;
+	return $services_table;
+}
 
+
+function features_table()
+{
+	$features_table = <<<FEATURESTABLE
 <!-- #####################ENABLED FEATURES TABLE ####################-->
 <br />
 <table class="tac">
@@ -156,168 +164,171 @@ print $row;
 	<td>Flap Detection</td><td>Notifications</td><td>Event Handlers</td>
 	<td>Active Checks</td><td>Passive Checks</td>
 </tr><tr>	
-<?php 
+FEATURESTABLE;
 
 // monitoring features enabled/disabled 
 
 ///////////////////////FLAPPING////////////////////////////////
-print '<td class="green">'."\n";
+	$features_table .= '<td class="green">'."\n";
 //////////////////////////////////////////////////////////////////
 //checking for disabled flap detection 
 
-$host_fd = check_boolean('host', 'flap_detection_enabled', 0); 
-if($host_fd)
-{
-	print '<span class="red">'.$host_fd.' Hosts disabled</span>';
-}
-else
-{
-	print 'All Hosts enabled';
-}
-print '<br />';	
-$service_fd = check_boolean('service', 'flap_detection_enabled', 0); 
-if($service_fd)
-{
-	print '<span class="red">'.$host_fd.' Hosts disabled</span>';
-}
-else
-{
-	print 'All Services enabled';
-}	
-print "<br />\n";
-///////////////////////////////////////////////////////////
-//checking for flapping... 
-$host_flap = check_boolean('host', 'is_flapping', 1); 
-if($host_flap)
-{
-	print '<span class="red">'.$host_flap.' Hosts flapping';
-}
-else
-{
-	print 'No hosts flapping';
-}	
-print "<br />\n";
-$service_flap = check_boolean('service', 'is_flapping', 1); 
-if($service_flap)
-{
-	print '<span class="red">'.$service_flap.' Services flapping</span>';
-}
-else
-{
-	print 'No Services flapping';
-}	
-print "<br />\n";
-print '</td>'; //close table data 
-
-/////////////////////////////NOTIFICATIONS///////////////////////////////
-print '<td class="green">';
-//////////////////////////////////////////////////////////////////
-//checking for notifications 
-
-$host_ntf = check_boolean('host', 'notifications_enabled', 0); 
-if($host_ntf)
-{
-	print '<span class="red">'.$host_ntf.' Hosts disabled</span>';
-}
-else
-{
-	print 'All Hosts enabled';
-}
-print "<br />\n";	
-$service_ntf = check_boolean('service', 'notifications_enabled', 0); 
-if($service_ntf)
-{
-	print '<span class="red">'.$service_ntf.' Services disabled</span>';
-}
-else
-{
-	print 'All Services enabled';
-}	
-print "<br /></td>\n"; //close table data 
-
-///////////////////////////////EVENT HANDLERS/////////////////////////////
-print '<td class="green">';
-//////////////////////////////////////////////////////////////////
-//checking for event handlers  
-
-$host_eh = check_boolean('host', 'event_handler_enabled', 0); 
-if($host_ntf)
-{
-	print '<span class="red">'.$host_eh.' Hosts disabled</span>';
-}
-else
-{
-	print 'All Hosts enabled';
-}
-print "<br />\n";	
-$service_eh = check_boolean('service', 'event_handler_enabled', 0); 
-if($service_eh)
-{
-	print '<span class="red">'.$service_eh.' Services disabled</span>';
-}
-else
-{
-	print 'All Services enabled';
-}	
-print "<br /></td>\n"; //close table data 
-
-/////////////////////////////////ACTIVE CHECKS///////////////////////////	
-print '<td class="green">';
-//////////////////////////////////////////////////////////////////
-//checking for active checks  
-
-$host_ac = check_boolean('host', 'active_checks_enabled', 0); 
-if($host_ac)
-{
-	print '<span class="red">'.$host_ac.' Hosts disabled</span>';
-}
-else
-{
-	print 'All Hosts enabled';
-}
-print "<br />\n";	
-$service_ac = check_boolean('service', 'active_checks_enabled', 0); 
-if($service_ac)
-{
-	print '<span class="red">'.$service_ac.' Services disabled</span>';
-}
-else
-{
-	print 'All Services enabled';
-}	
-print "<br /></td>\n"; //close table data 
+	$host_fd = check_boolean('host', 'flap_detection_enabled', 0); 
+	if($host_fd)
+	{
+		$features_table .= '<span class="red">'.$host_fd.' Hosts disabled</span>';
+	}
+	else
+	{
+		$features_table .= 'All Hosts enabled';
+	}
+	$features_table .= '<br />';	
+	$service_fd = check_boolean('service', 'flap_detection_enabled', 0); 
+	if($service_fd)
+	{
+		$features_table .= '<span class="red">'.$host_fd.' Hosts disabled</span>';
+	}
+	else
+	{
+		$features_table .= 'All Services enabled';
+	}	
+	$features_table .= "<br />\n";
+	///////////////////////////////////////////////////////////
+	//checking for flapping... 
+	$host_flap = check_boolean('host', 'is_flapping', 1); 
+	if($host_flap)
+	{
+		$features_table .= '<span class="red">'.$host_flap.' Hosts flapping';
+	}
+	else
+	{
+		$features_table .= 'No hosts flapping';
+	}	
+	$features_table .= "<br />\n";
+	$service_flap = check_boolean('service', 'is_flapping', 1); 
+	if($service_flap)
+	{
+		$features_table .= '<span class="red">'.$service_flap.' Services flapping</span>';
+	}
+	else
+	{
+		$features_table .= 'No Services flapping';
+	}	
+	$features_table .= "<br />\n";
+	$features_table .= '</td>'; //close table data 
 	
+	/////////////////////////////NOTIFICATIONS///////////////////////////////
+	$features_table .= '<td class="green">';
+	//////////////////////////////////////////////////////////////////
+	//checking for notifications 
 	
-/////////////////////////////////PASSIVE CHECKS///////////////////////////	
-print '<td class="green">';
-//////////////////////////////////////////////////////////////////
-//checking for passive checks  
+	$host_ntf = check_boolean('host', 'notifications_enabled', 0); 
+	if($host_ntf)
+	{
+		$features_table .= '<span class="red">'.$host_ntf.' Hosts disabled</span>';
+	}
+	else
+	{
+		$features_table .= 'All Hosts enabled';
+	}
+	$features_table .= "<br />\n";	
+	$service_ntf = check_boolean('service', 'notifications_enabled', 0); 
+	if($service_ntf)
+	{
+		$features_table .= '<span class="red">'.$service_ntf.' Services disabled</span>';
+	}
+	else
+	{
+		$features_table .= 'All Services enabled';
+	}	
+	$features_table .= "<br /></td>\n"; //close table data 
+	
+	///////////////////////////////EVENT HANDLERS/////////////////////////////
+	$features_table .= '<td class="green">';
+	//////////////////////////////////////////////////////////////////
+	//checking for event handlers  
+	
+	$host_eh = check_boolean('host', 'event_handler_enabled', 0); 
+	if($host_ntf)
+	{
+		$features_table .= '<span class="red">'.$host_eh.' Hosts disabled</span>';
+	}
+	else
+	{
+		$features_table .= 'All Hosts enabled';
+	}
+	$features_table .= "<br />\n";	
+	$service_eh = check_boolean('service', 'event_handler_enabled', 0); 
+	if($service_eh)
+	{
+		$features_table .= '<span class="red">'.$service_eh.' Services disabled</span>';
+	}
+	else
+	{
+		$features_table .= 'All Services enabled';
+	}	
+	$features_table .= "<br /></td>\n"; //close table data 
+	
+	/////////////////////////////////ACTIVE CHECKS///////////////////////////	
+	$features_table .= '<td class="green">';
+	//////////////////////////////////////////////////////////////////
+	//checking for active checks  
+	
+	$host_ac = check_boolean('host', 'active_checks_enabled', 0); 
+	if($host_ac)
+	{
+		$features_table .= '<span class="red">'.$host_ac.' Hosts disabled</span>';
+	}
+	else
+	{
+		$features_table .= 'All Hosts enabled';
+	}
+	$features_table .= "<br />\n";	
+	$service_ac = check_boolean('service', 'active_checks_enabled', 0); 
+	if($service_ac)
+	{
+		$features_table .= '<span class="red">'.$service_ac.' Services disabled</span>';
+	}
+	else
+	{
+		$features_table .= 'All Services enabled';
+	}	
+	$features_table .= "<br /></td>\n"; //close table data 
+		
+		
+	/////////////////////////////////PASSIVE CHECKS///////////////////////////	
+	$features_table .= '<td class="green">';
+	//////////////////////////////////////////////////////////////////
+	//checking for passive checks  
+	
+	$host_pc = check_boolean('host', 'passive_checks_enabled', 0); 
+	if($host_pc)
+	{
+		$features_table .= '<span class="red">'.$host_pc.' Hosts disabled</span>';
+	}
+	else
+	{
+		$features_table .= 'All Hosts enabled';
+	}
+	$features_table .= "<br />\n";	
+	$service_pc = check_boolean('service', 'passive_checks_enabled', 0); 
+	if($service_pc)
+	{
+		$features_table .= '<span class="red">'.$service_pc.' Services disabled</span>';
+	}
+	else
+	{
+		$features_table .= 'All Services enabled';
+	}	
+	$features_table .= "<br /></td>\n"; //close table data 	
 
-$host_pc = check_boolean('host', 'passive_checks_enabled', 0); 
-if($host_pc)
-{
-	print '<span class="red">'.$host_pc.' Hosts disabled</span>';
-}
-else
-{
-	print 'All Hosts enabled';
-}
-print "<br />\n";	
-$service_pc = check_boolean('service', 'passive_checks_enabled', 0); 
-if($service_pc)
-{
-	print '<span class="red">'.$service_pc.' Services disabled</span>';
-}
-else
-{
-	print 'All Services enabled';
-}	
-print "<br /></td>\n"; //close table data 	
-
-?>
+	$features_table .= <<<FEATURESTABLE
 </tr>
 </table>
 <br />
+FEATURESTABLE;
+	return $features_table;
+}
 
 
 

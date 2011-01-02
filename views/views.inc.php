@@ -53,6 +53,4 @@
 
 include(dirname(__FILE__).'/display_functions.php');
 include(dirname(__FILE__).'/xml.php');
-include(dirname(__FILE__).'/services.php');
-include(dirname(__FILE__).'/hosts.php');
 ?>

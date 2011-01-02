@@ -53,7 +53,7 @@
 function display_services($services,$start,$limit)
 {
 	//Table header generation 
-	print '
+	$table = '
 	<table class="servicetable"><tr> 
 	<th class="hostname">Host Name</th>
 	<th class="service_description">Service</th>
@@ -72,11 +72,11 @@ function display_services($services,$start,$limit)
 	//check if more than one page is needed 
 	if($pageCount * $limit < $resultsCount)
 	{
-		do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
+		$table .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
 	}
 	
 	//creates notes for total results as well as form for setting page limits 
-	do_result_notes($start,$limit,$resultsCount,'services');
+	$table .= do_result_notes($start,$limit,$resultsCount,'services');
 
 	// Fixup post filtering indices
 	$curidx = 0;
@@ -127,7 +127,7 @@ function display_services($services,$start,$limit)
 		
 		//table data generation 				
 		//Using HEREDOC string syntax to print rows 
-		$tablerow = <<<TABLE
+		$tablerow = <<<TABLEROW
 		
 		<tr class='statustablerow'>	
 			{$td1}
@@ -139,12 +139,13 @@ function display_services($services,$start,$limit)
 			<td class='plugin_output'><div class='plugin_output'>{$services[$i]['plugin_output']}</div></td>
 		</tr>
 		
-TABLE;
+TABLEROW;
 
-		print $tablerow;
+		$table .= $tablerow;
 		
 	}
-	print '</table>';
+	$table .= '</table>';
+	return $table;
 }
 //end php 
 ?>

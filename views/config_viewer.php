@@ -11,7 +11,7 @@ function build_object_list($array, $arg) //expecting arrays from read_objects.ph
 	global $authorizations;
 	$count = 0;
 
-	print "<ul class='configlist'>";
+	$object_list = "<ul class='configlist'>";
 	foreach($array as $a)
 	{
 		//default for no permissions 
@@ -128,19 +128,21 @@ CONFIG;
 //end HEREDOC 
 		if($title!='') //only display if authorized 
 		{
-			print $confighead;
+			$object_list .= $confighead;
 			//print raw config data into a table 
 			foreach($a as $key => $value)
 			{	
 				
-				print "<tr class='objectList'>
+				$object_list .= "<tr class='objectList'>
 							<td>$key</td><td>$value</td>
 						</tr>\n";			
 			}
-			print "</table></div>";
+			$object_list .= "</table></div>";
 		}//end IF 
 	}//end FOREACH loop
-	print "<ul>";	
+	$object_list .= "<ul>";
+
+	return $object_list;
 }//end function 
 
 

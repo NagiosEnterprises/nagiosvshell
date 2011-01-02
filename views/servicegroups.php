@@ -49,66 +49,80 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
-print "<h3>Service Groups</h3>";
-
-
-//////////////////////////////////////table creation, displays both summary and grid view   
-
-$sg_details = build_servicegroups_array();
-
-//print_r($sg_details);
-
-
-foreach($sg_details as $group=>$members)
+function get_servicegroup_data()
 {
-	//create two joined tables, one summary, one grid
-	
-	//get numbers for summary tables 
-	$array[$group] = $members;
-	$ok = count_by_state('OK', $array[$group]);
-	$warn = count_by_state('WARNING', $array[$group]);
-	$crit = count_by_state('CRITICAL', $array[$group]);
-	$uk = count_by_state('UNKNOWN', $array[$group]);	
+	$servicegroup_data = array();
 
-	print "<h5>$group</h5>";
-	//summary table 
-	print "<table class='statustable'><tr>
-				<th>Ok</th><th>Critical</th><th>Warning</th><th>Unknown</th></tr>
-				<tr>
-					<td class='ok'>$ok</td>
-					<td class='critical'>$crit</td>
-					<td class='warning'>$warn</td>
-					<td class='unknown'>$uk</td>
-				</tr>
-			</table>";
-	
-	//TODO jquery show/hide link, pass $group as div ID  
-	print "<p class='label'><a onclick=\"showHide('$group')\" href='javascript:void(0)'>Toggle Grid</a></p>";
-	//grid table 
-	
-	print "<div class='hidden' id='$group'>
-			<table class='statustable'>
-			<tr><th>Host</th><th>Status</th><th>Service</th><th>Status Information</th></tr>";
-			
-	foreach($members as $serv)
-	{		//add a hoststatus element to service arrays 
-		#$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$serv['host_name']);
-		$host_url = htmlentities(BASEURL.'index.php?mode=filter&type=hostdetail&arg='.$serv['host_name']);
-		#$service_url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$serv['serviceID']);
-		$service_url = htmlentities(BASEURL.'index.php?mode=filter&type=servicedetail&arg='.$serv['serviceID']);
-	
-		print "<tr>
-					<td><a href='$host_url'>".$serv['host_name']."</a></td>
-					<td class='".strtolower($serv['current_state'])."'>".$serv['current_state']."</td>
-					<td><a href='$service_url'>".$serv['service_description']."</a></td>
-					<td>".$serv['plugin_output']."</td>
-				</tr>";
-			
+	$sg_details = build_servicegroups_array();
+	foreach($sg_details as $group => $members)
+	{
+		$servicegroup_data[$group]['state_counts'] = array();
+		foreach(array('OK', 'WARNING', 'CRITICAL', 'UNKNOWN') as $state)
+		{
+			$servicegroup_data[$group]['state_counts'][$state] = count_by_state($state, $members);
+		}
+		$servicegroup_data[$group]['services'] = array();
+		foreach ($members as $serv) {
+			$service_data = array(
+				'host_name'   => $serv['host_name'],
+				'host_url'    => htmlentities(BASEURL.'index.php?mode=filter&type=hostdetail&arg='.$serv['host_name']),
+				'service_url' => htmlentities(BASEURL.'index.php?mode=filter&type=servicedetail&arg='.$serv['serviceID']),
+				'plugin_output' => $serv['plugin_output'],
+				'description'   => $serv['service_description'],
+				'current_state' => $serv['current_state'],
+			);
+			$servicegroup_data[$group]['services'][] = $service_data;
+		}
 	}
-	print '</table></div>'; 
+
+	return $servicegroup_data;
 }
 
+function display_servicegroups($data)
+{
 
+	$page = "<h3>Service Groups</h3>";
+	
+	//////////////////////////////////////table creation, displays both summary and grid view   
+	foreach($data as $group => $group_data)
+	{
+		//create two joined tables, one summary, one grid
+		
+		$page .= "<h5>$group</h5>";
+		//summary table 
+		$page .= "<table class='statustable'><tr>
+					<th>Ok</th><th>Critical</th><th>Warning</th><th>Unknown</th></tr>
+					<tr>
+						<td class='ok'>{$group_data['state_counts']['OK']}</td>
+						<td class='critical'>{$group_data['state_counts']['CRITICAL']}</td>
+						<td class='warning'>{$group_data['state_counts']['WARNING']}</td>
+						<td class='unknown'>{$group_data['state_counts']['UNKNOWN']}</td>
+					</tr>
+				</table>";
+		
+		$page .= "<p class='label'><a onclick=\"showHide('$group')\" href='javascript:void(0)'>Toggle Grid</a></p>";
+		//grid table 
+		
+		$page .= "<div class='hidden' id='$group'>
+				<table class='statustable'>
+				<tr><th>Host</th><th>Status</th><th>Service</th><th>Status Information</th></tr>";
+				
+		#foreach($members as $serv)
+		foreach($group_data['services'] as $serv)
+		{		//add a hoststatus element to service arrays 
+		
+			$page .= "<tr>
+						<td><a href='{$serv['host_url']}'>".$serv['host_name']."</a></td>
+						<td class='".strtolower($serv['current_state'])."'>".$serv['current_state']."</td>
+						<td><a href='{$serv['service_url']}'>".$serv['description']."</a></td>
+						<td>".$serv['plugin_output']."</td>
+					</tr>";
+				
+		}
+		$page .= '</table></div>'; 
+	}
+
+	return $page;
+}
 
 ?>

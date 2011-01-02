@@ -50,12 +50,15 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-?>
+function display_footer()
+{
+	$footer = <<<FOOTER
 </div> <!--end of "main" div -->
 
 </body>
 </html>
+FOOTER;
+	return $footer;
+}
 
-<?php ob_end_flush();  
-
- ?>
+?>

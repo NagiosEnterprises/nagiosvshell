@@ -50,17 +50,13 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-
-
-
-//this page will be an include for the command_router.php controller file 
-//include additional items by first adding them to the arrays on command_router.php 
-
+function get_service_details($dets)
+{
 //defining string using HEREDOC syntax, which is a format for multiline 
 //   print statements with variables 
 //  
 // 
-$page=<<<PAGE
+	$page=<<<PAGE
 
 	<h3>Service Status Detail</h3>
 	<div class="detailcontainer">
@@ -136,14 +132,15 @@ $page=<<<PAGE
 
 PAGE;
 
-print $page;
+#print $page;
 
 	//print service comments in table rows if any exist
 	//see display_functions.php for function  
-	get_service_comments($dets['Host'], $dets['Service']);
+	$page .= get_service_comments($dets['Host'], $dets['Service']);
 	//close comment table 
-	print '</table></div><br />';
-
+	$page .= '</table></div><br />';
+	return $page;
+}
 
 
 ?> 

@@ -50,29 +50,6 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-
-//used for initial development testing, no longer in use 
-//
-function build_table_data($array) //expecting global $hosts, $services, $servicegroups, $hostgroups 
-{
-	foreach($array as $a)
-	{
-		print "<tr>\n";		
-		foreach($a as $item)
-		{
-			//print "<td>$key</td><td>$value<td/>\n";	
-			if($item!="")
-			{
-				print "<td>$item<td/>\n";	
-			}	
-		}
-		print "</tr>\n";
-	}
-	print "</table>\n";
-}
-
-
-
 //////////////////////////////////
 //used on the header.php file to create the main nav links 
 //
@@ -95,17 +72,18 @@ function build_nav_links() //build page links based on user's permission level
 	//print_r($keys);
 	//generate links based on permissions 
 	$base = BASEURL.'index.php?';
-	
+
+	$navlinks = "";
 	//NAV LINKS	 are added to a floated <ul>
-	print '<ul class="nav">'; 	
-	print '<li class="nav"><a href="index.php" class="nav" rel="internal">Tactical Overview</a></li>'; //default tactical overview link 
+	$navlinks .= '<ul class="nav">'; 	
+	$navlinks .= '<li class="nav"><a href="index.php" class="nav" rel="internal">Tactical Overview</a></li>'; //default tactical overview link 
 		
 	if(isset($keys['hosts'], $keys['services'])) 
 	{		
-		print "<li class='nav'><a href='".$base."mode=view&type=hosts' class='nav' rel='internal'>Hosts</a></li>"; //hosts
-		print "<li class='nav'><a href='".$base."mode=view&type=services' class='nav' rel='internal'>Services</a></li>"; //services
-		print "<li class='nav'><a href='".$base."mode=view&type=hostgroups' class='nav' rel='internal'>Hostgroups</a></li>"; //hostgroups
-		print "<li class='nav'><a href='".$base."mode=view&type=servicegroups' class='nav' rel='internal'>Servicegroups</a></li>"; //servicegroups
+		$navlinks .= "<li class='nav'><a href='".$base."mode=view&type=hosts' class='nav' rel='internal'>Hosts</a></li>"; //hosts
+		$navlinks .= "<li class='nav'><a href='".$base."mode=view&type=services' class='nav' rel='internal'>Services</a></li>"; //services
+		$navlinks .= "<li class='nav'><a href='".$base."mode=view&type=hostgroups' class='nav' rel='internal'>Hostgroups</a></li>"; //hostgroups
+		$navlinks .= "<li class='nav'><a href='".$base."mode=view&type=servicegroups' class='nav' rel='internal'>Servicegroups</a></li>"; //servicegroups
 	}
 
 
@@ -113,61 +91,57 @@ function build_nav_links() //build page links based on user's permission level
 	/////////////OBJECT VIEWS 
 	if(isset($keys['configuration_information'])) //assuming full admin  
 	{
-		print "<li class='nav'><a class='nav' onmouseover='showDropdown(\"confDrop\")' onmouseout='hideDropdown(\"confDrop\")' href='javascript:void(0)'>Configurations</a>
+		$navlinks .= "<li class='nav'><a class='nav' onmouseover='showDropdown(\"confDrop\")' onmouseout='hideDropdown(\"confDrop\")' href='javascript:void(0)'>Configurations</a>
 		<div onmouseover='showDropdown(\"confDrop\")' onmouseout='hideDropdown(\"confDrop\")' id='confDrop'><ul>";	
 	
 	
 	
-		print "<li><a class='nav' href='".$base."mode=object&type=hosts_objs'>Hosts</a></li>\n"; //hosts
-		print "<li><a class='nav' href='".$base."mode=object&type=services_objs'>Services</a></li>\n"; //services
-		print "<li><a class='nav' href='".$base."mode=object&type=hostgroups_objs'>Hostgroups</a></li>\n"; //hostgroups
-		print "<li><a class='nav' href='".$base."mode=object&type=servicegroups_objs'>Servicegroups</a></li>\n"; //servicegroups
-		print "<li><a class='nav' href='".$base."mode=object&type=timeperiods'>Timeperiods</a></li>\n"; //timeperiods
-		print "<li><a class='nav' href='".$base."mode=object&type=contacts'>Contacts</a></li>\n"; //contacts
-		print "<li><a class='nav' href='".$base."mode=object&type=contactgroups'>Contactgroups</a></li>\n"; //contactgroups
+		$navlinks .= "<li><a class='nav' href='".$base."mode=object&type=hosts_objs'>Hosts</a></li>\n"; //hosts
+		$navlinks .= "<li><a class='nav' href='".$base."mode=object&type=services_objs'>Services</a></li>\n"; //services
+		$navlinks .= "<li><a class='nav' href='".$base."mode=object&type=hostgroups_objs'>Hostgroups</a></li>\n"; //hostgroups
+		$navlinks .= "<li><a class='nav' href='".$base."mode=object&type=servicegroups_objs'>Servicegroups</a></li>\n"; //servicegroups
+		$navlinks .= "<li><a class='nav' href='".$base."mode=object&type=timeperiods'>Timeperiods</a></li>\n"; //timeperiods
+		$navlinks .= "<li><a class='nav' href='".$base."mode=object&type=contacts'>Contacts</a></li>\n"; //contacts
+		$navlinks .= "<li><a class='nav' href='".$base."mode=object&type=contactgroups'>Contactgroups</a></li>\n"; //contactgroups
 		
 				//COMMAND VIEW 
 		if(isset($keys['host_commands'],$keys['service_commands'], $keys['system_commands']))
 		{	
 			//make link for commands 
-			print "<li><a href='".$base."mode=object&type=commands' class='nav'>Commands</a></li>\n"; //commands config
+			$navlinks .= "<li><a href='".$base."mode=object&type=commands' class='nav'>Commands</a></li>\n"; //commands config
 		}	
 	 
-		print '</ul></div></li>';
+		$navlinks .= '</ul></div></li>';
 	}
 	
 	//Nagios Core System links dropdown menu 
 	if(isset($keys['system_commands']))
 	{
-		print "<li class='nav'><a class='nav' onmouseover='showDropdown(\"sysDrop\")' 
+		$navlinks .= "<li class='nav'><a class='nav' onmouseover='showDropdown(\"sysDrop\")' 
 				onmouseout='hideDropdown(\"sysDrop\")' href='javascript:void(0)'>System Commands</a>
 				<div onmouseover='showDropdown(\"sysDrop\")' onmouseout='hideDropdown(\"sysDrop\")' id='sysDrop'><ul>";
-		print "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=3'>Comments</a></li>\n";
-		print "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=6'>Downtime</a></li>\n";	
-		print "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=0'>Process Info</a></li>\n";
-		print "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=4'>Performance Info</a></li>\n";
-		print "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=7'>Scheduling Queue</a></li>\n";
-		print "</ul></div></li>\n";  
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=3'>Comments</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=6'>Downtime</a></li>\n";	
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=0'>Process Info</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=4'>Performance Info</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=7'>Scheduling Queue</a></li>\n";
+		$navlinks .= "</ul></div></li>\n";  
 	}
 	//Nagios Core Reports.  Leaving authorization up to Core for running reports 
-		print "<li class='nav'><a class='nav' onmouseover='showDropdown(\"reportDrop\")' 
+		$navlinks .= "<li class='nav'><a class='nav' onmouseover='showDropdown(\"reportDrop\")' 
 				onmouseout='hideDropdown(\"reportDrop\")' href='javascript:void(0)'>Reports</a>
 				<div onmouseover='showDropdown(\"reportDrop\")' onmouseout='hideDropdown(\"reportDrop\")' id='reportDrop'><ul>";
-		print "<li><a class='nav' target='_blank' href='".CORECGI."avail.cgi'>Availability</a></li>\n";
-		print "<li><a class='nav' target='_blank' href='".CORECGI."trends.cgi'>Trends</a></li>\n";	
-		print "<li><a class='nav' target='_blank' href='".CORECGI."history.cgi?host=all'>Alert History</a></li>\n";
-		print "<li><a class='nav' target='_blank' href='".CORECGI."summary.cgi'>Alert Summary</a></li>\n";
-		print "<li><a class='nav' target='_blank' href='".CORECGI."histogram.cgi'>Alert Histogram</a></li>\n";
-		print "<li><a class='nav' target='_blank' href='".CORECGI."notifications.cgi?contact=all'>Notifications</a></li>\n";
-		print "<li><a class='nav' target='_blank' href='".CORECGI."showlog.cgi'>Event Log</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."avail.cgi'>Availability</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."trends.cgi'>Trends</a></li>\n";	
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."history.cgi?host=all'>Alert History</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."summary.cgi'>Alert Summary</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."histogram.cgi'>Alert Histogram</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."notifications.cgi?contact=all'>Notifications</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."showlog.cgi'>Event Log</a></li>\n";
 		
-		print "</ul></div></li>\n";   //make dropdown list 
-	
-	
-	
-	
+		$navlinks .= "</ul></div></li>\n";   //make dropdown list 
 	 	
-	print '</ul>'; //close main nav list 
+	$navlinks .= '</ul>'; //close main nav list 
 	
 	
 	//For future developments..... 
@@ -177,26 +151,11 @@ function build_nav_links() //build page links based on user's permission level
 		//make link 
 		echo "system information is viewable"; 
 	}	
-	*/ 
-		
-	
+	*/
+
+	return $navlinks;	
 }//end function 
 
-/* used for initial creation of nav links, but no longer used 
- */
-function build_link($type, $name, $class, $target)
-{
-	$ucname = ucfirst($name);
-	$base = BASEURL.'index.php?';
-	//heredoc string syntax 
-	$link=<<<LINK
-	
-	<li class="$class"><a href="$base$type=$name" class="$class" rel="$target">$ucname</a></li>	
-LINK;
-
-	echo $link;
-			
-}
 
 /* FUNCTION: get_color_code()
  * 
@@ -282,6 +241,7 @@ function get_host_comments($host='')
 {
 	$host = trim($host);
 	$hostcomments = check_comments($host);
+	$comments = "";
 	if($hostcomments)
 	{
 		global $NagiosData;
@@ -302,14 +262,15 @@ function get_host_comments($host='')
 			$row = "<tr><td>$author</td><td>$entrytime</td><td>$desc $data</td><td>
 						<a href='".CORECMD."cmd_typ=2&com_id=$cid' title='Delete Comment'>
 						<img class='iconLink' src='views/images/delete.png' alt='Delete' width='15' height='15' /></a></td></tr>\n";
-			print $row;
+			$comments .= $row;
 		}
 		 
 	}
 	else
 	{
-		print "<tr><td colspan='3'>There are no comments associated with this host</td></tr>";
+		$comments .= "<tr><td colspan='3'>There are no comments associated with this host</td></tr>";
 	}
+	return $comments; 
 }
 
 /* expecting a host name
@@ -320,7 +281,10 @@ function get_service_comments($host='', $service='')
 	$host = trim($host);
 	$service = trim($service);
 
+// XXX TODO replace CORECMD link with a call to core_command_link(...)
+
 	$hostcomments = check_comments($host, $service);
+	$comments = "";
 	if($hostcomments)
 	{
 		global $NagiosData;
@@ -337,15 +301,16 @@ function get_service_comments($host='', $service='')
 					$row = "<tr><td>$author</td><td>$entrytime</td><td>$data</td><td>
 								<a href='".CORECMD."cmd_typ=4&com_id=$cid' title='Delete Comment'>
 								<img class='iconLink' src='views/images/delete.png' alt='Delete' width='15' height='15' /></a></td></tr>\n";
-					print $row;
+					$comments .= $row;
 				}
 			}
 		}
 	}//end if 
 	else
 	{
-		print "<tr><td colspan='3'>There are no comments associated with this host</td></tr>";
+		$comments .= "<tr><td colspan='3'>There are no comments associated with this host</td></tr>";
 	}
+	return $comments;
 }
 
 ///////////////////////////http://localhost/var/www/http_public/nagpui/views/images/hascomments.png
@@ -370,7 +335,7 @@ function downtime_icon($arg)
 function do_pagenumbers($pageCount,$start,$limit,$resultsCount,$type)
 {	
 
-	print "<div class='pagenumbers'>";
+	$pagenums = "<div class='pagenumbers'>";
 	$begin = 0;
 	$cp_start = isset($_GET['start']) ? htmlentities($_GET['start']) : 0;
 
@@ -387,7 +352,7 @@ function do_pagenumbers($pageCount,$start,$limit,$resultsCount,$type)
 	} else { 
 		$back_arrow = "<span class='deselect'>$back_arrow_entities</span>";
 	}
-	print "$back_arrow";
+	$pagenums .= "$back_arrow";
 
 	// Build the direct page links
 	for($i = 0; $i <= $pageCount; $i++)
@@ -397,8 +362,8 @@ function do_pagenumbers($pageCount,$start,$limit,$resultsCount,$type)
 		$page = $i+1;
 		//check if the link is the current page  
 		//if we're on current page, don't print a link 
-		if($cp_start == $begin) print "<span class='deselect'> $page </span>";
-		else print "<a class='pagenumbers' href='$link'> $page </a>"; 
+		if($cp_start == $begin) $pagenums .= "<span class='deselect'> $page </span>";
+		else $pagenums .= "<a class='pagenumbers' href='$link'> $page </a>"; 
 
 		//submit a hidden post page number 	
 		$begin = ($begin + $limit) < $resultsCount ? ($begin + $limit) : $resultsCount;
@@ -413,9 +378,10 @@ function do_pagenumbers($pageCount,$start,$limit,$resultsCount,$type)
 	} else {
 		$forward_arrow = "<span class='deselect'>$forward_arrow_entities</span>";
 	}
-	print $forward_arrow;
+	$pagenums .= $forward_arrow;
 
-	print "</div>";
+	$pagenums .= "</div>";
+	return $pagenums;
 }	//end do_pagenumbers()	
 
 /* creates notes and page limit form above host and service tables 
@@ -424,7 +390,7 @@ function do_result_notes($start,$limit,$resultsCount,$type)
 {
 	//check maximum display number for page 
 	$end = (($start+$limit)<$resultsCount) ? ($start+$limit) : $resultsCount; 
-	print "	
+	$resultnotes = "	
 			<div class='tablenotes'>
 				<p class='note'>Showing results $start - $end of $resultsCount results</p>
 				<p class='note'>Current Result Limit: $limit</p>
@@ -436,12 +402,13 @@ function do_result_notes($start,$limit,$resultsCount,$type)
 			<select id='pagelimit1' name='pagelimit'>";
 			foreach (array(15, 30, 50, 100, 250) as $possible_limit) {
 				$selected = ($possible_limit == $limit) ? "selected='selected'" : NULL;
-				print "<option value=$possible_limit $selected>$possible_limit</option>\n";
+				$resultnotes .= "<option value=$possible_limit $selected>$possible_limit</option>\n";
 			}
 
-	print"</select>
+	$resultnotes .= "</select>
 			<input type='submit' name='submit' value='Set Limit' />		
 		</form></div>";	
+	return $resultnotes;
 } //end do_result_notes() 
 
 

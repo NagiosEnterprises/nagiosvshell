@@ -54,7 +54,7 @@
 function display_hosts($hosts, $start,$limit)
 {
 
-	print '<table class="statustable"><tr> 
+	$table = '<table class="statustable"><tr> 
 			<th>Host Name</th>
 			<th>Status</th>
 			<th>Duration</th>
@@ -71,11 +71,11 @@ function display_hosts($hosts, $start,$limit)
 	//check if more than one page is needed 
 	if($pageCount * $limit < $resultsCount)
 	{
-		do_pagenumbers($pageCount,$start,$limit,$resultsCount,'hosts');
+		$table .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'hosts');
 	}
 	
 	//creates notes for total results as well as form for setting page limits 
-	do_result_notes($start,$limit,$resultsCount,'hosts');	
+	$table .= do_result_notes($start,$limit,$resultsCount,'hosts');	
 
 	$hostnames = array_keys($hosts);
 	sort($hostnames);
@@ -88,11 +88,10 @@ function display_hosts($hosts, $start,$limit)
 		$host = $hosts[$hostnames[$i]];
 
 		$tr = get_color_code($host); // CSS style class based on status 
-		#$url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$host['host_name']);
 		$url = htmlentities(BASEURL.'index.php?mode=filter&type=hostdetail&arg='.$host['host_name']);
 		$comments = comment_icon($host['host_name']); //has comments icon 
 		$dt_icon = downtime_icon($host['scheduled_downtime_depth']); //scheduled downtime icon 
-		$tablerow = <<<TABLE
+		$tablerow = <<<TABLEROW
 	
 		<tr>	
 			<td><a href="{$url}">{$host['host_name']}</a>{$comments}{$dt_icon}</td><td class="{$tr}">{$host['current_state']}</td>
@@ -102,14 +101,16 @@ function display_hosts($hosts, $start,$limit)
 			<td>{$host['plugin_output']}</td>
 		</tr>
 			
-TABLE;
-		print $tablerow;	
+TABLEROW;
+		#print $tablerow;
+		$table .= $tablerow;
 	}
 	
 	
-	print '</table>';
-	
-	//print the page numbers here accordingly 
+	#print '</table>';
+	$table .= '</table>';
 
+	//print the page numbers here accordingly 
+	return $table;
 } 
 ?>

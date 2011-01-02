@@ -51,14 +51,19 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 
 
+function display_header($page_title)
+{
+	$js_path = BASEURL.'js/';
+	$jquery_path = $js_path.'jquery-1.4.4.min.js';
+	$header_js_path = $js_path.'header.inc.js';
+	$css_path = BASEURL.'styles/style.css';
+	$navlinks = build_nav_links();
 
-//begin browser output  
- 
-?>  
+	$header = <<<HEADERDATA
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://dublincore.org">
-<title><?php echo $page_title; ?></title>
+<title>$page_title</title>
 
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <link rel="schema.DC" href="http://dublincore.org/2008/01/14/dcelements.rdf#" />
@@ -68,71 +73,10 @@
 <meta http-equiv="content-style-type" content="text/css" />
 <meta http-equiv="content-language" content="en" />
 <meta name="site" content="Nagios" />
-<script type="text/javascript" src="<?php echo BASEURL.'js/jquery-1.4.4.min.js'; ?>"></script>
+<script type="text/javascript" src="$jquery_path"></script>
+<script type="text/javascript" src="$header_js_path"></script>
 
-<script type="text/javascript">
-
-		
-/*nav dropdown functions */
-
-/* browser detection */
-if (document.layers) {
-	visible = 'show';
-	hidden = 'hide';
-}
-if (document.all || document.getElementById) {
-	visible = 'visible';
-	hidden = 'hidden';
-}
-
-function showDropdown(id)
-{
-	if (document.layers) 
-	{
-		//alert('there are layers');
-		menu = document.layers[id];
-	}
-	if(document.getElementById)
-	{
-		menu = document.getElementById(id);
-	}
-	if(menu)
-	{
-		//alert(menu);
-		menu.style.visibility = visible;		
-	} 
-
-}
-
-function hideDropdown(id)
-{
-	menu = document.getElementById(id);
-	if(menu)
-	{
-		//alert(menu);
-		menu.style.visibility = hidden;		
-	}
-
-}
-/*this function toggles the grids and configuration tables */
-function showHide(id)
-{
-	//alert(id);
-	var divID = "#"+id;
-	$(divID).slideToggle("fast");
-	   
-}
-/*this function hides the grids and configuration tables that can be toggled*/
-function hide()
-{
-	//alert('this is a functional alert');
-	$("div.hidden").hide();
-}
-
-
-</script>
-
-<link rel="stylesheet" href="<?php echo BASEURL.'styles/style.css'; ?>" type="text/css" media="screen" />
+<link rel="stylesheet" href="$css_path" type="text/css" media="screen" />
 <style type="text/css">
 /* use external stylesheet to control page style */
 </style>
@@ -141,15 +85,17 @@ function hide()
 </head>
 <body onload="hide()">
 	<div class="corelink">
-		<a class="label" href="<?php echo COREURL; ?>" target="_blank" title="Access Nagios Core">Access Nagios Core</a>
+		<a class="label" href="COREURL" target="_blank" title="Access Nagios Core">Access Nagios Core</a>
 	</div>
 
 	<div class="topnav">
-		<?php //main mav stuff can go here, not sure what yet
-		//echo "Main nav";
-		build_nav_links(); //see display_functions.php for this function 
-		?>
+		$navlinks
 	</div>
 
 
 <div class="main">
+HEADERDATA;
+	return $header;
+}
+
+?>
