@@ -50,7 +50,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require_once('cache_or_disk.php');
-if (useAPC() && (FALSE || $_GET['CLEANCACHE'])) { // For Debugging data from disk
+if (useAPC() && (FALSE || isset($_GET['CLEANCACHE']))) { // For Debugging data from disk
 	apc_clear_cache();
 	apc_clear_cache('user');
 }
