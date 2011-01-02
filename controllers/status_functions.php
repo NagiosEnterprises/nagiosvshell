@@ -93,12 +93,6 @@ function get_state_of($type, $array=NULL) //create host or service arrays by sta
 	
 	return $state_counts;					  
 }
-//testing... 
-//$stats = get_state_of($hosts, 'host');
-//$stats = get_state_of($services, 'service');
-//print $stats['OK']." OK Services";
-
-
 
 /////////////////////////////////////////////////
 //
@@ -140,6 +134,10 @@ function get_by_state($state, $data)
 
 	return array_filter($data, create_function('$d', 'return $d[\'current_state\'] == \''.$state.'\';'));
 
+}
+
+function get_by_name($name, $data, $field='host_name') {
+	return array_filter($data, create_function('$d', 'return preg_match("/'.$name.'/i", $d[\''.$field.'\']);'));
 }
 
 ////////////////////////////////////////////
@@ -272,6 +270,7 @@ function get_host_downtime($hostname)
 
 }
 
+// XXX move this.  It doesn't belong
 //expecting a service ID such as: 
 //$arg = 'service15';
 function process_service_detail($serviceid)
@@ -401,6 +400,7 @@ function process_service_detail($serviceid)
  *
  * processes a host array and sends to the hostdetails.php page
  */
+ // XXX move this, it doesn't belong
 function process_host_detail($in_hostname)
 {
 	global $NagiosData;

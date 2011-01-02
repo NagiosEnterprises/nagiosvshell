@@ -80,10 +80,10 @@ function build_nav_links() //build page links based on user's permission level
 		
 	if(isset($keys['hosts'], $keys['services'])) 
 	{		
-		$navlinks .= "<li class='nav'><a href='".$base."mode=view&type=hosts' class='nav' rel='internal'>Hosts</a></li>"; //hosts
-		$navlinks .= "<li class='nav'><a href='".$base."mode=view&type=services' class='nav' rel='internal'>Services</a></li>"; //services
-		$navlinks .= "<li class='nav'><a href='".$base."mode=view&type=hostgroups' class='nav' rel='internal'>Hostgroups</a></li>"; //hostgroups
-		$navlinks .= "<li class='nav'><a href='".$base."mode=view&type=servicegroups' class='nav' rel='internal'>Servicegroups</a></li>"; //servicegroups
+		$navlinks .= "<li class='nav'><a href='".$base."type=hosts' class='nav' rel='internal'>Hosts</a></li>"; //hosts
+		$navlinks .= "<li class='nav'><a href='".$base."type=services' class='nav' rel='internal'>Services</a></li>"; //services
+		$navlinks .= "<li class='nav'><a href='".$base."type=hostgroups' class='nav' rel='internal'>Hostgroups</a></li>"; //hostgroups
+		$navlinks .= "<li class='nav'><a href='".$base."type=servicegroups' class='nav' rel='internal'>Servicegroups</a></li>"; //servicegroups
 	}
 
 
@@ -96,19 +96,19 @@ function build_nav_links() //build page links based on user's permission level
 	
 	
 	
-		$navlinks .= "<li><a class='nav' href='".$base."mode=object&type=hosts_objs'>Hosts</a></li>\n"; //hosts
-		$navlinks .= "<li><a class='nav' href='".$base."mode=object&type=services_objs'>Services</a></li>\n"; //services
-		$navlinks .= "<li><a class='nav' href='".$base."mode=object&type=hostgroups_objs'>Hostgroups</a></li>\n"; //hostgroups
-		$navlinks .= "<li><a class='nav' href='".$base."mode=object&type=servicegroups_objs'>Servicegroups</a></li>\n"; //servicegroups
-		$navlinks .= "<li><a class='nav' href='".$base."mode=object&type=timeperiods'>Timeperiods</a></li>\n"; //timeperiods
-		$navlinks .= "<li><a class='nav' href='".$base."mode=object&type=contacts'>Contacts</a></li>\n"; //contacts
-		$navlinks .= "<li><a class='nav' href='".$base."mode=object&type=contactgroups'>Contactgroups</a></li>\n"; //contactgroups
+		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=hosts_objs'>Hosts</a></li>\n"; //hosts
+		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=services_objs'>Services</a></li>\n"; //services
+		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=hostgroups_objs'>Hostgroups</a></li>\n"; //hostgroups
+		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=servicegroups_objs'>Servicegroups</a></li>\n"; //servicegroups
+		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=timeperiods'>Timeperiods</a></li>\n"; //timeperiods
+		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=contacts'>Contacts</a></li>\n"; //contacts
+		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=contactgroups'>Contactgroups</a></li>\n"; //contactgroups
 		
 				//COMMAND VIEW 
 		if(isset($keys['host_commands'],$keys['service_commands'], $keys['system_commands']))
 		{	
 			//make link for commands 
-			$navlinks .= "<li><a href='".$base."mode=object&type=commands' class='nav'>Commands</a></li>\n"; //commands config
+			$navlinks .= "<li><a href='".$base."type=object&objtype_filter=commands' class='nav'>Commands</a></li>\n"; //commands config
 		}	
 	 
 		$navlinks .= '</ul></div></li>';
@@ -397,7 +397,7 @@ function do_result_notes($start,$limit,$resultsCount,$type)
 			</div>
 			
 			<div class='resultLimit'>	
-			<form id='limitform' action='".$_SERVER['PHP_SELF']."?view=$type' method='post'>
+			<form id='limitform' action='".$_SERVER['PHP_SELF']."?type=$type' method='post'>
 			<label class='label' for='pagelimit'>Limit Results</label>
 			<select id='pagelimit1' name='pagelimit'>";
 			foreach (array(15, 30, 50, 100, 250) as $possible_limit) {

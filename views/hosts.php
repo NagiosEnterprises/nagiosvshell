@@ -88,7 +88,7 @@ function display_hosts($hosts, $start,$limit)
 		$host = $hosts[$hostnames[$i]];
 
 		$tr = get_color_code($host); // CSS style class based on status 
-		$url = htmlentities(BASEURL.'index.php?mode=filter&type=hostdetail&arg='.$host['host_name']);
+		$url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$host['host_name']);
 		$comments = comment_icon($host['host_name']); //has comments icon 
 		$dt_icon = downtime_icon($host['scheduled_downtime_depth']); //scheduled downtime icon 
 		$tablerow = <<<TABLEROW
@@ -102,12 +102,10 @@ function display_hosts($hosts, $start,$limit)
 		</tr>
 			
 TABLEROW;
-		#print $tablerow;
 		$table .= $tablerow;
 	}
 	
 	
-	#print '</table>';
 	$table .= '</table>';
 
 	//print the page numbers here accordingly 

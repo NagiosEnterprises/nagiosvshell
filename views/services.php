@@ -95,9 +95,9 @@ function display_services($services,$start,$limit)
 
 		$tr = get_color_code($services[$i]);
 		#$url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$services[$i]['serviceID']);
-		$url = htmlentities(BASEURL.'index.php?mode=filter&type=servicedetail&arg='.$services[$i]['serviceID']);
+		$url = htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$services[$i]['serviceID']);
 		#$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$services[$i]['host_name']);
-		$host_url = htmlentities(BASEURL.'index.php?mode=filter&type=hostdetail&arg='.$services[$i]['host_name']);
+		$host_url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$services[$i]['host_name']);
 		$color = get_host_status_color($services[$i]['host_name']);
 		$icon = return_icon_link($services[$i]['host_name']);
 		$comments = comment_icon($services[$i]['host_name'], $services[$i]['service_description']);
@@ -106,7 +106,7 @@ function display_services($services,$start,$limit)
 		$host_dt = downtime_icon(get_host_downtime($services[$i]['host_name']) );
 
 		//removing duplicate host names from table for a cleaner look
-		if(isset($_GET['mode']) && $_GET['mode'] == 'view')
+		if(!isset($_GET['name_filter']) && !isset($_GET['state_filter']))
 		{	 
 			if ($services[$i]['host_name'] == $last_displayed_host)
 			{

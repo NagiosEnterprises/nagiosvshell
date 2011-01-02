@@ -56,13 +56,6 @@ function send_home() //redirects user to index page
 	header('Location: '.BASEURL);
 }
 
-/////////////////////////////////////////
-//
-//page_router is main controller function for the interface.  
-//It processes all requests sent from the browser 
-//
-//
-
 // *OLD*
 // view=<hosts,services,hostgroups,servicegroups>
 // cmd=filter<hosts,services>,arg=<UP,DOWN,WARNING,UNREACHABLE,UNKNOWN>
@@ -73,284 +66,252 @@ function send_home() //redirects user to index page
 // arg=<UP,DOWN,WARNING,UNREACHABLE,UNKNOWN,hostname>
 
 // *IDEA*
-// mode=<view,data>
+// mode=<html,json,xml>
 // type=<overview (default), hosts,services,hostgroups,servicegroups,hostdetail,servicedetail,object>
-// filter=<filter_arg>
-// * filter_arg=<UP,DOWN,WARNING,UNREACHABLE,UNKNOWN,critical|object type>
-
-function router()
-{
-
-	$mode = NULL;
-	$type = NULL;
-	$filter = NULL;
-
-	if (isset($_GET['mode'])) { $mode = strtolower($_GET['mode']); }
-	else { $mode = 'view'; }
-	if (isset($_GET['type'])) { $type = strtolower($_GET['type']); }
-	if (isset($_GET['filter'])) { $filter = $_GET['filter']; }
-
-	global $NagiosData;
-	switch($type) {
-		case 'services':
-		case 'hosts':
-		case 'hostgroups':
-		case 'servicegroups':
-		case 'hostdetail':
-		case 'servicedetail':
-			$data = $NagiosData->getProperty($type);
-			if ($filter && ($type == 'hosts' || $type == 'services')) {
-			}
-
-			$title = ucwords(preg_replace('/objs/', 'Objects', preg_replace('/_/', ' ', $type)));
-		break;
-
-		case 'object':
-			$obj_filters = array('hosts_objs', 'services_objs', 'hostgroups_objs', 'servicegroups_objs',
-				'timeperiods', 'contacts', 'contactgroups', 'commands');
-
-			if (in_array($filter, $obj_filters)) {
-				$data = $NagiosData->getProperty($filter);
-			}
-		break;
-
-		default:
-		break;
-	}
-}
+// * state_filter=UP,DOWN,WARNING,UNREACHABLE,UNKNOWN,critical
+// * name_filter=<string>
+// * objtype_filter=<string>
 
 function page_router()
 {
 
-	$mode = NULL;
-	$type = NULL;
-	$filter = NULL;
+	global $authorizations;
 
-	if (isset($_GET['mode'])) { $mode = strtolower($_GET['mode']); }
-	if (isset($_GET['type'])) { $type = strtolower($_GET['type']); }
+	list($mode, $type) = array(NULL, NULL);
+	list($state_filter, $name_filter, $objtype_filter) = array(NULL, NULL, NULL);
 
-	if ($mode == 'filter') {
-		if (isset($_GET['arg'])) { $state = $_GET['arg']; }
-		else { $mode = NULL; }
+	if (isset($_GET['mode'])) { $mode = strtolower($_GET['mode']); } else { $mode = 'html'; }
+	if (isset($_GET['type'])) { $type = strtolower($_GET['type']); } else { $type = 'overview'; }
+
+	if (isset($_GET['state_filter']))   { $state_filter    = strtoupper($_GET['state_filter']);    }
+	if (isset($_GET['name_filter']))    { $name_filter     = strtolower($_GET['name_filter']);     }
+	if (isset($_GET['objtype_filter'])) { $objtype_filter  = strtolower($_GET['objtype_filter']);  }
+
+	print mode_header($mode);
+
+	switch($type) {
+		case 'services':
+		case 'hosts':
+			if ($authorizations[$type] == 1) {
+				$data = hosts_and_services_data($type, $state_filter, $name_filter);
+				print hosts_and_services_output($type, $data, $mode);
+			}
+		break;
+
+		case 'hostgroups':
+		case 'servicegroups':
+			if($authorizations['hosts']==1)
+			{ 
+				if ($type == 'hostgroups' || ($type == 'servicegroups' && $authorizations['services']==1)) {
+					$data = hostgroups_and_servicegroups_data($type);
+					print hostgroups_and_servicegroups_output($type, $data, $mode);
+				}
+			}	
+
+		break;
+
+		case 'hostdetail':
+		case 'servicedetail':
+		if($authorizations['hosts']==1 && $name_filter)
+		{
+			$data = host_and_service_detail_data($type, $name_filter);
+			print host_and_service_detail_output($type, $data, $mode);
+		}	
+		break;
+
+		case 'object':
+			if ($objtype_filter)
+			{
+				if($authorizations['configuration_information']==1 || 
+				   $authorizations['host_commands']==1             ||
+				   $authorizations['service_commands']==1          ||
+				   $authorizations['system_commands']==1)
+				{
+					$data = object_data($objtype_filter, $name_filter);
+					print object_output($objtype_filter, $data, $mode);
+				}
+			}	
+		break;
+
+		case 'overview':
+		default:
+			show_tac();
+		break;
 	}
 
-	switch($mode) {
-		case 'view':
-		case 'object':
-		case 'filter':
+	print mode_footer($mode);
+
+}
+
+function mode_header($mode)
+{
+	$retval = '';
+	switch($mode)
+	{
+		case 'html':
 		default:
-			
 			$page_title = 'Nagios Visual Shell';
 			include(DIRBASE.'/views/header.php');  //html head 
-			print display_header($page_title);
-
-			// Displayed stuff
-			if ($mode == 'filter') {
-				command_router($type, $state);
-			} else {
-				switchboard($mode, $type);
-			}
-
-			include(DIRBASE.'/views/footer.php');  //html head 
-			print display_footer();
-			break;
-
-		case 'xml':
-			build_xml_page($array,$title);
-			header('Location: '.BASEURL.'tmp/'.$title.'.xml');
-			break;
+			$retval = display_header($page_title);
+		break;
 
 		case 'json':
-			break;
+		#case 'xml':
+		break;
 	}
-
+	return $retval;
 }
 
-
-//secondary controller for page redirection 
-function switchboard($mode, $type) //$type = $_GET[xml, view, object]   $arg=one of the global data arrays 
+function mode_footer($mode)
 {
-	global $authorizations;
-
-	//make conditional based on site permissions 
-	
-	//$type = valid $_GET variable 
-	//calls page display functions based on get variable and displays in index page
-
-	$data = NULL;
-	$title = NULL;
-	switch($type)
+	$retval = '';
+	switch($mode)
 	{
-		case 'services':
-		case 'hosts':
-		case 'hosts_objs':
-		case 'services_objs':
-		case 'timeperiods':
-		case 'contacts':
-		case 'servicegroups':
-		case 'hostgroups':
-		case 'contactgroups':
-		case 'commands':
-		case 'hostgroups_objs':
-		case 'servicegroups_objs':
-	
-			global $NagiosData;
-			$data = $NagiosData->getProperty($type);
-
-			$title = ucwords(preg_replace('/objs/', 'Objects', preg_replace('/_/', ' ', $type)));
+		case 'html':
+		default:
+			include(DIRBASE.'/views/footer.php');  //html head 
+			$retval = display_footer();
 		break;
 
-		default:
-		break;		
-	} 	
-	if(isset($data, $title))
-	{	
-		switch($mode) //change to include files for easier maintenance 
-		{
-			
-			case 'view':
-			//build_table($array);
-			list($start, $limit) = get_pagination_values();
-					
-			switch($type)
-			{
-				case 'services':
-				if($authorizations['services']==1)
-				{
-					include(DIRBASE.'/views/services.php');
-					print display_services($data, $start, $limit);
-				}	
-				break;
-				
-				case 'hosts':
-				if($authorizations['hosts']==1)
-				{
-					include(DIRBASE.'/views/hosts.php');
-					print display_hosts($data,$start,$limit);
-				}	  
-				break;
-				
-				case 'hostgroups':
-				if ($authorizations['hosts']==1)
-				{
-					include(DIRBASE.'/views/hostgroups.php');
-					$hostgroup_data = get_hostgroup_data();
-					print display_hostgroups($hostgroup_data);
-				}
-				break;
-
-				case 'servicegroups':
-				if($authorizations['hosts']==1 && $authorizations['services']==1)
-				{ 
-					include(DIRBASE.'/views/servicegroups.php');
-					$servicegroup_data = get_servicegroup_data();
-					print display_servicegroups($servicegroup_data);
-				}	
-				break;
-
-
-				default:
-				show_tac();
-				break;
-			}
-			break;
-						
-			case 'object':  //authorization filter depends on the object, see display_functions.php
-			if($authorizations['configuration_information']==1 || 
-			   $authorizations['host_commands']==1 ||
-			   $authorizations['service_commands']==1 ||
-			   $authorizations['system_commands']==1)
-			{
-				//moved build_object_list to config_viewer.php page for easier editing 
-				include(DIRBASE.'/views/config_viewer.php');
-				print build_object_list($data, $type);
-			}	
-			break;
-
-			default:
-			show_tac();
-			break;		
-		}	
+		case 'json':
+		#case 'xml':
+		break;
 	}
-	else
-	{
-		show_tac();
-	}	
+	return $retval;
 }
 
-function show_tac()
+function hosts_and_services_data($type, $state_filter, $name_filter)
 {
-	require(DIRBASE.'/views/tac.php');
-	print get_tac();
-}
-
-//////////////////////////////////////////////////////////
-//
-//expecting $cmd = 'getservicedetail' 
-//				$arg = 'serviceID' 
-//
-//processes command and displays page details based on arguments 
-//
-function command_router($cmd, $arg)
-{
-	global $authorizations;
 	global $NagiosData;
+	$data = $NagiosData->getProperty($type);
 
-	switch($cmd)
+	if ($state_filter)
 	{
-		case 'servicedetail':
-		if($authorizations['services']==1)
-		{
-			$dets = process_service_detail($arg);
-			require(DIRBASE.'/views/servicedetails.php');
-			print get_service_details($dets);	
+		$data = get_by_state($state_filter, $data); 
+	}
+	if ($name_filter)
+	{
+		$data = get_by_name($name_filter, $data);
+	}
+	return $data;
+}
 
-		}	  
-		break;
-		
-		case 'hostdetail':
-		if($authorizations['hosts']==1)
-		{
-			$dets = process_host_detail($arg);
-			require(DIRBASE.'/views/hostdetails.php');
-			print get_host_details($dets);
-		}	
-		break;
-		
-		case 'services':
-		if($authorizations['services']==1)
-		{
-			//global $services;
-			$services = $NagiosData->getProperty('services');
-
-			$servs = get_services_by_state(strtoupper($arg),$services); 
-			//see views/services.php 
-			list($start, $limit) = get_pagination_values();
-			include(DIRBASE.'/views/services.php');
-			print display_services($servs, $start, $limit);
-		}
-		break;
-		
-		case 'hosts':
-		if($authorizations['hosts']==1)
-		{
-			//global $hosts;
-			$hosts = $NagiosData->getProperty('hosts');
-
-			$f_hosts = get_hosts_by_state(strtoupper($arg),$hosts); 
-			//include(DIRBASE.'/views/services.php');
-			list($start, $limit) = get_pagination_values();
-			include(DIRBASE.'/views/hosts.php');
-			print display_hosts($f_hosts, $start, $limit);
-		}
-		break;
-		
+function hosts_and_services_output($type, $data, $mode)
+{
+	$retval = '';
+	switch($mode)
+	{
+		case 'html':
 		default:
-		#include_once(DIRBASE.'/views/tac.php');
-		show_tac();
+			list($start, $limit) = get_pagination_values();
+			$title = ucwords(preg_replace('/objs/', 'Objects', preg_replace('/_/', ' ', $type)));
+			include(DIRBASE.'/views/'.$type.'.php');
+			$display_function = 'display_'.$type;
+			$retval = $display_function($data, $start, $limit);
+		break;
+
+		case 'json':
+			$retval = json_encode($data);
 		break;
 	}
+	return $retval;
 }
+
+function hostgroups_and_servicegroups_data($type)
+{
+	include(DIRBASE.'/views/'.$type.'.php');
+	$data_function = 'get_'.preg_replace('/s$/', '', $type).'_data';
+	$data = $data_function();
+	return $data;
+}
+
+function hostgroups_and_servicegroups_output($type, $data, $mode)
+{
+	$retval = '';
+	switch($mode)
+	{
+		case 'html':
+		default:
+			$title = ucwords(preg_replace('/objs/', 'Objects', preg_replace('/_/', ' ', $type)));
+			$display_function = 'display_'.$type;
+			$retval = $display_function($data);
+		break;
+
+		case 'json':
+			$retval = json_encode($data);
+		break;
+	}
+	return $retval;
+}
+
+function host_and_service_detail_data($type, $name)
+{
+	$data_function = 'process_'.preg_replace('/detail/', '_detail', $type);
+	$data = $data_function($name);
+	return $data;
+}
+
+function host_and_service_detail_output($type, $data, $mode)
+{
+	$retval = '';
+	switch($mode)
+	{
+		case 'html':
+		default:
+			require(DIRBASE.'/views/'.$type.'s.php');
+			$display_function = 'get_'.preg_replace('/detail/', '_detail', $type).'s';
+			$retval = $display_function($data);
+		break;
+
+		case 'json':
+			$retval = json_encode($data);
+		break;
+	}
+	return $retval;
+}
+
+function object_data($objtype_filter, $name_filter)
+{
+	$valid_objtype_filters = array('hosts_objs', 'services_objs', 'hostgroups_objs', 'servicegroups_objs',
+		'timeperiods', 'contacts', 'contactgroups', 'commands');
+
+	if (in_array($objtype_filter, $valid_objtype_filters)) {
+		global $NagiosData;
+		$data = $NagiosData->getProperty($objtype_filter);
+
+		if ($name_filter)
+		{
+			$name_data = get_by_name($name_filter, $data);
+			$service_data = get_by_name($name_filter, $data, 'service_description');
+
+			$data = $name_data;
+			foreach ($service_data as $i => $service)
+			{
+				if (!isset($data[$i])) { $data[$i] = $service; }
+			}
+		}
+	}
+	return $data;
+}
+
+function object_output($objtype_filter, $data, $mode)
+{
+	$retval = '';
+	switch($mode)
+	{
+		case 'html':
+		default:
+			include(DIRBASE.'/views/config_viewer.php');
+			$retval = build_object_list($data, $objtype_filter);
+		break;
+
+		case 'json':
+			$retval = json_encode($data);
+		break;
+	}
+	return $retval;
+}
+
 
 function get_pagination_values()
 {

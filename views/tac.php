@@ -113,7 +113,7 @@ OVERVIEWTABLE;
 function hosts_table()
 {
 	$states = get_state_of('hosts');
-	$hostlink = htmlentities(BASEURL.'index.php?mode=filter&type=hosts&arg=');
+	$hostlink = htmlentities(BASEURL.'index.php?type=hosts&state_filter=');
 
 	$hosts_table =<<<HOSTSTABLE
 <!-- ########################HOSTS TABLE########################## -->
@@ -133,7 +133,7 @@ HOSTSTABLE;
 function services_table()
 {
 	$sts = get_state_of('services');
-	$servlink = htmlentities(BASEURL.'index.php?mode=filter&type=services&arg=');
+	$servlink = htmlentities(BASEURL.'index.php?type=services&state_filter=');
 
 	$services_table = <<<SERVICESTABLE
 <!-- ######################SERVICES TABLE##################### -->

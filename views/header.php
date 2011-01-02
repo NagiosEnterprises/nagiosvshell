@@ -56,8 +56,9 @@ function display_header($page_title)
 	$js_path = BASEURL.'js/';
 	$jquery_path = $js_path.'jquery-1.4.4.min.js';
 	$header_js_path = $js_path.'header.inc.js';
-	$css_path = BASEURL.'styles/style.css';
+	$css_path = BASEURL.'css/style.css';
 	$navlinks = build_nav_links();
+	$coreurl = COREURL;
 
 	$header = <<<HEADERDATA
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -85,7 +86,7 @@ function display_header($page_title)
 </head>
 <body onload="hide()">
 	<div class="corelink">
-		<a class="label" href="COREURL" target="_blank" title="Access Nagios Core">Access Nagios Core</a>
+		<a class="label" href="$coreurl" target="_blank" title="Access Nagios Core">Access Nagios Core</a>
 	</div>
 
 	<div class="topnav">

@@ -70,14 +70,14 @@ function get_hostgroup_data()
 			$hostgroup_data[$group]['member_data'][$member]['state_class'] = get_color_code($host);
 			$hostgroup_data[$group]['member_data'][$member]['services'] = array();
 			$hostgroup_data[$group]['member_data'][$member]['host_url'] = 
-				htmlentities(BASEURL.'index.php?mode=filter&type=hostdetail&arg='.$host['host_name']);
+				htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$host['host_name']);
 
 			if (isset($host['services'])) {
 				foreach($host['services'] as $service) {
 					$service_data = array(
 						'state_class' => get_color_code($service),
 						'description' => $service['service_description'],
-						'service_url' => htmlentities(BASEURL.'index.php?mode=filter&type=servicedetail&arg='.$service['serviceID']),
+						'service_url' => htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$service['serviceID']),
 					);
 					$hostgroup_data[$group]['member_data'][$member]['services'][] = $service_data;
 				}
@@ -129,10 +129,6 @@ function display_hostgroups($data)
 			$page .= "<tr>\n";
 	
 			//pull group member data from global $hosts array
-			#$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$host['host_name']);
-			#$host_url = htmlentities(BASEURL.'index.php?mode=filter&type=hostdetail&arg='.$host['host_name']);
-
-			
 			$page .= "<td><a href='{$member_data['host_url']}'>".$member_data['host_name']."</a></td><td class='{$member_data['state_class']}'>".$member_data['host_state'].'</td>';
 			$page .= "<td>\n";
 	

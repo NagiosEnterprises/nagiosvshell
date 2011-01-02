@@ -65,8 +65,8 @@ function get_servicegroup_data()
 		foreach ($members as $serv) {
 			$service_data = array(
 				'host_name'   => $serv['host_name'],
-				'host_url'    => htmlentities(BASEURL.'index.php?mode=filter&type=hostdetail&arg='.$serv['host_name']),
-				'service_url' => htmlentities(BASEURL.'index.php?mode=filter&type=servicedetail&arg='.$serv['serviceID']),
+				'host_url'    => htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$serv['host_name']),
+				'service_url' => htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$serv['serviceID']),
 				'plugin_output' => $serv['plugin_output'],
 				'description'   => $serv['service_description'],
 				'current_state' => $serv['current_state'],

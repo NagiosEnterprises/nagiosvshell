@@ -1,18 +1,16 @@
 <?php //config_viewer.php 
 
-//expecting 
-
 /////////////////////////////////////////////////////////////
 //used to view object configurations 
 //expects $array from objects file such as $hosts_objs 
 //        $arg is the argument taken from the browser.  example object=services_objs 
-function build_object_list($array, $arg) //expecting arrays from read_objects.php file 
+function build_object_list($data, $arg) //expecting arrays from read_objects.php file 
 {
 	global $authorizations;
 	$count = 0;
 
 	$object_list = "<ul class='configlist'>";
-	foreach($array as $a)
+	foreach($data as $a)
 	{
 		//default for no permissions 
 		$title = '';
@@ -26,7 +24,7 @@ function build_object_list($array, $arg) //expecting arrays from read_objects.ph
 				$name=$a['host_name'];
 				$linkkey = 'host'.$a['host_name'];
 				#$link = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$name);
-				$link = htmlentities(BASEURL.'index.php?mode=filter&type=hostdetail&arg='.$name);
+				$link = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$name);
 				$title = "Host: <a href='$link' title='Host Details'>$name</a>";
 			}
 			//else{ continue; }
@@ -40,9 +38,9 @@ function build_object_list($array, $arg) //expecting arrays from read_objects.ph
 				$linkkey = 'service'.$count;
 				$host = $a['host_name'];
 				#$hlink = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$host);
-				$hlink = htmlentities(BASEURL.'index.php?mode=filter&type=hostdetail&arg='.$host);
+				$hlink = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$host);
 				#$link = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$linkkey);
-				$link = htmlentities(BASEURL.'index.php?mode=filter&type=servicedetail&arg='.$linkkey);
+				$link = htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$linkkey);
 				$title = "Host: <a href='$hlink' title='Host Details'>$host</a> 
 							Service:<a href='$link' title='Service Details'>$name</a>";	
 			}							
@@ -125,7 +123,7 @@ function build_object_list($array, $arg) //expecting arrays from read_objects.ph
 		<tr><th>Config</th><th>Value</th></tr>
 		
 CONFIG;
-//end HEREDOC 
+
 		if($title!='') //only display if authorized 
 		{
 			$object_list .= $confighead;
@@ -133,9 +131,11 @@ CONFIG;
 			foreach($a as $key => $value)
 			{	
 				
-				$object_list .= "<tr class='objectList'>
-							<td>$key</td><td>$value</td>
-						</tr>\n";			
+				$object_list .= <<<TABLEROW
+<tr class='objectList'>
+	<td>$key</td><td>$value</td>
+</tr>
+TABLEROW;
 			}
 			$object_list .= "</table></div>";
 		}//end IF 

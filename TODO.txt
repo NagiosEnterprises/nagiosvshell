@@ -6,25 +6,27 @@ BUGS
 
 MODEL/DATA
 
-- put all cfg readers into functions to prevent variable overlap
--isolate reading data into separate functions to improve performance
-	-page_router() calls function to build appropriate array and then send it to the correct page for display    
-
+-page_router() calls function to build appropriate array and then send it to the correct page for display    
+- turn the data that is read from the cgi.cfg file into session data so it only has to be read once
+- Eventually the "read_status" and "read_detail" need to be restructured so that it only reads the status file once and then the controller determines how the info should be processed (either for a table or a host/service details page).  This would probably be a bigger change.
 
 CONTROLLER
 
 
 -filtering functions for hosts and services (warning, OK, critical) for group pages
+## same as above, just needs a filtering function for the host and services arrays, and then the array can be passed to the hosts.php or services.php pages to view a table of "all hosts with notifications disabled," or something to that effect.
 
 -create filtered tables based on Monitoring Features on tactical overview 
 - update xml viewer for all pages and insert links into pages  
+##There is an xml builder built into the V-Shell, although it's not fully implemented yet.  If you pass the arguments index.php?xml=hosts you'll see what I mean.  I've only added this for some things so far, but it basically just turns an array into xml data and writes it to an xml file in the tmp directory.
 
 
 VIEW
 
-**---- create page numbering ability
--create "problems" table for tactical overview page 
+- create "problems" table for tactical overview page 
+# need a table and a filter for "unhandled problems" that haven't been acknowledged.  This is in the tactical overview in core, and I think a lot of people use it.
 - search ability for hosts and services 
+# need to be able to filter a services table by a search string so people with 8000 services can find what they need
 
 - tactical overview - additional data about monitoring performance??
 - tactical overview - filter for flapping, notification, event handlers, active checks, passive checks 
@@ -38,5 +40,4 @@ DOC
 --need documentation for user authentication/viewing for apache (when using Nagios XI)
 
 MISC
-- 'ereg' function is now officially deprecated in php5.3.3, need to update to preg_match or one of the newer functions.  
 
