@@ -154,7 +154,8 @@ class NagiosData
 	}
 
 	// A private constructor; prevents direct creation of object
-	private function __construct() {
+	private function __construct()
+	{
 		$this->_vars = array();
 	}
 
@@ -186,11 +187,13 @@ class NagiosData
 
 	}
 
-	private static function _is_valid_variable($var) {
+	private static function _is_valid_variable($var)
+	{
 		return in_array($var, NagiosData::$property_list);
 	}
 
-	private function _setProperty($var, $value) {
+	private function _setProperty($var, $value)
+	{
 		if (self::_is_valid_variable($var)) {
 			$this->_vars[$var] = $value;
 		} else {

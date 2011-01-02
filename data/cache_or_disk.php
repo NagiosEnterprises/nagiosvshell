@@ -49,7 +49,8 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 // Check for Alternative PHP Cache enabled on the system
-function useAPC() {
+function useAPC()
+{
 	$useAPC = FALSE;
 
 	// if we have PHP and APC
@@ -111,7 +112,8 @@ function cache_needs_update($keyword, $backing_file)
 // backing_file is one of the constants defined in constants.inc.php
 // cache_keys are the names of the arrays to be restored at the end of this function
 //   These keys are the names of the globals previously defined (mostly) in data.inc.php
-function cache_or_disk($keyword, $backing_file, $cache_keys) {
+function cache_or_disk($keyword, $backing_file, $cache_keys)
+{
 
 //  fb("cache_or_disk({$keyword}, {$backing_file}, ...");
 //  fb($cache_keys, "cache_keys");
@@ -189,7 +191,8 @@ function cache_or_disk($keyword, $backing_file, $cache_keys) {
 
 // If we have to read from disk, call the appropriate parsing
 // function
-function read_disk($keyword, $cache_keys) {
+function read_disk($keyword, $cache_keys)
+{
 	include("read_$keyword.php");
 
 	$func = 'parse_'.$keyword.'_file';

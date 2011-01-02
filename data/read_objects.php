@@ -62,7 +62,8 @@
  * $timeperiods
  * $commands
  */
-function parse_objects_file($objfile = OBJECTSFILE) {
+function parse_objects_file($objfile = OBJECTSFILE)
+{
 
 	$objs_file = fopen($objfile, "r") or die("Unable to open '$objfile' file!");
 	
@@ -119,7 +120,8 @@ function parse_objects_file($objfile = OBJECTSFILE) {
 	return $object_collector;
 }
 
-function typemap($type) {
+function typemap($type)
+{
   $retval = NULL;
   if (in_array($type, array('host', 'service', 'hostgroup', 'servicegroup'))) {
 	$retval = $type.'s_objs';

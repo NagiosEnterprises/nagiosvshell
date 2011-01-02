@@ -3,7 +3,8 @@
 /* Given a timestamp calculate how long ago, in seconds, that timestamp was.
  * Returns a human readable version of that difference
  */
-function calculate_duration($beginning) {
+function calculate_duration($beginning)
+{
         $now = time();
         $duration = ($now - $beginning);
         //$retval = date('d\d-H\h-i\m-s\s', $duration);
@@ -11,7 +12,8 @@ function calculate_duration($beginning) {
         return $retval;
 }
 
-function coarse_time_calculation($duration) {
+function coarse_time_calculation($duration)
+{
     $seconds_per_minute = 60;
     $seconds_per_hour = $seconds_per_minute * $seconds_per_minute;
     $seconds_per_day = 24*$seconds_per_hour;

@@ -135,7 +135,8 @@ function get_services_by_state($state, $service_data)
 	return get_by_state($state, $service_data);
 }
 
-function get_by_state($state, $data) {
+function get_by_state($state, $data)
+{
 
 	return array_filter($data, create_function('$d', 'return $d[\'current_state\'] == \''.$state.'\';'));
 
@@ -224,7 +225,8 @@ function return_enabled($arg)
 	return index_or_default($arg, array('Disabled', 'Enabled'), 'Unknown');
 }
 
-function index_or_default($arg, $vals, $default) {
+function index_or_default($arg, $vals, $default)
+{
 	return (isset($vals[$arg]) ? $vals[$arg] : $default);
 }
 

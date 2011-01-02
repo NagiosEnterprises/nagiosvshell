@@ -57,7 +57,8 @@
 /* Parse STATUSFILE for status information, nagios information, as well as 
  * build the details array and collect comments
  */
-function parse_status_file($statusfile = STATUSFILE) {
+function parse_status_file($statusfile = STATUSFILE)
+{
 
 	$file = fopen($statusfile, "r") or die("Unable to open '$statusfile' file!");
 	
@@ -143,7 +144,8 @@ function parse_status_file($statusfile = STATUSFILE) {
  * Maps host states from integers into "standard" nagios values
  * Assigns to each collected service a hostID
  */
-function process_host_status_keys($rawdata) {
+function process_host_status_keys($rawdata)
+{
 
 	static $hostindex = 1;
 	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth'));
@@ -160,7 +162,8 @@ function process_host_status_keys($rawdata) {
  * Maps service states from integers into "standard" nagios values
  * Assigns to each collected service a serviceID
  */
-function process_service_status_keys($rawdata) {
+function process_service_status_keys($rawdata)
+{
 
 	static $serviceindex = 0;
 	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth', 'service_description'));
@@ -177,7 +180,8 @@ function process_service_status_keys($rawdata) {
 /* given some raw data return an array of shared ("standard values") and 
  *  keys which need to be copied verbatim into the output
  */
-function get_standard_values($rawdata, $identical_keys) {
+function get_standard_values($rawdata, $identical_keys)
+{
 	$standard_values = array();
 	
 	foreach($identical_keys as $key) { 
@@ -195,7 +199,8 @@ function get_standard_values($rawdata, $identical_keys) {
  *   human readable values, return the associated value to that state.  If no
  *   appropriate value is provided return 'UNKNOWN'
  */
-function state_map($cur_state, $states) {
+function state_map($cur_state, $states)
+{
 	return array_key_exists($cur_state, $states) ? $states[$cur_state] : 'UNKNOWN';
 }
 
