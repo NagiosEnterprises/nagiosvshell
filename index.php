@@ -77,5 +77,5 @@ else
 	print "Access Denied";
 }
 
-
+ob_end_flush();
 ?>
