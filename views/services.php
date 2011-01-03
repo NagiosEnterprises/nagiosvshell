@@ -68,9 +68,10 @@ function display_services($services,$start,$limit)
 	//if no result limit is defined, page will display all results.  Default limit is 100 results
 	//calculate number of pages 
 	$pageCount = (($resultsCount / $limit) < 1) ? 1 : intval($resultsCount/$limit);
+	$doPagination = $pageCount * $limit < $resultsCount;
 	
 	//check if more than one page is needed 
-	if($pageCount * $limit < $resultsCount)
+	if($doPagination)
 	{
 		$table .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
 	}
@@ -78,6 +79,7 @@ function display_services($services,$start,$limit)
 	//creates notes for total results as well as form for setting page limits 
 	$table .= do_result_notes($start,$limit,$resultsCount,'services');
 
+	$name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
 	$table .= <<<FILTERDIV
 <div class='resultFilter'>
 	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
@@ -86,16 +88,17 @@ function display_services($services,$start,$limit)
 		<select id='resultfilter' name='state_filter' onChange='this.form.submit();'>
 FILTERDIV;
 
-		foreach (array('OK', 'WARNING', 'CRITICAL', 'UNKNOWN') as $val)
+		foreach (array('', 'OK', 'WARNING', 'CRITICAL', 'UNKNOWN') as $val)
 		{
 			$selected = (isset($_GET['state_filter']) && $_GET['state_filter'] == $val) ? "selected='selected'" : '';
-			$table .= "<option value=\"$val\" $selected>$val</option>\n";
+			$display_val = $val == '' ? 'None' : $val;
+			$table .= "<option value=\"$val\" $selected>$display_val</option>\n";
 		}
 
 	$table .= <<<FILTERDIV
 		</select><br />
 		<label class='label' for='name_filter'>Search String</label>
-		<input type="text" name='name_filter' value={$_GET['name_filter']}></input>
+		<input type="text" name='name_filter' value="$name_filter"></input>
 		<input type='submit' name='submitbutton' value='Filter' />
 	</form>
 </div>
@@ -168,6 +171,12 @@ TABLEROW;
 		
 	}
 	$table .= '</table>';
+
+	if($doPagination)
+	{
+		$table .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
+	}
+
 	return $table;
 }
 //end php 

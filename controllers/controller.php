@@ -103,7 +103,7 @@ function page_router()
 			if($authorizations['hosts']==1)
 			{ 
 				if ($type == 'hostgroups' || ($type == 'servicegroups' && $authorizations['services']==1)) {
-					$data = hostgroups_and_servicegroups_data($type);
+					$data = hostgroups_and_servicegroups_data($type, $name_filter);
 					$html_output_function = 'hostgroups_and_servicegroups_output';
 				}
 			}	
@@ -188,7 +188,7 @@ function mode_footer($mode)
 	return $retval;
 }
 
-function hosts_and_services_data($type, $state_filter, $name_filter)
+function hosts_and_services_data($type, $state_filter=NULL, $name_filter=NULL)
 {
 	global $NagiosData;
 	$data = $NagiosData->getProperty($type);
@@ -227,11 +227,23 @@ function hosts_and_services_output($type, $data, $mode)
 	return $retval;
 }
 
-function hostgroups_and_servicegroups_data($type)
+function hostgroups_and_servicegroups_data($type, $name_filter=NULL)
 {
 	include(DIRBASE.'/views/'.$type.'.php');
 	$data_function = 'get_'.preg_replace('/s$/', '', $type).'_data';
 	$data = $data_function();
+	if ($name_filter)
+	{
+
+		// TODO filters against Services and/or hosts within groups, status of services/hosts in groups, etc...
+		$name = preg_quote($name_filter, '/');
+		$match_keys = array_filter(array_keys($data), create_function('$d', 'return !preg_match("/'.$name.'/i", $d);'));
+		// XXX is there a better way?
+		foreach ($match_keys as $key)
+		{
+			unset($data[$key]);
+		}
+	}
 	return $data;
 }
 

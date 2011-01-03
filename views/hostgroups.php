@@ -91,6 +91,18 @@ function display_hostgroups($data)
 {
 	$page = "";
 	$page .= "<h3>Host Groups</h3>";
+
+	$name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
+	$page .= <<<FILTERDIV
+<div class='resultFilter'>
+	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
+		<input type="hidden" name="type" value="{$_GET['type']}">
+		<label class='label' for='name_filter'>Search Host Group Names</label>
+		<input type="text" name='name_filter' value="$name_filter"></input>
+		<input type='submit' name='submitbutton' value='Filter' />
+	</form>
+</div>
+FILTERDIV;
 	
 	//$start_time = microtime(TRUE);
 	
