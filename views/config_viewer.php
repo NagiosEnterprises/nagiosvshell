@@ -11,13 +11,18 @@ function build_object_list($data, $arg) //expecting arrays from read_objects.php
 
 	$object_list = '';
 
+
+	$name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
+	$objtype_filter = isset($_GET['objtype_filter']) ? $_GET['objtype_filter'] : '';
+	$type = isset($_GET['type']) ? $_GET['type'] : '';
+
 	$object_list .= <<<FILTERDIV
 <div class='resultFilter'>
 	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
-		<input type="hidden" name="type" value="{$_GET['type']}">
-		<input type="hidden" name="objtype_filter" value="{$_GET['objtype_filter']}">
+		<input type="hidden" name="type" value="$type">
+		<input type="hidden" name="objtype_filter" value="$objtype_filter">
 		<label class='label' for='name_filter'>Search String</label>
-		<input type="text" name='name_filter' value="{$_GET['name_filter']}"></input>
+		<input type="text" name='name_filter' value="$name_filter"></input>
 		<input type='submit' name='submitbutton' value='Filter' />
 	</form>
 </div>

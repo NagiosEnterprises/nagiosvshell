@@ -85,10 +85,12 @@ function display_servicegroups($data)
 	$page .= "<h3>Service Groups</h3>";
 
 	$name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
+	$type = isset($_GET['type']) ? $_GET['type'] : '';
+
 	$page .= <<<FILTERDIV
 <div class='resultFilter'>
 	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
-		<input type="hidden" name="type" value="{$_GET['type']}">
+		<input type="hidden" name="type" value="$type">
 		<label class='label' for='name_filter'>Search Service Group Names</label>
 		<input type="text" name='name_filter' value="$name_filter"></input>
 		<input type='submit' name='submitbutton' value='Filter' />
