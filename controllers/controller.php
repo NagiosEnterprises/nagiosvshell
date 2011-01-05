@@ -88,7 +88,8 @@ function page_router()
 	if (isset($_GET['objtype_filter'])) { $objtype_filter  = strtolower($_GET['objtype_filter']);  }
 
 
-	$html_output_function = NULL;
+	list($data, $html_output_function) = array(NULL, NULL);
+
 	switch($type) {
 		case 'services':
 		case 'hosts':

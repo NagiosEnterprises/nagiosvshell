@@ -74,13 +74,15 @@ function display_header($page_title)
 <meta http-equiv="content-style-type" content="text/css" />
 <meta http-equiv="content-language" content="en" />
 <meta name="site" content="Nagios" />
-<script type="text/javascript" src="$jquery_path"></script>
-<script type="text/javascript" src="$header_js_path"></script>
 
 <link rel="stylesheet" href="$css_path" type="text/css" media="screen" />
 <style type="text/css">
-/* use external stylesheet to control page style */
+<!-- use external stylesheet to control page style -->
 </style>
+
+<script type="text/javascript" src="$jquery_path"></script>
+<script type="text/javascript" src="$header_js_path"></script>
+
 
 
 </head>

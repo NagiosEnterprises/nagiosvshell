@@ -84,7 +84,7 @@ function display_services($services,$start,$limit)
 <div class='resultFilter'>
 	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
 		<input type="hidden" name="type" value="services">
-		<label class='label' for='state_filter'>Filter Results</label>
+		<label class='label' for='state_filter'>Filter By Service State</label>
 		<select id='resultfilter' name='state_filter' onChange='this.form.submit();'>
 FILTERDIV;
 
@@ -97,7 +97,7 @@ FILTERDIV;
 
 	$table .= <<<FILTERDIV
 		</select><br />
-		<label class='label' for='name_filter'>Search String</label>
+		<label class='label' for='name_filter'>Search Host/Service Name:</label>
 		<input type="text" name='name_filter' value="$name_filter"></input>
 		<input type='submit' name='submitbutton' value='Filter' />
 	</form>

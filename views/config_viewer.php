@@ -21,7 +21,7 @@ function build_object_list($data, $arg) //expecting arrays from read_objects.php
 	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
 		<input type="hidden" name="type" value="$type">
 		<input type="hidden" name="objtype_filter" value="$objtype_filter">
-		<label class='label' for='name_filter'>Search String</label>
+		<label class='label' for='name_filter'>Search Configuration Name:</label>
 		<input type="text" name='name_filter' value="$name_filter"></input>
 		<input type='submit' name='submitbutton' value='Filter' />
 	</form>

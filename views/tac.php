@@ -154,7 +154,7 @@ SERVICESTABLE;
 }
 
 function search_box() {
-	$box .= <<<FILTERDIV
+	$box = <<<FILTERDIV
 <!-- #####################SEARCH BOX####################-->
 <div class='resultFilter'>
 	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>

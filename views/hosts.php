@@ -83,7 +83,7 @@ function display_hosts($hosts, $start,$limit)
 <div class='resultFilter'>
 	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
 		<input type="hidden" name="type" value="hosts">
-		<label class='label' for='pagelimit'>Filter Results</label>
+		<label class='label' for='pagelimit'>Filter by Host State:</label>
 		<select id='resultfilter' name='state_filter' onChange='this.form.submit();'>
 FILTERDIV;
 
@@ -96,7 +96,7 @@ FILTERDIV;
 
 	$table .= <<<FILTERDIV
 		</select><br />
-		<label class='label' for='name_filter'>Search String</label>
+		<label class='label' for='name_filter'>Search Hostname:</label>
 		<input type="text" name='name_filter' value="$name_filter"></input>
 		<input type='submit' name='submitbutton' value='Filter' />
 	</form>

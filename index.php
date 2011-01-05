@@ -51,7 +51,6 @@
 
 session_start(); //no need for sessions at this time
 ob_start();
-echo '<?xml version="1.0" encoding="UTF-8"?>'; 		
  
 include(dirname(__FILE__).'/inc.inc.php'); //master include file 
 $page_title = 'Nagios Visual Shell';
