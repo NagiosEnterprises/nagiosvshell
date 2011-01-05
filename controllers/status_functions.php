@@ -249,7 +249,7 @@ function check_comments($hostname='',$servicename='')
 			$servicename = trim($servicename);
 			if ($servicename != '') {
 				foreach($hosts[$hostname]['comments'] as $comment) {
-					if ($comment['service_description'] == $servicename) {
+					if (isset($comment['service_description']) && $comment['service_description'] == $servicename) {
 						$count++;
 					}
 				}
