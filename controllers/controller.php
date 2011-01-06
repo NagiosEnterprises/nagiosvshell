@@ -80,12 +80,12 @@ function page_router()
 	list($mode, $type) = array(NULL, NULL);
 	list($state_filter, $name_filter, $objtype_filter) = array(NULL, NULL, NULL);
 
-	if (isset($_GET['mode'])) { $mode = strtolower($_GET['mode']); } else { $mode = 'html'; }
 	if (isset($_GET['type'])) { $type = strtolower($_GET['type']); } else { $type = 'overview'; }
+	if (isset($_GET['mode'])) { $mode = strtolower($_GET['mode']); } else { $mode = 'html'; }
 
-	if (isset($_GET['state_filter']))   { $state_filter    = strtoupper($_GET['state_filter']);    }
-	if (isset($_GET['name_filter']))    { $name_filter     = strtolower($_GET['name_filter']);     }
-	if (isset($_GET['objtype_filter'])) { $objtype_filter  = strtolower($_GET['objtype_filter']);  }
+	if (isset($_GET['state_filter']))   { $state_filter    = process_state_filter($_GET['state_filter']);     }
+	if (isset($_GET['name_filter']))    { $name_filter     = process_name_filter($_GET['name_filter']);       }
+	if (isset($_GET['objtype_filter'])) { $objtype_filter  = process_objtype_filter($_GET['objtype_filter']); }
 
 
 	list($data, $html_output_function) = array(NULL, NULL);
@@ -155,10 +155,54 @@ function page_router()
 			header('Content-type: application/json');
 			$output = json_encode($data);
 		break;
+
+		case 'xml':
+			require(DIRBASE.'/views/xml.php');
+			$title = ucwords($type);
+			header('Location: '.BASEURL.'tmp/'.$title.'.xml');
+			header('Content-type: text/xml');
+			build_xml_page($data, $title);
+			#$output = build_xml_data($data, $title);
+		break;
 	}
 	print $output;
 
 }
+
+function process_state_filter($filter_str)
+{
+	$ret_filter = NULL;
+	$filter_str = strtoupper($filter_str);
+	$valid_states = array('UP', 'DOWN', 'UNREACHABLE', 'OK', 'CRITICAL', 'WARNING', 'UNKNOWN');
+
+
+	if (in_array($filter_str, $valid_states))
+	{
+		$ret_filter = $filter_str;
+	}
+	return $ret_filter;
+}
+
+function process_name_filter($filter_str) {
+	$filter_str = preg_quote(strtolower($filter_str), '/');
+	return $filter_str;
+}
+
+function process_objtype_filter($filter_str)
+{
+	$ret_filter = NULL;
+	$filter_str = strtolower($filter_str);
+	$valid_objtypes_ = array('hosts_objs', 'services_objs', 'hostgroups_objs', 'servicegroups_objs',
+		'timeperiods', 'contacts', 'contactgroups', 'commands');
+
+
+	if (in_array($filter_str, $valid_objtypes))
+	{
+		$ret_filter = $filter_str;
+	}
+	return $ret_filter;
+}
+
 
 function mode_header($mode)
 {
