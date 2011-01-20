@@ -321,4 +321,4 @@ ul.configlist, li.configlist {
 	padding: 0px; 
 	list-style:none; 
 	}
-
+div.hidden { visibility: hidden; height: 0px; }

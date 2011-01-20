@@ -192,10 +192,8 @@ function process_objtype_filter($filter_str)
 {
 	$ret_filter = NULL;
 	$filter_str = strtolower($filter_str);
-	$valid_objtypes_ = array('hosts_objs', 'services_objs', 'hostgroups_objs', 'servicegroups_objs',
+	$valid_objtypes = array('hosts_objs', 'services_objs', 'hostgroups_objs', 'servicegroups_objs',
 		'timeperiods', 'contacts', 'contactgroups', 'commands');
-
-
 	if (in_array($filter_str, $valid_objtypes))
 	{
 		$ret_filter = $filter_str;

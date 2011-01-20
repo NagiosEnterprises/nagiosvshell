@@ -44,6 +44,9 @@ function showHide(id)
 {
 	//alert(id);
 	var divID = "#"+id;
+	$(divID).css('height','100%')
+		.css('visibility','visible');
+			
 	$(divID).slideToggle("fast");
 	   
 }
@@ -51,5 +54,5 @@ function showHide(id)
 function hide()
 {
 	//alert("this is a functional alert");
-	$("div.hidden").hide();
+	$(".hidden").hide();
 }

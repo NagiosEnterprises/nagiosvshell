@@ -82,11 +82,15 @@ function display_header($page_title)
 
 <script type="text/javascript" src="$jquery_path"></script>
 <script type="text/javascript" src="$header_js_path"></script>
-
-
+<script type="text/javascript">
+$(document).ready(function() {
+  // Handler for .ready() called.
+	hide();
+});
+</script>
 
 </head>
-<body onload="hide()">
+<body>
 	<div class="corelink">
 		<a class="label" href="$coreurl" target="_blank" title="Access Nagios Core">Access Nagios Core</a>
 	</div>
