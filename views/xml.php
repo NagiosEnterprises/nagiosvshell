@@ -49,12 +49,11 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
-
 //generates xml from any of the data arrays
 //pass any array to this function to convert to xml data  
 function build_xml_data($array, $title) 
 {
+
 	$xmldata =  '<?xml version="1.0" encoding="iso-8859-1"?>'."\n"; //doctype 
 	$xmldata .= "<$title>\n"; //root tag
 	foreach($array as $a)
@@ -69,7 +68,11 @@ function build_xml_data($array, $title)
 	}	
 	$xmldata .= "</$title>\n"; //closing tag 
 	return $xmldata;
+
 }
+ 
+
+
 
 //dynamical generates an XML file 
 function build_xml_page($array, $title) 
@@ -82,5 +85,9 @@ function build_xml_page($array, $title)
 	//header('Location: '.BASEURL.'tmp/'.$title.'.xml');
 
 }
+
+
+
+
 
 ?>

@@ -122,7 +122,7 @@ function parse_status_file($statusfile = STATUSFILE)
 		
 		} elseif ($curtype != NULL) {
 			# Collect the key-value pairs for the definition
-			list($key, $value) = explode('=', trim($line), 2);
+			@list($key, $value) = explode('=', trim($line), 2);
 			$kvp[trim($key)] = htmlentities(trim($value), ENT_QUOTES);
 		
 		} else {

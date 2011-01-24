@@ -137,6 +137,7 @@ function page_router()
 
 		case 'overview':
 		default:
+			//create function to return tac data as an array 
 			require(DIRBASE.'/views/tac.php');
 			$html_output_function = 'get_tac';
 		break;
@@ -157,11 +158,12 @@ function page_router()
 		break;
 
 		case 'xml':
-			require(DIRBASE.'/views/xml.php');
+			require_once(DIRBASE.'/views/xml.php');
 			$title = ucwords($type);
-			header('Location: '.BASEURL.'tmp/'.$title.'.xml');
-			header('Content-type: text/xml');
 			build_xml_page($data, $title);
+			//header('Location: '.BASEURL.'tmp/'.$title.'.xml');
+			//header('Content-type: text/xml');
+
 			#$output = build_xml_data($data, $title);
 		break;
 	}
