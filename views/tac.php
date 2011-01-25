@@ -49,6 +49,192 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+//returns $tac_data array - all of the counter statistics for the tactical overview 
+
+function get_tac_data()
+{
+	//print "<br /><br /><br /><br />";
+	global $username;
+	global $NagiosData;
+	$now = time();
+	$info = $NagiosData->getProperty('info');
+	$program = $NagiosData->getProperty('program');
+	$program = $program[0]; 
+	$services = $NagiosData->grab_details('service'); 
+	$hosts = $NagiosData->grab_details('host');
+	$h_states = $NagiosData->getProperty('host'); 	
+	$tac_data = array(); //main array with all of the counter data for this function 
+
+	//default to xml 
+	//prepare data for consolidated array 
+	$hoststates = get_state_of('hosts');
+	$servicestates = get_state_of('services');
+	
+	///////////////////////////create function counts, LOOP ONCE with lots of counters 
+	///problems acknowledged
+		//sentry host counters for loops 
+	$hostsDownAcknowledged = 0;
+	$hostsDownUnhandled = 0;
+	$hostsUnreachableAcknowledged = 0;
+	$hostsUnreachableUnhandled = 0;
+	$hostsUpDisabled = 0;
+	$hostsDownDisabled = 0;
+	$hostsUnreachableDisabled = 0;
+	$hostsPending = 0; 
+	$hostsPendingDisabled =0; 
+	$hostsDownScheduled =0;
+	$hostsUnreachableScheduled=0;  
+	
+	//sentry service counters for loops 
+	$servicesWarningAcknowledged = 0;
+	$servicesWarningUnhandled = 0;
+	$servicesCriticalAcknowledged = 0;
+	$servicesCriticalUnhandled = 0;
+	$servicesUnknownAcknowledged = 0;
+	$servicesUnknownUnhandled = 0;
+	$servicesOkDisabled = 0; 
+	$servicesWarningDisabled = 0;
+	$servicesCriticalDisabled = 0;
+	$servicesUnknownDisabled = 0;
+	$servicesPending = 0;
+	$servicesPendingDisabled = 0; 
+	$servicesWarningHostProblem = 0; 
+	$servicesUnknownScheduled = 0; 
+	$servicesCriticalScheduled = 0; 
+	$servicesWarningScheduled = 0; 
+	$servicesUnknownHostProblem=0; 
+	$servicesWarningHostProblem=0;
+	$servicesCriticalHostProblem=0;
+
+	foreach($hosts as $h)
+	{
+		if($h['last_check']==0 && $h['active_checks_enabled'] == 1)  { $hostsPending++;  continue; } //skip ahead for pending 
+		if($h['last_check'] == 0 && $h['active_checks_enabled'] == 0)  { $hostsPendingDisabled++;  continue; } //pending 
+		if($h['current_state']==0 && $h['active_checks_enabled'] == 0) $hostsUpDisabled++;
+		if($h['current_state']==1 && $h['active_checks_enabled'] == 0) $hostsDownDisabled++;				
+		if($h['current_state']==1 && $h['problem_has_been_acknowledged'] > 0) $hostsDownAcknowledged++; 
+		if($h['current_state']==1 && $h['problem_has_been_acknowledged'] == 0)  $hostsDownUnhandled++; 
+		if($h['current_state']==1 && $h['scheduled_downtime_depth'] > 0) $hostsDownScheduled++;	
+		if($h['current_state']==2 && $h['active_checks_enabled'] == 0) $hostsUnreachableDisabled++;		
+		if($h['current_state']==2 && $h['problem_has_been_acknowledged'] > 0)  $hostsUnreachableAcknowledged++; 
+		if($h['current_state']==2 && $h['problem_has_been_acknowledged'] == 0) $hostsUnreachableUnhandled++; 
+		if($h['current_state']==2 && $h['scheduled_downtime_depth'] > 0) $hostsUnreachableScheduled++;
+	} 
+
+	foreach($services as $s)
+	{
+		$current_host = $h_states[$s['host_name']];	
+		if($s['last_check'] == 0 && $s['active_checks_enabled'] == 1) { $servicesPending++; continue; } 
+		if($s['last_check'] == 0 && $s['active_checks_enabled'] == 0) { $servicesPendingDisabled++;  continue;  }
+		if($s['active_checks_enabled'] == 0) $servicesDisabled++;			 
+		if($s['current_state']==0 && $s['active_checks_enabled'] == 0) $servicesOkDisabled++;
+		if($s['current_state']==1 && $s['active_checks_enabled'] == 0) $servicesWarningDisabled++;
+		if($s['current_state']==1 && $current_host['current_state'] > 0) $servicesWarningHostProblem++; 						
+		if($s['current_state']==1 && $s['problem_has_been_acknowledged'] > 0) $servicesWarningAcknowledged++; 
+		if($s['current_state']==1 && $s['problem_has_been_acknowledged'] == 0) $servicesWarningUnhandled++;
+		if($s['current_state']==1 && $s['scheduled_downtime_depth'] > 0) $servicesWarningScheduled++; 
+		if($s['current_state']==2 && $s['active_checks_enabled'] == 0) $servicesCriticalDisabled++;
+		if($s['current_state']==2 && $s['problem_has_been_acknowledged'] > 0)  $servicesCriticalAcknowledged++; 
+		if($s['current_state']==2 && $s['problem_has_been_acknowledged'] == 0) $servicesCriticalUnhandled++; 
+		if($s['current_state']==2 && $s['scheduled_downtime_depth'] > 0) $servicesCriticalScheduled++;		
+		if($s['current_state']==2 && $current_host['current_state'] > 0) $servicesCriticalHostProblem++;
+		if($s['current_state']==3 && $s['active_checks_enabled'] == 0) $servicesUnknownDisabled++;
+		if($s['current_state']==3 && $s['problem_has_been_acknowledged'] > 0) $servicesUnknownAcknowledged++; 
+		if($s['current_state']==3 && $s['problem_has_been_acknowledged'] == 0) $servicesUnknownUnhandled++;  
+		if($s['current_state']==3 && $current_host['current_state'] > 0) $servicesUnknownHostProblem++;
+		if($s['current_state']==3 && $s['scheduled_downtime_depth'] > 0) $servicesUnknownScheduled++; 
+	}
+	
+	
+	//////////////////////////////////////////////////////////
+	///build main tac data array for different viewing output 
+	$tac_data = array(
+	//host counts 
+	'hosts_total' =>  ($hoststates['UP'] + $hoststates['DOWN'] + $hoststates['UNREACHABLE']),
+	'hostsUpTotal' => $hoststates['UP'],
+	'hostsDownTotal' => $hoststates['DOWN'],
+	'hostsUnreachableTotal' => $hoststates['UNREACHABLE'],
+		
+	//service counts 
+	'servicesOkTotal' => $servicestates['OK'],
+	'servicesWarningTotal' => $servicestates['WARNING'],
+	'servicesCriticalTotal' => $servicestates['CRITICAL'],
+	'servicesUnknownTotal' => $servicestates['UNKNOWN'],
+	
+	//monitoring features 
+	'flap_detection' => $program['enable_flap_detection'],
+	'notifications' => $program['enable_notifications'],
+	'active_service_checks' =>$program['active_service_checks_enabled'],
+	'passive_service_checks' =>$program['passive_service_checks_enabled'],
+	'event_handlers' => $program['enable_event_handlers'],
+	
+	//sentry host counters for loops 
+	'hostsDownAcknowledged' => $hostsDownAcknowledged,
+	'hostsDownUnhandled' => $hostsDownUnhandled,
+	'hostsUnreachableAcknowledged' => $hostsUnreachableAcknowledged,
+	'hostsUnreachableUnhandled' => $hostsUnreachableUnhandled,
+	'hostsUnreachableScheduled' => $hostsUnreachableScheduled, 
+	'hostsUpDisabled' => $hostsUpDisabled,
+	'hostsDownDisabled' => $hostsDownDisabled,
+	'hostsDownScheduled' => $hostsDownScheduled, 
+	'hostsUnreachableDisabled' => $hostsUnreachableDisabled,
+	'hostsPending' => $hostsPending, 
+	'hostsPendingDisabled' => $hostsPendingDisabled, 
+	
+	//sentry service counters for loops 
+	'servicesWarningAcknowledged' => $servicesWarningAcknowledged,
+	'servicesWarningUnhandled' => $servicesWarningUnhandled,
+	'servicesCriticalAcknowledged' => $servicesCriticalAcknowledged,
+	'servicesCriticalUnhandled' => $servicesCriticalUnhandled,
+	'servicesUnknownAcknowledged' => $servicesUnknownAcknowledged,
+	'servicesUnknownUnhandled' => $servicesUnknownUnhandled,
+	'servicesOkDisabled' => $servicesOkDisabled, 
+	'servicesWarningDisabled' => $servicesWarningDisabled,
+	'servicesCriticalDisabled' => $servicesCriticalDisabled,
+	'servicesUnknownDisabled' => $servicesUnknownDisabled,
+	'servicesPending' => $servicesPending,
+	'servicesPendingDisabled' => $servicesPendingDisabled, 
+	'servicesWarningHostProblem' => $servicesWarningHostProblem, 
+	'servicesUnknownHostProblem' => $servicesUnknownHostProblem, 
+	'servicesCriticalHostProblem' => $servicesCriticalHostProblem, 
+	'servicesWarningScheduled' => $servicesWarningScheduled, 
+	'servicesUnknownScheduled' => $servicesUnknownScheduled,	
+	'servicesCriticalScheduled' => $servicesCriticalScheduled,
+	);//end array 
+	
+	
+	//print_r($tac_data); 
+	return $tac_data; 
+	/*
+	if($type=='html') //additional array elements are needed 
+	{
+	
+		$last_command = $now - (settype($info['last_command_check'], 'integer') ) ;		
+		//$last_command = $now - $last_command;
+    	// XXX Timezone warning here.  Fix
+		$lastcmd = date('D M d H:i s\s', $last_command);	
+		$hostlink = htmlentities(BASEURL.'index.php?type=hosts&state_filter=');
+		$servlink = htmlentities(BASEURL.'index.php?type=services&state_filter=');
+			// flap detection 
+		$host_fd = check_boolean('host', 'flap_detection_enabled', 0) ? $host_fd : 0;
+		$service_fd = check_boolean('service', 'flap_detection_enabled', 0) ? $service_fd : 0;
+		$host_flap = check_boolean('host', 'is_flapping', 1) ? $host_flap : 0; 
+		$service_flap = check_boolean('service', 'is_flapping', 1) ? $service_flap : 0; 
+			//notifications
+		$host_ntf = check_boolean('host', 'notifications_enabled', 0) ? $host_ntf : 0;
+		//$service_ntf = check_boolean('service', 'notifications_enabled', 0) ? $service_ntf : 0;		
+		$host_eh = check_boolean('host', 'event_handler_enabled', 0) ? $host_eh : 0;
+		$service_eh = check_boolean('service', 'event_handler_enabled', 0) ? $service_eh : 0; 	
+		$host_ac = check_boolean('host', 'active_checks_enabled', 0) ? $host_ac : 0; 
+		$service_ac = check_boolean('service', 'active_checks_enabled', 0) ? $service_ac : 0;		
+		$host_pc = check_boolean('host', 'passive_checks_enabled', 0) ? $host_pc : 0; 
+		$service_pc = check_boolean('service', 'passive_checks_enabled', 0) ? $service_pc : 0;
+	}	
+	*/ 
+	
+} //end get_tac_data() 
+
+get_tac_data(); 
 
 function get_tac()
 {
@@ -344,17 +530,104 @@ FEATURESTABLE;
 	return $features_table;
 }
 
+////////////////////////////////////////
+//creates xml output for tactical overview 
+//expecting $tac_data array for values 
+function tac_xml($td)
+{
+	//$td is $tac_data from main array 
+	$xmldoc='<?xml version="1.0" encoding="utf-8"?>'; 
+	$xmldoc.=<<<XMLDOC
+	
+<tacinfo>	
+	<!-- hosts -->
+	<hoststatustotals>
+		<down>
+			<total>{$td['hostsDownTotal']}</total>
+			<unhandled>{$td['hostsDownUnhandled']}</unhandled>
+			<scheduleddowntime>{$td['hostsDownScheduled']}</scheduleddowntime>	
+			<acknowledged>{$td['hostsDownAcknowledged']}</acknowledged>
+			<disabled>{$td['hostsDownDisabled']}</disabled>
+		</down>
+		<unreachable>
+			<total>{$td['hostsUnreachableTotal']}</total>
+			<unhandled>{$td['hostsUnreachableUnhandled']}</unhandled>
+			<scheduledunreachabletime>{$td['hostsUnreachableScheduled']}</scheduledunreachabletime>
+			<acknowledged>{$td['hostsUnreachableAcknowledged']}</acknowledged>
+			<disabled>{$td['hostsUnreachableDisabled']}</disabled>
+		</unreachable>	
+		<up>
+			<total>{$td['hostsUpTotal']}</total>
+			<disabled>{$td['hostsUpDisabled']}</disabled>
+		</up>
+		<pending>
+			<total>{$td['hostsPending']}</total>
+			<disabled>{$td['hostsPendingDisabled']}</disabled>
+		</pending>
+	</hoststatustotals>
+	
+	<!-- services -->
+	<servicestatustotals>
+		<warning>
+			<total>{$td['servicesWarningTotal']}</total>	
+			<unhandled>{$td['servicesWarningUnhandled']}</unhandled>
+			<scheduleddowntime>{$td['servicesWarningScheduled']}</scheduleddowntime>
+			<acknowledged>{$td['servicesWarningAcknowledged']}</acknowledged>
+			<hostproblem>{$td['servicesWarningHostProblem']}</hostproblem>
+			<disabled>{$td['servicesWarningDisabled']}</disabled>
+		</warning>
+		<unknown>
+			<total>{$td['servicesUnknownTotal']}</total>
+			<unhandled>{$td['servicesUnknownUnhandled']}</unhandled>
+			<scheduleddowntime>{$td['servicesUnknownScheduled']}</scheduleddowntime>	
+			<acknowledged>{$td['servicesUnknownAcknowledged']}</acknowledged>
+			<hostproblem>{$td['servicesUnknownHostProblem']}</hostproblem>
+			<disabled>{$td['servicesUnknownDisabled']}</disabled>
+		</unknown>
+		<critical>
+			<total>{$td['servicesCriticalTotal']}</total>
+			<unhandled>{$td['servicesCriticalUnhandled']}</unhandled>
+			<scheduleddowntime>{$td['servicesCriticalScheduled']}</scheduleddowntime>
+			<acknowledged>{$td['servicesCriticalAcknowledged']}</acknowledged>
+			<hostproblem>{$td['servicesCriticalHostProblem']}</hostproblem>	
+			<disabled>2</disabled>
+		</critical>
+		<ok>
+			<total>{$td['servicesOkTotal']}</total>
+			<disabled>{$td['servicesOkDisabled']}</disabled>
+		</ok>
+		<pending>
+			<total>{$td['servicesPending']}</total>
+			<disabled>{$td['servicesPendingDisabled']}</disabled>
+		</pending>
+	</servicestatustotals>
+	
+	<!-- monitoring features -->
+	<monitoringfeaturestatus>	
+		<flapdetection>
+			<global>{$td['flap_detection']}</global>
+		</flapdetection>
+		<notifications>
+			<global>{$td['notifications']}</global>
+		</notifications>
+		<eventhandlers>
+			<global>{$td['event_handlers']}</global>
+		</eventhandlers>
+		<activeservicechecks>
+			<global>{$td['active_service_checks']}</global>
+		</activeservicechecks>
+		<passiveservicechecks>		
+			<global>{$td['passive_service_checks']}</global>
+		</passiveservicechecks>
+	</monitoringfeaturestatus>
+</tacinfo>
+
+XMLDOC;
+
+	return $xmldoc; 	
+
+}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+?>

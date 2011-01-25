@@ -51,7 +51,7 @@
 
 session_start(); //no need for sessions at this time
 ob_start();
- 
+
 include(dirname(__FILE__).'/inc.inc.php'); //master include file 
 $page_title = 'Nagios Visual Shell';
 
@@ -61,6 +61,8 @@ $username = check_auth();
 //$username = 'nagiosadmin'; //uncomment this to only use apache authentication methods  
 
 set_perms($username); //set global $authorization 
+
+
 if($username) //if logged in, display the page 
 {		
 	page_router();

@@ -52,45 +52,23 @@
 
 */
 
-* 
-{
-	margin: 0px;
-	padding: 0px;
-}
+/* site-wide styles */
+* { margin: 0px; padding: 0px;  }
 
-body
-{
-	font-family: verdana, arial;
-	background: url("../views/images/vshell.png") no-repeat;
-	
-}
+body { font-family: verdana, arial; background: url("../views/images/vshell.png") no-repeat; }
 
-a:link, a:visited
-{
-	color: #00A3FF;
-	text-decoration: none;
+a:link, a:visited { color: #00A3FF; text-decoration: none; }
 
-}
-a:hover, a:active, a.highlight:hover, a.highlight:active
-{
-	color: #89D5FF;
-}
-table
-{
-	font-size: 8pt;
-	text-align: center;
-	background: #f1f1f1;
-}
-td, th 
-{ 
-	padding: 1px 10px 1px 10px;
-	background-color: #DEDEDE; 	
-}
-td 
-{ background-color: #F8F8F8; }
+a:hover, a:active, a.highlight:hover, a.highlight:active { color: #89D5FF; }
 
-h3
-{	text-align: center;  }
+table { font-size: 8pt; text-align: center; background: #f1f1f1; }
+
+td, th { padding: 1px 10px 1px 10px; background-color: #DEDEDE; 	}
+
+td { background-color: #F8F8F8; }
+
+h3 {	text-align: center;  }
+
 
 /*class for top navigation bar with main links */
 div.topnav
@@ -103,43 +81,17 @@ div.topnav
 	border-bottom: 1px #00A3FF solid ;
 	z-index: 5;
 }
-a.nav
-{
-	display: block;
-	font-size: 10pt;
-}
-a.highlight
-{
-	color: #097AC7;
-}
+a.nav { display: block; font-size: 10pt; }
 
-ul.nav 
-{
-	top: 52px;
-	position: absolute;
-	width: 800px;
-}
-li.nav 
-{
-	list-style: none;
-	padding-left: 10px;
-	float: left;
-}
+a.highlight { color: #097AC7;}
 
-div.corelink
-{
+/*navigation lists */ 
+ul.nav { top: 52px; position: absolute; width: 800px; }
+li.nav { list-style: none; padding-left: 10px; float: left; }
 
-	position: absolute;
-	right: 15px;
-	top: 25px;
-}
+div.corelink {position: absolute; right: 15px; top: 25px;}
 
-#infodiv 
-{
-	position: absolute;
-	right: 20px;
-
-}
+#infodiv { position: absolute; right: 20px; }
 
 /*main container div for all content */
 .main
@@ -148,49 +100,27 @@ div.corelink
 	top:2px;
 	bottom: 30px;
 	margin: 10px;
-	height: 90%;
-	
-	
+	height: 90%;	
 }
+
 /* /////////////FORMATTING CLASSES /////*/
 .down, .critical, .red, .disabled, .Disabled, .DOWN, .CRITICAL  
-{
-	background-color: #FF795F;
-}
+{	background-color: #FF795F;  }
 .warning, .yellow, .WARNING
-{
-	background-color: #FEFF5F;
-}
+{	background-color: #FEFF5F; }
 .ok, .green, .up, .enabled, .Enabled, .OK, .UP
-{
-	background-color: #b2ff5f;;
-}
+{	background-color: #b2ff5f; }
 .unknown, .unreachable, .orange, .UNKNOWN, .UNREACHABLE
-{
-	background-color: #FFC45F;
-}
+{	background-color: #FFC45F; }
 
-.accent
-{
-	background-color: #999;
-}
+.accent {	background-color: #999; }
 
-.iconLink
-{
-	border: none;
-}
-.note
-{
-	font-style: italic;
-	font-size: 8pt;
-	color: #989898;
-}
+.iconLink {	border: none; }
+
+.note{	font-style: italic;  font-size: 8pt; color: #989898; }
 
 .servicetable th, .servicetable td, .statustable th, .statustable td 
-{
-	
-	padding: 0px 2px 0px 2px;
-}
+{ padding: 0px 2px 0px 2px;  }
 
 
 /* table.servicetable {width: 1200px; } */
@@ -204,27 +134,12 @@ th.plugin_output, td.plugin_output, div.plugin_output{width: 370px; }
 tr.servicetablerow { width: 1400px; height: 1em; }
 tr.statustablerow { width: 1400px; height: 1em; }
 
-
 table.objectList, tr.objectList 
-{
-	background-color: #EDEDED;
-	margin: 0px;
-	
-}
-table.tac
-{
-	background-color: #AAA;
-}
+{ background-color: #EDEDED; margin: 0px; }
 
-img.tableIcon
-{
-	float: right;
-	display: inline;
-	padding: 0;
-	margin: 0;
-	
-}
+table.tac { background-color: #AAA; }
 
+img.tableIcon{ float: right; display: inline; padding: 0; margin: 0;	}
 
 
 /*details pages */
@@ -245,37 +160,23 @@ fieldset.attributes table, fieldset.corecommands table, table.details
 	margin-left: auto;
 	margin-right: auto;
 }
-div.detailcontainer
-{
-	margin-top: 30px;
-	margin-left: auto;
-	margin-right: auto;
-	width: 700px;
-	height: 400px;
-}
 
-fieldset.corecommands 
-{
-	float: right;
-	width: 210px;
-	padding: 10px;
-}
-.commentTable
-{
-	margin: auto;
-	text-align: center;
-}
+div.detailWrapper{width:800px;margin: 0px auto;  }
+
+div.detailcontainer{ margin-left: auto; margin-right: auto; width:400px; float:left; }
+
+div.rightContainer{ float:left; width:300px;}
+
+div.corecommands {width: 210px; padding: 10px; }
+
+.commentTable {clear: both; margin: 0px auto;text-align: center;width: 500px; }
+div.commentTable { padding-top: 20px; }
+
 
 /*used for toggle label on group and config pages */
-.label
-{
-	font-size: .8em;
-}
-img.label
-{
-	border: none;
-}
+.label {font-size: .8em;}
 
+img.label {border: none;}
 
 /*dropdown menus*/
 #confDrop, #sysDrop, #reportDrop
@@ -295,22 +196,12 @@ img.label
 	padding-right: 3px;
 }
 
-div.pagenumbers
-{
-	margin-left: auto;
-	margin-right: auto;
-}
-div.tablenotes
-{
-	float: left;
-	width: 75%;
-}
+div.pagenumbers{margin-left: auto; margin-right: auto; }
 
-div.resultLimit /*select list for limiting table results */
-{
-	float: right;
-	width: 20%;
-}
+div.tablenotes{float: left;width: 75%;}
+
+/*select list for limiting table results */
+div.resultLimit {float: right;width: 20%;}
 
 .deselect { color: #999; }
 
@@ -321,4 +212,5 @@ ul.configlist, li.configlist {
 	padding: 0px; 
 	list-style:none; 
 	}
+	
 div.hidden { visibility: hidden; height: 0px; }

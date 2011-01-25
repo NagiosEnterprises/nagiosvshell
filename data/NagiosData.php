@@ -57,7 +57,7 @@ class NagiosData
 	protected static $property_list = array('hosts_objs', 'services_objs', 
 		'hostgroups_objs', 'servicegroups_objs', 'contacts', 'contactgroups', 
 		'timeperiods', 'commands', 'hosts', 'services', 'comments', 'info',
-		'details', 'permissions', 'hostgroups', 'servicegroups');
+		'details', 'permissions', 'hostgroups', 'servicegroups', 'program');
 
 	/*  Return, and build as necessary, the singleton to store nagios data
 	 *
@@ -175,7 +175,7 @@ class NagiosData
 		$disk_cache_keys = array('hosts_objs', 'services_objs', 
 			'hostgroups_objs', 'servicegroups_objs', 'contacts', 
 			'contactgroups', 'timeperiods', 'commands', 'hostgroups', 
-			'servicegroups');
+			'servicegroups', 'program');
 		self::$instance->_set_vars(cache_or_disk('objects', OBJECTSFILE, 
 			$disk_cache_keys));
 
@@ -183,7 +183,7 @@ class NagiosData
 			array('permissions')));
 
 		self::$instance->_set_vars(cache_or_disk('status', STATUSFILE, 
-			array('hosts', 'services', 'comments', 'info', 'details')));
+			array('hosts', 'services', 'comments', 'info', 'details', 'program')));
 
 	}
 

@@ -59,10 +59,13 @@ function get_service_details($dets)
 	$page=<<<PAGE
 
 	<h3>Service Status Detail</h3>
-	<div class="detailcontainer">
+	<div class="detailWrapper">
+	
 	<h4><em>Service: </em>{$dets['Service']}</h4>
 	<h4><em>Host: </em>{$dets['Host']}</h4>
 	<h5><em>Member of: </em>{$dets['MemberOf']}</h5>
+	
+	<div class="detailcontainer">
 	<fieldset class="servicedetails">
 	<legend>Advanced Details</legend>
 	<table class="details">
@@ -85,8 +88,9 @@ function get_service_details($dets)
 	</table>	
 	
 	</fieldset>
+	</div><!-- end detailcontainer -->
 	
-	
+	<div class="rightContainer">
 	<fieldset class='attributes'>
 	<legend>Service Attributes</legend>	
 	<table>	
@@ -103,8 +107,10 @@ function get_service_details($dets)
 	</table>
 	<p class="note">Commands will not appear until after page reload</p>
 	</fieldset>
+
 	
 	<!-- Nagios Core Command Table -->
+
 	<fieldset class='corecommands'>
 	<legend>Core Commands</legend>
 	<table>
@@ -117,12 +123,12 @@ function get_service_details($dets)
 	</table>
 	</fieldset>
 	
-	</div>
-	
+	</div><!-- end rightContainer -->
+	</div><!-- end detailWrapper -->
 
 
 	<!-- begin comment table -->
-	<div>
+	<div class="commentTable">
 	<h5 class="commentTable">Comments</h5>
 	<p class="commentTable"><a class="label" href="{$dets['AddComment']}" title="Add Comment">Add Comment</a></p> 
 	

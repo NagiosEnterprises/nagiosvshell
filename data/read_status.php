@@ -102,7 +102,8 @@ function parse_status_file($statusfile = STATUSFILE)
 					$status_collector[$cursubtype][] = $kvp;
 					$status_collector['host'][$kvp['host_name']]['services'][] = $kvp;
 				}
-				else {	
+				else {	//subtype is program status 
+					 
 					$status_collector[$cursubtype][] = $kvp;
 				}
 		
@@ -136,6 +137,7 @@ function parse_status_file($statusfile = STATUSFILE)
 		'hosts' => $status_collector['host'], 
 		'services' => $status_collector['service'], 
 		'comments' => $comments, 
+		'program' => $status_collector['program'],
 		'info' => $info, 
 		'details' => $details);
 }

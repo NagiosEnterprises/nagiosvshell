@@ -134,7 +134,12 @@ function page_router()
 				}
 			}	
 		break;
-
+		
+		case 'backend':
+		require(DIRBASE.'/views/tac.php');	
+		$data = get_tac_data();			
+		$xmlout = tac_xml($data); 		
+		break; 
 		case 'overview':
 		default:
 			//create function to return tac data as an array 
@@ -158,14 +163,20 @@ function page_router()
 		break;
 
 		case 'xml':
+		if($type!='backend')
+		{
 			require_once(DIRBASE.'/views/xml.php');
 			$title = ucwords($type);
-			build_xml_page($data, $title);
-			//header('Location: '.BASEURL.'tmp/'.$title.'.xml');
-			//header('Content-type: text/xml');
-
+			build_xml_page($data, $title);		
+			header('Location: '.BASEURL.'tmp/'.$title.'.xml');
+		}
+		header('Content-type: text/xml');
+		if($type=='backend') echo $xmlout; 
 			#$output = build_xml_data($data, $title);
 		break;
+		case 'null':
+		
+		break; 
 	}
 	print $output;
 

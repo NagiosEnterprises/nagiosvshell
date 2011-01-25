@@ -190,6 +190,23 @@ function count_by_state($state, $array)
 	return $count;
 }
 
+////////////////////////////////////////////////
+//
+//RETURNS: integer of hosts or services with 'current_state' matching $state filtered by arg 
+function count_by_state_with_args($state, $array, $arg1, $arg2)
+{
+	$count = 0;
+	foreach($array as $a)
+	{
+		if($a['current_state'] == $state)
+		{
+			$count++;
+		}
+	}
+	return $count;
+}
+
+
 ///////////////////////////////////////////////////////
 //expecting a status code, 0-4 
 //returns status as a string 
