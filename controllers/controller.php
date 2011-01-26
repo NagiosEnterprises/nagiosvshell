@@ -94,6 +94,7 @@ function page_router()
 		case 'services':
 		case 'hosts':
 			if ($authorizations[$type] == 1) {
+				$GLOBALS['tac_data'] = get_tac_data();	
 				$data = hosts_and_services_data($type, $state_filter, $name_filter);
 				$html_output_function = 'hosts_and_services_output';
 			}
@@ -136,15 +137,16 @@ function page_router()
 		break;
 		
 		case 'backend':
-		require(DIRBASE.'/views/tac.php');	
-		$data = get_tac_data();			
+		//require(DIRBASE.'/views/tac.php');	
+		$GLOBALS['tac_data'] = get_tac_data();			
 		$xmlout = tac_xml($data); 		
 		break; 
 		case 'overview':
 		default:
 			//create function to return tac data as an array 
-			require(DIRBASE.'/views/tac.php');
-			$html_output_function = 'get_tac';
+			//require(DIRBASE.'/views/tac.php');
+			$GLOBALS['tac_data'] = get_tac_data();	
+			$html_output_function = 'get_tac_html';
 		break;
 	}
 
@@ -186,7 +188,7 @@ function process_state_filter($filter_str)
 {
 	$ret_filter = NULL;
 	$filter_str = strtoupper($filter_str);
-	$valid_states = array('UP', 'DOWN', 'UNREACHABLE', 'OK', 'CRITICAL', 'WARNING', 'UNKNOWN');
+	$valid_states = array('UP', 'DOWN', 'UNREACHABLE', 'OK', 'CRITICAL', 'WARNING', 'UNKNOWN', 'PENDING');
 
 
 	if (in_array($filter_str, $valid_states))
@@ -275,7 +277,7 @@ function hosts_and_services_output($type, $data, $mode)
 		case 'html':
 			list($start, $limit) = get_pagination_values();
 			$title = ucwords(preg_replace('/objs/', 'Objects', preg_replace('/_/', ' ', $type)));
-			include(DIRBASE.'/views/'.$type.'.php');
+			include_once(DIRBASE.'/views/'.$type.'.php');
 			$display_function = 'display_'.$type;
 			$retval = $display_function($data, $start, $limit);
 		break;
@@ -285,7 +287,7 @@ function hosts_and_services_output($type, $data, $mode)
 
 function hostgroups_and_servicegroups_data($type, $name_filter=NULL)
 {
-	include(DIRBASE.'/views/'.$type.'.php');
+	include_once(DIRBASE.'/views/'.$type.'.php');
 	$data_function = 'get_'.preg_replace('/s$/', '', $type).'_data';
 	$data = $data_function();
 	if ($name_filter)
@@ -330,7 +332,7 @@ function host_and_service_detail_output($type, $data, $mode)
 	switch($mode)
 	{
 		case 'html':
-			require(DIRBASE.'/views/'.$type.'s.php');
+			require_once(DIRBASE.'/views/'.$type.'s.php');
 			$display_function = 'get_'.preg_replace('/detail/', '_detail', $type).'s';
 			$retval = $display_function($data);
 		break;

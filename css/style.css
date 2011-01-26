@@ -113,6 +113,10 @@ div.corelink {position: absolute; right: 15px; top: 25px;}
 .unknown, .unreachable, .orange, .UNKNOWN, .UNREACHABLE
 {	background-color: #FFC45F; }
 
+.problem { background-color: #FF935B; }
+.pending { background-color: #C7C7C7; }
+.unhandled { background-color: #FF655B; }
+.acknowledged { background-color: #FFC95B; }
 .accent {	background-color: #999; }
 
 .iconLink {	border: none; }
@@ -121,6 +125,7 @@ div.corelink {position: absolute; right: 15px; top: 25px;}
 
 .servicetable th, .servicetable td, .statustable th, .statustable td 
 { padding: 0px 2px 0px 2px;  }
+
 
 
 /* table.servicetable {width: 1200px; } */

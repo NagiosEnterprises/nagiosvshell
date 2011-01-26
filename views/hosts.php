@@ -54,7 +54,10 @@
 function display_hosts($hosts, $start,$limit)
 {
 
-	$table = '<table class="statustable"><tr> 
+	//include('tac.php');
+	$ht = hosts_table();  
+	$table = $ht; 
+	$table .= '<table class="statustable"><tr> 
 			<th>Host Name</th>
 			<th>Status</th>
 			<th>Duration</th>

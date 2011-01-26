@@ -52,5 +52,6 @@
 
 
 include(dirname(__FILE__).'/display_functions.php');
+include_once(dirname(__FILE__).'/tac.php'); 
 include(dirname(__FILE__).'/xml.php');
 ?>

@@ -59,6 +59,7 @@ require_once('data_utils.php');
 
 require_once('NagiosData.php');
 $NagiosData = NagiosData::singleton();
+require_once('get_tac_data.php'); 
 
 require_once('build_groups.php');
 ?>
