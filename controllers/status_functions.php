@@ -136,9 +136,13 @@ function get_by_state($state, $data)
 
 }
 
+
+
 function get_by_name($name, $data, $field='host_name') {
 	$name = preg_quote($name, '/');
-	return array_filter($data, create_function('$d', 'return preg_match("/'.$name.'/i", $d[\''.$field.'\']);'));
+	if(!array_key_exists($field, $data)) $field = 'host_name'; //bug fix for hosts that don't have any services -MG 
+	return array_filter($data, create_function('$d', 'return preg_match("/'.$name.'/i", $d[\''.$field.'\']);')); 	
+
 }
 
 ////////////////////////////////////////////
@@ -355,12 +359,12 @@ function process_service_detail($serviceid)
 	if($sd['problem_has_been_acknowledged'] == 0)
 	{
 		$cmd_acknowledge = core_function_link('ACKNOWLEDGE_SVC_PROBLEM', $hostname, $ser_desc);
-		$ack_title = 'Ackowledge Problem';
+		$ack_title = 'Acknowledge Problem';
 	} 
 	else
 	{
 		$cmd_acknowledge = core_function_link('REMOVE_SVC_ACKNOWLEDGEMENT', $hostname, $ser_desc);
-		$ack_title = 'Remove Ackowledgement';	
+		$ack_title = 'Remove Acknowledgement';	
 	}  
 	
 	$cmd_custom_notification = core_function_link('SEND_CUSTOM_SVC_NOTIFICATION', $hostname, $ser_desc);
@@ -421,8 +425,8 @@ function process_service_detail($serviceid)
  // XXX move this, it doesn't belong
 function process_host_detail($in_hostname)
 {
-	global $NagiosData;
-	$hd = $NagiosData->get_details_by('host', $in_hostname);
+	global $NagiosData; 
+	$hd = $NagiosData->get_details_by('host', $in_hostname); 
 	$hostname = $hd['host_name'];
 
 	$duration = calculate_duration($hd['last_state_change']);
@@ -482,12 +486,12 @@ function process_host_detail($in_hostname)
 	if($hd['problem_has_been_acknowledged'] == 0)
 	{
 		$cmd_acknowledge = core_function_link('ACKNOWLEDGE_HOST_PROBLEM', $hostname);
-		$ack_title = 'Ackowledge Problem';
+		$ack_title = 'Acknowledge Problem';
 	} 
 	else
 	{
 		$cmd_acknowledge = core_function_link('REMOVE_HOST_ACKNOWLEDGEMENT', $hostname);
-		$ack_title = 'Remove Ackowledgement';	
+		$ack_title = 'Remove Acknowledgement';	
 	}  
 	
 	$cmd_custom_notification = core_function_link('SEND_CUSTOM_HOST_NOTIFICATION', $hostname);

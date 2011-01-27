@@ -1,3 +1,11 @@
+=====Jan 25-27 - 2011 - Mike Guthrie - Devel Branch
+- Added XML backend access for Nagios Fusion.  index.php?type=backend&mode=xml
+- Overhauled tactical overview.  Created better view/logic separation.  Created global array for tactical data 
+- Fixed CSS issues on hostdetails.php and servicedetails.php
+- Fixed bug for grabbing hostdetails array for hostdetails.php
+- Reformatted hosts.php and services.php for more consistant css and display between browsers.  Added tac tables
+- Began work to add filters for Problems, Unhandled, Acknowledged, Pending
+
 ======Jan 02 - 2011 - Dave Worth - Devel Branch
 - Major refactoring of page_router() to allow for HTML and JSON output.
     New routing allows for filtering of various views by name/state

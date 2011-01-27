@@ -52,8 +52,30 @@
 //expecting array of service status and returns a service table  
 function display_services($services,$start,$limit)
 {
+	//LOGIC 
+	$resultsCount = count($services);
+	//if results are greater than number that the page can display, create page links
+	//calculate number of pages 
+	$pageCount = (($resultsCount / $limit) < 1) ? 1 : intval($resultsCount/$limit);
+	$doPagination = $pageCount * $limit < $resultsCount;
+	$name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
+	$st = services_table(); //tac Summary table 
+
+	//VIEW / html output 
+	$page=''; 
+	$page .= "<div class='tacTable'>$st</div>\n"; 
+	
+	$page .="<div class='tableOptsWrapper'>\n";
+	//check if more than one page is needed 
+	if($doPagination) $page .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
+	//creates notes for total results as well as form for setting page limits 
+	$page .= do_result_notes($start,$limit,$resultsCount,'services');		
+	//moved result filter to display_functions.php and made into function 
+	$page .=result_filter($name_filter,'service');	  
+	$page .= "\n</div> <!-- end tableOptsWrapper --> \n"; 
+
 	//Table header generation 
-	$table = '
+	$page .= '<div class="statusTable">
 	<table class="servicetable"><tr> 
 	<th class="hostname">Host Name</th>
 	<th class="service_description">Service</th>
@@ -63,47 +85,6 @@ function display_services($services,$start,$limit)
 	<th class="last_check">Last Check</th>
 	<th class="plugin_output">Status Information</th></tr>';
 		
-	$resultsCount = count($services);
-	//if results are greater than number that the page can display, create page links
-	//if no result limit is defined, page will display all results.  Default limit is 100 results
-	//calculate number of pages 
-	$pageCount = (($resultsCount / $limit) < 1) ? 1 : intval($resultsCount/$limit);
-	$doPagination = $pageCount * $limit < $resultsCount;
-	
-	//check if more than one page is needed 
-	if($doPagination)
-	{
-		$table .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
-	}
-	
-	//creates notes for total results as well as form for setting page limits 
-	$table .= do_result_notes($start,$limit,$resultsCount,'services');
-
-	$name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
-	$table .= <<<FILTERDIV
-<div class='resultFilter'>
-	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
-		<input type="hidden" name="type" value="services">
-		<label class='label' for='state_filter'>Filter By Service State</label>
-		<select id='resultfilter' name='state_filter' onChange='this.form.submit();'>
-FILTERDIV;
-
-		foreach (array('', 'OK', 'WARNING', 'CRITICAL', 'UNKNOWN') as $val)
-		{
-			$selected = (isset($_GET['state_filter']) && $_GET['state_filter'] == $val) ? "selected='selected'" : '';
-			$display_val = $val == '' ? 'None' : $val;
-			$table .= "<option value=\"$val\" $selected>$display_val</option>\n";
-		}
-
-	$table .= <<<FILTERDIV
-		</select><br />
-		<label class='label' for='name_filter'>Search Host/Service Name:</label>
-		<input type="text" name='name_filter' value="$name_filter"></input>
-		<input type='submit' name='submitbutton' value='Filter' />
-	</form>
-</div>
-FILTERDIV;
-
 	// Fixup post filtering indices
 	$curidx = 0;
 	foreach ($services as $id => $servinfo) {
@@ -125,6 +106,8 @@ FILTERDIV;
 		#$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$services[$i]['host_name']);
 		$host_url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$services[$i]['host_name']);
 		$color = get_host_status_color($services[$i]['host_name']);
+		
+		//turn into fetch_icons function 
 		$icon = return_icon_link($services[$i]['host_name']);
 		$comments = comment_icon($services[$i]['host_name'], $services[$i]['service_description']);
 		$h_comments = comment_icon($services[$i]['host_name']);
@@ -134,10 +117,7 @@ FILTERDIV;
 		//removing duplicate host names from table for a cleaner look
 		if(!isset($_GET['name_filter']) && !isset($_GET['state_filter']))
 		{	 
-			if ($services[$i]['host_name'] == $last_displayed_host)
-			{
-				$td1 = '<td></td>';
-			}
+			if ($services[$i]['host_name'] == $last_displayed_host) $td1 = '<td></td>';
 			else
 			{
 				$last_displayed_host = $services[$i]['host_name'];
@@ -153,7 +133,7 @@ FILTERDIV;
 		
 		//table data generation 				
 		//Using HEREDOC string syntax to print rows 
-		$tablerow = <<<TABLEROW
+		$pagerow = <<<TABLEROW
 		
 		<tr class='statustablerow'>	
 			{$td1}
@@ -167,17 +147,17 @@ FILTERDIV;
 		
 TABLEROW;
 
-		$table .= $tablerow;
+		$page .= $pagerow;
 		
 	}
-	$table .= '</table>';
+	$page .= "</table>\n</div> <!--end div.statusTable -->\n" ;
 
 	if($doPagination)
 	{
-		$table .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
+		$page .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
 	}
 
-	return $table;
+	return $page;
 }
 //end php 
 ?>

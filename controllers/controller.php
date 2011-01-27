@@ -259,7 +259,6 @@ function hosts_and_services_data($type, $state_filter=NULL, $name_filter=NULL)
 	{
 		$name_data = get_by_name($name_filter, $data);
 		$service_data = get_by_name($name_filter, $data, 'service_description');
-
 		$data = $name_data;
 		foreach ($service_data as $i => $service)
 		{
@@ -322,7 +321,7 @@ function hostgroups_and_servicegroups_output($type, $data, $mode)
 function host_and_service_detail_data($type, $name)
 {
 	$data_function = 'process_'.preg_replace('/detail/', '_detail', $type);
-	$data = $data_function($name);
+	$data = $data_function(stripslashes($name)); //added stripslashes because hostnames with periods had them in the variable -MG 
 	return $data;
 }
 
@@ -333,7 +332,7 @@ function host_and_service_detail_output($type, $data, $mode)
 	{
 		case 'html':
 			require_once(DIRBASE.'/views/'.$type.'s.php');
-			$display_function = 'get_'.preg_replace('/detail/', '_detail', $type).'s';
+			$display_function = 'get_'.preg_replace('/detail/', '_detail', $type).'s'; 
 			$retval = $display_function($data);
 		break;
 	}

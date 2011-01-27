@@ -94,6 +94,8 @@ function get_tac_data()
 	'servicesWarningTotal' => $servicestates['WARNING'],
 	'servicesCriticalTotal' => $servicestates['CRITICAL'],
 	'servicesUnknownTotal' => $servicestates['UNKNOWN'],
+	'servicesProblemsTotal' => ($servicestates['CRITICAL']+$servicestates['UNKNOWN']+$servicestates['WARNING']),
+	'servicesTotal' => ($servicestates['CRITICAL']+$servicestates['UNKNOWN']+$servicestates['WARNING']+$servicestates['OK']), //add pending later 
 	
 	//monitoring features 
 	'flap_detection' => $program['enable_flap_detection'],
@@ -172,7 +174,7 @@ function get_tac_data()
 		
 		//xml necessary for Nagios Fusion 
 		if($h['last_check']==0 && $h['active_checks_enabled'] == 1)  { $tac_data['hostsPending']++;  continue; } //skip ahead for pending 
-		if($h['last_check'] == 0 && $h['active_checks_enabled'] == 0)  { $tac_data['hostsPendingDisabled']++;  continue; } //pending 
+		if($h['last_check'] == 0 && $h['active_checks_enabled'] == 0)  { $tac_data['hostsPendingDisabled']++; $tac_data['hostsPending']++;  continue; } //pending 
 		if($h['current_state']==0 && $h['active_checks_enabled'] == 0) $tac_data['hostsUpDisabled']++;
 		if($h['current_state']==1 && $h['active_checks_enabled'] == 0) $tac_data['hostsDownDisabled']++;				
 		if($h['current_state']==1 && $h['problem_has_been_acknowledged'] > 0) $tac_data['hostsDownAcknowledged']++; 
@@ -198,8 +200,8 @@ function get_tac_data()
 	
 		//xml necessary for Nagios Fusion 
 		$current_host = $h_states[$s['host_name']];	
-		if($s['last_check'] == 0 && $s['active_checks_enabled'] == 1) { $tac_data['servicesPending']++; continue; } 
-		if($s['last_check'] == 0 && $s['active_checks_enabled'] == 0) { $tac_data['servicesPendingDisabled']++;  continue;  }
+		if($s['last_check'] == 0 && $s['active_checks_enabled'] == 1) { $tac_data['servicesPending']++; continue; } //pending 
+		if($s['last_check'] == 0 && $s['active_checks_enabled'] == 0) { $tac_data['servicesPendingDisabled']++;  continue;  } //pending 
 		if($s['active_checks_enabled'] == 0) $tac_data['servicesDisabled']++;			 
 		if($s['current_state']==0 && $s['active_checks_enabled'] == 0) $tac_data['servicesOkDisabled']++;
 		if($s['current_state']==1 && $s['active_checks_enabled'] == 0) $tac_data['servicesWarningDisabled']++;
@@ -235,10 +237,9 @@ function get_tac_data()
 
 	//other misc totals 
 	$tac_data['hostsUnhandledTotal'] = $tac_data['hostsDownUnhandled']+$tac_data['hostsUnreachableUnhandled']; 	
-	$tac_data['hostsUnhandledTotal'] = $tac_data['hostsDownUnhandled']+$tac_data['hostsUnreachableUnhandled']; 
-	$tac_data['servicesUnhandledTotal'] = $tac_data['hostsDownUnhandled']+$tac_data['hostsUnreachableUnhandled']; 	
-	$tac_data['servicesUnhandledTotal'] = $tac_data['hostsDownUnhandled']+$tac_data['hostsUnreachableUnhandled']; 
-		
+	$tac_data['hostsAcknowledgedTotal'] = $tac_data['hostsDownAcknowledged']+$tac_data['hostsUnreachableAcknowledged']; 
+	$tac_data['servicesUnhandledTotal'] = $tac_data['servicesWarningUnhandled']+$tac_data['servicesUnknownUnhandled']+$tac_data['servicesCriticalUnhandled']; 	
+	$tac_data['servicesAcknowledgedTotal'] = $tac_data['servicesWarningAcknowledged']+$tac_data['servicesUnknownAcknowledged']+$tac_data['servicesCriticalAcknowledged'];	
 	
 	
 	return $tac_data; 

@@ -69,6 +69,7 @@ td { background-color: #F8F8F8; }
 
 h3 {	text-align: center;  }
 
+select, input { font-size: 8pt; } 
 
 /*class for top navigation bar with main links */
 div.topnav
@@ -113,10 +114,10 @@ div.corelink {position: absolute; right: 15px; top: 25px;}
 .unknown, .unreachable, .orange, .UNKNOWN, .UNREACHABLE
 {	background-color: #FFC45F; }
 
-.problem { background-color: #FF935B; }
+.problem { background-color: #FFC85F; }
 .pending { background-color: #C7C7C7; }
-.unhandled { background-color: #FF655B; }
-.acknowledged { background-color: #FFC95B; }
+.unhandled { background-color: #FF935B; }
+.acknowledged { background-color: #FFE4AF; }
 .accent {	background-color: #999; }
 
 .iconLink {	border: none; }
@@ -143,6 +144,7 @@ table.objectList, tr.objectList
 { background-color: #EDEDED; margin: 0px; }
 
 table.tac { background-color: #AAA; }
+.singleLine {   width: 80px; }
 
 img.tableIcon{ float: right; display: inline; padding: 0; margin: 0;	}
 
@@ -203,10 +205,15 @@ img.label {border: none;}
 
 div.pagenumbers{margin-left: auto; margin-right: auto; }
 
-div.tablenotes{float: left;width: 75%;}
 
 /*select list for limiting table results */
-div.resultLimit {float: right;width: 20%;}
+div.tableNotes, div.resultLimit, div.stateFilter, div.nameFilter  { float: left; padding-left: 50px; }
+div.tableNotes {padding-left: 0px; padding-top:10px;  } 
+div.pagenumbers {margin:0, padding: 0; } 
+
+div.tacTable {padding-bottom: 5px; }
+
+div.statusTable, table.statusTable, table.serviceTable{ clear:both; }
 
 .deselect { color: #999; }
 

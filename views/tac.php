@@ -94,7 +94,7 @@ function overview_table()
 <tr><th>Tactical Monitoring Overview</th></tr>
 	<tr>
 		<td>
-			Last Check: {$tac_data['last_command_check']}<br />
+			Last Check: {$tac_data['lastcmd']}<br />
 			Updated every 90 seconds<br />
 			Nagios® Core™ {$tac_data['version']} - www.nagios.org<br />
 			Logged in as $username<br />
@@ -141,14 +141,21 @@ function services_table()
 <!-- ######################SERVICES TABLE##################### -->
 <table class="tac">
 <tr><th>Services</th></tr>
-
+	
   <tr>
 	   <td class='ok'><a href='{$tac_data['servlink']}OK'>{$tac_data['servicesOkTotal']}</a> Ok</td>
-	   <td class="critical"><a href="{$tac_data['servlink']}CRITICAL">{$tac_data['servicesCriticalTotal']}</a> Critical</td>
-		<td class="warning"><a href="{$tac_data['servlink']}WARNING">{$tac_data['servicesWarningTotal']}</a> Warning</td>		
-		<td class="unknown"><a href="{$tac_data['servlink']}UNKNOWN">{$tac_data['servicesUnknownTotal']}</a> Unknown</td>
+	   <td class="critical singleLine"><a href="{$tac_data['servlink']}CRITICAL">{$tac_data['servicesCriticalTotal']}</a> Critical</td>
+		<td class="warning singleLine"><a href="{$tac_data['servlink']}WARNING">{$tac_data['servicesWarningTotal']}</a> Warning</td>		
+		<td class="unknown singleLine"><a href="{$tac_data['servlink']}UNKNOWN">{$tac_data['servicesUnknownTotal']}</a> Unknown</td>
+		<td class="pending singleLine">{$tac_data['servicesPending']} Pending</td>
   </tr>
-  
+  <tr>
+	<td class="problem">{$tac_data['servicesProblemsTotal']} Problems</td>
+	<td class="unhandled"><div class="singleLine">{$tac_data['servicesUnhandledTotal']} Unhandled</div></td>
+	<td class="acknowledged"><div class="singleLine">{$tac_data['servicesAcknowledgedTotal']} Acknowledged</div></td>
+	<td colspan="2"><a href="index.php?type=services" title="All Services">{$tac_data['servicesTotal']}</a> Total </td>
+</tr>
+
 </table>
 SERVICESTABLE;
 	return $services_table;

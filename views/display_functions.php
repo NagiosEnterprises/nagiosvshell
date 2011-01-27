@@ -380,7 +380,7 @@ function do_pagenumbers($pageCount,$start,$limit,$resultsCount,$type)
 	}
 	$pagenums .= $forward_arrow;
 
-	$pagenums .= "</div>";
+	$pagenums .= "</div><!-- end div.pagenumbers -->\n";
 	return $pagenums;
 }	//end do_pagenumbers()	
 
@@ -391,25 +391,73 @@ function do_result_notes($start,$limit,$resultsCount,$type)
 	//check maximum display number for page 
 	$end = (($start+$limit)<$resultsCount) ? ($start+$limit) : $resultsCount; 
 	$resultnotes = "	
-			<div class='tablenotes'>
-				<p class='note'>Showing results $start - $end of $resultsCount results</p>
-				<p class='note'>Current Result Limit: $limit</p>
-			</div>
+			<div class='tableNotes'>
+				<span class='note' style='vertical-align: bottom;'>Showing results $start - $end of $resultsCount results<br />
+									    Current Result Limit: $limit</span>
+			</div><!-- end div.tablenotes -->
 			
-			<div class='resultLimit'>	
+		<div class='resultLimit'>	
 			<form id='limitform' action='".$_SERVER['PHP_SELF']."?type=$type' method='post'>
-			<label class='label' for='pagelimit'>Limit Results</label>
-			<select id='pagelimit1' name='pagelimit' onChange='this.form.submit();'>";
+			<label class='label note' for='pagelimit'>Limit Results</label><br />
+			<select id='pagelimit' name='pagelimit'>";
 			foreach (array(15, 30, 50, 100, 250) as $possible_limit) {
 				$selected = ($possible_limit == $limit) ? "selected='selected'" : NULL;
-				$resultnotes .= "<option value=$possible_limit $selected>$possible_limit</option>\n";
+				$resultnotes .= "\t\t\t<option value=$possible_limit $selected>$possible_limit</option>\n";
 			}
 
 	$resultnotes .= "</select>
 			<input type='submit' name='submitbutton' value='Set Limit' />
-		</form></div>";	
+		</form>
+		</div><!-- end resultLimit --> \n\n";	
 	return $resultnotes;
 } //end do_result_notes() 
+
+
+	//creates state and string filters for host and service tables.  Called on hosts.php and services.php  
+	//expecting string :(optional) $name_filter 
+	//expecting string: $type = 'host' or 'service' 
+function result_filter($name_filter="", $type='host')
+{
+	$ucType = ucfirst($type); 
+	$plType = $type.'s';
+	$states = ($type == 'host') ? array('', 'UP', 'DOWN', 'UNREACHABLE', 'PENDING') : array('', 'OK', 'WARNING', 'CRITICAL', 'UNKNOWN', 'PENDING'); 	
+	
+	///////////////////////////////build filterdiv 
+	$resultFilter= <<<FILTERDIV
+
+	
+	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
+	  <div class='stateFilter'>
+		<input type="hidden" name="type" value="{$plType}">
+		<label class='label note' for='resultfilter'>Filter by State: </label><br />
+		<select id='resultfilter' name='state_filter' onChange='this.form.submit();'>
+FILTERDIV;
+
+		foreach ($states as $val)
+		{
+			$selected = (isset($_GET['state_filter']) && $_GET['state_filter'] == $val) ? "selected='selected'" : '';
+			$display_val = $val == '' ? 'None' : $val;
+			$resultFilter.= "\t\t\t<option value=\"$val\" $selected>$display_val</option>\n";
+		}
+
+	$resultFilter.= <<<FILTERDIV
+		</select>
+		</div> <!-- end stateFilter div -->
+		
+		<div class='nameFilter'>
+		<label class='label note' for='name_filter'>Search {$ucType}name: </label><br />
+		<input type="text" id="name_filter" name='name_filter' value="$name_filter"></input>
+		<input type='submit' name='submitbutton' value='Filter' />
+	  </div><!-- end nameFilter div -->
+	</form>
+	
+FILTERDIV;
+
+	return $resultFilter; 
+}//end function result_filter() 
+
+
+
 
 
 ?>

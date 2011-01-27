@@ -6,9 +6,11 @@ BUGS
 
 MODEL/DATA
 
-- turn the data that is read from the cgi.cfg file into session data so it only has to be read once
+
 
 CONTROLLER
+
+*** - need ability to filter hosts and services by contact.  Read only users who are contacts for specific hosts should onl be able to view their hosts and child services.  
 
 -create filtered tables based on Monitoring Features on tactical overview 
 - update xml viewer for all pages and insert links into pages  
@@ -25,7 +27,8 @@ VIEW
  -create basic xml stylesheet?
 
 -add links for xml viewing where applicable
- 
+
+-create single function to fetch all relevant table icons for hosts and services table 
 
 DOC
 

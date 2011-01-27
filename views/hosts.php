@@ -53,61 +53,42 @@
 //displays hosts table for any array of hosts 
 function display_hosts($hosts, $start,$limit)
 {
-
-	//include('tac.php');
-	$ht = hosts_table();  
-	$table = $ht; 
-	$table .= '<table class="statustable"><tr> 
-			<th>Host Name</th>
-			<th>Status</th>
-			<th>Duration</th>
-			<th>Attempt</th>
-			<th>Last Check</th>
-			<th>Status Information</th></tr>';
-
+	//LOGIC 
+	//get variables needed to display page
 	$resultsCount = count($hosts);
 	//if results are greater than number that the page can display, create page links
-	//if no result limit is defined, page will display all results.  Default limit is 100 results
 	//calculate number of pages 
 	$pageCount = (($resultsCount / $limit) < 1) ? 1 : intval($resultsCount/$limit);
 	$doPagination = $pageCount * $limit < $resultsCount;
-	
-	//check if more than one page is needed 
-	if($doPagination)
-	{
-		$table .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'hosts');
-	}
-	
-	//creates notes for total results as well as form for setting page limits 
-	$table .= do_result_notes($start,$limit,$resultsCount,'hosts');	
-
-	$name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
-	$table .= <<<FILTERDIV
-<div class='resultFilter'>
-	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
-		<input type="hidden" name="type" value="hosts">
-		<label class='label' for='pagelimit'>Filter by Host State:</label>
-		<select id='resultfilter' name='state_filter' onChange='this.form.submit();'>
-FILTERDIV;
-
-		foreach (array('', 'UP', 'DOWN', 'UNREACHABLE') as $val)
-		{
-			$selected = (isset($_GET['state_filter']) && $_GET['state_filter'] == $val) ? "selected='selected'" : '';
-			$display_val = $val == '' ? 'None' : $val;
-			$table .= "<option value=\"$val\" $selected>$display_val</option>\n";
-		}
-
-	$table .= <<<FILTERDIV
-		</select><br />
-		<label class='label' for='name_filter'>Search Hostname:</label>
-		<input type="text" name='name_filter' value="$name_filter"></input>
-		<input type='submit' name='submitbutton' value='Filter' />
-	</form>
-</div>
-FILTERDIV;
-
+	$name_filter = isset($_GET['name_filter']) ? htmlentities($_GET['name_filter']) : '';
 	$hostnames = array_keys($hosts);
 	sort($hostnames);
+
+	//begin html output / VIEW 
+	$page = ''; 
+	$ht = hosts_table();  //tac host summary table 	
+	$page .= "<div class='tacTable'>$ht</div>\n"; 
+	
+	$page .="<div class='tableOptsWrapper'>\n";	
+	if($doPagination) $page .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'hosts');
+	//creates notes for total results as well as form for setting page limits 
+	$page .= do_result_notes($start,$limit,$resultsCount,'hosts');		
+	//moved result filter to display_functions.php and made into function 
+	$page .=result_filter($name_filter,'host'); 	  
+	$page .= "\n</div> <!-- end tableOptsWrapper --> \n"; 
+
+	
+	//begin status table 
+	$page .= '<div class="statusTable">
+			<table class="statusTable">
+				<tr> 
+					<th>Host Name</th>
+					<th>Status</th>
+					<th>Duration</th>
+					<th>Attempt</th>
+					<th>Last Check</th>
+					<th>Status Information</th>
+				</tr>'."\n";
 
 	//begin looping table results 
 	for($i=$start; $i<=($start+$limit); $i++)
@@ -118,9 +99,11 @@ FILTERDIV;
 
 		$tr = get_color_code($host); // CSS style class based on status 
 		$url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$host['host_name']);
+		
+		//add function to fetch_icons 
 		$comments = comment_icon($host['host_name']); //has comments icon 
 		$dt_icon = downtime_icon($host['scheduled_downtime_depth']); //scheduled downtime icon 
-		$tablerow = <<<TABLEROW
+		$pagerow = <<<TABLEROW
 	
 		<tr>	
 			<td><a href="{$url}">{$host['host_name']}</a>{$comments}{$dt_icon}</td><td class="{$tr}">{$host['current_state']}</td>
@@ -131,19 +114,16 @@ FILTERDIV;
 		</tr>
 			
 TABLEROW;
-		$table .= $tablerow;
+		$page .= $pagerow;
 	}
 	
 	
-	$table .= '</table>';
+	$page .= "</table></div><!--end statusTable div -->\n";
 
 	//check if more than one page is needed 
-	if($doPagination)
-	{
-		$table .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'hosts');
-	}
+	if($doPagination) $page .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'hosts');
 
 	//print the page numbers here accordingly 
-	return $table;
+	return $page;
 } 
 ?>
