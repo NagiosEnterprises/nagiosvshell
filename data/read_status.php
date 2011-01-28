@@ -150,13 +150,21 @@ function process_host_status_keys($rawdata)
 {
 
 	static $hostindex = 1;
-	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth'));
+	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth', 'problem_has_been_acknowledged'));
 	
 	$processed_data['hostID'] = 'Host'.$hostindex++;
 	
 	$host_states = array( 0 => 'UP', 1 => 'DOWN', 2 => 'UNREACHABLE', 3 => 'UNKNOWN' );
-	$processed_data['current_state'] = state_map($rawdata['current_state'], $host_states);
-	
+	if($rawdata['current_state'] == 0 && $rawdata['last_check'] == 0)//added conditions for pending state -MG
+	{ 
+		$processed_data['current_state'] = 'PENDING'; 
+		$processed_data['plugin_output']="No data received yet";
+		$processed_data['duration']="N/A";
+		$processed_data['attempt']="N/A";
+		$processed_data['last_check']="N/A";
+	} 
+	else { $processed_data['current_state'] = state_map($rawdata['current_state'], $host_states); }
+ 
 	return $processed_data;
 }
 
@@ -168,12 +176,20 @@ function process_service_status_keys($rawdata)
 {
 
 	static $serviceindex = 0;
-	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth', 'service_description'));
+	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth', 'service_description', 'problem_has_been_acknowledged'));
 	
 	$processed_data['serviceID'] = 'service'.$serviceindex++;
 	//print "$serviceindex<br />";
 	$service_states = array( 0 => 'OK', 1 => 'WARNING', 2 => 'CRITICAL', 3 => 'UNKNOWN' );
-	$processed_data['current_state'] = state_map($rawdata['current_state'], $service_states);
+	if($rawdata['current_state'] == 0 && $rawdata['last_check'] == 0)//added conditions for pending state -MG
+	{ 
+		$processed_data['current_state'] = 'PENDING'; 
+		$processed_data['plugin_output']="No data received yet";
+		$processed_data['duration']="N/A";
+		$processed_data['attempt']="N/A";
+		$processed_data['last_check']="N/A";
+	}
+	else { $processed_data['current_state'] = state_map($rawdata['current_state'], $service_states); }
 	//print_r($processed_data);
 	//print "<br /><br />";
 	return $processed_data;

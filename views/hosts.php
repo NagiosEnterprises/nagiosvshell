@@ -106,7 +106,8 @@ function display_hosts($hosts, $start,$limit)
 		$pagerow = <<<TABLEROW
 	
 		<tr>	
-			<td><a href="{$url}">{$host['host_name']}</a>{$comments}{$dt_icon}</td><td class="{$tr}">{$host['current_state']}</td>
+			<td><a href="{$url}">{$host['host_name']}</a>{$comments}{$dt_icon}</td>
+			<td class="{$tr}">{$host['current_state']}</td>
 			<td>{$host['duration']}</td>
 			<td>{$host['attempt']}</td>
 			<td>{$host['last_check']}</td>

@@ -170,7 +170,7 @@ function build_nav_links() //build page links based on user's permission level
 function get_color_code($array) 
 {
 	$state = strtolower($array['current_state']);
-	$vals = array('ok', 'up', 'down', 'warning', 'unknown', 'critical');
+	$vals = array('ok', 'up', 'down', 'warning', 'unknown', 'critical', 'pending');
 	$str = (in_array($state, $vals) ? $state : 'unknown');
 	return $str;
 }

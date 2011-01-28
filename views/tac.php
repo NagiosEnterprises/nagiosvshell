@@ -118,13 +118,13 @@ function hosts_table()
 	<td class="ok"><a href="{$tac_data['hostlink']}UP">{$tac_data['hostsUpTotal']}</a> Up</td>
 	<td class="down"><a href="{$tac_data['hostlink']}DOWN">{$tac_data['hostsDownTotal']}</a> Down</td>
 	<td class="unreachable"><a href="{$tac_data['hostlink']}UNREACHABLE">{$tac_data['hostsUnreachableTotal']}</a> Unreachable</td>
-	<td class="pending">{$tac_data['hostsPending']} Pending</td>				
+	<td class="pending"><a href="{$tac_data['hostlink']}PENDING">{$tac_data['hostsPending']}</a> Pending</td>				
 	
 </tr> 
 <tr>
-	<td class="problem">{$tac_data['hostsProblemsTotal']} Problems</td>
-	<td class="unhandled">{$tac_data['hostsUnhandledTotal']} Unhandled</td>
-	<td class="acknowledged">{$tac_data['hostsAcknowledgedTotal']} Acknowledged</td>
+	<td class="problem"><a href="{$tac_data['hostlink']}PROBLEMS">{$tac_data['hostsProblemsTotal']}</a> Problems</td>
+	<td class="unhandled"><a href="{$tac_data['hostlink']}UNHANDLED">{$tac_data['hostsUnhandledTotal']}</a> Unhandled</td>
+	<td class="acknowledged"><a href="{$tac_data['hostlink']}ACKNOWLEDGED">{$tac_data['hostsAcknowledgedTotal']}</a> Acknowledged</td>
 	<td><a href="index.php?type=hosts" title="All Hosts">{$tac_data['hostsTotal']}</a> Total </td>
 </tr>
 
@@ -150,9 +150,9 @@ function services_table()
 		<td class="pending singleLine">{$tac_data['servicesPending']} Pending</td>
   </tr>
   <tr>
-	<td class="problem">{$tac_data['servicesProblemsTotal']} Problems</td>
-	<td class="unhandled"><div class="singleLine">{$tac_data['servicesUnhandledTotal']} Unhandled</div></td>
-	<td class="acknowledged"><div class="singleLine">{$tac_data['servicesAcknowledgedTotal']} Acknowledged</div></td>
+	<td class="problem"><a href="{$tac_data['servlink']}PROBLEMS">{$tac_data['servicesProblemsTotal']}</a> Problems</td>
+	<td class="unhandled"><div class="singleLine"><a href="{$tac_data['servlink']}UNHANDLED">{$tac_data['servicesUnhandledTotal']}</a> Unhandled</div></td>
+	<td class="acknowledged"><div class="singleLine"><a href="{$tac_data['servlink']}ACKNOWLEDGED">{$tac_data['servicesAcknowledgedTotal']}</a> Acknowledged</div></td>
 	<td colspan="2"><a href="index.php?type=services" title="All Services">{$tac_data['servicesTotal']}</a> Total </td>
 </tr>
 

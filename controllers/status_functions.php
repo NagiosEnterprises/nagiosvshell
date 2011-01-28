@@ -69,14 +69,14 @@ function get_state_of($type, $array=NULL) //create host or service arrays by sta
 
 	if($type == 'services')
 	{
-		$state_counts = array('OK'=>0, 'WARNING'=>0, 'CRITICAL'=>0, 'UNKNOWN'=>0);	
+		$state_counts = array('OK'=>0, 'WARNING'=>0, 'CRITICAL'=>0, 'UNKNOWN'=>0, 'PENDING'=>0);	
 		if (is_null($array)) {
 			$array = $NagiosData->getProperty('services');
 		}
 	}
 	elseif($type == 'hosts')
 	{
-		$state_counts = array('UP'=>0, 'DOWN'=>0, 'UNREACHABLE'=>0, 'UNKNOWN'=>0);
+		$state_counts = array('UP'=>0, 'DOWN'=>0, 'UNREACHABLE'=>0, 'UNKNOWN'=>0, 'PENDING'=>0);
 		if (is_null($array)) {
 			$array = $NagiosData->getProperty('hosts');
 		}

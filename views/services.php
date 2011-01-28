@@ -113,6 +113,9 @@ function display_services($services,$start,$limit)
 		$h_comments = comment_icon($services[$i]['host_name']);
 		$dt_icon = downtime_icon($services[$i]['scheduled_downtime_depth']);
 		$host_dt = downtime_icon(get_host_downtime($services[$i]['host_name']) );
+		//notifications disabled?
+		//passive checks? 
+		//flapping?  
 
 		//removing duplicate host names from table for a cleaner look
 		if(!isset($_GET['name_filter']) && !isset($_GET['state_filter']))

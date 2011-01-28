@@ -188,7 +188,8 @@ function process_state_filter($filter_str)
 {
 	$ret_filter = NULL;
 	$filter_str = strtoupper($filter_str);
-	$valid_states = array('UP', 'DOWN', 'UNREACHABLE', 'OK', 'CRITICAL', 'WARNING', 'UNKNOWN', 'PENDING');
+	$valid_states = array('UP', 'DOWN', 'UNREACHABLE', 'OK', 'CRITICAL', 
+								'WARNING', 'UNKNOWN', 'PENDING', 'PROBLEMS','UNHANDLED', 'ACKNOWLEDGED');
 
 
 	if (in_array($filter_str, $valid_states))
@@ -250,10 +251,41 @@ function hosts_and_services_data($type, $state_filter=NULL, $name_filter=NULL)
 {
 	global $NagiosData;
 	$data = $NagiosData->getProperty($type);
+	$data_in = $data; 
 
 	if ($state_filter)
 	{
-		$data = get_by_state($state_filter, $data); 
+		if($state_filter == 'PROBLEMS' || $state_filter == 'UNHANDLED' || $state_filter == 'ACKNOWLEDGED')  //merge arrays for multiple states 
+		{
+
+			$data = array_merge(get_by_state('UNKNOWN', $data_in), get_by_state('CRITICAL', $data_in), 
+										get_by_state('WARNING', $data_in), get_by_state('UNREACHABLE', $data_in),
+										get_by_state('DOWN', $data_in));
+			if($state_filter == 'UNHANDLED') //filter down problem array 
+			{
+				//loop and return array
+				$unhandled = array(); 
+				foreach($data as $d)
+				{
+					if($d['problem_has_been_acknowledged'] == 0 && $d['scheduled_downtime_depth'] == 0) $unhandled[] = $d; 
+				} 
+				$data = $unhandled; 
+			}//end unhandled if 
+			if($state_filter == 'ACKNOWLEDGED')
+			{
+				//loop and return array
+				$acknowledged = array(); 
+				foreach($data as $d)
+				{
+					if($d['problem_has_been_acknowledged'] > 0 || $d['scheduled_downtime_depth'] > 0) $acknowledged[] = $d; 
+				} 
+				$data = $acknowledged; 				
+			}//end acknowledged if 
+		}
+		else 
+		{
+			$data = get_by_state($state_filter, $data); 
+		}
 	}
 	if ($name_filter)
 	{
@@ -265,6 +297,7 @@ function hosts_and_services_data($type, $state_filter=NULL, $name_filter=NULL)
 			if (!isset($data[$i])) { $data[$i] = $service; }
 		}
 	}
+	//var_dump($data); 
 	return $data;
 }
 
