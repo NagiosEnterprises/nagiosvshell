@@ -43,11 +43,9 @@ function hideDropdown(id)
 function showHide(id)
 {
 	//alert(id);
-	var divID = "#"+id;
-	$(divID).css('height','100%')
-		.css('visibility','visible');
-			
+	var divID = "#"+id;			
 	$(divID).slideToggle("fast");
+	
 	   
 }
 /*this function hides the grids and configuration tables that can be toggled*/
