@@ -110,20 +110,12 @@ function display_services($services,$start,$limit)
 		$hosticons = fetch_host_icons($services[$i]['host_name']);
 		$serviceicons = fetch_service_icons($services[$i]['host_name'], $services[$i]['service_description']); 		
 	
-		//removing duplicate host names from table for a cleaner look
-		if(!isset($_GET['name_filter']) && !isset($_GET['state_filter']))
-		{	 
-			if ($services[$i]['host_name'] == $last_displayed_host) $td1 = '<td></td>';
-			else
-			{
-				$last_displayed_host = $services[$i]['host_name'];
-				$hostlink = "<a class='highlight' href='$host_url' title='View Host Details'>";
-				$td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $hosticons </div></td>";
-			}
-		}
+		//removing duplicate host names from table for a cleaner look 
+		if ($services[$i]['host_name'] == $last_displayed_host) $td1 = '<td></td>';
 		else
 		{
-			$hostlink = "<a class='hightlight' href='$host_url' title='View Host Details'>";
+			$last_displayed_host = $services[$i]['host_name'];
+			$hostlink = "<a class='highlight' href='$host_url' title='View Host Details'>";
 			$td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $hosticons </div></td>";
 		}
 		

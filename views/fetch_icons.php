@@ -118,7 +118,7 @@ function fetch_service_icons($hostname, $servicename)
  	}	
 		
 	$icons = '';	
-	$icons .= isset($service_obj['icon_image']) ? '<img class="tableIcon" border="0" width="15" height="15" title="" alt="Icon" src="views/images/logos/'.$host_obj['icon_image'].'">' : ''; 
+	$icons .= isset($service_obj['icon_image']) ? '<img class="tableIcon" border="0" width="15" height="15" title="" alt="" src="views/images/logos/'.$service_obj['icon_image'].'">' : ''; 
 	$icons.= comment_icon($service['host_name'], $service['service_description']); //comment icon and count, see function def below  
 	$icons .= ($service['scheduled_downtime_depth'] > 0) ? '<img src="views/images/downtime.png" title="In Downtime" class="tableIcon" alt="DT" height="12" width="12" />' : ''; //scheduled downtime icon
 	$icons .= ($service['notifications_enabled'] == 1) ? '' : '<img src="views/images/nonotifications.png" title="Notifications Disabled" class="tableIcon" alt="NO NTF" height="12" width="12" />'; //notifications enabled?  

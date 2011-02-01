@@ -2,7 +2,7 @@ Navigation controls
 -------------------
 mode=<html (default),json,xml>
 type=<overview (default), hosts,services,hostgroups,servicegroups,hostdetail,servicedetail,object>
-* state_filter=UP,DOWN,WARNING,UNREACHABLE,UNKNOWN,critical
+* state_filter=UP,DOWN,WARNING,UNREACHABLE,UNKNOWN,CRITICAL,PENDING,PROBLEMS,UNHANDLED,ACKNOWLEDGED
 * name_filter=<string>
 * objtype_filter=<string>
 

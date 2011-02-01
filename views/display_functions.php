@@ -370,7 +370,8 @@ function result_filter($name_filter="", $type='host')
 {
 	$ucType = ucfirst($type); 
 	$plType = $type.'s';
-	$states = ($type == 'host') ? array('', 'UP', 'DOWN', 'UNREACHABLE', 'PENDING') : array('', 'OK', 'WARNING', 'CRITICAL', 'UNKNOWN', 'PENDING'); 	
+	$states = ($type == 'host') ? array('', 'UP', 'DOWN', 'UNREACHABLE', 'PENDING', 'PROBLEMS', 'UNHANDLED', 'ACKNOWLEDGED') 
+										: array('', 'OK', 'WARNING', 'CRITICAL', 'UNKNOWN', 'PENDING', 'PROBLEMS', 'UNHANDLED', 'ACKNOWLEDGED'); 	
 	
 	///////////////////////////////build filterdiv 
 	$resultFilter= <<<FILTERDIV
