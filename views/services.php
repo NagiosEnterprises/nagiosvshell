@@ -100,23 +100,16 @@ function display_services($services,$start,$limit)
 		if ($i > $resultsCount) break;      //short circuit
 		if(!isset($services[$i])) continue; //skip undefined indexes of array
 
+		//get $vars to complete table data 
 		$tr = get_color_code($services[$i]);
 		#$url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$services[$i]['serviceID']);
 		$url = htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$services[$i]['serviceID']);
 		#$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$services[$i]['host_name']);
 		$host_url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$services[$i]['host_name']);
-		$color = get_host_status_color($services[$i]['host_name']);
-		
-		//turn into fetch_icons function 
-		$icon = return_icon_link($services[$i]['host_name']);
-		$comments = comment_icon($services[$i]['host_name'], $services[$i]['service_description']);
-		$h_comments = comment_icon($services[$i]['host_name']);
-		$dt_icon = downtime_icon($services[$i]['scheduled_downtime_depth']);
-		$host_dt = downtime_icon(get_host_downtime($services[$i]['host_name']) );
-		//notifications disabled?
-		//passive checks? 
-		//flapping?  
-
+		$color = get_host_status_color($services[$i]['host_name']);		
+		$hosticons = fetch_host_icons($services[$i]['host_name']);
+		$serviceicons = fetch_service_icons($services[$i]['host_name'], $services[$i]['service_description']); 		
+	
 		//removing duplicate host names from table for a cleaner look
 		if(!isset($_GET['name_filter']) && !isset($_GET['state_filter']))
 		{	 
@@ -125,13 +118,13 @@ function display_services($services,$start,$limit)
 			{
 				$last_displayed_host = $services[$i]['host_name'];
 				$hostlink = "<a class='highlight' href='$host_url' title='View Host Details'>";
-				$td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $icon $host_dt $h_comments</div></td>";
+				$td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $hosticons </div></td>";
 			}
 		}
 		else
 		{
 			$hostlink = "<a class='hightlight' href='$host_url' title='View Host Details'>";
-			$td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $icon $host_dt $h_comments</div></td>";
+			$td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $hosticons </div></td>";
 		}
 		
 		//table data generation 				
@@ -140,7 +133,7 @@ function display_services($services,$start,$limit)
 		
 		<tr class='statustablerow'>	
 			{$td1}
-			<td class='service_description'><div class='service_description'><a href="{$url}">{$services[$i]['service_description']}</a>{$comments}{$dt_icon}</div></td>
+			<td class='service_description'><div class='service_description'><a href="{$url}">{$services[$i]['service_description']}</a> $serviceicons </div></td>
 			<td class="{$tr}">{$services[$i]['current_state']}</td>
 			<td class='duration'>{$services[$i]['duration']}</td>
 			<td class='attempt'>{$services[$i]['attempt']}</td>

@@ -63,6 +63,8 @@ function display_hosts($hosts, $start,$limit)
 	$name_filter = isset($_GET['name_filter']) ? htmlentities($_GET['name_filter']) : '';
 	$hostnames = array_keys($hosts);
 	sort($hostnames);
+	
+
 
 	//begin html output / VIEW 
 	$page = ''; 
@@ -101,16 +103,18 @@ function display_hosts($hosts, $start,$limit)
 		$url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$host['host_name']);
 		
 		//add function to fetch_icons 
+		$icons = fetch_host_icons($host['host_name']); //returns all icons in one string 
+		/*
 		$comments = comment_icon($host['host_name']); //has comments icon 
 		$dt_icon = downtime_icon($host['scheduled_downtime_depth']); //scheduled downtime icon 
-		
-		$icons = fetch_icons($host); //returns all icons in one string 		
+		*/ 
+				
 		
 		
 		$pagerow = <<<TABLEROW
 	
 		<tr>	
-			<td><a href="{$url}">{$host['host_name']}</a>{$comments}{$dt_icon}</td>
+			<td><a href="{$url}">{$host['host_name']}</a>{$icons}</td>
 			<td class="{$tr}">{$host['current_state']}</td>
 			<td>{$host['duration']}</td>
 			<td>{$host['attempt']}</td>

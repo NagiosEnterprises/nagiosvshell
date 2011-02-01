@@ -49,57 +49,92 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
+/*
 function fetch_host_icons($array)
 {
 	$icons = ""; 
 	$icons.= comment_icon($host['host_name']); //comment icon and count 
 	$icons .= downtime_icon($host['scheduled_downtime_depth']); //scheduled downtime icon
-	$icons .=  
+	$icons .=  '' 
 	//notifications disabled?
 	//passive checks? 
 	//flapping? 
 
 }
-
+*/ 
 
 
 
 
 /* expecting host name 
- * returns an image icon for the status table if icon exists 
+ * returns all image icons for the host status tables if icon exists 
  */
-function return_icon_link($hostname)
+function fetch_host_icons($hostname)
 {
 	$hostname = trim($hostname);
 	global $NagiosData;
-	$hosts_objs = $NagiosData->getProperty('hosts_objs');
-
-	$icon = '';
-	$host = $hosts_objs[$hostname];
-	
-	$icon .= isset($host['icon_image']) ? '<img class="tableIcon" border="0" width="15" height="15" title="" alt="Icon" src="views/images/logos/'.$host['icon_image'].'">' : ''; 
-	$icons.= comment_icon($host['host_name']); //comment icon and count 
-	$icons .= downtime_icon($host['scheduled_downtime_depth']); //scheduled downtime icon
-	$icons .= ($host['notifications_enabled'] == 1) ? '' : 'ntf_icon'; //notifications enabled?  
-	$icons .= ($host['is_flapping']) == 0 ? '' : 'is_flapping'; //is flapping icon 
-	$icons .= ($hosts['
-	
-	
-	
-	/*
-	foreach($hosts_objs as $host)
-	{
-		if($hostname == $host['host_name'] && isset($host['icon_image']) )
-		{
-			$icon = $host['icon_image'];
-			$link. = '<img class="tableIcon" border="0" width="15" height="15" title="" alt="Icon" src="views/images/logos/'.$host['icon_image'].'">';
-		}
+	$hosts_objs = $NagiosData->getProperty('hosts_objs'); //host config, used to check for icon image
+	$host_obj = $hosts_objs[$hostname]; //get host config array 
+	$details = $NagiosData->grab_details('host'); //host details 
+ 	foreach($details as $d) 
+ 	{ 
+ 		if($d['host_name'] == $hostname) $host = $d; //extract host details for icons 
+ 	}	
 		
-	}
-	*/ 
-	return $link;
+	$icons = '';	
+	$icons .= isset($host_obj['icon_image']) ? '<img class="tableIcon" border="0" width="15" height="15" title="" alt="Icon" src="views/images/logos/'.$host_obj['icon_image'].'">' : ''; 
+	$icons.= comment_icon($host['host_name']); //comment icon and count, see function def below  
+	$icons .= ($host['scheduled_downtime_depth'] > 0) ? '<img src="views/images/downtime.png" title="In Downtime" class="tableIcon" alt="DT" height="12" width="12" />' : ''; //scheduled downtime icon
+	$icons .= ($host['notifications_enabled'] == 1) ? '' : '<img src="views/images/nonotifications.png" title="Notifications Disabled" class="tableIcon" alt="NO NTF" height="12" width="12" />'; //notifications enabled?  
+	$icons .= ($host['is_flapping']) == 0 ? '' : '<img src="views/images/flapping.png" title="State Is Flapping" class="tableIcon" alt="FLAP" height="12" width="12" />'; //is flapping 
+	$icons .= ($host['active_checks_enabled']==0 && $host['passive_checks_enabled']==1) ? '<img src="views/images/passive.png" title="Passive Checks Enabled" class="tableIcon" alt="PC" height="12" width="12" />' : ''; //passive host 
+	$icons .= ($host['current_state'] != 0 && $host['problem_has_been_acknowledged'] > 0) ? '<img src="views/images/ack.png" title="Problem Has Been Acknowledged" class="tableIcon" alt="ACK" height="12" width="12" />' : ''; //acknowledged problem  
+	
+	return $icons;
 }
+
+
+
+/* expecting host name 
+ * returns all image icons for the host status tables if icon exists 
+ */
+function fetch_service_icons($hostname, $servicename)
+{
+	$servicicename = trim($servicename);
+	global $NagiosData;
+	$services_objs = $NagiosData->getProperty('services_objs'); //host config, used to check for icon image
+ 	foreach($services_objs as $s) 
+ 	{ 
+ 		if($s['host_name'] == $hostname && $s['service_description'] == $servicename) $service_obj = $s; //extract host details for icons 
+ 	}	
+	
+	//$service_obj = $services_objs[$servicename]; //get host config array 
+	$details = $NagiosData->grab_details('service'); //host details 
+	//print_r($details); 
+	//die(); 
+ 	foreach($details as $d) 
+ 	{ 
+ 		if($d['host_name'] == $hostname && $d['service_description'] == $servicename) $service = $d; //extract host details for icons 
+ 	}	
+		
+	$icons = '';	
+	$icons .= isset($service_obj['icon_image']) ? '<img class="tableIcon" border="0" width="15" height="15" title="" alt="Icon" src="views/images/logos/'.$host_obj['icon_image'].'">' : ''; 
+	$icons.= comment_icon($service['host_name'], $service['service_description']); //comment icon and count, see function def below  
+	$icons .= ($service['scheduled_downtime_depth'] > 0) ? '<img src="views/images/downtime.png" title="In Downtime" class="tableIcon" alt="DT" height="12" width="12" />' : ''; //scheduled downtime icon
+	$icons .= ($service['notifications_enabled'] == 1) ? '' : '<img src="views/images/nonotifications.png" title="Notifications Disabled" class="tableIcon" alt="NO NTF" height="12" width="12" />'; //notifications enabled?  
+	$icons .= ($service['is_flapping']) == 0 ? '' : '<img src="views/images/flapping.png" title="State Is Flapping" class="tableIcon" alt="FLAP" height="12" width="12" />'; //is flapping 
+	$icons .= ($service['active_checks_enabled']==0 && $host['passive_checks_enabled']==1) ? '<img src="views/images/passive.png" title="Passive Checks Enabled" class="tableIcon" alt="PC" height="12" width="12" />' : ''; //passive host 
+	$icons .= ($service['current_state'] != 0 && $service['problem_has_been_acknowledged'] > 0) ? '<img src="views/images/ack.png" title="Problem Has Been Acknowledged" class="tableIcon" alt="ACK" height="12" width="12" />' : ''; //acknowledged problem  
+	
+	return $icons;
+}
+
+
+
+
+
+
+
 ///////////////////////////////////////////////////
 //expecting a hostname, and optionally a service description
 // if true, returns the img link for the comment icon 
@@ -117,26 +152,6 @@ function comment_icon($host='', $service='')
 	}
 	return $img;
 }
-
-
-///////////////////////////http://localhost/var/www/http_public/nagpui/views/images/hascomments.png
-/* Expecting the 'scheduled_downtime_depth' index of a host or service 
- * Returns either an empty string or an img link to the icon 
- */
-function downtime_icon($arg)
-{
-	$img = '';	
-	if(trim($arg)>0)
-	{
-		$img = '<img src="views/images/downtime.png" title="In Downtime" class="tableIcon" alt="DT" height="12" width="12" />'; 
-	}
-
-	return $img;
-}
-
-
-
-
 
 
 
