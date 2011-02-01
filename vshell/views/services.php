@@ -52,8 +52,30 @@
 //expecting array of service status and returns a service table  
 function display_services($services,$start,$limit)
 {
+	//LOGIC 
+	$resultsCount = count($services);
+	//if results are greater than number that the page can display, create page links
+	//calculate number of pages 
+	$pageCount = (($resultsCount / $limit) < 1) ? 1 : intval($resultsCount/$limit);
+	$doPagination = $pageCount * $limit < $resultsCount;
+	$name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
+	$st = services_table(); //tac Summary table 
+
+	//VIEW / html output 
+	$page=''; 
+	$page .= "<div class='tacTable'>$st</div>\n"; 
+	
+	$page .="<div class='tableOptsWrapper'>\n";
+	//check if more than one page is needed 
+	if($doPagination) $page .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
+	//creates notes for total results as well as form for setting page limits 
+	$page .= do_result_notes($start,$limit,$resultsCount,'services');		
+	//moved result filter to display_functions.php and made into function 
+	$page .=result_filter($name_filter,'service');	  
+	$page .= "\n</div> <!-- end tableOptsWrapper --> \n"; 
+
 	//Table header generation 
-	print '
+	$page .= '<div class="statusTable">
 	<table class="servicetable"><tr> 
 	<th class="hostname">Host Name</th>
 	<th class="service_description">Service</th>
@@ -63,65 +85,47 @@ function display_services($services,$start,$limit)
 	<th class="last_check">Last Check</th>
 	<th class="plugin_output">Status Information</th></tr>';
 		
-	$resultsCount = count($services);
-	//if results are greater than number that the page can display, create page links
-	//if no result limit is defined, page will display all results.  Default limit is 100 results
-	//calculate number of pages 
-	$pageCount = (($resultsCount / $limit) < 1) ? 1 : intval($resultsCount/$limit);
-	
-	//check if more than one page is needed 
-	if($pageCount * $limit < $resultsCount)
-	{
-		do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
+	// Fixup post filtering indices
+	$curidx = 0;
+	foreach ($services as $id => $servinfo) {
+			unset($services[$id]);
+			$services[$curidx++] = $servinfo;
 	}
-	
-	//creates notes for total results as well as form for setting page limits 
-	do_result_notes($start,$limit,$resultsCount,'services');
 
 	//process service array   
 	//service table rows 
 	$last_displayed_host = NULL;
 	for($i=$start; $i<=($start+$limit); $i++)
 	{
+		if ($i > $resultsCount) break;      //short circuit
 		if(!isset($services[$i])) continue; //skip undefined indexes of array
 
+		//get $vars to complete table data 
 		$tr = get_color_code($services[$i]);
-		$url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$services[$i]['serviceID']);
-		$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$services[$i]['host_name']);
-		$color = get_host_status_color($services[$i]['host_name']);
-		$icon = return_icon_link($services[$i]['host_name']);
-		$comments = comment_icon($services[$i]['host_name'], $services[$i]['service_description']);
-		$h_comments = comment_icon($services[$i]['host_name']);
-		$dt_icon = downtime_icon($services[$i]['scheduled_downtime_depth']);
-		$host_dt = downtime_icon(get_host_downtime($services[$i]['host_name']) );
-
-		//removing duplicate host names from table for a cleaner look
-		if(isset($_GET['view']))
-		{	 
-			if ($services[$i]['host_name'] == $last_displayed_host)
-			{
-				$td1 = '<td></td>';
-			}
-			else
-			{
-				$last_displayed_host = $services[$i]['host_name'];
-				$hostlink = "<a class='highlight' href='$host_url' title='View Host Details'>";
-				$td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $icon $host_dt $h_comments</div></td>";
-			}
-		}
+		#$url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$services[$i]['serviceID']);
+		$url = htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$services[$i]['serviceID']);
+		#$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$services[$i]['host_name']);
+		$host_url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$services[$i]['host_name']);
+		$color = get_host_status_color($services[$i]['host_name']);		
+		$hosticons = fetch_host_icons($services[$i]['host_name']);
+		$serviceicons = fetch_service_icons($services[$i]['host_name'], $services[$i]['service_description']); 		
+	
+		//removing duplicate host names from table for a cleaner look 
+		if ($services[$i]['host_name'] == $last_displayed_host) $td1 = '<td></td>';
 		else
 		{
-			$hostlink = "<a class='hightlight' href='$host_url' title='View Host Details'>";
-			$td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $icon $host_dt $h_comments</div></td>";
+			$last_displayed_host = $services[$i]['host_name'];
+			$hostlink = "<a class='highlight' href='$host_url' title='View Host Details'>";
+			$td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $hosticons </div></td>";
 		}
 		
 		//table data generation 				
 		//Using HEREDOC string syntax to print rows 
-		$tablerow = <<<TABLE
+		$pagerow = <<<TABLEROW
 		
 		<tr class='statustablerow'>	
 			{$td1}
-			<td class='service_description'><div class='service_description'><a href="{$url}">{$services[$i]['service_description']}</a>{$comments}{$dt_icon}</div></td>
+			<td class='service_description'><div class='service_description'><a href="{$url}">{$services[$i]['service_description']}</a> $serviceicons </div></td>
 			<td class="{$tr}">{$services[$i]['current_state']}</td>
 			<td class='duration'>{$services[$i]['duration']}</td>
 			<td class='attempt'>{$services[$i]['attempt']}</td>
@@ -129,12 +133,19 @@ function display_services($services,$start,$limit)
 			<td class='plugin_output'><div class='plugin_output'>{$services[$i]['plugin_output']}</div></td>
 		</tr>
 		
-TABLE;
+TABLEROW;
 
-		print $tablerow;
+		$page .= $pagerow;
 		
 	}
-	print '</table>';
+	$page .= "</table>\n</div> <!--end div.statusTable -->\n" ;
+
+	if($doPagination)
+	{
+		$page .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
+	}
+
+	return $page;
 }
 //end php 
 ?>

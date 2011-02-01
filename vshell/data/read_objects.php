@@ -49,7 +49,6 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
 /*  Open and parse the Nagios objects file.
  *
  *  Returns an array of the following arrays:
@@ -63,7 +62,8 @@
  * $timeperiods
  * $commands
  */
-function parse_objects_file($objfile = OBJECTSFILE) {
+function parse_objects_file($objfile = OBJECTSFILE)
+{
 
 	$objs_file = fopen($objfile, "r") or die("Unable to open '$objfile' file!");
 	
@@ -74,8 +74,6 @@ function parse_objects_file($objfile = OBJECTSFILE) {
 	
 	while(!feof($objs_file)) //read through the file and read object definitions
 	{
-	
-		//var_dump($line)."<br />";
 		$line = fgets($objs_file); //Gets a line from file pointer.
 	
 	if (preg_match('/^\s*define\s+(\w+)\s*{\s*$/', $line, $defmatches)) {
@@ -84,14 +82,29 @@ function parse_objects_file($objfile = OBJECTSFILE) {
 	
 	} elseif (preg_match('/^\s*}\s*$/', $line)) {
 		// End of a definition.  Assign key-value pairs and reset variables
-		$object_collector[$curdeftype][] = $kvp;
+		switch($curdeftype){
+			case 'host':
+			case 'servicegroup':
+			$object_collector[typemap($curdeftype)][$kvp[$curdeftype.'_name']] = $kvp;
+			break;
+
+			case 'service':
+			$object_collector[typemap('host')][$kvp['host_name']]['services'][] = $kvp;
+			$object_collector[typemap($curdeftype)][] = $kvp;
+			break;
+
+			default:
+			$object_collector[typemap($curdeftype)][] = $kvp;
+			break;
+		}
+
 		$curdeftype = NULL;
 		$kvp = array();
 	
 	} elseif($curdeftype != NULL) {
 		// Collect the key-value pairs for the definition
 		list($key, $value) = explode("\t", trim($line), 2);
-		$kvp[$key] = $value;
+		$kvp[trim($key)] = trim($value);
 	
 	} else {
 		// outside of definitions? Comments and whitespace should be caught
@@ -100,23 +113,66 @@ function parse_objects_file($objfile = OBJECTSFILE) {
 	} //end of while
 	
 	fclose($objs_file);	
-	
-	$return_array = array();
-	
-	foreach (array('host', 'service', 'hostgroup', 'servicegroup', 
-	  'contact', 'contactgroup', 'timeperiod', 'command') as $name) {
-		if(isset($object_collector[$name]))
-		{	
-		 $return_array[]= $object_collector[$name];
-		}
-		else 
+
+	$object_collector['hostgroups'] = build_group_array($object_collector['hostgroups_objs'], 'host');
+	$object_collector['servicegroups'] = build_group_array($object_collector['servicegroups_objs'], 'service');
+
+	return $object_collector;
+}
+
+function typemap($type)
+{
+  $retval = NULL;
+  if (in_array($type, array('host', 'service', 'hostgroup', 'servicegroup'))) {
+	$retval = $type.'s_objs';
+  } elseif (in_array($type, array('contact', 'contactgroup', 'timeperiod', 'command'))) {
+	$retval = $type.'s';
+  } else { // TODO other types?  
+  }
+
+  return $retval;
+}
+
+//creates group array based on type 
+//$objectarray - expecting an object group array -> $hostgroups_objs $servicegroups_objs $contactgroups
+//				-these groups are read from objects.cache file  
+//$type - expecting 'host' 'service' or 'contact'  
+function build_group_array($objectarray, $type)
+{
+	$membersArray = array(); 
+	$index = $type.'group_name';
+
+	foreach ($objectarray as $object)
+	{
+		$group = $object[$index];
+		if (isset($object['members']))
 		{
-		  $object_collector[$name] = NULL;
-		  $return_array[] = $object_collector[$name];
+			$members = $object['members'];
+			$lineitems = explode(',', trim($members));
+			array_walk($lineitems, create_function('$v', '$v = trim($v);'));
+			$group_members = NULL;
+			if ($type == 'host' || $type == 'contact')
+			{
+				$group_members = $lineitems;
+			}
+			elseif ($type == 'service')
+			{
+				for ($i = 0; $i < count($lineitems); $i+=2)
+				{
+					$host = $lineitems[$i];
+					$service = $lineitems[$i+1];
+					$group_members[] = array(
+						'host_name' => $host,
+						'service_description' => $service);
+
+				}
+			}
+
+			$membersArray[$group] = $group_members;
 		}
 	}
-	
-	return $return_array;
+	//ARRAY MEMBERS NEED SPACES TRIMMED!!!!!!!! 
+	return $membersArray;
 }
 
 ?>

@@ -1,0 +1,30 @@
+Navigation controls
+-------------------
+mode=<html (default),json,xml>
+type=<overview (default), hosts,services,hostgroups,servicegroups,hostdetail,servicedetail,object>
+* state_filter=UP,DOWN,WARNING,UNREACHABLE,UNKNOWN,CRITICAL,PENDING,PROBLEMS,UNHANDLED,ACKNOWLEDGED
+* name_filter=<string>
+* objtype_filter=<string>
+
+Navigation routing
+------------------
+
+NavBar:
+  Tactical Overview (default): type=overview
+    Tactical Overview Hosts (up|down|unreachable): type=hosts,state_filter=(up|down|unreachable)
+    Tactical Overview Services (ok|critical|warning|unknown): type=services,state_filter=(ok|critical|warning|unknown)
+
+  Hosts: type=hosts
+  Services: type=services
+  Hostgroups: type=hostgroups
+  Servicegroups: type=servicegroups
+
+  Configurations->(Hosts|Services|Hostgroups|Servicegroups|Timeperiods|Contacts|Contactgroups|Commands): 
+    type=object,objtype_filter=(hosts_objs|services_objs|hostgroups_objs|servicegroups_objs|timeperiods|contacts|contactgroups|commands)
+
+Hosts-><hostname>: type=hostdetail,name_filter=<hostname>
+
+Services-><hostname>: type=hostdetail,name_filter=<hostname>
+Services-><serviceid>: type=servicedetail,name_filter=<serviceid>
+
+

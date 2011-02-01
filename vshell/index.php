@@ -51,8 +51,7 @@
 
 session_start(); //no need for sessions at this time
 ob_start();
-echo '<?xml version="1.0" encoding="UTF-8"?>'; 		
- 
+
 include(dirname(__FILE__).'/inc.inc.php'); //master include file 
 $page_title = 'Nagios Visual Shell';
 
@@ -62,14 +61,11 @@ $username = check_auth();
 //$username = 'nagiosadmin'; //uncomment this to only use apache authentication methods  
 
 set_perms($username); //set global $authorization 
+
+
 if($username) //if logged in, display the page 
 {		
-	include(dirname(__FILE__).'/views/header.php');  //html head 
-	//php goodness 	
-	page_router(); //route page through switchboard() based on $_GET request 
-						//see controller.php for details 
-						
-	include(dirname(__FILE__).'/views/footer.php');  //html footer 
+	page_router();
 }
 else
 {
@@ -77,5 +73,5 @@ else
 	print "Access Denied";
 }
 
-
+ob_end_flush();
 ?>

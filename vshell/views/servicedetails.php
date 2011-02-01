@@ -50,23 +50,22 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-
-
-
-//this page will be an include for the command_router.php controller file 
-//include additional items by first adding them to the arrays on command_router.php 
-
+function get_service_details($dets)
+{
 //defining string using HEREDOC syntax, which is a format for multiline 
 //   print statements with variables 
 //  
 // 
-$page=<<<PAGE
+	$page=<<<PAGE
 
 	<h3>Service Status Detail</h3>
-	<div class="detailcontainer">
+	<div class="detailWrapper">
+	
 	<h4><em>Service: </em>{$dets['Service']}</h4>
 	<h4><em>Host: </em>{$dets['Host']}</h4>
 	<h5><em>Member of: </em>{$dets['MemberOf']}</h5>
+	
+	<div class="detailcontainer">
 	<fieldset class="servicedetails">
 	<legend>Advanced Details</legend>
 	<table class="details">
@@ -89,8 +88,9 @@ $page=<<<PAGE
 	</table>	
 	
 	</fieldset>
+	</div><!-- end detailcontainer -->
 	
-	
+	<div class="rightContainer">
 	<fieldset class='attributes'>
 	<legend>Service Attributes</legend>	
 	<table>	
@@ -107,8 +107,10 @@ $page=<<<PAGE
 	</table>
 	<p class="note">Commands will not appear until after page reload</p>
 	</fieldset>
+
 	
 	<!-- Nagios Core Command Table -->
+
 	<fieldset class='corecommands'>
 	<legend>Core Commands</legend>
 	<table>
@@ -121,12 +123,12 @@ $page=<<<PAGE
 	</table>
 	</fieldset>
 	
-	</div>
-	
+	</div><!-- end rightContainer -->
+	</div><!-- end detailWrapper -->
 
 
 	<!-- begin comment table -->
-	<div>
+	<div class="commentTable">
 	<h5 class="commentTable">Comments</h5>
 	<p class="commentTable"><a class="label" href="{$dets['AddComment']}" title="Add Comment">Add Comment</a></p> 
 	
@@ -136,14 +138,15 @@ $page=<<<PAGE
 
 PAGE;
 
-print $page;
+#print $page;
 
 	//print service comments in table rows if any exist
 	//see display_functions.php for function  
-	get_service_comments($dets['Host'], $dets['Service']);
+	$page .= get_service_comments($dets['Host'], $dets['Service']);
 	//close comment table 
-	print '</table></div><br />';
-
+	$page .= '</table></div><br />';
+	return $page;
+}
 
 
 ?> 

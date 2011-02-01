@@ -53,55 +53,86 @@
 //displays hosts table for any array of hosts 
 function display_hosts($hosts, $start,$limit)
 {
-
-	print '<table class="statustable"><tr> 
-			<th>Host Name</th>
-			<th>Status</th>
-			<th>Duration</th>
-			<th>Attempt</th>
-			<th>Last Check</th>
-			<th>Status Information</th></tr>';
-
+	//LOGIC 
+	//get variables needed to display page
 	$resultsCount = count($hosts);
 	//if results are greater than number that the page can display, create page links
-	//if no result limit is defined, page will display all results.  Default limit is 100 results
 	//calculate number of pages 
 	$pageCount = (($resultsCount / $limit) < 1) ? 1 : intval($resultsCount/$limit);
+	$doPagination = $pageCount * $limit < $resultsCount;
+	$name_filter = isset($_GET['name_filter']) ? htmlentities($_GET['name_filter']) : '';
+	$hostnames = array_keys($hosts);
+	sort($hostnames);
 	
-	//check if more than one page is needed 
-	if($pageCount * $limit < $resultsCount)
-	{
-		do_pagenumbers($pageCount,$start,$limit,$resultsCount,'hosts');
-	}
+
+
+	//begin html output / VIEW 
+	$page = ''; 
+	$ht = hosts_table();  //tac host summary table 	
+	$page .= "<div class='tacTable'>$ht</div>\n"; 
 	
+	$page .="<div class='tableOptsWrapper'>\n";	
+	if($doPagination) $page .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'hosts');
 	//creates notes for total results as well as form for setting page limits 
-	do_result_notes($start,$limit,$resultsCount,'hosts');	
+	$page .= do_result_notes($start,$limit,$resultsCount,'hosts');		
+	//moved result filter to display_functions.php and made into function 
+	$page .=result_filter($name_filter,'host'); 	  
+	$page .= "\n</div> <!-- end tableOptsWrapper --> \n"; 
+
+	
+	//begin status table 
+	$page .= '<div class="statusTable">
+			<table class="statusTable">
+				<tr> 
+					<th>Host Name</th>
+					<th>Status</th>
+					<th>Duration</th>
+					<th>Attempt</th>
+					<th>Last Check</th>
+					<th>Status Information</th>
+				</tr>'."\n";
+
 	//begin looping table results 
 	for($i=$start; $i<=($start+$limit); $i++)
 	{
-		if(!isset($hosts[$i])) continue; //skip undefined indexes of hosts array 
-		$tr = get_color_code($hosts[$i]); // CSS style class based on status 
-		$url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$hosts[$i]['host_name']);
-		$comments = comment_icon($hosts[$i]['host_name']); //has comments icon 
-		$dt_icon = downtime_icon($hosts[$i]['scheduled_downtime_depth']); //scheduled downtime icon 
-		$tablerow = <<<TABLE
+		if ($i >= $resultsCount) break;
+		if(!isset($hosts[$hostnames[$i]])) continue; //skip undefined indexes of hosts array 
+		$host = $hosts[$hostnames[$i]];
+
+		$tr = get_color_code($host); // CSS style class based on status 
+		$url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$host['host_name']);
+		
+		//add function to fetch_icons 
+		$icons = fetch_host_icons($host['host_name']); //returns all icons in one string 
+		/*
+		$comments = comment_icon($host['host_name']); //has comments icon 
+		$dt_icon = downtime_icon($host['scheduled_downtime_depth']); //scheduled downtime icon 
+		*/ 
+				
+		
+		
+		$pagerow = <<<TABLEROW
 	
 		<tr>	
-			<td><a href="{$url}">{$hosts[$i]['host_name']}</a>{$comments}{$dt_icon}</td><td class="{$tr}">{$hosts[$i]['current_state']}</td>
-			<td>{$hosts[$i]['duration']}</td>
-			<td>{$hosts[$i]['attempt']}</td>
-			<td>{$hosts[$i]['last_check']}</td>
-			<td>{$hosts[$i]['plugin_output']}</td>
+			<td><a href="{$url}">{$host['host_name']}</a>{$icons}</td>
+			<td class="{$tr}">{$host['current_state']}</td>
+			<td>{$host['duration']}</td>
+			<td>{$host['attempt']}</td>
+			<td>{$host['last_check']}</td>
+			<td>{$host['plugin_output']}</td>
 		</tr>
 			
-TABLE;
-		print $tablerow;	
+TABLEROW;
+		$page .= $pagerow;
 	}
 	
 	
-	print '</table>';
-	
-	//print the page numbers here accordingly 
+	$page .= "</table></div><!--end statusTable div -->\n";
 
+	//check if more than one page is needed 
+	if($doPagination) $page .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'hosts');
+
+	//print the page numbers here accordingly 
+	return $page;
 } 
 ?>

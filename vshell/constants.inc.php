@@ -56,6 +56,9 @@ $SERVER_BASE = isset($_SERVER['SERVER_NAME']) ?
  
 $PROTO = isset($_SERVER['HTTPS']) ? 'https' : 'http';
 $base = $PROTO.'://'.$SERVER_BASE;
+if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443) {
+  $base .= ':'.$_SERVER['SERVER_PORT'];
+}
 $home = $base.'/vshell/';
 
 ///////////////////end patch /////////

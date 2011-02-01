@@ -50,14 +50,24 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+function get_tac_html()
+{
+	global $tac_data; 
 
+	$tac = "";
+	$tac .= info_table().'<br />';
+	$tac .= overview_table().'<br />';
+	$tac .= hosts_table().'<br />';
+	$tac .= services_table().'<br />';
+	$tac .= features_table();
+	$tac .= search_box().'<br />';
 
-//TODO move each table into it's own function to prevent variable overlap 
+	return $tac;
+}
 
-
-
-
-?>
+function info_table()
+{
+	$info_table =<<<INFOTABLE
 <!-- ##################Nagios Info Table################### -->
 <div id='infodiv'>
 
@@ -70,264 +80,252 @@
    <a href="http://support.nagios.com/forum/viewforum.php?f=19" target="_blank">V-Shell Forum</a>.</p>
 
 </div>
+INFOTABLE;
+	return $info_table;
+}
 
+function overview_table()
+{
+	global $tac_data; 
+	global $username; 
 
+	$overview_table = <<<OVERVIEWTABLE
 <table class="tac">
 <tr><th>Tactical Monitoring Overview</th></tr>
 	<tr>
 		<td>
-			<?php 
-
-			$last_command = settype($info['last_command_check'], 'integer') ;	
-			$now = time();
-			$last_command = $now - $last_command;						 
-			$lastcmd = date('D M d H:i s\s', $last_command);
-			//Fri Sep 3 13:42:55 CDT 2010
-			print 'Last Check: '.$lastcmd."<br />\n"; 				 				 			
-			print "Updated every 90 seconds<br />\n";
-			global $info;
-			print 'Nagios® Core™ '.$info['version'].' - www.nagios.org<br />';
-			global $username;
-			print 'Logged in as '.$username.'<br />';
-
-						
-			?>
+			Last Check: {$tac_data['lastcmd']}<br />
+			Updated every 90 seconds<br />
+			Nagios® Core™ {$tac_data['version']} - www.nagios.org<br />
+			Logged in as $username<br />
 		</td>
 	</tr>
 </table>
-<br />
+OVERVIEWTABLE;
+	return $overview_table;
+}
 
 
+function hosts_table()
+{
+	global $tac_data; 
 
+	$hosts_table =<<<HOSTSTABLE
 <!-- ########################HOSTS TABLE########################## -->
 <table class="tac">
 <tr><th>Hosts</th></tr>
-<?php
-
-$states = get_state_of('hosts');
-$hlink = htmlentities(BASEURL.'index.php?cmd=filterhosts&arg=');
-//using HEREDOC string syntax 
-$hostrow = <<<HOSTROW
-
 <tr>
-	<td class="ok"><a href="{$hlink}UP">{$states['UP']}</a> Up</td>
-	<td class="down"><a href="{$hlink}DOWN">{$states['DOWN']}</a> Down</td>
-	<td class="unreachable"><a href="{$hlink}UNREACHABLE">{$states['UNREACHABLE']}</a> Unreachable</td>				
+	<td class="ok"><a href="{$tac_data['hostlink']}UP">{$tac_data['hostsUpTotal']}</a> Up</td>
+	<td class="down"><a href="{$tac_data['hostlink']}DOWN">{$tac_data['hostsDownTotal']}</a> Down</td>
+	<td class="unreachable"><a href="{$tac_data['hostlink']}UNREACHABLE">{$tac_data['hostsUnreachableTotal']}</a> Unreachable</td>
+	<td class="pending"><a href="{$tac_data['hostlink']}PENDING">{$tac_data['hostsPending']}</a> Pending</td>				
+	
 </tr> 
-
-HOSTROW;
-print $hostrow;
-?>
+<tr>
+	<td class="problem"><a href="{$tac_data['hostlink']}PROBLEMS">{$tac_data['hostsProblemsTotal']}</a> Problems</td>
+	<td class="unhandled"><a href="{$tac_data['hostlink']}UNHANDLED">{$tac_data['hostsUnhandledTotal']}</a> Unhandled</td>
+	<td class="acknowledged"><a href="{$tac_data['hostlink']}ACKNOWLEDGED">{$tac_data['hostsAcknowledgedTotal']}</a> Acknowledged</td>
+	<td><a href="index.php?type=hosts" title="All Hosts">{$tac_data['hostsTotal']}</a> Total </td>
+</tr>
 
 </table>
-<br />
+HOSTSTABLE;
+	return $hosts_table;
+}
+
+function services_table()
+{
+	global $tac_data; 
+
+	$services_table = <<<SERVICESTABLE
 <!-- ######################SERVICES TABLE##################### -->
 <table class="tac">
 <tr><th>Services</th></tr>
-<?php
-
-$sts = get_state_of('services');
-$link = htmlentities(BASEURL.'index.php?cmd=filterservices&arg=');
-//using HEREDOC syntax to print table rows 
-$row = <<<TABLEROW
-
+	
   <tr>
-	   <td class='ok'><a href='{$link}OK'>{$sts['OK']}</a> Ok</td>
-	   <td class="critical"><a href="{$link}CRITICAL">{$sts['CRITICAL']}</a> Critical</td>
-		<td class="warning"><a href="{$link}WARNING">{$sts['WARNING']}</a> Warning</td>		
-		<td class="unknown"><a href="{$link}UNKNOWN">{$sts['UNKNOWN']}</a> Unknown</td>
+	   <td class='ok'><a href='{$tac_data['servlink']}OK'>{$tac_data['servicesOkTotal']}</a> Ok</td>
+	   <td class="critical singleLine"><a href="{$tac_data['servlink']}CRITICAL">{$tac_data['servicesCriticalTotal']}</a> Critical</td>
+		<td class="warning singleLine"><a href="{$tac_data['servlink']}WARNING">{$tac_data['servicesWarningTotal']}</a> Warning</td>		
+		<td class="unknown singleLine"><a href="{$tac_data['servlink']}UNKNOWN">{$tac_data['servicesUnknownTotal']}</a> Unknown</td>
+		<td class="pending singleLine">{$tac_data['servicesPending']} Pending</td>
   </tr>
-  
-TABLEROW;
-//end HEREDOC 
-print $row;
-
-?>
+  <tr>
+	<td class="problem"><a href="{$tac_data['servlink']}PROBLEMS">{$tac_data['servicesProblemsTotal']}</a> Problems</td>
+	<td class="unhandled"><div class="singleLine"><a href="{$tac_data['servlink']}UNHANDLED">{$tac_data['servicesUnhandledTotal']}</a> Unhandled</div></td>
+	<td class="acknowledged"><div class="singleLine"><a href="{$tac_data['servlink']}ACKNOWLEDGED">{$tac_data['servicesAcknowledgedTotal']}</a> Acknowledged</div></td>
+	<td colspan="2"><a href="index.php?type=services" title="All Services">{$tac_data['servicesTotal']}</a> Total </td>
+</tr>
 
 </table>
+SERVICESTABLE;
+	return $services_table;
+}
 
+function search_box() {
+	$box = <<<FILTERDIV
+<!-- #####################SEARCH BOX####################-->
+<div class='resultFilter'>
+	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
+		<input type="hidden" name="type" value="services">
+		<label class='label' for='name_filter'>Search String</label>
+		<input type="text" name='name_filter'></input>
+		<input type='submit' name='submitbutton' value='Filter' />
+	</form>
+</div>
+FILTERDIV;
+	return $box;
+}
+
+function features_table()
+{
+	global $tac_data; 
+
+	$features_table = <<<FEATURESTABLE
 <!-- #####################ENABLED FEATURES TABLE ####################-->
-<br />
 <table class="tac">
 <tr><th>Monitoring Features</th></tr>
 <tr>
 	<td>Flap Detection</td><td>Notifications</td><td>Event Handlers</td>
 	<td>Active Checks</td><td>Passive Checks</td>
 </tr><tr>	
-<?php 
 
-// monitoring features enabled/disabled 
-
-///////////////////////FLAPPING////////////////////////////////
-print '<td class="green">'."\n";
-//////////////////////////////////////////////////////////////////
-//checking for disabled flap detection 
-
-$host_fd = check_boolean('host', 'flap_detection_enabled', 0); 
-if($host_fd)
-{
-	print '<span class="red">'.$host_fd.' Hosts disabled</span>';
-}
-else
-{
-	print 'All Hosts enabled';
-}
-print '<br />';	
-$service_fd = check_boolean('service', 'flap_detection_enabled', 0); 
-if($service_fd)
-{
-	print '<span class="red">'.$host_fd.' Hosts disabled</span>';
-}
-else
-{
-	print 'All Services enabled';
-}	
-print "<br />\n";
-///////////////////////////////////////////////////////////
-//checking for flapping... 
-$host_flap = check_boolean('host', 'is_flapping', 1); 
-if($host_flap)
-{
-	print '<span class="red">'.$host_flap.' Hosts flapping';
-}
-else
-{
-	print 'No hosts flapping';
-}	
-print "<br />\n";
-$service_flap = check_boolean('service', 'is_flapping', 1); 
-if($service_flap)
-{
-	print '<span class="red">'.$service_flap.' Services flapping</span>';
-}
-else
-{
-	print 'No Services flapping';
-}	
-print "<br />\n";
-print '</td>'; //close table data 
-
-/////////////////////////////NOTIFICATIONS///////////////////////////////
-print '<td class="green">';
-//////////////////////////////////////////////////////////////////
-//checking for notifications 
-
-$host_ntf = check_boolean('host', 'notifications_enabled', 0); 
-if($host_ntf)
-{
-	print '<span class="red">'.$host_ntf.' Hosts disabled</span>';
-}
-else
-{
-	print 'All Hosts enabled';
-}
-print "<br />\n";	
-$service_ntf = check_boolean('service', 'notifications_enabled', 0); 
-if($service_ntf)
-{
-	print '<span class="red">'.$service_ntf.' Services disabled</span>';
-}
-else
-{
-	print 'All Services enabled';
-}	
-print "<br /></td>\n"; //close table data 
-
-///////////////////////////////EVENT HANDLERS/////////////////////////////
-print '<td class="green">';
-//////////////////////////////////////////////////////////////////
-//checking for event handlers  
-
-$host_eh = check_boolean('host', 'event_handler_enabled', 0); 
-if($host_ntf)
-{
-	print '<span class="red">'.$host_eh.' Hosts disabled</span>';
-}
-else
-{
-	print 'All Hosts enabled';
-}
-print "<br />\n";	
-$service_eh = check_boolean('service', 'event_handler_enabled', 0); 
-if($service_eh)
-{
-	print '<span class="red">'.$service_eh.' Services disabled</span>';
-}
-else
-{
-	print 'All Services enabled';
-}	
-print "<br /></td>\n"; //close table data 
-
-/////////////////////////////////ACTIVE CHECKS///////////////////////////	
-print '<td class="green">';
-//////////////////////////////////////////////////////////////////
-//checking for active checks  
-
-$host_ac = check_boolean('host', 'active_checks_enabled', 0); 
-if($host_ac)
-{
-	print '<span class="red">'.$host_ac.' Hosts disabled</span>';
-}
-else
-{
-	print 'All Hosts enabled';
-}
-print "<br />\n";	
-$service_ac = check_boolean('service', 'active_checks_enabled', 0); 
-if($service_ac)
-{
-	print '<span class="red">'.$service_ac.' Services disabled</span>';
-}
-else
-{
-	print 'All Services enabled';
-}	
-print "<br /></td>\n"; //close table data 
+<!-- ///////////////////////FLAPPING//////////////////////////////// -->
+	<td class="green">
+		{$tac_data['hostsFdHtml']}<br />
+		 {$tac_data['servicesFdHtml']}<br />
+		{$tac_data['hostsFlapHtml']}<br />
+		 {$tac_data['servicesFlapHtml']}<br />							 									
+	</td>
 	
+	<!-- /////////////////////////////NOTIFICATIONS/////////////////////////////// -->
+	<td class="green">
+		{$tac_data['hostsNtfHtml']}<br />
+		 {$tac_data['servicesNtfHtml']}<br />	
+	</td>
 	
-/////////////////////////////////PASSIVE CHECKS///////////////////////////	
-print '<td class="green">';
-//////////////////////////////////////////////////////////////////
-//checking for passive checks  
+	<!-- ///////////////////////////////EVENT HANDLERS///////////////////////////// -->
+	<td class="green">
+		{$tac_data['hostsEhHtml']}<br />
+		 {$tac_data['servicesEhHtml']}<br />	
+	</td>
+	
+	<!-- /////////////////////////////////ACTIVE/PASSIVE CHECKS///////////////////////////	-->
+	<td class="green">
+		{$tac_data['hostsAcHtml']}<br />
+		 {$tac_data['servicesAcHtml']}<br />			
+	</td>
 
-$host_pc = check_boolean('host', 'passive_checks_enabled', 0); 
-if($host_pc)
-{
-	print '<span class="red">'.$host_pc.' Hosts disabled</span>';
-}
-else
-{
-	print 'All Hosts enabled';
-}
-print "<br />\n";	
-$service_pc = check_boolean('service', 'passive_checks_enabled', 0); 
-if($service_pc)
-{
-	print '<span class="red">'.$service_pc.' Services disabled</span>';
-}
-else
-{
-	print 'All Services enabled';
-}	
-print "<br /></td>\n"; //close table data 	
+	<td class="green">
+		{$tac_data['hostsPcHtml']}<br />
+		 {$tac_data['servicesPcHtml']}<br />			
+	</td>
 
-?>
+
 </tr>
 </table>
 <br />
+FEATURESTABLE;
+	return $features_table;
+}
+
+////////////////////////////////////////
+//creates xml output for tactical overview 
+//expecting $tac_data array for values 
+function tac_xml($td)
+{
+	//$td is $tac_data from main array 
+	$xmldoc='<?xml version="1.0" encoding="utf-8"?>'; 
+	$xmldoc.=<<<XMLDOC
+	
+<tacinfo>	
+	<!-- hosts -->
+	<hoststatustotals>
+		<down>
+			<total>{$td['hostsDownTotal']}</total>
+			<unhandled>{$td['hostsDownUnhandled']}</unhandled>
+			<scheduleddowntime>{$td['hostsDownScheduled']}</scheduleddowntime>	
+			<acknowledged>{$td['hostsDownAcknowledged']}</acknowledged>
+			<disabled>{$td['hostsDownDisabled']}</disabled>
+		</down>
+		<unreachable>
+			<total>{$td['hostsUnreachableTotal']}</total>
+			<unhandled>{$td['hostsUnreachableUnhandled']}</unhandled>
+			<scheduledunreachabletime>{$td['hostsUnreachableScheduled']}</scheduledunreachabletime>
+			<acknowledged>{$td['hostsUnreachableAcknowledged']}</acknowledged>
+			<disabled>{$td['hostsUnreachableDisabled']}</disabled>
+		</unreachable>	
+		<up>
+			<total>{$td['hostsUpTotal']}</total>
+			<disabled>{$td['hostsUpDisabled']}</disabled>
+		</up>
+		<pending>
+			<total>{$td['hostsPending']}</total>
+			<disabled>{$td['hostsPendingDisabled']}</disabled>
+		</pending>
+	</hoststatustotals>
+	
+	<!-- services -->
+	<servicestatustotals>
+		<warning>
+			<total>{$td['servicesWarningTotal']}</total>	
+			<unhandled>{$td['servicesWarningUnhandled']}</unhandled>
+			<scheduleddowntime>{$td['servicesWarningScheduled']}</scheduleddowntime>
+			<acknowledged>{$td['servicesWarningAcknowledged']}</acknowledged>
+			<hostproblem>{$td['servicesWarningHostProblem']}</hostproblem>
+			<disabled>{$td['servicesWarningDisabled']}</disabled>
+		</warning>
+		<unknown>
+			<total>{$td['servicesUnknownTotal']}</total>
+			<unhandled>{$td['servicesUnknownUnhandled']}</unhandled>
+			<scheduleddowntime>{$td['servicesUnknownScheduled']}</scheduleddowntime>	
+			<acknowledged>{$td['servicesUnknownAcknowledged']}</acknowledged>
+			<hostproblem>{$td['servicesUnknownHostProblem']}</hostproblem>
+			<disabled>{$td['servicesUnknownDisabled']}</disabled>
+		</unknown>
+		<critical>
+			<total>{$td['servicesCriticalTotal']}</total>
+			<unhandled>{$td['servicesCriticalUnhandled']}</unhandled>
+			<scheduleddowntime>{$td['servicesCriticalScheduled']}</scheduleddowntime>
+			<acknowledged>{$td['servicesCriticalAcknowledged']}</acknowledged>
+			<hostproblem>{$td['servicesCriticalHostProblem']}</hostproblem>	
+			<disabled>2</disabled>
+		</critical>
+		<ok>
+			<total>{$td['servicesOkTotal']}</total>
+			<disabled>{$td['servicesOkDisabled']}</disabled>
+		</ok>
+		<pending>
+			<total>{$td['servicesPending']}</total>
+			<disabled>{$td['servicesPendingDisabled']}</disabled>
+		</pending>
+	</servicestatustotals>
+	
+	<!-- monitoring features -->
+	<monitoringfeaturestatus>	
+		<flapdetection>
+			<global>{$td['flap_detection']}</global>
+		</flapdetection>
+		<notifications>
+			<global>{$td['notifications']}</global>
+		</notifications>
+		<eventhandlers>
+			<global>{$td['event_handlers']}</global>
+		</eventhandlers>
+		<activeservicechecks>
+			<global>{$td['active_service_checks']}</global>
+		</activeservicechecks>
+		<passiveservicechecks>		
+			<global>{$td['passive_service_checks']}</global>
+		</passiveservicechecks>
+	</monitoringfeaturestatus>
+</tacinfo>
+
+XMLDOC;
+
+	return $xmldoc; 	
+
+}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+?>

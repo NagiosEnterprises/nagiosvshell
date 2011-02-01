@@ -1,18 +1,38 @@
 <?php //config_viewer.php 
 
-//expecting 
-
 /////////////////////////////////////////////////////////////
 //used to view object configurations 
 //expects $array from objects file such as $hosts_objs 
 //        $arg is the argument taken from the browser.  example object=services_objs 
-function build_object_list($array, $arg) //expecting arrays from read_objects.php file 
+function build_object_list($data, $arg) //expecting arrays from read_objects.php file 
 {
 	global $authorizations;
 	$count = 0;
 
-	print "<ul class='configlist'>";
-	foreach($array as $a)
+	$object_list = '';
+
+
+	$name_filter = isset($_GET['name_filter']) ? htmlentities($_GET['name_filter']) : '';
+	$objtype_filter = isset($_GET['objtype_filter']) ? htmlentities($_GET['objtype_filter']) : '';
+	$type = isset($_GET['type']) ? htmlentities($_GET['type']) : '';
+
+/*   //commented out, needs further revisions to be used on config pages.  Only host filter works right now -MG 
+	$object_list .= <<<FILTERDIV
+<div class='resultFilter'>
+	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
+		<input type="hidden" name="type" value="$type">
+		<input type="hidden" name="objtype_filter" value="$objtype_filter">
+		<label class='label' for='name_filter'>Search Configuration Name:</label>
+		<input type="text" name='name_filter' value="$name_filter"></input>
+		<input type='submit' name='submitbutton' value='Filter' />
+	</form>
+</div>
+FILTERDIV;
+*/ 
+
+
+	$object_list .= "<ul class='configlist'>";
+	foreach($data as $a)
 	{
 		//default for no permissions 
 		$title = '';
@@ -25,7 +45,8 @@ function build_object_list($array, $arg) //expecting arrays from read_objects.ph
 			{
 				$name=$a['host_name'];
 				$linkkey = 'host'.$a['host_name'];
-				$link = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$name);
+				#$link = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$name);
+				$link = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$name);
 				$title = "Host: <a href='$link' title='Host Details'>$name</a>";
 			}
 			//else{ continue; }
@@ -38,8 +59,10 @@ function build_object_list($array, $arg) //expecting arrays from read_objects.ph
 				$name=$a['service_description'];
 				$linkkey = 'service'.$count;
 				$host = $a['host_name'];
-				$hlink = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$host);
-				$link = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$linkkey);
+				#$hlink = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$host);
+				$hlink = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$host);
+				#$link = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$linkkey);
+				$link = htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$linkkey);
 				$title = "Host: <a href='$hlink' title='Host Details'>$host</a> 
 							Service:<a href='$link' title='Service Details'>$name</a>";	
 			}							
@@ -107,8 +130,8 @@ function build_object_list($array, $arg) //expecting arrays from read_objects.ph
 			 
 		}	
 		
-		$id = preg_replace('/\./', '_', $linkkey); //replacing dots with underscores
-		$id = preg_replace('/\ /', '_', $id);    //replacing spaces with underscores
+		$id = preg_replace('/[\. ]/', '_', $linkkey); //replacing dots with underscores
+		#$id = preg_replace('/\ /', '_', $id);    //replacing spaces with underscores
 		//using HEREDOC string syntax 
 		$confighead=<<<CONFIG
 				
@@ -122,22 +145,26 @@ function build_object_list($array, $arg) //expecting arrays from read_objects.ph
 		<tr><th>Config</th><th>Value</th></tr>
 		
 CONFIG;
-//end HEREDOC 
+
 		if($title!='') //only display if authorized 
 		{
-			print $confighead;
+			$object_list .= $confighead;
 			//print raw config data into a table 
 			foreach($a as $key => $value)
 			{	
 				
-				print "<tr class='objectList'>
-							<td>$key</td><td>$value</td>
-						</tr>\n";			
+				$object_list .= <<<TABLEROW
+<tr class='objectList'>
+	<td>$key</td><td>$value</td>
+</tr>
+TABLEROW;
 			}
-			print "</table></div>";
+			$object_list .= "</table></div>";
 		}//end IF 
 	}//end FOREACH loop
-	print "<ul>";	
+	$object_list .= "<ul>";
+
+	return $object_list;
 }//end function 
 
 
