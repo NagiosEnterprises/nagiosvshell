@@ -48,87 +48,117 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
-print "<h3>Host Groups</h3>";
-
-
-//////////////////////////////////////table creation, displays both summary and grid view   
-foreach($hostgroups as $group=>$members)
+/* Preprocess all of the data for hostgroups display/output
+ */
+function get_hostgroup_data()
 {
+	global $NagiosData;
+	$hostgroups = $NagiosData->getProperty('hostgroups');
+	$hosts = $NagiosData->getProperty('hosts');
 
-	//group label
-	print "<h5>$group</h5>"; 
-	
-	//status summaries for hosts 
-	$hg_details = build_hostgroup_details($members);	
-	$up = count_by_state('UP', $hg_details);
-	$down = count_by_state('DOWN', $hg_details);
-	$ur = count_by_state('UNREACHABLE', $hg_details);
-	
-	//status summaries for services within hostgroups 
-	$sg_details = build_host_servicegroup_details($members);	
-	$ok = count_by_state('OK', $sg_details);
-	$warn = count_by_state('WARNING', $sg_details);
-	$crit = count_by_state('CRITICAL', $sg_details);
-	$uk = count_by_state('UNKNOWN', $sg_details);	
-	
-	//print table data for group summary 
-	print "<table class='statusable'><tr>
-			<th></th><th>Up</th><th>Down</th><th colspan='2'>Unreachable</th></tr>
-			<tr><td>Hosts</td>
-				<td class='ok'> $up </td>
-				<td class='down'> $down </td>
-				<td class='unreachable' colspan='2'> $ur </td>
-			</tr>
-			
-			<tr><th></th><th>Ok</th><th>Warning</th><th>Critical</th><th>Unknown</th></tr>			
-			<tr>
-				<td>Services</td>		 	
-				<td class='ok'> $ok </td>
-				<td class='warning'> $warn </td>
-				<td class='critical'> $crit </td>
-				<td class='unreachable'> $uk </td>
-			</tr></table>";
-	
-	//TODO: javascript link to expand into grid view, pass $group as div ID  	
-	print "<p class='label'><a onclick=\"showHide('$group')\" href='javascript:void(0)'>Toggle Grid</a></p>";
-	//print table data for individual hosts. 
-	
-	//details table in GRID view 
-	print "<div class='hidden' id='$group'>";
-	print "<table class='statustable'><tr><th>$group</th><th>Host Status</th><th>Services</th></tr>";			
-	foreach($members as $member)
-	{
-		print "<tr>\n";
-		$member = trim($member); //trim whitespace 
-		
-		//pull group member data from global $hosts array 		
-		foreach($hosts	as $host) 
-		{
-			if(trim($host['host_name']) == $member)
-			{
-				$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$host['host_name']);
-				$tr = get_color_code($host);
-				print "<td><a href='$host_url'>".$host['host_name']."</a></td><td class='$tr'>".$host['current_state'].'</td>';
+	$hostgroup_data = array();
+	foreach ($hostgroups as $group => $members) {
+		$hostgroup_data[$group] = array(
+			'member_data' => array(),
+			'host_counts'    => get_state_of('hosts', build_hostgroup_details($members)),
+			'service_counts' => get_state_of('services', build_host_servicegroup_details($members))
+			);
+		foreach ($members as $member) {
+			$host = $hosts[$member];
+			$hostgroup_data[$group]['member_data'][$member]['host_name'] = $host['host_name'];
+			$hostgroup_data[$group]['member_data'][$member]['host_state'] = $host['current_state'];
+			$hostgroup_data[$group]['member_data'][$member]['state_class'] = get_color_code($host);
+			$hostgroup_data[$group]['member_data'][$member]['services'] = array();
+			$hostgroup_data[$group]['member_data'][$member]['host_url'] = 
+				htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$host['host_name']);
+
+			if (isset($host['services'])) {
+				foreach($host['services'] as $service) {
+					$service_data = array(
+						'state_class' => get_color_code($service),
+						'description' => $service['service_description'],
+						'service_url' => htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$service['serviceID']),
+					);
+					$hostgroup_data[$group]['member_data'][$member]['services'][] = $service_data;
+				}
 			}
 		}
-		print "<td>\n";
-		
-		//pull group member data from global $services array 
-		foreach($services as $service)
-		{
-			if(trim($service['host_name']) == $member)
-			{
-				$service_url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$service['serviceID']);				
-				$tr = get_color_code($service);
-				print " <span class='$tr'><a href='$service_url'>".$service['service_description']."</a></span>&nbsp; ";				
-			}
-		}	
-		print "</td></tr>";		
-	}	
-	print "</table></div><br />\n";
-	
+	}
+	return $hostgroup_data;
 }
 
+function display_hostgroups($data)
+{
+	$page = "";
+	$page .= "<h3>Host Groups</h3>";
 
+	$name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
+	$type = isset($_GET['type']) ? $_GET['type'] : '';
+
+	$page .= <<<FILTERDIV
+<div class='resultFilter'>
+	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
+		<input type="hidden" name="type" value="$type">
+		<label class='label' for='name_filter'>Search Host Group Names</label>
+		<input type="text" name='name_filter' value="$name_filter"></input>
+		<input type='submit' name='submitbutton' value='Filter' />
+	</form>
+</div>
+FILTERDIV;
+	
+	//$start_time = microtime(TRUE);
+	
+	//////////////////////////////////////table creation, displays both summary and grid view   
+	foreach($data as $group => $group_data)
+	{
+
+		//group label
+		$page .= "<h5><a name=\"$group\">$group</a></h5>"; 
+		
+		$page .= "<table class='statusable'><tr>
+				<th></th><th>Up</th><th>Down</th><th colspan='2'>Unreachable</th></tr>
+				<tr><td>Hosts</td>
+					<td class='ok'> {$group_data['host_counts']['UP']} </td>
+					<td class='down'> {$group_data['host_counts']['DOWN']} </td>
+					<td class='unreachable' colspan='2'> {$group_data['host_counts']['UNREACHABLE']} </td>
+				</tr>
+				
+				<tr><th></th><th>Ok</th><th>Warning</th><th>Critical</th><th>Unknown</th></tr>			
+				<tr>
+					<td>Services</td>		 	
+					<td class='ok'> {$group_data['service_counts']['OK']} </td>
+					<td class='warning'> {$group_data['service_counts']['WARNING']} </td>
+					<td class='critical'> {$group_data['service_counts']['CRITICAL']} </td>
+					<td class='unknown'> {$group_data['service_counts']['UNKNOWN']} </td>
+				</tr></table>";
+		
+		$page .= "<p class='label'><a onclick=\"showHide('$group')\" href='javascript:void(0)'>Toggle Grid</a></p>";
+		
+		//details table in GRID view 
+		$page .= "<div class='hidden' id='$group'>";
+		$page .= "<table class='statustable'><tr><th>$group</th><th>Host Status</th><th>Services</th></tr>";
+
+		foreach($group_data['member_data'] as $member => $member_data)
+		{
+			$page .= "<tr>\n";
+	
+			//pull group member data from global $hosts array
+			$page .= "<td><a href='{$member_data['host_url']}'>".$member_data['host_name']."</a></td><td class='{$member_data['state_class']}'>".$member_data['host_state'].'</td>';
+			$page .= "<td>\n";
+	
+			//pull group member data from global $services array 
+			foreach($member_data['services'] as $service => $service_data)
+			{
+				$page .= " <span class='{$service_data['state_class']}'><a href='{$service_data['service_url']}'>".$service_data['description']."</a></span>&nbsp; ";				
+			}	
+			$page .= "</td></tr>";		
+		}	
+		$page .= "</table></div><br />\n";
+		
+	}
+
+	//$end_time = microtime(TRUE);
+	//fb($end_time - $start_time, "Elapsed time in hostgroups");
+	return $page;
+}
 ?>

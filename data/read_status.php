@@ -57,7 +57,8 @@
 /* Parse STATUSFILE for status information, nagios information, as well as 
  * build the details array and collect comments
  */
-function parse_status_file($statusfile = STATUSFILE) {
+function parse_status_file($statusfile = STATUSFILE)
+{
 
 	$file = fopen($statusfile, "r") or die("Unable to open '$statusfile' file!");
 	
@@ -81,8 +82,7 @@ function parse_status_file($statusfile = STATUSFILE) {
 		$line = fgets($file); //Gets a line from file pointer.
 		
 		if (preg_match('/(host|service|program)(status|comment)/', $line, $matches)) {
-		
-		list($fullmatch, $cursubtype, $curtype) = $matches;
+			list($fullmatch, $cursubtype, $curtype) = $matches;
 		 
 		} elseif (preg_match('/^\s*info\s*{\s*$/', $line)) {
 			$curtype = 'info';
@@ -94,18 +94,21 @@ function parse_status_file($statusfile = STATUSFILE) {
 				
 				if ($cursubtype == 'host') {
 					$kvp = process_host_status_keys($kvp); 
+					$status_collector[$cursubtype][$kvp['host_name']] = $kvp;
 				}
 				elseif ($cursubtype == 'service') {
 					$kvp['serviceID']=$service_counter++; //added serviceID to details array 
 					$kvp = process_service_status_keys($kvp);
-					//print "<br /><br />";
-					//print_r($kvp);
-					//die();
+					$status_collector[$cursubtype][] = $kvp;
+					$status_collector['host'][$kvp['host_name']]['services'][] = $kvp;
 				}
-				
-				$status_collector[$cursubtype][] = $kvp;
+				else {	//subtype is program status 
+					 
+					$status_collector[$cursubtype][] = $kvp;
+				}
 		
 			} elseif ($curtype == 'comment') {
+				$status_collector['host'][$kvp['host_name']]['comments'][] = $kvp;
 				$comments[] = $kvp;
 		
 			} elseif ($curtype == 'info') {
@@ -120,45 +123,48 @@ function parse_status_file($statusfile = STATUSFILE) {
 		
 		} elseif ($curtype != NULL) {
 			# Collect the key-value pairs for the definition
-			list($key, $value) = explode('=', trim($line), 2);
-			$kvp[$key] = $value;
+			@list($key, $value) = explode('=', trim($line), 2);
+			$kvp[trim($key)] = htmlentities(trim($value), ENT_QUOTES);
 		
 		} else {
 			// outside of a status
 		}
-	} //end of WHILE 
+	}
 	
 	fclose($file);
 	
-	//print "Dumping Hosts<br />";	
-	//var_dump($hosts);
-	//print "Dumping Services<br />";		
-	//var_dump($services);	
-	
-	//fb($status_collector['host'], "host status read");
-	//fb($status_collector['service'], "service status read");
-	
-	//fb($comments, "comments from read_status.php");
-	//fb($info, "info from read_status.php");
-	//fb($details, "details from read_status.php");
-	
-	return array($status_collector['host'], $status_collector['service'], $comments, $info, $details);
+	return array(
+		'hosts' => $status_collector['host'], 
+		'services' => $status_collector['service'], 
+		'comments' => $comments, 
+		'program' => $status_collector['program'],
+		'info' => $info, 
+		'details' => $details);
 }
 
 /* Given the raw data for a collected host process it into usable information
  * Maps host states from integers into "standard" nagios values
  * Assigns to each collected service a hostID
  */
-function process_host_status_keys($rawdata) {
+function process_host_status_keys($rawdata)
+{
 
 	static $hostindex = 1;
-	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth'));
+	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth', 'problem_has_been_acknowledged'));
 	
 	$processed_data['hostID'] = 'Host'.$hostindex++;
 	
 	$host_states = array( 0 => 'UP', 1 => 'DOWN', 2 => 'UNREACHABLE', 3 => 'UNKNOWN' );
-	$processed_data['current_state'] = state_map($rawdata['current_state'], $host_states);
-	
+	if($rawdata['current_state'] == 0 && $rawdata['last_check'] == 0)//added conditions for pending state -MG
+	{ 
+		$processed_data['current_state'] = 'PENDING'; 
+		$processed_data['plugin_output']="No data received yet";
+		$processed_data['duration']="N/A";
+		$processed_data['attempt']="N/A";
+		$processed_data['last_check']="N/A";
+	} 
+	else { $processed_data['current_state'] = state_map($rawdata['current_state'], $host_states); }
+ 
 	return $processed_data;
 }
 
@@ -166,15 +172,24 @@ function process_host_status_keys($rawdata) {
  * Maps service states from integers into "standard" nagios values
  * Assigns to each collected service a serviceID
  */
-function process_service_status_keys($rawdata) {
+function process_service_status_keys($rawdata)
+{
 
 	static $serviceindex = 0;
-	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth', 'service_description'));
+	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth', 'service_description', 'problem_has_been_acknowledged'));
 	
 	$processed_data['serviceID'] = 'service'.$serviceindex++;
 	//print "$serviceindex<br />";
 	$service_states = array( 0 => 'OK', 1 => 'WARNING', 2 => 'CRITICAL', 3 => 'UNKNOWN' );
-	$processed_data['current_state'] = state_map($rawdata['current_state'], $service_states);
+	if($rawdata['current_state'] == 0 && $rawdata['last_check'] == 0)//added conditions for pending state -MG
+	{ 
+		$processed_data['current_state'] = 'PENDING'; 
+		$processed_data['plugin_output']="No data received yet";
+		$processed_data['duration']="N/A";
+		$processed_data['attempt']="N/A";
+		$processed_data['last_check']="N/A";
+	}
+	else { $processed_data['current_state'] = state_map($rawdata['current_state'], $service_states); }
 	//print_r($processed_data);
 	//print "<br /><br />";
 	return $processed_data;
@@ -183,7 +198,8 @@ function process_service_status_keys($rawdata) {
 /* given some raw data return an array of shared ("standard values") and 
  *  keys which need to be copied verbatim into the output
  */
-function get_standard_values($rawdata, $identical_keys) {
+function get_standard_values($rawdata, $identical_keys)
+{
 	$standard_values = array();
 	
 	foreach($identical_keys as $key) { 
@@ -201,18 +217,9 @@ function get_standard_values($rawdata, $identical_keys) {
  *   human readable values, return the associated value to that state.  If no
  *   appropriate value is provided return 'UNKNOWN'
  */
-function state_map($cur_state, $states) {
+function state_map($cur_state, $states)
+{
 	return array_key_exists($cur_state, $states) ? $states[$cur_state] : 'UNKNOWN';
-}
-
-/* Given a timestamp calculate how long ago, in seconds, that timestamp was.
- * Returns a human readable version of that difference
- */
-function calculate_duration($beginning) {
-	$now = time();
-	$duration = ($now - $beginning);
-	$retval = date('d\d-H\h-i\m-s\s', $duration);
-	return $retval;
 }
 
 ?>

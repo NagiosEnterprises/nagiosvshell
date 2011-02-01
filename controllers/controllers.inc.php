@@ -53,6 +53,5 @@
 include(dirname(__FILE__).'/controller.php');
 include(dirname(__FILE__).'/authorizations.inc.php');
 include(dirname(__FILE__).'/status_functions.php');
-include(dirname(__FILE__).'/command_router.php');
 
 ?>

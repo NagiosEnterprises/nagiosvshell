@@ -50,41 +50,16 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require_once('cache_or_disk.php');
+if (useAPC() && (FALSE || isset($_GET['CLEANCACHE']))) { // For Debugging data from disk
+	apc_clear_cache();
+	apc_clear_cache('user');
+}
 
-$useAPC = useAPC();
-//if ($useAPC) {
-//  apc_clear_cache();
-//  apc_clear_cache('user');
-//}
+require_once('data_utils.php');
 
-//future releases will isolate array builds into separate functions to improve performance 
-//include('read_objects.php');
-//list('hosts_objs', 'services_objs', 'hostgroups_objs', 'servicegroups_objs',
-//  'contacts', 'contactgroups', 'timeperiods', 'commands') = parse_objects_file();
-$disk_cache_keys = array('hosts_objs', 'services_objs', 'hostgroups_objs', 'servicegroups_objs', 
-  'contacts', 'contactgroups', 'timeperiods', 'commands');
-cache_or_disk('objects', OBJECTSFILE, $disk_cache_keys);
-//fb($hosts_objs, 'hosts_objs from read_obects');
-//fb($services_objs, 'services_objs from read_obects');
-//fb($hostgroups_objs, 'hostgroups_objs from read_obects');
-//fb($servicegroups_objs, 'servicegroups_objs from read_obects');
-//fb($contacts, 'contacts from read_obects');
-//fb($contactgroups, 'contactgroups from read_obects');
-//fb($timeperiods, 'timeperiods from read_obects');
-//fb($commands, 'commands from read_obects');
+require_once('NagiosData.php');
+$NagiosData = NagiosData::singleton();
+require_once('get_tac_data.php'); 
 
-//include('read_perms.php');//returns $permissions array from cgi.cgf
-//list($permissions) = parse_perms_file();
-cache_or_disk('perms', CGICFG, array('permissions'));
-//fb($permissions, 'permissions from read_perms');
-
-cache_or_disk('status', STATUSFILE, array('hosts', 'services', 'comments', 'info', 'details'));
-//fb($hosts, 'hosts from read_status');
-//fb($services, 'services from read_status');
-//fb($comments, 'comments from read_status');
-//fb($info, 'info from read_status');
-//fb($details, 'details from read_status');
-
-require('build_groups.php'); //returns host and service groups into global array 												
-require('read_details.php');
+require_once('build_groups.php');
 ?>
