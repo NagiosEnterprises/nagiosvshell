@@ -138,7 +138,7 @@ function page_router()
 		case 'backend':
 		//require(DIRBASE.'/views/tac.php');	
 		$GLOBALS['tac_data'] = get_tac_data();			
-		$xmlout = tac_xml($data); 		
+		$xmlout = tac_xml($GLOBALS['tac_data']); 		
 		break; 
 		case 'overview':
 		default:
@@ -172,7 +172,7 @@ function page_router()
 			header('Location: '.BASEURL.'tmp/'.$title.'.xml');
 		}
 		header('Content-type: text/xml');
-		if($type=='backend') echo $xmlout; 
+		if($type=='backend') echo $xmlout; //xml backend access for nagios fusion 
 			#$output = build_xml_data($data, $title);
 		break;
 		case 'null':
