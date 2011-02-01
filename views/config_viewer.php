@@ -12,10 +12,11 @@ function build_object_list($data, $arg) //expecting arrays from read_objects.php
 	$object_list = '';
 
 
-	$name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
-	$objtype_filter = isset($_GET['objtype_filter']) ? $_GET['objtype_filter'] : '';
-	$type = isset($_GET['type']) ? $_GET['type'] : '';
+	$name_filter = isset($_GET['name_filter']) ? htmlentities($_GET['name_filter']) : '';
+	$objtype_filter = isset($_GET['objtype_filter']) ? htmlentities($_GET['objtype_filter']) : '';
+	$type = isset($_GET['type']) ? htmlentities($_GET['type']) : '';
 
+/*   //commented out, needs further revisions to be used on config pages.  Only host filter works right now -MG 
 	$object_list .= <<<FILTERDIV
 <div class='resultFilter'>
 	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
@@ -27,6 +28,8 @@ function build_object_list($data, $arg) //expecting arrays from read_objects.php
 	</form>
 </div>
 FILTERDIV;
+*/ 
+
 
 	$object_list .= "<ul class='configlist'>";
 	foreach($data as $a)
