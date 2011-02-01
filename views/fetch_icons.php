@@ -50,15 +50,12 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-function fetch_icons($array)
+function fetch_host_icons($array)
 {
-	$sd = isset($array['service_description') ? $array['service_description') : NULL; 
-	
-	$hosticon = return_icon_link($array['host_name']);
-	$comments = comment_icon($array['host_name'], $td);
-	$h_comments = comment_icon($array['host_name']);
-	$service_dt = downtime_icon($array['scheduled_downtime_depth']);
-	$host_dt = downtime_icon(get_host_downtime($array['host_name']) );
+	$icons = ""; 
+	$icons.= comment_icon($host['host_name']); //comment icon and count 
+	$icons .= downtime_icon($host['scheduled_downtime_depth']); //scheduled downtime icon
+	$icons .=  
 	//notifications disabled?
 	//passive checks? 
 	//flapping? 
@@ -75,20 +72,32 @@ function fetch_icons($array)
 function return_icon_link($hostname)
 {
 	$hostname = trim($hostname);
-
 	global $NagiosData;
 	$hosts_objs = $NagiosData->getProperty('hosts_objs');
 
-	$link = '';
+	$icon = '';
+	$host = $hosts_objs[$hostname];
+	
+	$icon .= isset($host['icon_image']) ? '<img class="tableIcon" border="0" width="15" height="15" title="" alt="Icon" src="views/images/logos/'.$host['icon_image'].'">' : ''; 
+	$icons.= comment_icon($host['host_name']); //comment icon and count 
+	$icons .= downtime_icon($host['scheduled_downtime_depth']); //scheduled downtime icon
+	$icons .= ($host['notifications_enabled'] == 1) ? '' : 'ntf_icon'; //notifications enabled?  
+	$icons .= ($host['is_flapping']) == 0 ? '' : 'is_flapping'; //is flapping icon 
+	$icons .= ($hosts['
+	
+	
+	
+	/*
 	foreach($hosts_objs as $host)
 	{
 		if($hostname == $host['host_name'] && isset($host['icon_image']) )
 		{
 			$icon = $host['icon_image'];
-			$link = '<img class="tableIcon" border="0" width="15" height="15" title="" alt="Icon" src="views/images/logos/'.$host['icon_image'].'">';
+			$link. = '<img class="tableIcon" border="0" width="15" height="15" title="" alt="Icon" src="views/images/logos/'.$host['icon_image'].'">';
 		}
 		
 	}
+	*/ 
 	return $link;
 }
 ///////////////////////////////////////////////////
