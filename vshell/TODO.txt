@@ -1,0 +1,38 @@
+TODO for V Shell Nagios User interface
+
+BUGS
+
+
+
+MODEL/DATA
+
+
+
+CONTROLLER
+
+*** - need ability to filter hosts and services by contact.  Read only users who are contacts for specific hosts should onl be able to view their hosts and child services.  
+
+-create filtered tables based on Monitoring Features on tactical overview 
+- update xml viewer for all pages and insert links into pages  
+##There is an xml builder built into the V-Shell, although it's not fully implemented yet.  If you pass the arguments index.php?xml=hosts you'll see what I mean.  I've only added this for some things so far, but it basically just turns an array into xml data and writes it to an xml file in the tmp directory.
+
+
+VIEW
+
+- create "problems" table for tactical overview page 
+# need a table and a filter for "unhandled problems" that haven't been acknowledged.  This is in the tactical overview in core, and I think a lot of people use it.
+
+- tactical overview - additional data about monitoring performance??
+- tactical overview - filter for flapping, notification, event handlers, active checks, passive checks 
+ -create basic xml stylesheet?
+
+-add links for xml viewing where applicable
+
+-create single function to fetch all relevant table icons for hosts and services table 
+
+DOC
+
+--need documentation for user authentication/viewing for apache (when using Nagios XI)
+
+MISC
+
