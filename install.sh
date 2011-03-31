@@ -60,3 +60,6 @@ rmdir config
 mkdir "$TARGETDIR"
 mv * "$TARGETDIR"/
 rm "$TARGETDIR"/install.sh
+
+service httpd restart
+
