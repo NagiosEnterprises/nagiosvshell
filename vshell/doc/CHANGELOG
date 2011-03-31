@@ -1,3 +1,12 @@
+====Mar 30 - 2011 - Tony Yarusso - Devel Branch
+- Move README, TODO, CHANGELOG, and license to doc/ folder.
+- Move Apache config file into config/ instead of doc/
+- Split user configuration out into a separate file, to be put in /etc
+	Config file is in INI format, and intended to go in /etc
+	constants.inc.php loads everything from there - shouldn't be edited by users now
+- Started very rudimentary install script
+- Updated README to reflect the above
+
 =====Feb 1 - 2011 - Mike Guthrie - Devel Branch
 -Completed pseudo state filters for host and service tables
 -created cleaner functions to fetch icons for host and services tables
