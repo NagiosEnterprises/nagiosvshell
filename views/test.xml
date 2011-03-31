@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<services>
+<host_name>192.168.5.11
+</host_name>
+<service_description>C:\ Drive Space
+</service_description>
+<current_state>2
+</current_state>
+<attempt>3
+/ 3
+</attempt>
+<duration>22d-13h-50m-45s</duration>
+<plugin_output>Connection refused
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>192.168.5.11
+</host_name>
+<service_description>CPU Load
+</service_description>
+<current_state>2
+</current_state>
+<attempt>3
+/ 3
+</attempt>
+<duration>22d-13h-49m-16s</duration>
+<plugin_output>Connection refused
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>192.168.5.11
+</host_name>
+<service_description>Explorer
+</service_description>
+<current_state>2
+</current_state>
+<attempt>3
+/ 3
+</attempt>
+<duration>22d-13h-47m-46s</duration>
+<plugin_output>Connection refused
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>192.168.5.11
+</host_name>
+<service_description>Memory Usage
+</service_description>
+<current_state>2
+</current_state>
+<attempt>3
+/ 3
+</attempt>
+<duration>22d-13h-56m-16s</duration>
+<plugin_output>Connection refused
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>192.168.5.11
+</host_name>
+<service_description>NSClient++ Version
+</service_description>
+<current_state>2
+</current_state>
+<attempt>3
+/ 3
+</attempt>
+<duration>22d-13h-53m-07s</duration>
+<plugin_output>Connection refused
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>192.168.5.11
+</host_name>
+<service_description>Uptime
+</service_description>
+<current_state>2
+</current_state>
+<attempt>3
+/ 3
+</attempt>
+<duration>22d-13h-53m-17s</duration>
+<plugin_output>Connection refused
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>192.168.5.11
+</host_name>
+<service_description>W3SVC
+</service_description>
+<current_state>2
+</current_state>
+<attempt>3
+/ 3
+</attempt>
+<duration>22d-13h-50m-23s</duration>
+<plugin_output>Connection refused
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>hplj2605dn
+</host_name>
+<service_description>PING
+</service_description>
+<current_state>0
+</current_state>
+<attempt>1
+/ 3
+</attempt>
+<duration>03d-15h-03m-25s</duration>
+<plugin_output>PING OK - Packet loss = 0%, RTA = 0.71 ms
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>hplj2605dn
+</host_name>
+<service_description>Printer Status
+</service_description>
+<current_state>2
+</current_state>
+<attempt>3
+/ 3
+</attempt>
+<duration>22d-14h-11m-24s</duration>
+<plugin_output>: Timeout from host 192.168.5.21
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>linksys-switch
+</host_name>
+<service_description>PING
+</service_description>
+<current_state>0
+</current_state>
+<attempt>1
+/ 3
+</attempt>
+<duration>03d-15h-00m-46s</duration>
+<plugin_output>PING OK - Packet loss = 0%, RTA = 2.18 ms
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>linksys-switch
+</host_name>
+<service_description>Port 1 Bandwidth Usage
+</service_description>
+<current_state>3
+</current_state>
+<attempt>3
+/ 3
+</attempt>
+<duration>22d-14h-00m-07s</duration>
+<plugin_output>check_mrtgtraf: Unable to open MRTG log file
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>linksys-switch
+</host_name>
+<service_description>Port 1 Link Status
+</service_description>
+<current_state>3
+</current_state>
+<attempt>3
+/ 3
+</attempt>
+<duration>22d-13h-58m-37s</duration>
+<plugin_output>SNMP problem - No data received from host
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>linksys-switch
+</host_name>
+<service_description>Uptime
+</service_description>
+<current_state>3
+</current_state>
+<attempt>3
+/ 3
+</attempt>
+<duration>22d-13h-57m-08s</duration>
+<plugin_output>SNMP problem - No data received from host
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>localhost
+</host_name>
+<service_description>Current Load
+</service_description>
+<current_state>0
+</current_state>
+<attempt>1
+/ 4
+</attempt>
+<duration>03d-18h-04m-06s</duration>
+<plugin_output>OK - load average: 0.60, 0.70, 0.51
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>localhost
+</host_name>
+<service_description>Current Users
+</service_description>
+<current_state>0
+</current_state>
+<attempt>1
+/ 4
+</attempt>
+<duration>21d-11h-16m-52s</duration>
+<plugin_output>USERS OK - 2 users currently logged in
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>localhost
+</host_name>
+<service_description>HTTP
+</service_description>
+<current_state>0
+</current_state>
+<attempt>1
+/ 4
+</attempt>
+<duration>21d-13h-10m-29s</duration>
+−
+<plugin_output>
+HTTP OK HTTP/1.1 200 OK - 1638 bytes in 3.018 seconds
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>localhost
+</host_name>
+<service_description>PING
+</service_description>
+<current_state>0
+</current_state>
+<attempt>1
+/ 4
+</attempt>
+<duration>23d-17h-13m-16s</duration>
+<plugin_output>PING OK - Packet loss = 0%, RTA = 0.11 ms
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>localhost
+</host_name>
+<service_description>Root Partition
+</service_description>
+<current_state>0
+</current_state>
+<attempt>1
+/ 4
+</attempt>
+<duration>21d-11h-15m-00s</duration>
+<plugin_output>DISK OK - free space: / 41984 MB (90% inode=91%):
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>localhost
+</host_name>
+<service_description>SSH
+</service_description>
+<current_state>0
+</current_state>
+<attempt>1
+/ 4
+</attempt>
+<duration>22d-14h-29m-47s</duration>
+−
+<plugin_output>
+SSH OK - OpenSSH_5.3p1 Debian-3ubuntu4 (protocol 2.0)
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>localhost
+</host_name>
+<service_description>Swap Usage
+</service_description>
+<current_state>0
+</current_state>
+<attempt>1
+/ 4
+</attempt>
+<duration>21d-11h-13m-45s</duration>
+<plugin_output>SWAP OK - 100% free (1453 MB out of 1453 MB)
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>localhost
+</host_name>
+<service_description>Total Processes
+</service_description>
+<current_state>0
+</current_state>
+<attempt>1
+/ 4
+</attempt>
+<duration>21d-11h-13m-07s</duration>
+<plugin_output>PROCS OK: 102 processes with STATE = RSZDT
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>localhost
+</host_name>
+<service_description>mysql
+</service_description>
+<current_state>2
+</current_state>
+<attempt>4
+/ 4
+</attempt>
+<duration>22d-12h-41m-46s</duration>
+−
+<plugin_output>
+(Return code of 127 is out of bounds - plugin may be missing)
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+<host_name>localhost
+</host_name>
+<service_description>mysql_query
+</service_description>
+<current_state>2
+</current_state>
+<attempt>4
+/ 4
+</attempt>
+<duration>22d-12h-40m-27s</duration>
+−
+<plugin_output>
+(Return code of 127 is out of bounds - plugin may be missing)
+</plugin_output>
+<last_check>31d-18h-00m-01s</last_check>
+</services>
