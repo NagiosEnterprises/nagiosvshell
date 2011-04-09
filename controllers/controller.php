@@ -83,9 +83,9 @@ function page_router()
 	if (isset($_GET['type'])) { $type = strtolower($_GET['type']); } else { $type = 'overview'; }
 	if (isset($_GET['mode'])) { $mode = strtolower($_GET['mode']); } else { $mode = 'html'; }
 
-	if (isset($_GET['state_filter']) && trim($_GET['state_filter']) != '')   { $state_filter    = process_state_filter(htmlentities($_GET['state_filter']));     }
-	if (isset($_GET['name_filter']) && trim($_GET['name_filter']) != '')    { $name_filter     = process_name_filter(htmlentities($_GET['name_filter']));       }
-	if (isset($_GET['objtype_filter'])&& trim($_GET['objtype_filter']) != '' ) { $objtype_filter  = process_objtype_filter(htmlentities($_GET['objtype_filter'])); }
+	if (isset($_GET['state_filter'])   && trim($_GET['state_filter'])   != '') { $state_filter    = process_state_filter(htmlentities($_GET['state_filter']));     }
+	if (isset($_GET['name_filter'])    && trim($_GET['name_filter'])    != '') { $name_filter     = process_name_filter(htmlentities($_GET['name_filter']));       }
+	if (isset($_GET['objtype_filter']) && trim($_GET['objtype_filter']) != '') { $objtype_filter  = process_objtype_filter(htmlentities($_GET['objtype_filter'])); }
 
 	list($data, $html_output_function) = array(NULL, NULL);
 
@@ -93,7 +93,6 @@ function page_router()
 		case 'services':
 		case 'hosts':
 			if ($authorizations[$type] == 1) {
-				$GLOBALS['tac_data'] = get_tac_data();	
 				$data = hosts_and_services_data($type, $state_filter, $name_filter);
 				$html_output_function = 'hosts_and_services_output';
 			}
@@ -136,15 +135,12 @@ function page_router()
 		break;
 		
 		case 'backend':
-		//require(DIRBASE.'/views/tac.php');	
-		$GLOBALS['tac_data'] = get_tac_data();			
-		$xmlout = tac_xml($GLOBALS['tac_data']); 		
-		break; 
+		$xmlout = tac_xml(get_tac_data());
+		break;
+
 		case 'overview':
 		default:
 			//create function to return tac data as an array 
-			//require(DIRBASE.'/views/tac.php');
-			$GLOBALS['tac_data'] = get_tac_data();	
 			$html_output_function = 'get_tac_html';
 		break;
 	}

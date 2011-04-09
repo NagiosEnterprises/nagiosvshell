@@ -68,7 +68,7 @@ function display_hosts($hosts, $start,$limit)
 
 	//begin html output / VIEW 
 	$page = ''; 
-	$ht = hosts_table();  //tac host summary table 	
+	$ht = hosts_table(get_tac_data());  //tac host summary table
 	$page .= "<div class='tacTable'>$ht</div>\n"; 
 	
 	$page .="<div class='tableOptsWrapper'>\n";	
