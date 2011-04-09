@@ -59,10 +59,10 @@ function display_services($services,$start,$limit)
 	$pageCount = (($resultsCount / $limit) < 1) ? 1 : intval($resultsCount/$limit);
 	$doPagination = $pageCount * $limit < $resultsCount;
 	$name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
-	$st = services_table(); //tac Summary table 
 
 	//VIEW / html output 
 	$page=''; 
+	$st = services_table(get_tac_data()); //tac Summary table
 	$page .= "<div class='tacTable'>$st</div>\n"; 
 	
 	$page .="<div class='tableOptsWrapper'>\n";

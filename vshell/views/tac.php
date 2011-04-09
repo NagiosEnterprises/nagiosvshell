@@ -52,14 +52,14 @@
 
 function get_tac_html()
 {
-	global $tac_data; 
+	$tac_data = get_tac_data();
 
 	$tac = "";
 	$tac .= info_table().'<br />';
-	$tac .= overview_table().'<br />';
-	$tac .= hosts_table().'<br />';
-	$tac .= services_table().'<br />';
-	$tac .= features_table();
+	$tac .= overview_table($tac_data).'<br />';
+	$tac .= hosts_table($tac_data).'<br />';
+	$tac .= services_table($tac_data).'<br />';
+	$tac .= features_table($tac_data);
 	$tac .= search_box().'<br />';
 
 	return $tac;
@@ -84,9 +84,8 @@ INFOTABLE;
 	return $info_table;
 }
 
-function overview_table()
+function overview_table($tac_data)
 {
-	global $tac_data; 
 	global $username; 
 
 	$overview_table = <<<OVERVIEWTABLE
@@ -106,10 +105,8 @@ OVERVIEWTABLE;
 }
 
 
-function hosts_table()
+function hosts_table($tac_data)
 {
-	global $tac_data; 
-
 	$hosts_table =<<<HOSTSTABLE
 <!-- ########################HOSTS TABLE########################## -->
 <table class="tac">
@@ -133,10 +130,8 @@ HOSTSTABLE;
 	return $hosts_table;
 }
 
-function services_table()
+function services_table($tac_data)
 {
-	global $tac_data; 
-
 	$services_table = <<<SERVICESTABLE
 <!-- ######################SERVICES TABLE##################### -->
 <table class="tac">
@@ -147,7 +142,7 @@ function services_table()
 	   <td class="critical singleLine"><a href="{$tac_data['servlink']}CRITICAL">{$tac_data['servicesCriticalTotal']}</a> Critical</td>
 		<td class="warning singleLine"><a href="{$tac_data['servlink']}WARNING">{$tac_data['servicesWarningTotal']}</a> Warning</td>		
 		<td class="unknown singleLine"><a href="{$tac_data['servlink']}UNKNOWN">{$tac_data['servicesUnknownTotal']}</a> Unknown</td>
-		<td class="pending singleLine">{$tac_data['servicesPending']} Pending</td>
+		<td class="pending singleLine"><a href="{$tac_data['servlink']}PENDING">{$tac_data['servicesPending']}</a> Pending</td>
   </tr>
   <tr>
 	<td class="problem"><a href="{$tac_data['servlink']}PROBLEMS">{$tac_data['servicesProblemsTotal']}</a> Problems</td>
@@ -176,10 +171,8 @@ FILTERDIV;
 	return $box;
 }
 
-function features_table()
+function features_table($tac_data)
 {
-	global $tac_data; 
-
 	$features_table = <<<FEATURESTABLE
 <!-- #####################ENABLED FEATURES TABLE ####################-->
 <table class="tac">
@@ -325,7 +318,5 @@ XMLDOC;
 	return $xmldoc; 	
 
 }
-
-
 
 ?>

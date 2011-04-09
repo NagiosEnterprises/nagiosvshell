@@ -57,17 +57,17 @@ function get_tac_data()
 	global $username;
 	global $NagiosData;
 	$now = time();
-	$info = $NagiosData->getProperty('info');
-	$program = $NagiosData->getProperty('program');
-	$program = $program[0]; 
+	$info     = $NagiosData->getProperty('info');
+	$program  = $NagiosData->getProperty('program');
+	$program  = $program[0];
 	$services = $NagiosData->grab_details('service'); 
-	$hosts = $NagiosData->grab_details('host');
+	$hosts    = $NagiosData->grab_details('host');
 	$h_states = $NagiosData->getProperty('host'); 	
 	$tac_data = array(); //main array with all of the counter data for this function 
 
 	//default to xml 
 	//prepare data for consolidated array 
-	$hoststates = get_state_of('hosts');
+	$hoststates    = get_state_of('hosts');
 	$servicestates = get_state_of('services');
 	
 	
@@ -162,6 +162,7 @@ function get_tac_data()
 	);//end array 
 	
 	
+	$hostStates = array(NULL, 'Down', 'Unreachable'); // used in tracking host states
 	foreach($hosts as $h)
 	{
 		//html specific data 		
@@ -175,77 +176,89 @@ function get_tac_data()
 		//xml necessary for Nagios Fusion 
 		if($h['last_check']==0 && $h['active_checks_enabled'] == 1)  { $tac_data['hostsPending']++;  continue; } //skip ahead for pending 
 		if($h['last_check'] == 0 && $h['active_checks_enabled'] == 0)  { $tac_data['hostsPendingDisabled']++; $tac_data['hostsPending']++;  continue; } //pending 
-		if($h['current_state']==0 && $h['active_checks_enabled'] == 0) $tac_data['hostsUpDisabled']++;
-		if($h['current_state']==1 && $h['active_checks_enabled'] == 0) $tac_data['hostsDownDisabled']++;				
-		if($h['current_state']==1 && $h['problem_has_been_acknowledged'] > 0) $tac_data['hostsDownAcknowledged']++; 
-		if($h['current_state']==1 && $h['problem_has_been_acknowledged'] == 0)  $tac_data['hostsDownUnhandled']++; 
-		if($h['current_state']==1 && $h['scheduled_downtime_depth'] > 0) $tac_data['hostsDownScheduled']++;	
-		if($h['current_state']==2 && $h['active_checks_enabled'] == 0) $tac_data['hostsUnreachableDisabled']++;		
-		if($h['current_state']==2 && $h['problem_has_been_acknowledged'] > 0)  $tac_data['hostsUnreachableAcknowledged']++; 
-		if($h['current_state']==2 && $h['problem_has_been_acknowledged'] == 0) $tac_data['hostsUnreachableUnhandled']++; 
-		if($h['current_state']==2 && $h['scheduled_downtime_depth'] > 0) $tac_data['hostsUnreachableScheduled']++;
+
+		switch($h['current_state']) {
+			case 0:
+				if($h['active_checks_enabled'] == 0) $tac_data['hostsUpDisabled']++;
+			break;
+
+			case 1:
+			case 2:
+				$hostClass = 'hosts'.$hostStates[$h['current_state']];
+
+				if($h['active_checks_enabled'] == 0)         $tac_data[$hostClass.'Disabled']++;
+				if($h['problem_has_been_acknowledged'] > 0)  $tac_data[$hostClass.'Acknowledged']++;
+				if($h['problem_has_been_acknowledged'] == 0) $tac_data[$hostClass.'Unhandled']++;
+				if($h['scheduled_downtime_depth'] > 0)       $tac_data[$hostClass.'Scheduled']++;
+			break;
+
+			default: /* do nothing */ break;
+		}
 
 	} 
 
+
+	$serviceStates = array(NULL, 'Warning', 'Critical', 'Unknown'); // used in tracking service states
 	foreach($services as $s)
 	{
 	
 		//html specific data 		
 		if($s['flap_detection_enabled'] != 1) $tac_data['servicesFlappingDisabled']++;
-		if($s['is_flapping'] == 1) $tac_data['servicesFlapping']++;
-		if($s['notifications_enabled'] == 0) $tac_data['servicesNotificationsDisabled']++;
-		if($s['event_handler_enabled'] == 0) $tac_data['servicesEventHandlerDisabled']++;	
-		if($s['active_checks_enabled'] == 0) $tac_data['servicesActiveChecksDisabled']++;
-		if($s['passive_checks_enabled'] == 0) $tac_data['servicesPassiveChecksDisabled']++;	
+		if($s['is_flapping'] == 1)            $tac_data['servicesFlapping']++;
+		if($s['notifications_enabled'] == 0)  $tac_data['servicesNotificationsDisabled']++;
+		if($s['event_handler_enabled'] == 0)  $tac_data['servicesEventHandlerDisabled']++;
+		if($s['active_checks_enabled'] == 0)  $tac_data['servicesActiveChecksDisabled']++;
+		if($s['passive_checks_enabled'] == 0) $tac_data['servicesPassiveChecksDisabled']++;
 	
 		//xml necessary for Nagios Fusion 
 		$current_host = $h_states[$s['host_name']];	
 		if($s['last_check'] == 0 && $s['active_checks_enabled'] == 1) { $tac_data['servicesPending']++; continue; } //pending 
 		if($s['last_check'] == 0 && $s['active_checks_enabled'] == 0) { $tac_data['servicesPendingDisabled']++;  continue;  } //pending 
-		if($s['active_checks_enabled'] == 0) $tac_data['servicesActiveChecksDisabled']++;			 
-		if($s['current_state']==0 && $s['active_checks_enabled'] == 0) $tac_data['servicesOkDisabled']++;
-		if($s['current_state']==1 && $s['active_checks_enabled'] == 0) $tac_data['servicesWarningDisabled']++;
-		if($s['current_state']==1 && $current_host['current_state'] > 0) $tac_data['servicesWarningHostProblem']++; 						
-		if($s['current_state']==1 && $s['problem_has_been_acknowledged'] > 0) $tac_data['servicesWarningAcknowledged']++; 
-		if($s['current_state']==1 && $s['problem_has_been_acknowledged'] == 0) $tac_data['servicesWarningUnhandled']++;
-		if($s['current_state']==1 && $s['scheduled_downtime_depth'] > 0) $tac_data['servicesWarningScheduled']++; 
-		if($s['current_state']==2 && $s['active_checks_enabled'] == 0) $tac_data['servicesCriticalDisabled']++;
-		if($s['current_state']==2 && $s['problem_has_been_acknowledged'] > 0)  $tac_data['servicesCriticalAcknowledged']++; 
-		if($s['current_state']==2 && $s['problem_has_been_acknowledged'] == 0) $tac_data['servicesCriticalUnhandled']++; 
-		if($s['current_state']==2 && $s['scheduled_downtime_depth'] > 0) $tac_data['servicesCriticalScheduled']++;		
-		if($s['current_state']==2 && $current_host['current_state'] > 0) $tac_data['servicesCriticalHostProblem']++;
-		if($s['current_state']==3 && $s['active_checks_enabled'] == 0) $tac_data['servicesUnknownDisabled']++;
-		if($s['current_state']==3 && $s['problem_has_been_acknowledged'] > 0) $tac_data['servicesUnknownAcknowledged']++; 
-		if($s['current_state']==3 && $s['problem_has_been_acknowledged'] == 0) $tac_data['servicesUnknownUnhandled']++;  
-		if($s['current_state']==3 && $current_host['current_state'] > 0) $tac_data['servicesUnknownHostProblem']++;
-		if($s['current_state']==3 && $s['scheduled_downtime_depth'] > 0) $tac_data['servicesUnknownScheduled']++; 
+		if($s['active_checks_enabled'] == 0) $tac_data['servicesDisabled']++;
+
+		switch($s['current_state']) {
+			case 0:
+				$tac_data['servicesOkDisabled']++;
+			break;
+
+			case 1:
+			case 2:
+			case 3:
+				$serviceClass = 'services'.$serviceStates[$s['current_state']];
+
+				if($s['active_checks_enabled'] == 0)         $tac_data[$serviceClass.'Disabled']++;
+				if($s['problem_has_been_acknowledged'] > 0)  $tac_data[$serviceClass.'Acknowledged']++;
+				if($s['problem_has_been_acknowledged'] == 0) $tac_data[$serviceClass.'Unhandled']++;
+				if($s['scheduled_downtime_depth'] > 0)       $tac_data[$serviceClass.'Scheduled']++;
+				if($current_host['current_state'] > 0)       $tac_data[$serviceClass.'HostProblem']++;
+			break;
+
+			default: /* do nothing */ break;
+		}
 	}
 	
 	//process HTML variables for monitoring features table 
-	if($tac_data['hostsFlappingDisabled'] > 0) $tac_data['hostsFdHtml'] = '<span class="red">'.$tac_data['hostsFlappingDisabled'].' Hosts disabled</span>';
-	if($tac_data['servicesFlappingDisabled'] > 0) $tac_data['servicesFdHtml'] = '<span class="red">'.$tac_data['servicesFlappingDisabled'].' Services disabled</span>';
-	if($tac_data['hostsFlapping'] > 0) $tac_data['hostsFlapHtml'] = '<span class="red">'.$tac_data['hostsFlapping'].' Hosts disabled</span>';
-	if($tac_data['servicesFlapping'] > 0) $tac_data['servicesFlapHtml'] = '<span class="red">'.$tac_data['servicesFlapping'].' Services disabled</span>';
-	if($tac_data['hostsNotificationsDisabled'] > 0) $tac_data['hostsNtfHtml'] = '<span class="red">'.$tac_data['hostsNotificationsDisabled'].' Hosts disabled</span>';
+	if($tac_data['hostsFlappingDisabled']    > 0) $tac_data['hostsFdHtml']      = '<span class="red">'.$tac_data['hostsFlappingDisabled'].' Hosts disabled</span>';
+	if($tac_data['servicesFlappingDisabled'] > 0) $tac_data['servicesFdHtml']   = '<span class="red">'.$tac_data['servicesFlappingDisabled'].' Services disabled</span>';
+	if($tac_data['hostsFlapping']            > 0) $tac_data['hostsFlapHtml']    = '<span class="red">'.$tac_data['hostsFlapping'].' Hosts disabled</span>';
+	if($tac_data['servicesFlapping']         > 0) $tac_data['servicesFlapHtml'] = '<span class="red">'.$tac_data['servicesFlapping'].' Services disabled</span>';
+	if($tac_data['hostsNotificationsDisabled']    > 0) $tac_data['hostsNtfHtml']    = '<span class="red">'.$tac_data['hostsNotificationsDisabled'].' Hosts disabled</span>';
 	if($tac_data['servicesNotificationsDisabled'] > 0) $tac_data['servicesNtfHtml'] = '<span class="red">'.$tac_data['servicesNotificationsDisabled'].' Services disabled</span>';
-	if($tac_data['hostsEventHandlerDisabled'] > 0) $tac_data['hostsEhHtml'] = '<span class="red">'.$tac_data['hostsEventHandlerDisabled'].' Hosts disabled</span>';
-	if($tac_data['servicesEventHandlerDisabled'] > 0) $tac_data['servicesEhHtml'] = '<span class="red">'.$tac_data['servicesEventHandlerDisabled'].' Services disabled</span>';
-	if($tac_data['hostsActiveChecksDisabled'] > 0) $tac_data['hostsAcHtml'] = '<span class="red">'.$tac_data['hostsActiveChecksDisabled'].' Hosts disabled</span>';
-	if($tac_data['servicesActiveChecksDisabled'] > 0) $tac_data['servicesAcHtml'] = '<span class="red">'.$tac_data['servicesActiveChecksDisabled'].' Services disabled</span>';	
-	if($tac_data['hostsPassiveChecksDisabled'] > 0) $tac_data['hostsPcHtml'] = '<span class="red">'.$tac_data['hostsPassiveChecksDisabled'].' Hosts disabled</span>';
-	if($tac_data['servicesPassiveChecksDisabled'] > 0) $tac_data['servicesPcHtml'] = '<span class="red">'.$tac_data['servicesPassiveChecksDisabled'].' Services disabled</span>';	
+	if($tac_data['hostsEventHandlerDisabled']     > 0) $tac_data['hostsEhHtml']     = '<span class="red">'.$tac_data['hostsEventHandlerDisabled'].' Hosts disabled</span>';
+	if($tac_data['servicesEventHandlerDisabled']  > 0) $tac_data['servicesEhHtml']  = '<span class="red">'.$tac_data['servicesEventHandlerDisabled'].' Services disabled</span>';
+	if($tac_data['hostsActiveChecksDisabled']     > 0) $tac_data['hostsAcHtml']     = '<span class="red">'.$tac_data['hostsActiveChecksDisabled'].' Hosts disabled</span>';
+	if($tac_data['servicesActiveChecksDisabled']  > 0) $tac_data['servicesAcHtml']  = '<span class="red">'.$tac_data['servicesActiveChecksDisabled'].' Services disabled</span>';
+	if($tac_data['hostsPassiveChecksDisabled']    > 0) $tac_data['hostsPcHtml']     = '<span class="red">'.$tac_data['hostsPassiveChecksDisabled'].' Hosts disabled</span>';
+	if($tac_data['servicesPassiveChecksDisabled'] > 0) $tac_data['servicesPcHtml']  = '<span class="red">'.$tac_data['servicesPassiveChecksDisabled'].' Services disabled</span>';
 
 	//other misc totals 
-	$tac_data['hostsUnhandledTotal'] = $tac_data['hostsDownUnhandled']+$tac_data['hostsUnreachableUnhandled']; 	
-	$tac_data['hostsAcknowledgedTotal'] = $tac_data['hostsDownAcknowledged']+$tac_data['hostsUnreachableAcknowledged']; 
-	$tac_data['servicesUnhandledTotal'] = $tac_data['servicesWarningUnhandled']+$tac_data['servicesUnknownUnhandled']+$tac_data['servicesCriticalUnhandled']; 	
-	$tac_data['servicesAcknowledgedTotal'] = $tac_data['servicesWarningAcknowledged']+$tac_data['servicesUnknownAcknowledged']+$tac_data['servicesCriticalAcknowledged'];	
+	$tac_data['hostsUnhandledTotal']       = $tac_data['hostsDownUnhandled']         +$tac_data['hostsUnreachableUnhandled']; 
+	$tac_data['hostsAcknowledgedTotal']    = $tac_data['hostsDownAcknowledged']      +$tac_data['hostsUnreachableAcknowledged']; 
+	$tac_data['servicesUnhandledTotal']    = $tac_data['servicesWarningUnhandled']   +$tac_data['servicesUnknownUnhandled']    +$tac_data['servicesCriticalUnhandled']; 
+	$tac_data['servicesAcknowledgedTotal'] = $tac_data['servicesWarningAcknowledged']+$tac_data['servicesUnknownAcknowledged'] +$tac_data['servicesCriticalAcknowledged'];
 	
 	
 	return $tac_data; 
 } //end get_tac_data() 
-
-
-
 
 ?>
