@@ -407,7 +407,29 @@ FILTERDIV;
 	return $resultFilter; 
 }//end function result_filter() 
 
+//expects a number (percent value)
+//returns an rgb string to use as a css style   "$r,$g,$b"
+function color_code($num)
+{
+    //green is 0,255,0
+    $num=intval($num);
+    $r = 255;
+    $g = 50;
+    $b = 0;
+    //if green >= 255, start subtracting red 
+//    $g +=intval($num*2.5);
+    $g +=intval($num*4);
+	if($g>=255) 
+	{
+		$r-= ($g-255); 
+		$g=255; 
+	}	
 
+    //return into a style : style="background-color: rgb('.$rgb.')
+    $rgb="$r,$g,$b";
+    //print '<div style="background-color: rgb('.$rgb.');">Test</div>';
+    return $rgb;
+}
 
 
 

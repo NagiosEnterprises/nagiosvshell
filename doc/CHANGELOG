@@ -1,3 +1,10 @@
+====April 23 - 2011 Mike Guthrie - trunk
+-added version info to vshell.conf and constants.inc.php
+-changed tactical overview tables so that table cells are now links
+-moved V-Shell logo into DOM and made into home link
+-added host and service health meters to tactical overview 
+
+
 ====Mar 30 - 2011 - Tony Yarusso - Devel Branch
 - Move README, TODO, CHANGELOG, and license to doc/ folder.
 - Move Apache config file into config/ instead of doc/

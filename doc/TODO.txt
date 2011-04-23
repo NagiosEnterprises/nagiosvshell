@@ -6,7 +6,7 @@ BUGS
 
 MODEL/DATA
 
-
+- support for mklivestatus and ndoutils broker modules 
 
 CONTROLLER
 
@@ -19,12 +19,10 @@ CONTROLLER
 
 VIEW
 
-- create "problems" table for tactical overview page 
-# need a table and a filter for "unhandled problems" that haven't been acknowledged.  This is in the tactical overview in core, and I think a lot of people use it.
 
 - tactical overview - additional data about monitoring performance??
 - tactical overview - filter for flapping, notification, event handlers, active checks, passive checks 
- -create basic xml stylesheet?
+
 
 -add links for xml viewing where applicable
 
@@ -35,4 +33,6 @@ DOC
 --need documentation for user authentication/viewing for apache (when using Nagios XI)
 
 MISC
+
+-- gettext support for multiple languages 
 
