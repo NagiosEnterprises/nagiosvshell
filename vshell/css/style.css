@@ -55,9 +55,9 @@
 /* site-wide styles */
 * { margin: 0px; padding: 0px;  }
 
-body { font-family: verdana, arial; background: url("../views/images/vshell.png") no-repeat; }
+body { font-family: verdana, arial; }
 
-a:link, a:visited { color: #00A3FF; text-decoration: none; }
+a:link, a:visited { color: #00A3FF; text-decoration: none;}
 
 a:hover, a:active, a.highlight:hover, a.highlight:active { color: #89D5FF; }
 
@@ -74,7 +74,7 @@ select, input { font-size: 8pt; }
 /*class for top navigation bar with main links */
 div.topnav
 {
-	margin-top: 50px;
+	/*margin-top: 50px; */
 	height: 20px;
 	width: 100%;
 	background:  #333;
@@ -226,3 +226,19 @@ ul.configlist, li.configlist {
 	}
 	
 div.hidden { display:none;  }
+
+/* tactical overview tables */
+div.td {height:12px; width:85px;}
+#td_servicestotal {padding-left:15%;}
+
+#meterContainer { float: right; margin-right: 20px;}
+.h_container { width: 150px; background: #f8f8f8; font-size: 9pt; border: 2px solid #AAA; text-align:center; margin:5px;}
+div.borderDiv {width: 95%; border: 2px solid #666; margin:2px auto;}
+.healthmeter {overflow:visible; height: 10px;}
+
+
+/* V-Shell Logo */ 
+#logoDiv {width: 225px; height: 50px; }
+#logoDiv img {border: none; }
+
+

@@ -57,6 +57,7 @@ function get_tac_html()
 	$tac = "";
 	$tac .= info_table().'<br />';
 	$tac .= overview_table($tac_data).'<br />';
+	$tac .= health_meters($tac_data); //added health meters -MG 4/23/11
 	$tac .= hosts_table($tac_data).'<br />';
 	$tac .= services_table($tac_data).'<br />';
 	$tac .= features_table($tac_data);
@@ -67,11 +68,12 @@ function get_tac_html()
 
 function info_table()
 {
+	$version = 'v'.VERSION;
 	$info_table =<<<INFOTABLE
 <!-- ##################Nagios Info Table################### -->
 <div id='infodiv'>
 
-<p class='note'>Nagios V-Shell<br />
+<p class='note'>Nagios V-Shell $version<br />
 	Copyright (c) 2010 <br />
 	Nagios Enterprises, LLC. <br />
    Written by Mike Guthrie<br />
@@ -105,6 +107,33 @@ OVERVIEWTABLE;
 }
 
 
+
+//builds health meter divs for hosts and services 
+function health_meters($tac_data)
+{
+		$tac  = "<div id='meterContainer'>";
+		$tac .= health_meter($tac_data, 'host'); //added meter 
+		$tac .= health_meter($tac_data, 'service');
+		$tac .= "</div> <!-- end health meters --> \n";
+		return $tac; 
+}
+
+//generic health meter function, calculates health and returns divs 
+function health_meter($tac_data, $type)
+{
+	$Total = $tac_data[$type.'sTotal'];
+	$problems = $tac_data[$type.'sProblemsTotal'];
+	$health = (floatval($Total-$problems) / floatval($Total)) *100; 
+	//$health = 30;
+	$title = ucfirst($type); 
+	$meter =  "<div class='h_container'>$type Health: ".round($health,2)."% <br />\n
+					<div class='borderDiv'>
+					<div class='healthmeter' style='background: rgb(".color_code(round($health,0))."); width: ".$health."%;'>\n
+				</div></div></div>\n"; 
+	return $meter;
+}
+
+
 function hosts_table($tac_data)
 {
 	$hosts_table =<<<HOSTSTABLE
@@ -112,17 +141,17 @@ function hosts_table($tac_data)
 <table class="tac">
 <tr><th>Hosts</th></tr>
 <tr>
-	<td class="ok"><a href="{$tac_data['hostlink']}UP">{$tac_data['hostsUpTotal']}</a> Up</td>
-	<td class="down"><a href="{$tac_data['hostlink']}DOWN">{$tac_data['hostsDownTotal']}</a> Down</td>
-	<td class="unreachable"><a href="{$tac_data['hostlink']}UNREACHABLE">{$tac_data['hostsUnreachableTotal']}</a> Unreachable</td>
-	<td class="pending"><a href="{$tac_data['hostlink']}PENDING">{$tac_data['hostsPending']}</a> Pending</td>				
+	<td class="ok"><a class="highlight" href="{$tac_data['hostlink']}UP"><div class='td'>{$tac_data['hostsUpTotal']} Up</div></a></td>
+	<td class="down"><a class="highlight" href="{$tac_data['hostlink']}DOWN"><div class='td'>{$tac_data['hostsDownTotal']} Down</div></a></td>
+	<td class="unreachable"><a class="highlight" href="{$tac_data['hostlink']}UNREACHABLE"><div class='td'>{$tac_data['hostsUnreachableTotal']} Unreachable</div></a></td>
+	<td class="pending"><a class="highlight" href="{$tac_data['hostlink']}PENDING"><div class='td'>{$tac_data['hostsPending']} Pending</div></a></td>				
 	
 </tr> 
 <tr>
-	<td class="problem"><a href="{$tac_data['hostlink']}PROBLEMS">{$tac_data['hostsProblemsTotal']}</a> Problems</td>
-	<td class="unhandled"><a href="{$tac_data['hostlink']}UNHANDLED">{$tac_data['hostsUnhandledTotal']}</a> Unhandled</td>
-	<td class="acknowledged"><a href="{$tac_data['hostlink']}ACKNOWLEDGED">{$tac_data['hostsAcknowledgedTotal']}</a> Acknowledged</td>
-	<td><a href="index.php?type=hosts" title="All Hosts">{$tac_data['hostsTotal']}</a> Total </td>
+	<td class="problem"><a class="highlight" href="{$tac_data['hostlink']}PROBLEMS"><div class='td'>{$tac_data['hostsProblemsTotal']} Problems</div></a></td>
+	<td class="unhandled"><a class="highlight" href="{$tac_data['hostlink']}UNHANDLED"><div class='td'>{$tac_data['hostsUnhandledTotal']} Unhandled</div></a></td>
+	<td class="acknowledged"><a class="highlight" href="{$tac_data['hostlink']}ACKNOWLEDGED"><div class='td'>{$tac_data['hostsAcknowledgedTotal']} Acknowledged</div></a></td>
+	<td><div class='td'><a class="highlight" href="index.php?type=hosts" title="All Hosts">{$tac_data['hostsTotal']} Total</div></a></td>
 </tr>
 
 </table>
@@ -138,17 +167,17 @@ function services_table($tac_data)
 <tr><th>Services</th></tr>
 	
   <tr>
-	   <td class='ok'><a href='{$tac_data['servlink']}OK'>{$tac_data['servicesOkTotal']}</a> Ok</td>
-	   <td class="critical singleLine"><a href="{$tac_data['servlink']}CRITICAL">{$tac_data['servicesCriticalTotal']}</a> Critical</td>
-		<td class="warning singleLine"><a href="{$tac_data['servlink']}WARNING">{$tac_data['servicesWarningTotal']}</a> Warning</td>		
-		<td class="unknown singleLine"><a href="{$tac_data['servlink']}UNKNOWN">{$tac_data['servicesUnknownTotal']}</a> Unknown</td>
-		<td class="pending singleLine"><a href="{$tac_data['servlink']}PENDING">{$tac_data['servicesPending']}</a> Pending</td>
+	   <td class='ok'><a class="highlight" href='{$tac_data['servlink']}OK'><div class='td'>{$tac_data['servicesOkTotal']} Ok</div></a></td>
+	   <td class="critical"><a class="highlight" href="{$tac_data['servlink']}CRITICAL"><div class='td'>{$tac_data['servicesCriticalTotal']} Critical</div></a></td>
+		<td class="warning"><a class="highlight" href="{$tac_data['servlink']}WARNING"><div class='td'>{$tac_data['servicesWarningTotal']} Warning</div></a></td>		
+		<td class="unknown"><a class="highlight" href="{$tac_data['servlink']}UNKNOWN"><div class='td'>{$tac_data['servicesUnknownTotal']} Unknown</div></a></td>
+		<td class="pending"><a class="highlight" href="{$tac_data['servlink']}PENDING"><div class='td'>{$tac_data['servicesPending']} Pending</div></a></td>
   </tr>
   <tr>
-	<td class="problem"><a href="{$tac_data['servlink']}PROBLEMS">{$tac_data['servicesProblemsTotal']}</a> Problems</td>
-	<td class="unhandled"><div class="singleLine"><a href="{$tac_data['servlink']}UNHANDLED">{$tac_data['servicesUnhandledTotal']}</a> Unhandled</div></td>
-	<td class="acknowledged"><div class="singleLine"><a href="{$tac_data['servlink']}ACKNOWLEDGED">{$tac_data['servicesAcknowledgedTotal']}</a> Acknowledged</div></td>
-	<td colspan="2"><a href="index.php?type=services" title="All Services">{$tac_data['servicesTotal']}</a> Total </td>
+	<td class="problem"><a class="highlight" href="{$tac_data['servlink']}PROBLEMS"><div class='td'>{$tac_data['servicesProblemsTotal']} Problems</div></a></td>
+	<td class="unhandled"><a class="highlight" href="{$tac_data['servlink']}UNHANDLED"><div class='td'>{$tac_data['servicesUnhandledTotal']} Unhandled</div></a></td>
+	<td class="acknowledged"><a class="highlight" href="{$tac_data['servlink']}ACKNOWLEDGED"><div class='td'>{$tac_data['servicesAcknowledgedTotal']} Acknowledged</div></a></td>
+	<td colspan="2"><a class="highlight" href="index.php?type=services" title="All Services"><div id="td_servicestotal" class='td'>{$tac_data['servicesTotal']} Total </div></a></td>
 </tr>
 
 </table>

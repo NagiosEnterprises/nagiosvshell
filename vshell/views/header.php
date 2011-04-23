@@ -91,6 +91,7 @@ $(document).ready(function() {
 
 </head>
 <body>
+	<div id='logoDiv'><a href="index.php"><img src='views/images/vshell.png' /></a></div>
 	<div class="corelink">
 		<a class="label" href="$coreurl" target="_blank" title="Access Nagios Core">Access Nagios Core</a>
 	</div>
