@@ -65,6 +65,8 @@ table { font-size: 8pt; text-align: center; background: #f1f1f1; }
 
 td, th { padding: 1px 10px 1px 10px; background-color: #DEDEDE; 	}
 
+a img {border: none; }
+
 td { background-color: #F8F8F8; }
 
 h3 {	text-align: center;  }
