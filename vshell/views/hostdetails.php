@@ -16,7 +16,7 @@ function get_host_details($dets)
 	<div class="detailWrapper">
 	<h4><em>Host: </em>{$dets['Host']}</h4>
 	<h5><em>Member of: </em>{$dets['MemberOf']}</h5>
-	
+	<h5><a href="index.php?type=services&name_filter={$dets['Host']}" title="See All Services For This Host">See All Services For This Host</a></h5>
 	<div class="detailcontainer">
 	<fieldset class="hostdetails">
 	<legend>Advanced Details</legend>

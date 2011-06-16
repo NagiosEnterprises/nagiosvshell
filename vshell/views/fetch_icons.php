@@ -82,6 +82,8 @@ function fetch_host_icons($hostname)
  	}	
 		
 	$icons = '';	
+	$icons .= "<a href='index.php?type=services&name_filter=".rawurlencode($hostname)."'>
+					<img class='tableIcon' src='views/images/statusdetailmulti.png' height='12' widt='12' title='See All Services For This Host' alt='S' /></a>";
 	$icons .= isset($host_obj['icon_image']) ? '<img class="tableIcon" border="0" width="15" height="15" title="" alt="Icon" src="views/images/logos/'.$host_obj['icon_image'].'">' : ''; 
 	$icons.= comment_icon($host['host_name']); //comment icon and count, see function def below  
 	$icons .= ($host['scheduled_downtime_depth'] > 0) ? '<img src="views/images/downtime.png" title="In Downtime" class="tableIcon" alt="DT" height="12" width="12" />' : ''; //scheduled downtime icon

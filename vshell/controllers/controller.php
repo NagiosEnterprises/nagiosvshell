@@ -84,7 +84,7 @@ function page_router()
 	if (isset($_GET['mode'])) { $mode = strtolower($_GET['mode']); } else { $mode = 'html'; }
 
 	if (isset($_GET['state_filter'])   && trim($_GET['state_filter'])   != '') { $state_filter    = process_state_filter(htmlentities($_GET['state_filter']));     }
-	if (isset($_GET['name_filter'])    && trim($_GET['name_filter'])    != '') { $name_filter     = process_name_filter(htmlentities($_GET['name_filter']));       }
+	if (isset($_GET['name_filter'])    && trim($_GET['name_filter'])    != '') { $name_filter     = process_name_filter(htmlentities($_GET['name_filter']),ENT_QUOTES);       }
 	if (isset($_GET['objtype_filter']) && trim($_GET['objtype_filter']) != '') { $objtype_filter  = process_objtype_filter(htmlentities($_GET['objtype_filter'])); }
 
 	list($data, $html_output_function) = array(NULL, NULL);
@@ -195,7 +195,8 @@ function process_state_filter($filter_str)
 }
 
 function process_name_filter($filter_str) {
-	$filter_str = preg_quote($filter_str, '/'); //removed strtolower -MG 
+	//$filter_str = preg_quote($filter_str, '/'); //removed strtolower -MG 
+	$filter_str = strtolower($filter_str); 	
 	return $filter_str;
 }
 

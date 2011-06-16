@@ -1,3 +1,8 @@
+====June 15 - 2011 Mike Guthrie - trunk
+hosts.php -Added "View all services for this host" link 
+hostdetail.php -Added "View all services for this host" link
+controller.php -Reverted name_filter feature back to DW's original function.
+
 ====April 23 - 2011 Mike Guthrie - trunk
 -added version info to vshell.conf and constants.inc.php
 -changed tactical overview tables so that table cells are now links
