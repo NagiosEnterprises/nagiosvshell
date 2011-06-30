@@ -49,6 +49,9 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+//hide error output in browser
+ini_set('display_errors','Off'); 
+
 session_start(); //no need for sessions at this time
 ob_start();
 

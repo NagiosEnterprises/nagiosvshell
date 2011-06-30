@@ -196,7 +196,7 @@ function process_state_filter($filter_str)
 
 function process_name_filter($filter_str) {
 	//$filter_str = preg_quote($filter_str, '/'); //removed strtolower -MG 
-	$filter_str = strtolower($filter_str); 	
+	$filter_str = strtolower(rawurldecode($filter_str)); 	
 	return $filter_str;
 }
 

@@ -20,6 +20,11 @@ maintaining the power of Nagios Core for issuing system and node commands.
 Installation 
 ------------
 
+For Ubuntu installation with a nagios3 distribution install, see the following site
+for installation instructions:
+http://www.keyboardmadness.com/2011/06/article-installing-nagios-v-shell-on.html
+
+
 Prerequisites:  
 
 You will need to know the location of Apache configuration directory where your

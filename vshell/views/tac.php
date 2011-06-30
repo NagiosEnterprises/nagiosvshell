@@ -176,7 +176,7 @@ function services_table($tac_data)
   <tr>
 	<td class="problem"><a class="highlight" href="{$tac_data['servlink']}PROBLEMS"><div class='td'>{$tac_data['servicesProblemsTotal']} Problems</div></a></td>
 	<td class="unhandled"><a class="highlight" href="{$tac_data['servlink']}UNHANDLED"><div class='td'>{$tac_data['servicesUnhandledTotal']} Unhandled</div></a></td>
-	<td class="acknowledged"><a class="highlight" href="{$tac_data['servlink']}ACKNOWLEDGED"><div class='td'>{$tac_data['servicesAcknowledgedTotal']} Acknowledged</div></a></td>
+	<td class="acknowledged"><a class="highlight" href="{$tac_data['servlink']}ACKNOWLEDGED">{$tac_data['servicesAcknowledgedTotal']} Acknowledged</a></td>
 	<td colspan="2"><a class="highlight" href="index.php?type=services" title="All Services"><div id="td_servicestotal" class='td'>{$tac_data['servicesTotal']} Total </div></a></td>
 </tr>
 
