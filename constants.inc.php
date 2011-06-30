@@ -68,7 +68,7 @@ if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] != 80 && $_SERVER[
 // Switch to use external configuration file by Tony Yarusso, 30 March 2011
 $ini_array = parse_ini_file("/etc/vshell.conf");
 
-define('VERSION', $ini_array['VERSION']); 
+define('VERSION', '1.6'); 
 
 //server root information 
 define("BASEURL", $base.'/'.$ini_array["BASEURL"].'/');

@@ -70,8 +70,8 @@ function get_service_details($dets)
 	<legend>Advanced Details</legend>
 	<table class="details">
 		<tr><td>Service State</td><td class="{$dets['State']}">{$dets['State']}</td></tr>
-		<tr><td>Check Command</td><td>{$dets['CheckCommand']}</td></tr>
-		<tr><td>Plugin Output</td><td>{$dets['Output']}</td></tr>
+		<tr><td>Check Command</td><td><div class="td_maxwidth">{$dets['CheckCommand']}</div></td></tr>
+		<tr><td>Plugin Output</td><td><div class="td_maxwidth">{$dets['Output']}</div></td></tr>
 		<tr><td>Duration</td><td>{$dets['Duration']}</td></tr>
 		<tr><td>State Type</td><td>{$dets['StateType']}</td></tr>
 		<tr><td>Current Check</td><td>{$dets['CurrentCheck']}</td></tr>
@@ -83,7 +83,7 @@ function get_service_details($dets)
 		<tr><td>Check Latency</td><td>{$dets['CheckLatency']}</td></tr>
 		<tr><td>Execution Time</td><td>{$dets['ExecutionTime']}</td></tr>
 		<tr><td>State Change</td><td>{$dets['StateChange']}</td></tr>
-		<tr><td>Performance Data</td><td>{$dets['PerformanceData']}</td></tr>
+		<tr><td>Performance Data</td><td><div class="td_maxwidth">{$dets['PerformanceData']}</div></td></tr>
 		
 	</table>	
 	

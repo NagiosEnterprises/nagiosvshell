@@ -1,9 +1,14 @@
-====June 15 - 2011 Mike Guthrie - trunk
+====June 30th - 2011 Mike Guthrie - trunk 1.6
+- fixed bug that prevented host details from being displayed correctly for some hosts
+- Fixed CSS bug on windows XP machines on tactical overview
+- Fixed CSS issues for long plugin output and check commands
+
+====June 15 - 2011 Mike Guthrie - trunk 1.5
 hosts.php -Added "View all services for this host" link 
 hostdetail.php -Added "View all services for this host" link
 controller.php -Reverted name_filter feature back to DW's original function.
 
-====April 23 - 2011 Mike Guthrie - trunk
+====April 23 - 2011 Mike Guthrie - trunk  1.4 
 -added version info to vshell.conf and constants.inc.php
 -changed tactical overview tables so that table cells are now links
 -moved V-Shell logo into DOM and made into home link

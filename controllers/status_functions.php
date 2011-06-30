@@ -140,7 +140,8 @@ function get_by_state($state, $data)
 
 function get_by_name($name, $data, $field='host_name') {
 	//echo $field; 
-	$name = preg_quote($name, '/');
+//	$name = preg_quote($name, '/');
+	
 	if(!array_key_exists($field, $data) && $_GET['type'] == 'hosts') $field = 'host_name'; //bug fix for hosts that don't have any services -MG 
 	return array_filter($data, create_function('$d', 'return preg_match("/'.$name.'/i", $d[\''.$field.'\']);'));
 	}

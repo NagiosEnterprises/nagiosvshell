@@ -138,7 +138,7 @@ th.attempt, td.attempt {width: 55px;}
 th.duration, td.duration {width: 110px;}
 th.status, td.ok, td.critical, td.warning, td.unknown {width: 60px; }
 th.last_check, td.last_check {width: 140px; } 
-th.plugin_output, td.plugin_output, div.plugin_output{width: 370px; } 
+th.plugin_output, td.plugin_output, div.plugin_output{width: 370px; overflow:hidden;} 
 tr.servicetablerow { width: 1400px; height: 1em; }
 tr.statustablerow { width: 1400px; height: 1em; }
 
@@ -180,6 +180,8 @@ div.corecommands {width: 210px; padding: 10px; }
 
 .commentTable {clear: both; margin: 0px auto;text-align: center;width: 500px; }
 div.commentTable { padding-top: 20px; }
+
+div.td_maxwidth{ width: 300px;overflow:auto; }
 
 
 /*used for toggle label on group and config pages */
@@ -230,7 +232,9 @@ ul.configlist, li.configlist {
 div.hidden { display:none;  }
 
 /* tactical overview tables */
-div.td {height:12px; width:85px;}
+div.td {height:12px; width:95px;}
+
+
 #td_servicestotal {padding-left:15%;}
 
 #meterContainer { float: right; margin-right: 20px;}

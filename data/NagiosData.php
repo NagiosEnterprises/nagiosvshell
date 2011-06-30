@@ -143,7 +143,7 @@ class NagiosData
 		{
 			foreach($details as $host_details)
 			{
-				if($host_details['host_name'] == $arg) 
+				if(strtolower($host_details['host_name']) == $arg) 
 				{
 					$retval = $host_details;
 					break;
