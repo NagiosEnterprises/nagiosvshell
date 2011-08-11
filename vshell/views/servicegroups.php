@@ -82,21 +82,21 @@ function display_servicegroups($data)
 {
 
 	$page = "";
-	$page .= "<h3>Service Groups</h3>";
+	$page .= "<h3>".gettext('Service Groups')."</h3>";
 
 	$name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
 	$type = isset($_GET['type']) ? $_GET['type'] : '';
 
-	$page .= <<<FILTERDIV
+	$page .= "
 <div class='resultFilter'>
 	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
-		<input type="hidden" name="type" value="$type">
-		<label class='label' for='name_filter'>Search Service Group Names</label>
-		<input type="text" name='name_filter' value="$name_filter"></input>
+		<input type='hidden' name='type' value='$type'>
+		<label class='label' for='name_filter'>".gettext('Search Service Group Names')."</label>
+		<input type='text' name='name_filter' value='$name_filter'></input>
 		<input type='submit' name='submitbutton' value='Filter' />
 	</form>
 </div>
-FILTERDIV;
+";
 	
 	//////////////////////////////////////table creation, displays both summary and grid view   
 	foreach($data as $group => $group_data)
@@ -106,7 +106,7 @@ FILTERDIV;
 		$page .= "<h5>$group</h5>";
 		//summary table 
 		$page .= "<table class='statustable'><tr>
-					<th>Ok</th><th>Critical</th><th>Warning</th><th>Unknown</th></tr>
+					<th>Ok</th><th>".gettext('Critical')."</th><th>".gettext('Warning')."</th><th>".gettext('Unknown')."</th></tr>
 					<tr>
 						<td class='ok'>{$group_data['state_counts']['OK']}</td>
 						<td class='critical'>{$group_data['state_counts']['CRITICAL']}</td>
@@ -115,12 +115,12 @@ FILTERDIV;
 					</tr>
 				</table>";
 		
-		$page .= "<p class='label'><a onclick=\"showHide('$group')\" href='javascript:void(0)'>Toggle Grid</a></p>";
+		$page .= "<p class='label'><a onclick=\"showHide('$group')\" href='javascript:void(0)'>".gettext('Toggle Grid')."</a></p>";
 		//grid table 
 		
 		$page .= "<div class='hidden' id='$group'>
 				<table class='statustable'>
-				<tr><th>Host</th><th>Status</th><th>Service</th><th>Status Information</th></tr>";
+				<tr><th>".gettext('Host')."</th><th>".gettext('Status')."</th><th>".gettext('Service')."</th><th>".gettext('Status Information')."</th></tr>";
 				
 		#foreach($members as $serv)
 		foreach($group_data['services'] as $serv)

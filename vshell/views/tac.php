@@ -90,19 +90,19 @@ function overview_table($tac_data)
 {
 	global $username; 
 
-	$overview_table = <<<OVERVIEWTABLE
-<table class="tac">
-<tr><th>Tactical Monitoring Overview</th></tr>
+	$overview_table = "
+<table class='tac'>
+<tr><th>".gettext('Tactical Monitoring Overview')."</th></tr>
 	<tr>
 		<td>
-			Last Check: {$tac_data['lastcmd']}<br />
-			Updated every 90 seconds<br />
-			Nagios® Core™ {$tac_data['version']} - www.nagios.org<br />
-			Logged in as $username<br />
+			".gettext('Last Check').": {$tac_data['lastcmd']}<br />
+			".gettext('Updated every 90 seconds')."<br />
+			".gettext('Nagios® Core™')." {$tac_data['version']} - www.nagios.org<br />
+			".gettext('Logged in as')." $username<br />
 		</td>
 	</tr>
 </table>
-OVERVIEWTABLE;
+";
 	return $overview_table;
 }
 
@@ -136,83 +136,83 @@ function health_meter($tac_data, $type)
 
 function hosts_table($tac_data)
 {
-	$hosts_table =<<<HOSTSTABLE
+	$hosts_table ="
 <!-- ########################HOSTS TABLE########################## -->
-<table class="tac">
-<tr><th>Hosts</th></tr>
+<table class='tac'>
+<tr><th>".gettext('Hosts')."</th></tr>
 <tr>
-	<td class="ok"><a class="highlight" href="{$tac_data['hostlink']}UP"><div class='td'>{$tac_data['hostsUpTotal']} Up</div></a></td>
-	<td class="down"><a class="highlight" href="{$tac_data['hostlink']}DOWN"><div class='td'>{$tac_data['hostsDownTotal']} Down</div></a></td>
-	<td class="unreachable"><a class="highlight" href="{$tac_data['hostlink']}UNREACHABLE"><div class='td'>{$tac_data['hostsUnreachableTotal']} Unreachable</div></a></td>
-	<td class="pending"><a class="highlight" href="{$tac_data['hostlink']}PENDING"><div class='td'>{$tac_data['hostsPending']} Pending</div></a></td>				
+	<td class='ok'><a class='highlight' href='{$tac_data['hostlink']}UP'><div class='td'>{$tac_data['hostsUpTotal']} ".gettext('Up')."</div></a></td>
+	<td class='down'><a class='highlight' href='{$tac_data['hostlink']}DOWN'><div class='td'>{$tac_data['hostsDownTotal']} ".gettext('Down')."</div></a></td>
+	<td class='unreachable'><a class='highlight' href='{$tac_data['hostlink']}UNREACHABLE'><div class='td'>{$tac_data['hostsUnreachableTotal']} ".gettext('Unreachable')."</div></a></td>
+	<td class='pending'><a class='highlight' href='{$tac_data['hostlink']}PENDING'><div class='td'>{$tac_data['hostsPending']} ".gettext('Pending')."</div></a></td>				
 	
 </tr> 
 <tr>
-	<td class="problem"><a class="highlight" href="{$tac_data['hostlink']}PROBLEMS"><div class='td'>{$tac_data['hostsProblemsTotal']} Problems</div></a></td>
-	<td class="unhandled"><a class="highlight" href="{$tac_data['hostlink']}UNHANDLED"><div class='td'>{$tac_data['hostsUnhandledTotal']} Unhandled</div></a></td>
-	<td class="acknowledged"><a class="highlight" href="{$tac_data['hostlink']}ACKNOWLEDGED"><div class='td'>{$tac_data['hostsAcknowledgedTotal']} Acknowledged</div></a></td>
-	<td><div class='td'><a class="highlight" href="index.php?type=hosts" title="All Hosts">{$tac_data['hostsTotal']} Total</div></a></td>
+	<td class='problem'><a class='highlight' href='{$tac_data['hostlink']}PROBLEMS'><div class='td'>{$tac_data['hostsProblemsTotal']} ".gettext('Problems')."</div></a></td>
+	<td class='unhandled'><a class='highlight' href='{$tac_data['hostlink']}UNHANDLED'><div class='td'>{$tac_data['hostsUnhandledTotal']} ".gettext('Unhandled')."</div></a></td>
+	<td class='acknowledged'><a class='highlight' href='{$tac_data['hostlink']}ACKNOWLEDGED'><div class='td'>{$tac_data['hostsAcknowledgedTotal']} ".gettext('Acknowledged')."</div></a></td>
+	<td><div class='td'><a class='highlight' href='index.php?type=hosts' title='All Hosts'>{$tac_data['hostsTotal']} ".gettext('Total')."</div></a></td>
 </tr>
 
 </table>
-HOSTSTABLE;
+";
 	return $hosts_table;
 }
 
 function services_table($tac_data)
 {
-	$services_table = <<<SERVICESTABLE
+	$services_table = "
 <!-- ######################SERVICES TABLE##################### -->
-<table class="tac">
-<tr><th>Services</th></tr>
+<table class='tac'>
+<tr><th>".gettext('Services')."</th></tr>
 	
   <tr>
-	   <td class='ok'><a class="highlight" href='{$tac_data['servlink']}OK'><div class='td'>{$tac_data['servicesOkTotal']} Ok</div></a></td>
-	   <td class="critical"><a class="highlight" href="{$tac_data['servlink']}CRITICAL"><div class='td'>{$tac_data['servicesCriticalTotal']} Critical</div></a></td>
-		<td class="warning"><a class="highlight" href="{$tac_data['servlink']}WARNING"><div class='td'>{$tac_data['servicesWarningTotal']} Warning</div></a></td>		
-		<td class="unknown"><a class="highlight" href="{$tac_data['servlink']}UNKNOWN"><div class='td'>{$tac_data['servicesUnknownTotal']} Unknown</div></a></td>
-		<td class="pending"><a class="highlight" href="{$tac_data['servlink']}PENDING"><div class='td'>{$tac_data['servicesPending']} Pending</div></a></td>
+	   <td class='ok'><a class='highlight' href='{$tac_data['servlink']}OK'><div class='td'>{$tac_data['servicesOkTotal']} ".gettext('Ok')."</div></a></td>
+	   <td class='critical'><a class='highlight' href='{$tac_data['servlink']}CRITICAL'><div class='td'>{$tac_data['servicesCriticalTotal']} ".gettext('Critical')."</div></a></td>
+		<td class='warning'><a class='highlight' href='{$tac_data['servlink']}WARNING'><div class='td'>{$tac_data['servicesWarningTotal']} ".gettext('Warning')."</div></a></td>		
+		<td class='unknown'><a class='highlight' href='{$tac_data['servlink']}UNKNOWN'><div class='td'>{$tac_data['servicesUnknownTotal']} ".gettext('Unknown')."</div></a></td>
+		<td class='pending'><a class='highlight' href='{$tac_data['servlink']}PENDING'><div class='td'>{$tac_data['servicesPending']} ".gettext('Pending')."</div></a></td>
   </tr>
   <tr>
-	<td class="problem"><a class="highlight" href="{$tac_data['servlink']}PROBLEMS"><div class='td'>{$tac_data['servicesProblemsTotal']} Problems</div></a></td>
-	<td class="unhandled"><a class="highlight" href="{$tac_data['servlink']}UNHANDLED"><div class='td'>{$tac_data['servicesUnhandledTotal']} Unhandled</div></a></td>
-	<td class="acknowledged"><a class="highlight" href="{$tac_data['servlink']}ACKNOWLEDGED">{$tac_data['servicesAcknowledgedTotal']} Acknowledged</a></td>
-	<td colspan="2"><a class="highlight" href="index.php?type=services" title="All Services"><div id="td_servicestotal" class='td'>{$tac_data['servicesTotal']} Total </div></a></td>
+	<td class='problem'><a class='highlight' href='{$tac_data['servlink']}PROBLEMS'><div class='td'>{$tac_data['servicesProblemsTotal']} ".gettext('Problems')."</div></a></td>
+	<td class='unhandled'><a class='highlight' href='{$tac_data['servlink']}UNHANDLED'><div class='td'>{$tac_data['servicesUnhandledTotal']} ".gettext('Unhandled')."</div></a></td>
+	<td class='acknowledged'><a class='highlight' href='{$tac_data['servlink']}ACKNOWLEDGED'>{$tac_data['servicesAcknowledgedTotal']} ".gettext('Acknowledged')."</a></td>
+	<td colspan='2'><a class='highlight' href='index.php?type=services' title='All Services'><div id='td_servicestotal' class='td'>{$tac_data['servicesTotal']} ".gettext('Total')." </div></a></td>
 </tr>
 
 </table>
-SERVICESTABLE;
+";
 	return $services_table;
 }
 
 function search_box() {
-	$box = <<<FILTERDIV
+	$box = "
 <!-- #####################SEARCH BOX####################-->
 <div class='resultFilter'>
 	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
-		<input type="hidden" name="type" value="services">
-		<label class='label' for='name_filter'>Search String</label>
-		<input type="text" name='name_filter'></input>
-		<input type='submit' name='submitbutton' value='Filter' />
+		<input type='hidden' name='type' value='services'>
+		<label class='label' for='name_filter'>".gettext('Search String')."</label>
+		<input type='text' name='name_filter'></input>
+		<input type='submit' name='submitbutton' value='".gettext('Filter')."' />
 	</form>
 </div>
-FILTERDIV;
+";
 	return $box;
 }
 
 function features_table($tac_data)
 {
-	$features_table = <<<FEATURESTABLE
+	$features_table = "
 <!-- #####################ENABLED FEATURES TABLE ####################-->
-<table class="tac">
-<tr><th>Monitoring Features</th></tr>
+<table class='tac'>
+<tr><th>".gettext('Monitoring Features')."</th></tr>
 <tr>
-	<td>Flap Detection</td><td>Notifications</td><td>Event Handlers</td>
-	<td>Active Checks</td><td>Passive Checks</td>
+	<td>".gettext('Flap Detection')."</td><td>".gettext('Notifications')."</td><td>".gettext('Event Handlers')."</td>
+	<td>".gettext('Active Checks')."</td><td>".gettext('Passive Checks')."</td>
 </tr><tr>	
 
 <!-- ///////////////////////FLAPPING//////////////////////////////// -->
-	<td class="green">
+	<td class='green'>
 		{$tac_data['hostsFdHtml']}<br />
 		 {$tac_data['servicesFdHtml']}<br />
 		{$tac_data['hostsFlapHtml']}<br />
@@ -220,24 +220,24 @@ function features_table($tac_data)
 	</td>
 	
 	<!-- /////////////////////////////NOTIFICATIONS/////////////////////////////// -->
-	<td class="green">
+	<td class='green'>
 		{$tac_data['hostsNtfHtml']}<br />
 		 {$tac_data['servicesNtfHtml']}<br />	
 	</td>
 	
 	<!-- ///////////////////////////////EVENT HANDLERS///////////////////////////// -->
-	<td class="green">
+	<td class='green'>
 		{$tac_data['hostsEhHtml']}<br />
 		 {$tac_data['servicesEhHtml']}<br />	
 	</td>
 	
 	<!-- /////////////////////////////////ACTIVE/PASSIVE CHECKS///////////////////////////	-->
-	<td class="green">
+	<td class='green'>
 		{$tac_data['hostsAcHtml']}<br />
 		 {$tac_data['servicesAcHtml']}<br />			
 	</td>
 
-	<td class="green">
+	<td class='green'>
 		{$tac_data['hostsPcHtml']}<br />
 		 {$tac_data['servicesPcHtml']}<br />			
 	</td>
@@ -246,7 +246,7 @@ function features_table($tac_data)
 </tr>
 </table>
 <br />
-FEATURESTABLE;
+";
 	return $features_table;
 }
 

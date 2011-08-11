@@ -77,13 +77,13 @@ function display_services($services,$start,$limit)
 	//Table header generation 
 	$page .= '<div class="statusTable">
 	<table class="servicetable"><tr> 
-	<th class="hostname">Host Name</th>
-	<th class="service_description">Service</th>
-	<th class="status">Status</th>
-	<th class="duration">Duration</th>
-	<th class="attempt">Attempt</th>
-	<th class="last_check">Last Check</th>
-	<th class="plugin_output">Status Information</th></tr>';
+	<th class="hostname">'.gettext('Host Name').'</th>
+	<th class="service_description">'.gettext('Service').'</th>
+	<th class="status">'.gettext('Status').'</th>
+	<th class="duration">'.gettext('Duration').'</th>
+	<th class="attempt">'.gettext('Attempt').'</th>
+	<th class="last_check">'.gettext('Last Check').'</th>
+	<th class="plugin_output">'.gettext('Status Information').'</th></tr>';
 		
 	// Fixup post filtering indices
 	$curidx = 0;
@@ -115,7 +115,7 @@ function display_services($services,$start,$limit)
 		else
 		{
 			$last_displayed_host = $services[$i]['host_name'];
-			$hostlink = "<a class='highlight' href='$host_url' title='View Host Details'>";
+			$hostlink = "<a class='highlight' href='$host_url' title='".gettext('View Host Details')."'>";
 			$td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $hosticons </div></td>";
 		}
 		

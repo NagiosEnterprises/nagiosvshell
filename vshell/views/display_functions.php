@@ -76,14 +76,14 @@ function build_nav_links() //build page links based on user's permission level
 	$navlinks = "";
 	//NAV LINKS	 are added to a floated <ul>
 	$navlinks .= '<ul class="nav">'; 	
-	$navlinks .= '<li class="nav"><a href="index.php" class="nav" rel="internal">Tactical Overview</a></li>'; //default tactical overview link 
+	$navlinks .= '<li class="nav"><a href="index.php" class="nav" rel="internal">'.gettext('Tactical Overview').'</a></li>'; //default tactical overview link 
 		
 	if(isset($keys['hosts'], $keys['services'])) 
 	{		
-		$navlinks .= "<li class='nav'><a href='".$base."type=hosts' class='nav' rel='internal'>Hosts</a></li>"; //hosts
-		$navlinks .= "<li class='nav'><a href='".$base."type=services' class='nav' rel='internal'>Services</a></li>"; //services
-		$navlinks .= "<li class='nav'><a href='".$base."type=hostgroups' class='nav' rel='internal'>Hostgroups</a></li>"; //hostgroups
-		$navlinks .= "<li class='nav'><a href='".$base."type=servicegroups' class='nav' rel='internal'>Servicegroups</a></li>"; //servicegroups
+		$navlinks .= "<li class='nav'><a href='".$base."type=hosts' class='nav' rel='internal'>".gettext('Hosts')."</a></li>"; //hosts
+		$navlinks .= "<li class='nav'><a href='".$base."type=services' class='nav' rel='internal'>".gettext('Services')."</a></li>"; //services
+		$navlinks .= "<li class='nav'><a href='".$base."type=hostgroups' class='nav' rel='internal'>".gettext('Hostgroups')."</a></li>"; //hostgroups
+		$navlinks .= "<li class='nav'><a href='".$base."type=servicegroups' class='nav' rel='internal'>".gettext('Servicegroups')."</a></li>"; //servicegroups
 	}
 
 
@@ -91,24 +91,24 @@ function build_nav_links() //build page links based on user's permission level
 	/////////////OBJECT VIEWS 
 	if(isset($keys['configuration_information'])) //assuming full admin  
 	{
-		$navlinks .= "<li class='nav'><a class='nav' onmouseover='showDropdown(\"confDrop\")' onmouseout='hideDropdown(\"confDrop\")' href='javascript:void(0)'>Configurations</a>
+		$navlinks .= "<li class='nav'><a class='nav' onmouseover='showDropdown(\"confDrop\")' onmouseout='hideDropdown(\"confDrop\")' href='javascript:void(0)'>".gettext('Configurations')."</a>
 		<div onmouseover='showDropdown(\"confDrop\")' onmouseout='hideDropdown(\"confDrop\")' id='confDrop'><ul>";	
 	
 	
 	
-		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=hosts_objs'>Hosts</a></li>\n"; //hosts
-		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=services_objs'>Services</a></li>\n"; //services
-		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=hostgroups_objs'>Hostgroups</a></li>\n"; //hostgroups
-		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=servicegroups_objs'>Servicegroups</a></li>\n"; //servicegroups
-		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=timeperiods'>Timeperiods</a></li>\n"; //timeperiods
-		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=contacts'>Contacts</a></li>\n"; //contacts
-		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=contactgroups'>Contactgroups</a></li>\n"; //contactgroups
+		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=hosts_objs'>".gettext('Hosts')."</a></li>\n"; //hosts
+		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=services_objs'>".gettext('Services')."</a></li>\n"; //services
+		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=hostgroups_objs'>".gettext('Hostgroups')."</a></li>\n"; //hostgroups
+		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=servicegroups_objs'>".gettext('Servicegroups')."</a></li>\n"; //servicegroups
+		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=timeperiods'>".gettext('Timeperiods')."</a></li>\n"; //timeperiods
+		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=contacts'>".gettext('Contacts')."</a></li>\n"; //contacts
+		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=contactgroups'>".gettext('ontactgroups')."</a></li>\n"; //contactgroups
 		
 				//COMMAND VIEW 
 		if(isset($keys['host_commands'],$keys['service_commands'], $keys['system_commands']))
 		{	
 			//make link for commands 
-			$navlinks .= "<li><a href='".$base."type=object&objtype_filter=commands' class='nav'>Commands</a></li>\n"; //commands config
+			$navlinks .= "<li><a href='".$base."type=object&objtype_filter=commands' class='nav'>".gettext('Commands')."</a></li>\n"; //commands config
 		}	
 	 
 		$navlinks .= '</ul></div></li>';
@@ -118,26 +118,26 @@ function build_nav_links() //build page links based on user's permission level
 	if(isset($keys['system_commands']))
 	{
 		$navlinks .= "<li class='nav'><a class='nav' onmouseover='showDropdown(\"sysDrop\")' 
-				onmouseout='hideDropdown(\"sysDrop\")' href='javascript:void(0)'>System Commands</a>
+				onmouseout='hideDropdown(\"sysDrop\")' href='javascript:void(0)'>".gettext('System Commands')."</a>
 				<div onmouseover='showDropdown(\"sysDrop\")' onmouseout='hideDropdown(\"sysDrop\")' id='sysDrop'><ul>";
-		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=3'>Comments</a></li>\n";
-		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=6'>Downtime</a></li>\n";	
-		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=0'>Process Info</a></li>\n";
-		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=4'>Performance Info</a></li>\n";
-		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=7'>Scheduling Queue</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=3'>".gettext('Comments')."</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=6'>".gettext('Downtime')."</a></li>\n";	
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=0'>".gettext('Process Info')."</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=4'>".gettext('Performance Info')."</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."extinfo.cgi?type=7'>".gettext('Scheduling Queue')."</a></li>\n";
 		$navlinks .= "</ul></div></li>\n";  
 	}
 	//Nagios Core Reports.  Leaving authorization up to Core for running reports 
 		$navlinks .= "<li class='nav'><a class='nav' onmouseover='showDropdown(\"reportDrop\")' 
-				onmouseout='hideDropdown(\"reportDrop\")' href='javascript:void(0)'>Reports</a>
+				onmouseout='hideDropdown(\"reportDrop\")' href='javascript:void(0)'>".gettext('Reports')."</a>
 				<div onmouseover='showDropdown(\"reportDrop\")' onmouseout='hideDropdown(\"reportDrop\")' id='reportDrop'><ul>";
-		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."avail.cgi'>Availability</a></li>\n";
-		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."trends.cgi'>Trends</a></li>\n";	
-		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."history.cgi?host=all'>Alert History</a></li>\n";
-		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."summary.cgi'>Alert Summary</a></li>\n";
-		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."histogram.cgi'>Alert Histogram</a></li>\n";
-		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."notifications.cgi?contact=all'>Notifications</a></li>\n";
-		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."showlog.cgi'>Event Log</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."avail.cgi'>".gettext('Availability')."</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."trends.cgi'>".gettext('Trends')."</a></li>\n";	
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."history.cgi?host=all'>".gettext('Alert History')."</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."summary.cgi'>".gettext('Alert Summary')."</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."histogram.cgi'>".gettext('Alert Histogram')."</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."notifications.cgi?contact=all'>".gettext('Notifications')."</a></li>\n";
+		$navlinks .= "<li><a class='nav' target='_blank' href='".CORECGI."showlog.cgi'>".gettext('Event Log')."</a></li>\n";
 		
 		$navlinks .= "</ul></div></li>\n";   //make dropdown list 
 	 	
@@ -222,7 +222,7 @@ function get_host_comments($host='')
 
 			$cid = $comment['comment_id'];
 			$row = "<tr><td>$author</td><td>$entrytime</td><td>$desc $data</td><td>
-						<a href='".CORECMD."cmd_typ=2&com_id=$cid' title='Delete Comment'>
+						<a href='".CORECMD."cmd_typ=2&com_id=$cid' title='".gettext('Delete Comment')."'>
 						<img class='iconLink' src='views/images/delete.png' alt='Delete' width='15' height='15' /></a></td></tr>\n";
 			$comments .= $row;
 		}
@@ -230,7 +230,7 @@ function get_host_comments($host='')
 	}
 	else
 	{
-		$comments .= "<tr><td colspan='3'>There are no comments associated with this host</td></tr>";
+		$comments .= "<tr><td colspan='3'>".gettext('There are no comments associated with this host')."</td></tr>";
 	}
 	return $comments; 
 }
@@ -261,7 +261,7 @@ function get_service_comments($host='', $service='')
 							
 					$cid = $comment['comment_id'];		
 					$row = "<tr><td>$author</td><td>$entrytime</td><td>$data</td><td>
-								<a href='".CORECMD."cmd_typ=4&com_id=$cid' title='Delete Comment'>
+								<a href='".CORECMD."cmd_typ=4&com_id=$cid' title='".gettext('Delete Comment')."'>
 								<img class='iconLink' src='views/images/delete.png' alt='Delete' width='15' height='15' /></a></td></tr>\n";
 					$comments .= $row;
 				}
@@ -270,7 +270,7 @@ function get_service_comments($host='', $service='')
 	}//end if 
 	else
 	{
-		$comments .= "<tr><td colspan='3'>There are no comments associated with this host</td></tr>";
+		$comments .= "<tr><td colspan='3'>".gettext('There are no comments associated with this host')."</td></tr>";
 	}
 	return $comments;
 }
@@ -343,12 +343,12 @@ function do_result_notes($start,$limit,$resultsCount,$type)
 	$resultnotes = "	
 			<div class='tableNotes'>
 				<span class='note' style='vertical-align: bottom;'>Showing results $start - $end of $resultsCount results<br />
-									    Current Result Limit: $limit</span>
+									    ".gettext('Current Result Limit').": $limit</span>
 			</div><!-- end div.tablenotes -->
 			
 		<div class='resultLimit'>	
 			<form id='limitform' action='".$_SERVER['PHP_SELF']."?type=$type' method='post'>
-			<label class='label note' for='pagelimit'>Limit Results</label><br />
+			<label class='label note' for='pagelimit'>".gettext('Limit Results')."</label><br />
 			<select id='pagelimit' name='pagelimit'>";
 			foreach (array(15, 30, 50, 100, 250) as $possible_limit) {
 				$selected = ($possible_limit == $limit) ? "selected='selected'" : NULL;
@@ -356,7 +356,7 @@ function do_result_notes($start,$limit,$resultsCount,$type)
 			}
 
 	$resultnotes .= "</select>
-			<input type='submit' name='submitbutton' value='Set Limit' />
+			<input type='submit' name='submitbutton' value='".gettext('Set Limit')."' />
 		</form>
 		</div><!-- end resultLimit --> \n\n";	
 	return $resultnotes;
@@ -374,15 +374,15 @@ function result_filter($name_filter="", $type='host')
 										: array('', 'OK', 'WARNING', 'CRITICAL', 'UNKNOWN', 'PENDING', 'PROBLEMS', 'UNHANDLED', 'ACKNOWLEDGED'); 	
 	
 	///////////////////////////////build filterdiv 
-	$resultFilter= <<<FILTERDIV
+	$resultFilter= "
 
 	
-	<form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
+	<form id='resultfilterform' action='".$_SERVER['PHP_SELF']."' method='get'>
 	  <div class='stateFilter'>
-		<input type="hidden" name="type" value="{$plType}">
-		<label class='label note' for='resultfilter'>Filter by State: </label><br />
+		<input type='hidden' name='type' value=\"".$plType."\">
+		<label class='label note' for='resultfilter'>".gettext('Filter by State').": </label><br />
 		<select id='resultfilter' name='state_filter' onChange='this.form.submit();'>
-FILTERDIV;
+";
 
 		foreach ($states as $val)
 		{
@@ -391,18 +391,18 @@ FILTERDIV;
 			$resultFilter.= "\t\t\t<option value=\"$val\" $selected>$display_val</option>\n";
 		}
 
-	$resultFilter.= <<<FILTERDIV
+	$resultFilter.= "
 		</select>
 		</div> <!-- end stateFilter div -->
 		
 		<div class='nameFilter'>
-		<label class='label note' for='name_filter'>Search {$ucType}name: </label><br />
-		<input type="text" id="name_filter" name='name_filter' value="$name_filter"></input>
+		<label class='label note' for='name_filter'>".gettext('Search')." ".$ucType."name: </label><br />
+		<input type='text' id='name_filter' name='name_filter' value='".$name_filter."'></input>
 		<input type='submit' name='submitbutton' value='Filter' />
 	  </div><!-- end nameFilter div -->
 	</form>
 	
-FILTERDIV;
+";
 
 	return $resultFilter; 
 }//end function result_filter() 

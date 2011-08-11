@@ -84,12 +84,12 @@ function display_hosts($hosts, $start,$limit)
 	$page .= '<div class="statusTable">
 			<table class="statusTable">
 				<tr> 
-					<th>Host Name</th>
-					<th>Status</th>
-					<th>Duration</th>
-					<th>Attempt</th>
-					<th>Last Check</th>
-					<th>Status Information</th>
+					<th>'.gettext('Host Name').'</th>
+					<th>'.gettext('Status').'</th>
+					<th>'.gettext('Duration').'</th>
+					<th>'.gettext('Attempt').'</th>
+					<th>'.gettext('Last Check').'</th>
+					<th>'.gettext('Status Information').'</th>
 				</tr>'."\n";
 
 	//begin looping table results 

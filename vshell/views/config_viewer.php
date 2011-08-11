@@ -47,7 +47,7 @@ FILTERDIV;
 				$linkkey = 'host'.$a['host_name'];
 				#$link = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$name);
 				$link = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$name);
-				$title = "Host: <a href='$link' title='Host Details'>$name</a>";
+				$title = gettext('Host').": <a href='$link' title='Host Details'>$name</a>";
 			}
 			//else{ continue; }
 			break;
@@ -63,8 +63,8 @@ FILTERDIV;
 				$hlink = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$host);
 				#$link = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$linkkey);
 				$link = htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$linkkey);
-				$title = "Host: <a href='$hlink' title='Host Details'>$host</a> 
-							Service:<a href='$link' title='Service Details'>$name</a>";	
+				$title = gettext('Host').": <a href='$hlink' title='Host Details'>$host</a> 
+							".gettext('Service').":<a href='$link' title='Service Details'>$name</a>";	
 			}							
 			break;
 			
@@ -73,7 +73,7 @@ FILTERDIV;
 			||$authorizations['system_commands']==1 )
 			{
 				$name=$a['command_name'];
-				$title = "Command: $name";
+				$title = gettext('Command').": $name";
 				$linkkey = $name;
 			}
 			break;
@@ -82,7 +82,7 @@ FILTERDIV;
 			if($authorizations['configuration_information']==1)
 			{
 				$name=$a['hostgroup_name'];
-				$title = "Group Name: $name";
+				$title = gettext('Group Name').": $name";
 				$linkkey = 'hg'.$name;
 			}
 			break;
@@ -91,7 +91,7 @@ FILTERDIV;
 			if($authorizations['configuration_information']==1)
 			{
 				$name=$a['servicegroup_name'];
-				$title = "Group Name: $name";
+				$title = gettext('Group Name').": $name";
 				$linkkey = 'sg'.$name;
 			}
 			break;
@@ -100,7 +100,7 @@ FILTERDIV;
 			if($authorizations['configuration_information']==1)
 			{
 				$name=$a['timeperiod_name'];
-				$title = "Timeperiod: $name";
+				$title = gettext('Timeperiod').": $name";
 				$linkkey = 'tp'.$name;
 			}
 			break;
@@ -109,7 +109,7 @@ FILTERDIV;
 			if($authorizations['configuration_information']==1)
 			{
 				$name=$a['contact_name'];
-				$title = "Contact: $name";
+				$title = gettext('Contact').": $name";
 				$linkkey = $name;
 			}
 			break;
@@ -118,14 +118,14 @@ FILTERDIV;
 			if($authorizations['configuration_information']==1)
 			{
 				$name=$a['contactgroup_name'];
-				$title = "Contact Group: $name";
+				$title = gettext('Contact Group').": $name";
 				$linkkey = $name;
 			}
 			break;
 			
 			default:
-			$title = 'Access Denied<br />';
-			$linkkey = 'You do not have permissions to view this information';
+			$title = gettext('Access Denied').'<br />';
+			$linkkey = gettext('You do not have permissions to view this information');
 			break;
 			 
 		}	
@@ -133,18 +133,18 @@ FILTERDIV;
 		$id = preg_replace('/[\. ]/', '_', $linkkey); //replacing dots with underscores
 		#$id = preg_replace('/\ /', '_', $id);    //replacing spaces with underscores
 		//using HEREDOC string syntax 
-		$confighead=<<<CONFIG
+		$confighead="
 				
-		<li class="configlist">{$title} <a class='label' onclick='showHide("{$id}")' href='javascript:void(0)'>
-		<img class='label' src="views/images/expand.gif" title="Show Config" alt="Image" height="12" width="12" />
+		<li class='configlist'>{$title} <a class='label' onclick='showHide(\"{$id}\")' href='javascript:void(0)'>
+		<img class='label' src='views/images/expand.gif' title='Show Config' alt='Image' height='12' width='12' />
 		</a></li> 
 				
 		<div class='hidden' id='{$id}'>
 		
-		<table class="objectList"> 
-		<tr><th>Config</th><th>Value</th></tr>
+		<table class='objectList'> 
+		<tr><th>".gettext('Config')."</th><th>".gettext('Value')."</th></tr>
 		
-CONFIG;
+";
 
 		if($title!='') //only display if authorized 
 		{

@@ -60,11 +60,11 @@ function display_header($page_title)
 	$navlinks = build_nav_links();
 	$coreurl = COREURL;
 
-	$header = <<<HEADERDATA
+	$header = '
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://dublincore.org">
-<title>$page_title</title>
+<title>'.$page_title.'</title>
 
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <link rel="schema.DC" href="http://dublincore.org/2008/01/14/dcelements.rdf#" />
@@ -75,13 +75,13 @@ function display_header($page_title)
 <meta http-equiv="content-language" content="en" />
 <meta name="site" content="Nagios" />
 
-<link rel="stylesheet" href="$css_path" type="text/css" media="screen" />
+<link rel="stylesheet" href="'.$css_path.'" type="text/css" media="screen" />
 <style type="text/css">
 <!-- use external stylesheet to control page style -->
 </style>
 
-<script type="text/javascript" src="$jquery_path"></script>
-<script type="text/javascript" src="$header_js_path"></script>
+<script type="text/javascript" src="'.$jquery_path.'"></script>
+<script type="text/javascript" src="'.$header_js_path.'"></script>
 <script type="text/javascript">
 $(document).ready(function() {
   // Handler for .ready() called.
@@ -91,18 +91,18 @@ $(document).ready(function() {
 
 </head>
 <body>
-	<div id='logoDiv'><a href="index.php"><img src='views/images/vshell.png' /></a></div>
+	<div id="logoDiv"><a href="index.php"><img src="views/images/vshell.png" /></a></div>
 	<div class="corelink">
-		<a class="label" href="$coreurl" target="_blank" title="Access Nagios Core">Access Nagios Core</a>
+		<a class="label" href="'.$coreurl.'" target="_blank" title="'.gettext('Access Nagios Core').'">'.gettext('Access Nagios Core').'</a>
 	</div>
 
 	<div class="topnav">
-		$navlinks
+		'.$navlinks.'
 	</div>
 
 
 <div class="main">
-HEADERDATA;
+';
 	return $header;
 }
 
