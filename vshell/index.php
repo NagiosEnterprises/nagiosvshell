@@ -56,25 +56,23 @@ session_start(); //no need for sessions at this time
 ob_start();
 
 include(dirname(__FILE__).'/inc.inc.php'); //master include file 
+
+init_vshell(); 
+
 $page_title = 'Nagios Visual Shell';
 
 //check_auth() needs to be revised to include other auth types and contact viewing of hosts 
-$username = check_auth();
+$username = get_user();
 
 //$username = 'nagiosadmin'; //uncomment this to only use apache authentication methods  
 
-set_perms($username); //set global $authorization 
-
 
 if($username) //if logged in, display the page 
-{		
+{
+	set_perms($username); //set global $authorization 		
 	page_router();
 }
-else
-{
-	//display a message if not logged in 
-	print "Access Denied";
-}
+
 
 ob_end_flush();
 ?>
