@@ -48,17 +48,17 @@
 ### NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 ### WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-set -e
+
 
 TARGETDIR="/usr/local/vshell"
 APACHECONF="/etc/httpd/conf.d"
 
-mv config/vshell_apache.conf "$APACHECONF"/vshell.conf
-mv config/vshell.conf /etc/
-rmdir config
+cp config/vshell_apache.conf "$APACHECONF"/vshell.conf
+cp config/vshell.conf /etc/
+
 
 mkdir "$TARGETDIR"
-mv * "$TARGETDIR"/
+cp -r * "$TARGETDIR"/
 rm "$TARGETDIR"/install.sh
 
 service httpd restart

@@ -89,7 +89,7 @@ a.nav { display: block; font-size: 10pt; }
 a.highlight { color: #097AC7;}
 
 /*navigation lists */ 
-ul.nav { top: 52px; position: absolute; width: 800px; }
+ul.nav { top: 52px; position: absolute; width: 850px; }
 li.nav { list-style: none; padding-left: 10px; float: left; }
 
 div.corelink {position: absolute; right: 15px; top: 25px;}
