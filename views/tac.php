@@ -126,7 +126,7 @@ function health_meter($tac_data, $type)
 	$health = (floatval($Total-$problems) / floatval($Total)) *100; 
 	//$health = 30;
 	$title = ucfirst($type); 
-	$meter =  "<div class='h_container'>$type Health: ".round($health,2)."% <br />\n
+	$meter =  "<div class='h_container'>".ucfirst($type)." ".gettext('Health').": ".round($health,2)."% <br />\n
 					<div class='borderDiv'>
 					<div class='healthmeter' style='background: rgb(".color_code(round($health,0))."); width: ".$health."%;'>\n
 				</div></div></div>\n"; 

@@ -70,6 +70,7 @@ $ini_array = parse_ini_file("/etc/vshell.conf");
 
 define('VERSION', '1.6'); 
 
+define('LANG',$ini_array["LANG"]); 
 //server root information 
 define("BASEURL", $base.'/'.$ini_array["BASEURL"].'/');
 define("SERVERBASE", $base); //http://<address> 
