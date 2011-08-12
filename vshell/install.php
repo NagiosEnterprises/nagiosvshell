@@ -62,7 +62,7 @@ $service = '';
 //look for apache init script 
 if(file_exists('/etc/init.d/httpd'))
 	$service = '/etc/init.d/httpd'; 
-elseif(file_exists('/etc/init.d/apache2')
+elseif(file_exists('/etc/init.d/apache2'))
 	$service = '/etc/init.d/apache2';
 else 	
 	$service =false; 
