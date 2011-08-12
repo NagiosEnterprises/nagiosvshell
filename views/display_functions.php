@@ -102,7 +102,7 @@ function build_nav_links() //build page links based on user's permission level
 		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=servicegroups_objs'>".gettext('Servicegroups')."</a></li>\n"; //servicegroups
 		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=timeperiods'>".gettext('Timeperiods')."</a></li>\n"; //timeperiods
 		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=contacts'>".gettext('Contacts')."</a></li>\n"; //contacts
-		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=contactgroups'>".gettext('ontactgroups')."</a></li>\n"; //contactgroups
+		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=contactgroups'>".gettext('Contactgroups')."</a></li>\n"; //contactgroups
 		
 				//COMMAND VIEW 
 		if(isset($keys['host_commands'],$keys['service_commands'], $keys['system_commands']))

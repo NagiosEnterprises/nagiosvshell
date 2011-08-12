@@ -69,20 +69,18 @@ function get_tac_html()
 function info_table()
 {
 	$version = 'v'.VERSION;
-	$info_table =<<<INFOTABLE
+	$info_table ="
 <!-- ##################Nagios Info Table################### -->
 <div id='infodiv'>
 
 <p class='note'>Nagios V-Shell $version<br />
 	Copyright (c) 2010 <br />
 	Nagios Enterprises, LLC. <br />
-   Written by Mike Guthrie<br />
-   For questions, feedback, <br /> 
-   or support, visit the <br />
-   <a href="http://support.nagios.com/forum/viewforum.php?f=19" target="_blank">V-Shell Forum</a>.</p>
+   ".gettext('Written by')." Mike Guthrie<br />
+   ".gettext("For questions, feedback, <br /> or support, visit the")." <br />
+   <a href='http://support.nagios.com/forum/viewforum.php?f=19' target='_blank'>V-Shell ".gettext('Forum')."</a>.</p>
 
-</div>
-INFOTABLE;
+</div>";
 	return $info_table;
 }
 
