@@ -1,4 +1,4 @@
-This document describes how to install and setup the Nagios V-Shell or ‚ÄúVisual‚Äù
+This document describes how to install and setup the Nagios V-Shell or ìVisualî
 Shell for Nagios Core and Nagios XI installations.  
 
 
@@ -27,35 +27,49 @@ http://www.keyboardmadness.com/2011/06/article-installing-nagios-v-shell-on.html
 
 Prerequisites:  
 
+V-Shell requires apache and php 5.x already installed in the system, as well as php-cli if it's not already there. 
+
 You will need to know the location of Apache configuration directory where your
 nagios.conf file is located, as well as the htpasswd.users file that contains 
 your Nagios Core authorizations.  These can be found using the following 
 command: locate <filename>
 
-Edit TARGETDIR and APACHECONF in install.sh as appropriate.
 
 V-Shell takes advantage of the Alternative PHP Cache system (APC), which is 
 of particular importance if you are managing a large installation.  For 
 information about APC and installation instructions see 
   http://php.net/manual/en/book.apc.php
+  
+  RHEL/CentOS/Fedora: yum install php-pecl-apc
+  Ubuntu/Debian		: sudo apt-get install php-apc
+  
 
 To install:
 Download and untar the latest V-Shell tarball from:
   http://assets.nagios.com/downloads/exchange/nagiosvshell/vshell.tar.gz
-*or* download the current development version from Subversion
+
+To download the latest code from Subversion
   https://nagios.svn.sourceforge.net/svnroot/nagios/nagiosvshell/trunk
 
-Most people will NOT need to do this part:
-(The defaults are appropriate for a default Nagios install on CentOS / RHEL.)
+(The defaults are appropriate for a Nagios install from SOURCE on CentOS / RHEL.)
 If necessary, to modify your apache configuration, modify the contents of the
-apache_vshell.conf file to match the directory structure of your distribution
+config/apache_vshell.conf file to match the directory structure of your distribution
 and your installation of Nagios BEFORE running th install script.  Use a text
 editor to modify this file as needed, then copy this file to the same directory
 as your nagios.conf file.
 
-From where you unpacked / checked out the tree:
+Run the following with root permissions:
+
+cd /tmp
+wget http://assets.nagios.com/downloads/exchange/nagiosvshell/vshell.tar.gz
+tar zxf vshell.tar.gz
 cd vshell
-./install.sh
+chmod +x install.php
+./install.php  #located in the root vshell directory where the web files are stored 
+
+
+After running this script, be sure to verify the location of the files specified in the /etc/vshell.conf file.  
+These will be required in order for V-Shell to run correctly.
 
 
 Configuration
@@ -93,8 +107,20 @@ Nagios Core system commands, reports, and the Core interface can all be
 accessed by direct links from V-Shell. 
 
 
-Getting Help
+Internationalization
+---------------------
+V-Shell as of version 1.7 has implemented gettext support for internationalization.  
+New language files can be created and stored according the following convention:
+For English:
+	vshell/locale/en_EN/LC_MESSAGES/en_EN.mo
+	vshell/locale/en_EN/LC_MESSAGES/en_EN.po
+	
+The default language set can then be specified in the /etc/vshell.conf file:
+	LANG = "en_EN"
 
+
+Getting Help
+------------------
 For problems, feeback, or support, use the V-Shell forum at the following address:
 http://support.nagios.com/forum/viewforum.php?f=19
 

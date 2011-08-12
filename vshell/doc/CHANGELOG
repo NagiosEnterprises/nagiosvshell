@@ -1,3 +1,9 @@
+====August 12th - 2011 Mike Guthrie - trunk 1.6
+- Implemented gettext support submitted by Wesley Zhao
+- Rewrote install script to have user feedback and more flexibility with Ubuntu/Debian installs 
+- Created language files for French and Spanish translations
+
+
 ====June 30th - 2011 Mike Guthrie - trunk 1.6
 - fixed bug that prevented host details from being displayed correctly for some hosts
 - Fixed CSS bug on windows XP machines on tactical overview
