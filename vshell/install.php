@@ -51,7 +51,7 @@ if($code > 0)
 	$errorstring.="Failed to copy files to ".TARGETDIR." directory \n$output\n"; 
 }
 echo "Cleaning up...\n"; 
-$output = system('/bin/rm -f'.TARGETDIR.'/install.php',$code);
+$output = system('/bin/rm -f '.TARGETDIR.'/install.php',$code);
 if($code > 0)
 {
 	$errors++;
@@ -87,14 +87,14 @@ echo "Checking for file locations...\n";
 
 //look for object.cache file
 $objectfile = '/usr/local/nagios/var/objects.cache'; 
-if(file_exists($objectsfile))
+if(file_exists($objectfile))
 {
 	echo "Objects file found at: $objectfile\n"; 
 }
 elseif(file_exists('/var/nagios/object.cache'))  
 {
 	echo "Objects file found at: $objectfile\n";
-	$objectfile = 
+	$objectfile = '/var/nagios/object.cache';
 }
 else
 {
@@ -111,7 +111,7 @@ if(file_exists($statusfile))
 elseif(file_exists('/var/nagios/status.dat'))  
 {
 	echo "Status file found at: $statusfile\n";
-	$statusfile = '/var/nagios/status.dat'
+	$statusfile = '/var/nagios/status.dat';
 }
 else
 {
@@ -121,14 +121,14 @@ else
 
 //look for cgi.cfg file
 $cgifile = '/usr/local/nagios/etc/cgi.cfg'; 
-if(file_exists($objectsfile))
+if(file_exists($cgifile))
 {
 	echo "cgi.cfg file found at: $cgifile\n"; 
 }
 elseif(file_exists('/etc/nagios/cgi.cfg'))  
 {
 	echo "cgi.cfg file found at: $cgifile\n";
-	$cgifile = '/etc/nagios/cgi.cfg'
+	$cgifile = '/etc/nagios/cgi.cfg';
 }
 else
 {
@@ -138,7 +138,7 @@ else
 
 
 //look for nagios.cmd file 
-$nagcmd = '/usr/local/nagios/var/rw/nagios.cmd'
+$nagcmd = '/usr/local/nagios/var/rw/nagios.cmd';
 if(file_exists($nagcmd)) 
 {
 	echo "Nagios cmd file found at: $nagcmd\n"; 
