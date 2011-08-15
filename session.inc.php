@@ -12,7 +12,7 @@ function init_vshell()
 	putenv("LC_ALL=".LANG);
 	putenv("LANG=".LANG);
 	bindtextdomain(LANG, 'locale/');
-	bind_textdomain_codeset(BASEURL, 'UTF-8');
+	bind_textdomain_codeset(LANG, 'UTF-8');
 	textdomain(LANG); 
 
 

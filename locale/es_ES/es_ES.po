@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vshell\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-12 11:30-0600\n"
-"PO-Revision-Date: 2011-08-12 11:31-0600\n"
+"POT-Creation-Date: 2011-08-15 14:01-0600\n"
+"PO-Revision-Date: 2011-08-15 14:02-0600\n"
 "Last-Translator: \n"
 "Language-Team: vshell <mguthrie@nagios.com>\n"
 "MIME-Version: 1.0\n"
@@ -558,6 +558,7 @@ msgid "Updated every 90 seconds"
 msgstr "Actualizada cada 90 segundos"
 
 #: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:98
+#, fuzzy
 msgid "Nagios® Core™"
 msgstr "Nagios® Core™"
 

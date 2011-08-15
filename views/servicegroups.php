@@ -82,7 +82,8 @@ function display_servicegroups($data)
 {
 
 	$page = "";
-	$page .= "<h3>".gettext('Service Groups')."</h3>";
+	$page .= "<h3>".gettext('Service Groups')."</h3>
+						<div class='contentWrapper'>";
 
 	$name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
 	$type = isset($_GET['type']) ? $_GET['type'] : '';
@@ -115,12 +116,16 @@ function display_servicegroups($data)
 					</tr>
 				</table>";
 		
-		$page .= "<p class='label'><a onclick=\"showHide('$group')\" href='javascript:void(0)'>".gettext('Toggle Grid')."</a></p>";
+		$page .= "<p class='label'><a onclick=\"showHide('$group')\" href='javascript:void(0)'>".gettext('Toggle Grid')."</a></p><br />";
 		//grid table 
 		
 		$page .= "<div class='hidden' id='$group'>
 				<table class='statustable'>
-				<tr><th>".gettext('Host')."</th><th>".gettext('Status')."</th><th>".gettext('Service')."</th><th>".gettext('Status Information')."</th></tr>";
+				<tr><th>".gettext('Host')."</th>
+					<th>".gettext('Status')."</th>
+					<th>".gettext('Service')."</th>
+					<th>".gettext('Status Information')."</th>
+				</tr>";
 				
 		#foreach($members as $serv)
 		foreach($group_data['services'] as $serv)
@@ -136,7 +141,8 @@ function display_servicegroups($data)
 		}
 		$page .= '</table></div>'; 
 	}
-
+	$page .= "</div> <!-- end contentWrapper div-->"; 
+	
 	return $page;
 }
 
