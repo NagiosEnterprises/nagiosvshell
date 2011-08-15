@@ -20,11 +20,6 @@ maintaining the power of Nagios Core for issuing system and node commands.
 Installation 
 ------------
 
-For Ubuntu installation with a nagios3 distribution install, see the following site
-for installation instructions:
-http://www.keyboardmadness.com/2011/06/article-installing-nagios-v-shell-on.html
-
-
 Prerequisites:  
 
 V-Shell requires apache and php 5.x already installed in the system, as well as php-cli if it's not already there. 
@@ -64,12 +59,22 @@ cd /tmp
 wget http://assets.nagios.com/downloads/exchange/nagiosvshell/vshell.tar.gz
 tar zxf vshell.tar.gz
 cd vshell
-chmod +x install.php
+
+Verify or Modify the following two lines in install.php to match your installation (lines 10-15)	
+		define('TARGETDIR',"/usr/local/vshell");
+		define('APACHECONF',"/etc/httpd/conf.d"); 	
+	
+chmod +x install.php	
 ./install.php  #located in the root vshell directory where the web files are stored 
 
 
-After running this script, be sure to verify the location of the files specified in the /etc/vshell.conf file.  
+After running this script, be sure to verify the location of the files specified in the /etc/vshell.conf file,
+as well as the location of the htpasswd.users file that is specified by your apache configuration.
+    
 These will be required in order for V-Shell to run correctly.
+
+For problems or support, use the V-Shell forum at the following address:
+http://support.nagios.com/forum/viewforum.php?f=19
 
 
 Configuration
@@ -84,6 +89,14 @@ V-Shell assumes that your Nagios Core installation can be accessed via
 http://<servername>/nagios.  If your configuration differs from this, make 
 changes are appropriate to the /etc/vshell.conf file.  If errors occur after 
 installation, verify that the constants point to the correct web URLS.  
+
+You may need to update the location of htpasswd.users file in the apache configuration file.
+For Ubuntu/Debian users on a nagios3 install this file will be at /etc/nagios3/htpasswd.users.
+
+Default Apache Configuration Locations:
+	RHEL/CentOS: /etc/httpd/conf.d/vshell.conf
+	Ubuntu/Debian: /etc/apache2/conf.d/vshell.conf 
+ 
 
 Future versions will include a separate config file and possibly a wizard to 
 verify system configuration.  
