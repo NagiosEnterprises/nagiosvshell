@@ -94,8 +94,7 @@ function overview_table($tac_data)
 	<tr>
 		<td>
 			".gettext('Last Check').": {$tac_data['lastcmd']}<br />
-			".gettext('Updated every 90 seconds')."<br />
-			".gettext('Nagios® Core™')." {$tac_data['version']} - www.nagios.org<br />
+			 Nagios® Core™ {$tac_data['version']} - www.nagios.org<br />
 			".gettext('Logged in as')." $username<br />
 		</td>
 	</tr>

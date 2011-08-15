@@ -1,7 +1,8 @@
-====August 12th - 2011 Mike Guthrie - trunk 1.6
+====August 12th - 2011 Mike Guthrie - trunk 1.7
 - Implemented gettext support submitted by Wesley Zhao
 - Rewrote install script to have user feedback and more flexibility with Ubuntu/Debian installs 
 - Created language files for French and Spanish translations
+- Minor CSS fixes 
 
 
 ====June 30th - 2011 Mike Guthrie - trunk 1.6

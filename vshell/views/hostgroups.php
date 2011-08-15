@@ -90,7 +90,9 @@ function get_hostgroup_data()
 function display_hostgroups($data)
 {
 	$page = "";
-	$page .= "<h3>Host Groups</h3>";
+	$page .= "<h3>".gettext('Host Groups')."</h3>
+		<div class='contentWrapper'>";
+
 
 	$name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
 	$type = isset($_GET['type']) ? $_GET['type'] : '';
@@ -156,7 +158,9 @@ FILTERDIV;
 		$page .= "</table></div><br />\n";
 		
 	}
-
+	
+	$page .= "</div> <!-- end contentWrapper -->"; 
+	
 	//$end_time = microtime(TRUE);
 	//fb($end_time - $start_time, "Elapsed time in hostgroups");
 	return $page;
