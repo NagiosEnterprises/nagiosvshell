@@ -91,7 +91,7 @@ function parse_objects_file($objfile = OBJECTSFILE)
 			case 'service':
 			$object_collector[typemap('host')][$kvp['host_name']]['services'][] = $kvp;
 			$object_collector[typemap($curdeftype)][] = $kvp;
-			break;
+			break;			
 
 			default:
 			$object_collector[typemap($curdeftype)][] = $kvp;
@@ -125,7 +125,7 @@ function typemap($type)
   $retval = NULL;
   if (in_array($type, array('host', 'service', 'hostgroup', 'servicegroup'))) {
 	$retval = $type.'s_objs';
-  } elseif (in_array($type, array('contact', 'contactgroup', 'timeperiod', 'command'))) {
+  } elseif (in_array($type, array('contact', 'contactgroup', 'timeperiod', 'command','hostescalation','serviceescalation','hostdependency','servicedependency'))) {
 	$retval = $type.'s';
   } else { // TODO other types?  
   }

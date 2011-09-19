@@ -56,12 +56,21 @@
 function build_hostgroup_details($group_members) //make this return the totals array for hosts and services 
 {
 	global $NagiosData;
+	global $NagiosUser; 
+	
 	$hosts = $NagiosData->getProperty('hosts');
+	
+//	//add filter for user-level filtering 
+//	if(!$NagiosUser->is_admin()) {
+		//print $type; 
+//		$hosts = user_filtering($hosts,'hosts'); 	
+//	}
 
 	$hostgroup_details = array();
 	foreach($group_members as $member)
 	{
-		$hostgroup_details[] = $hosts[$member];
+		if($NagiosUser->is_authorized_for_host($member)) //user-level filtering 
+			$hostgroup_details[] = $hosts[$member];
 	}
 
 	return $hostgroup_details;
@@ -74,17 +83,21 @@ function build_hostgroup_details($group_members) //make this return the totals a
 function build_host_servicegroup_details($group_members)  
 {
 	global $NagiosData;
+	global $NagiosUser; 
 	$hosts = $NagiosData->getProperty('hosts');
+	
 
 	$servicegroup_details = array();
 	foreach($group_members as $member)
 	{
-		if (isset($hosts[$member]['services']))
+		if($NagiosUser->is_authorized_for_host($member)) //user-level filtering 
 		{
-			foreach ($hosts[$member]['services'] as $service)
-			{
-				$servicegroup_details[] = $service;
-			}
+			if (isset($hosts[$member]['services']))
+				foreach ($hosts[$member]['services'] as $service) 
+				{
+					if($NagiosUser->is_authorized_for_service($member,$service)) //user-level filtering 
+						$servicegroup_details[] = $service;	
+				}						
 		}
 	}
 	return $servicegroup_details;
@@ -166,9 +179,11 @@ function check_membership($hostname='', $servicename='', $servicegroup_name='')
 function build_servicegroups_array()
 {
 	global $NagiosData;
+	global $NagiosUser; 
 	$servicegroups = $NagiosData->getProperty('servicegroups');
 	$services = $NagiosData->getProperty('services');
-
+	$services = user_filtering($services,'services'); 
+	
 	$servicegroups_details = array(); //multi-dim array to hold servicegroups 	
 	foreach($servicegroups as $groupname => $member)
 	{

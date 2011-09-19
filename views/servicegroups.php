@@ -56,6 +56,7 @@ function get_servicegroup_data()
 	$sg_details = build_servicegroups_array();
 	foreach($sg_details as $group => $members)
 	{
+		if(empty($sg_details[$group])) continue; //skip unauthorized groups 
 		$servicegroup_data[$group]['state_counts'] = array();
 		foreach(array('OK', 'WARNING', 'CRITICAL', 'UNKNOWN') as $state)
 		{

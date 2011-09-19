@@ -53,5 +53,8 @@
 include(dirname(__FILE__).'/controller.php');
 include(dirname(__FILE__).'/authorizations.inc.php');
 include(dirname(__FILE__).'/status_functions.php');
+include(dirname(__FILE__).'/output_functions.inc.php'); 
+include(dirname(__FILE__).'/filtering_functions.inc.php'); 
+include(dirname(__FILE__).'/data_functions.inc.php'); 
 
 ?>

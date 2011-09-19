@@ -51,7 +51,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 
 
-function display_header($page_title)
+function display_header($page_title='Nagios Visual Shell')
 {
 	$js_path = BASEURL.'js/';
 	$jquery_path = $js_path.'jquery-1.4.4.min.js';

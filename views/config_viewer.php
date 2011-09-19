@@ -6,12 +6,9 @@
 //        $arg is the argument taken from the browser.  example object=services_objs 
 function build_object_list($data, $arg) //expecting arrays from read_objects.php file 
 {
-	global $authorizations;
+
 	$count = 0;
-
 	$object_list = '';
-
-
 	$name_filter = isset($_GET['name_filter']) ? htmlentities($_GET['name_filter']) : '';
 	$objtype_filter = isset($_GET['objtype_filter']) ? htmlentities($_GET['objtype_filter']) : '';
 	$type = isset($_GET['type']) ? htmlentities($_GET['type']) : '';
@@ -41,20 +38,14 @@ FILTERDIV;
 		switch($arg)
 		{
 			case 'hosts_objs':
-			if($authorizations['configuration_information']==1)
-			{
 				$name=$a['host_name'];
 				$linkkey = 'host'.$a['host_name'];
 				#$link = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$name);
 				$link = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$name);
 				$title = gettext('Host').": <a href='$link' title='Host Details'>$name</a>";
-			}
-			//else{ continue; }
 			break;
 			
 			case 'services_objs':
-			if($authorizations['configuration_information']==1)
-			{
 				$count++;
 				$name=$a['service_description'];
 				$linkkey = 'service'.$count;
@@ -65,74 +56,54 @@ FILTERDIV;
 				$link = htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$linkkey);
 				$title = gettext('Host').": <a href='$hlink' title='Host Details'>$host</a> 
 							".gettext('Service').":<a href='$link' title='Service Details'>$name</a>";	
-			}							
+						
 			break;
 			
 			case 'commands':
-			if(($authorizations['host_commands']==1 && $authorizations['service_commands'])
-			||$authorizations['system_commands']==1 )
-			{
 				$name=$a['command_name'];
 				$title = gettext('Command').": $name";
 				$linkkey = $name;
-			}
 			break;
 			
 			case 'hostgroups_objs':
-			if($authorizations['configuration_information']==1)
-			{
 				$name=$a['hostgroup_name'];
 				$title = gettext('Group Name').": $name";
 				$linkkey = 'hg'.$name;
-			}
 			break;
 			
 			case 'servicegroups_objs':
-			if($authorizations['configuration_information']==1)
-			{
 				$name=$a['servicegroup_name'];
 				$title = gettext('Group Name').": $name";
 				$linkkey = 'sg'.$name;
-			}
 			break;
 			
 			case 'timeperiods':
-			if($authorizations['configuration_information']==1)
-			{
 				$name=$a['timeperiod_name'];
 				$title = gettext('Timeperiod').": $name";
 				$linkkey = 'tp'.$name;
-			}
 			break;
 			
 			case 'contacts':
-			if($authorizations['configuration_information']==1)
-			{
 				$name=$a['contact_name'];
 				$title = gettext('Contact').": $name";
 				$linkkey = $name;
-			}
 			break;
 			
 			case 'contactgroups':
-			if($authorizations['configuration_information']==1)
-			{
 				$name=$a['contactgroup_name'];
 				$title = gettext('Contact Group').": $name";
 				$linkkey = $name;
-			}
 			break;
 			
 			default:
-			$title = gettext('Access Denied').'<br />';
-			$linkkey = gettext('You do not have permissions to view this information');
+				$title = gettext('Access Denied').'<br />';
+				$linkkey = gettext('You do not have permissions to view this information');
 			break;
 			 
 		}	
 		
 		$id = preg_replace('/[\. ]/', '_', $linkkey); //replacing dots with underscores
 		#$id = preg_replace('/\ /', '_', $id);    //replacing spaces with underscores
-		//using HEREDOC string syntax 
 		$confighead="
 				
 		<li class='configlist'>{$title} <a class='label' onclick='showHide(\"{$id}\")' href='javascript:void(0)'>
