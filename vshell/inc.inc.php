@@ -53,7 +53,7 @@
 
 //include files for local directory 
 include(dirname(__FILE__).'/constants.inc.php'); //DO NOT ADD INCLUDES ABOVE THIS LINE 
-include(dirname(__FILE__).'/session.inc.php');
+
  
  
 
@@ -62,7 +62,7 @@ include(dirname(__FILE__).'/data/data.inc.php');
 include(dirname(__FILE__).'/controllers/controllers.inc.php');
 include(dirname(__FILE__).'/views/views.inc.php');
 
-
+include(dirname(__FILE__).'/session.inc.php');
 
 
 ?>
