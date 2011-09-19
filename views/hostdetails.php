@@ -6,10 +6,8 @@
 
 function get_host_details($dets)
 {
-//defining string using HEREDOC syntax, which is a format for multiline 
-//   print statements with variables 
-//  
-// 
+	global $NagiosUser; 
+	
 	$page="
 
 	<h3>".gettext('Host Status Detail')."</h3>
@@ -42,61 +40,65 @@ function get_host_details($dets)
 	</div><!-- end detailcontainer -->
 	
 	<div class='rightContainer'>
-	<fieldset class='attributes'>
-	<legend>".gettext('Service Attributes')."</legend>	
-	<table>	
-	<tr><td class='{$dets['ActiveChecks']}'>".gettext('Active Checks').": {$dets['ActiveChecks']}</td>
-	<td><a href='{$dets['CmdActiveChecks']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Active Checks')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
-	<tr><td class='{$dets['PassiveChecks']}'>".gettext('Passive Checks').": {$dets['PassiveChecks']}</td>
-	<td><a href='{$dets['CmdPassiveChecks']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Passive Checks')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
-	<tr><td class='{$dets['Obsession']}'>".gettext('Obsession').": {$dets['Obsession']}</td>
-	<td><a href='{$dets['CmdObsession']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Obsession')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
-	<tr><td class='{$dets['Notifications']}'>".gettext('Notifications').": {$dets['Notifications']}</td>
-	<td><a href='{$dets['CmdNotifications']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Notifications')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
-	<tr><td class='{$dets['FlapDetection']}'>".gettext('Flap Detection').": {$dets['FlapDetection']}</td>
-	<td><a href='{$dets['CmdFlapDetection']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Flap Detection')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
-	</table>
-	<p class='note'>".gettext('Commands will not appear until after page reload')."</p>
-	</fieldset>
 	
+	"; 
 	
-	<!-- Nagios Core Command Table -->
-	<fieldset class='corecommands'>
-	<legend>".gettext('Core Commands')."</legend>
-	<table>
-	<tr><td><a href='{$dets['MapHost']}' title='".gettext('Map Host')."'><img src='views/images/statusmapballoon.png' class='iconLink' height='12' width='12' alt='Map' /></a></td><td>".gettext('Locate host on map')."</td></tr>
-	<tr><td><a href='{$dets['CmdCustomNotification']}' title='".gettext('Send Custom Notification')."'><img src='views/images/notification.gif' class='iconLink' height='12' width='12' alt='Notification' /></a></td><td>".gettext('Send custom notification')."</td></tr>
-	<tr><td><a href='{$dets['CmdScheduleDowntime']}' title='".gettext('Schedule Downtime')."'><img src='views/images/downtime.png' class='iconLink' height='12' width='12' alt='Downtime' /></a></td><td>".gettext('Schedule downtime')."</td></tr>
-	<tr><td><a href='{$dets['CmdScheduleDowntimeAll']}' title='".gettext('Schedule Recursive Downtime')."'><img src='views/images/downtime.png' class='iconLink' height='12' width='12' alt='Downtime' /></a></td><td>".gettext('Schedule downtime for this host and all services')."</td></tr>
-	<tr><td><a href='{$dets['CmdScheduleChecks']}' title='".gettext('Schedule Check')."'><img src='views/images/schedulecheck.png' class='iconLink' height='12' width='12' alt='Schedule' /></a></td><td>".gettext('Schedule a check for all services of this host')."</td></tr>
-	<tr><td><a href='{$dets['CmdAcknowledge']}' title='{$dets['AckTitle']}'><img src='views/images/ack.png' class='iconLink' height='12' width='12' alt='Acknowledge' /></a></td><td>{$dets['AckTitle']}</td></tr><!-- make into variable -->
-	<tr><td colspan='2'><a class='label' href='{$dets['CoreLink']}' title='".gettext('See This Host In Nagios Core')."'>".gettext('See This Host In Nagios Core')."</a></td></tr>	
-	</table>
-	</fieldset>
+	if($NagiosUser->if_has_authKey('authorized_for_all_host_commands')) 
+	$page.="	
 	
+		<fieldset class='attributes'>
+		<legend>".gettext('Service Attributes')."</legend>	
+		<table>	
+		<tr><td class='{$dets['ActiveChecks']}'>".gettext('Active Checks').": {$dets['ActiveChecks']}</td>
+		<td><a href='{$dets['CmdActiveChecks']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Active Checks')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
+		<tr><td class='{$dets['PassiveChecks']}'>".gettext('Passive Checks').": {$dets['PassiveChecks']}</td>
+		<td><a href='{$dets['CmdPassiveChecks']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Passive Checks')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
+		<tr><td class='{$dets['Obsession']}'>".gettext('Obsession').": {$dets['Obsession']}</td>
+		<td><a href='{$dets['CmdObsession']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Obsession')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
+		<tr><td class='{$dets['Notifications']}'>".gettext('Notifications').": {$dets['Notifications']}</td>
+		<td><a href='{$dets['CmdNotifications']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Notifications')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
+		<tr><td class='{$dets['FlapDetection']}'>".gettext('Flap Detection').": {$dets['FlapDetection']}</td>
+		<td><a href='{$dets['CmdFlapDetection']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Flap Detection')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
+		</table>
+		<p class='note'>".gettext('Commands will not appear until after page reload')."</p>
+		</fieldset>
+		
+		
+		<!-- Nagios Core Command Table -->
+		<fieldset class='corecommands'>
+		<legend>".gettext('Core Commands')."</legend>
+		<table>
+		<tr><td><a href='{$dets['MapHost']}' title='".gettext('Map Host')."'><img src='views/images/statusmapballoon.png' class='iconLink' height='12' width='12' alt='Map' /></a></td><td>".gettext('Locate host on map')."</td></tr>
+		<tr><td><a href='{$dets['CmdCustomNotification']}' title='".gettext('Send Custom Notification')."'><img src='views/images/notification.gif' class='iconLink' height='12' width='12' alt='Notification' /></a></td><td>".gettext('Send custom notification')."</td></tr>
+		<tr><td><a href='{$dets['CmdScheduleDowntime']}' title='".gettext('Schedule Downtime')."'><img src='views/images/downtime.png' class='iconLink' height='12' width='12' alt='Downtime' /></a></td><td>".gettext('Schedule downtime')."</td></tr>
+		<tr><td><a href='{$dets['CmdScheduleDowntimeAll']}' title='".gettext('Schedule Recursive Downtime')."'><img src='views/images/downtime.png' class='iconLink' height='12' width='12' alt='Downtime' /></a></td><td>".gettext('Schedule downtime for this host and all services')."</td></tr>
+		<tr><td><a href='{$dets['CmdScheduleChecks']}' title='".gettext('Schedule Check')."'><img src='views/images/schedulecheck.png' class='iconLink' height='12' width='12' alt='Schedule' /></a></td><td>".gettext('Schedule a check for all services of this host')."</td></tr>
+		<tr><td><a href='{$dets['CmdAcknowledge']}' title='{$dets['AckTitle']}'><img src='views/images/ack.png' class='iconLink' height='12' width='12' alt='Acknowledge' /></a></td><td>{$dets['AckTitle']}</td></tr><!-- make into variable -->
+		<tr><td colspan='2'><a class='label' href='{$dets['CoreLink']}' title='".gettext('See This Host In Nagios Core')."'>".gettext('See This Host In Nagios Core')."</a></td></tr>	
+		</table>
+		</fieldset>
+		"; //end if authorized for object 
+	
+	$page.=" 
 	</div><!-- end rightContainer -->
 	</div><!-- end detailWrapper -->
 	
 
-
 	<!-- begin comment table -->
 	<div class='commentTable'>
-	<h5 class='commentTable'>".gettext('Comments')."</h5>
-	<p class='commentTable'><a class='label' href='{$dets['AddComment']}' title='".gettext('Add Comment')."'>".gettext('Add Comment')."</a></p> 
-	
+		<h5 class='commentTable'>".gettext('Comments')."</h5>
+		<p class='commentTable'><a class='label' href='{$dets['AddComment']}' title='".gettext('Add Comment')."'>".gettext('Add Comment')."</a></p> 
+
 	<table class='commentTable'><tr><th>".gettext('Author')."</th><th>".gettext('Entry Time')."</th><th>".gettext('Comment')."</th><th>".gettext('Actions')."</th></tr>
-
-
-";
-
-
+	";
 	//host comments table from Nagios core 
 	
 	//print host comments in table rows if any exist
 	//see display_functions.php for function  
 	$page .= get_host_comments($dets['Host']);
 	//close comment table 
-	$page .= '</table></div><br />';
+	$page .= '</table>'; 	
+	$page.='</div><br />';
 	return $page;
 }
 

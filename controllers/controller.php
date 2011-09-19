@@ -109,6 +109,7 @@ function page_router()
 		case 'hostdetail':
 		case 'servicedetail':
 				$data = host_and_service_detail_data($type, $name_filter);
+				if(!$data) send_home(); //bail if not authorized  
 				$html_output_function = 'host_and_service_detail_output';			
 		break;
 

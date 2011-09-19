@@ -86,8 +86,7 @@ function info_table()
 
 function overview_table($tac_data)
 {
-	global $username; 
-
+	global $NagiosUser; 
 	$overview_table = "
 <table class='tac'>
 <tr><th>".gettext('Tactical Monitoring Overview')."</th></tr>
@@ -95,7 +94,7 @@ function overview_table($tac_data)
 		<td>
 			".gettext('Last Check').": {$tac_data['lastcmd']}<br />
 			 Nagios® Core™ {$tac_data['version']} - www.nagios.org<br />
-			".gettext('Logged in as')." $username<br />
+			".gettext('Logged in as')." ".$NagiosUser->get_username()."<br />
 		</td>
 	</tr>
 </table>
