@@ -311,8 +311,11 @@ function get_host_downtime($hostname)
 function process_service_detail($serviceid)
 {
 	global $NagiosData;
+	global $NagiosUser; 
+	
 	$sd = $NagiosData->get_details_by('service', $serviceid);
 	$hostname = $sd['host_name'];
+	if(!$NagiosUser->is_authorized_for_service($hostname,$sd['service_description'])) return false; //bail if not authorized 
 	
 	//make necessary calculations with array elements 
 	$duration = calculate_duration($sd['last_state_change']);
@@ -439,8 +442,10 @@ function process_service_detail($serviceid)
 function process_host_detail($in_hostname)
 {
 	global $NagiosData; 
+	global $NagiosUser; 
 	$hd = $NagiosData->get_details_by('host', $in_hostname); 
 	$hostname = $hd['host_name'];
+	if(!$NagiosUser->is_authorized_for_host($hostname)) return false; //bail if not authorized 
 
 	$duration = calculate_duration($hd['last_state_change']);
 	$current_state = return_host_state($hd['current_state']);

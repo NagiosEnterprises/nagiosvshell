@@ -72,10 +72,7 @@ function hosts_and_services_data($type, $state_filter=NULL, $name_filter=NULL)
 function host_and_service_detail_data($type, $name)
 {
 	$data_function = 'process_'.preg_replace('/detail/', '_detail', $type);
-	$data = $data_function(stripslashes($name)); //added stripslashes because hostnames with periods had them in the variable -MG 
-	
-	$data = user_filtering($data,$type); 
-	
+	$data = $data_function(stripslashes($name)); //added stripslashes because hostnames with periods had them in the variable -MG 	
 	return $data;
 }
 
@@ -109,7 +106,6 @@ function object_data($objtype_filter, $name_filter)
 	if (in_array($objtype_filter, $valid_objtype_filters)) {
 		global $NagiosData;
 		$data = $NagiosData->getProperty($objtype_filter);
-		$data = user_filtering($data,$objtype_filter); 
 
 		if ($name_filter)
 		{
