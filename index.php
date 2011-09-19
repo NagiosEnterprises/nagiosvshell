@@ -67,7 +67,7 @@ include(dirname(__FILE__).'/inc.inc.php'); //master include file
 init_vshell(); 
 
 //needs a username to do anything 
-if($username)  //if logged in, display the page 
+if($NagiosUser->get_username())  //if logged in, display the page 
 {
 	//set_perms($username); //set global $authorization 		
 	page_router();

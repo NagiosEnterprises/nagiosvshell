@@ -60,7 +60,7 @@ function parse_perms_file($permsfile = CGICFG) //returns array of authorization 
 	}
 
 	$keywords = array('host_commands', 'hosts', 'service_commands', 'services',
-			'configuration_information', 'system_commands', 'system_information');
+			'configuration_information', 'system_commands', 'system_information', 'read_only');
 	$keyword_regex = '/('.join('|', $keywords).')/';
 
 	while(!feof($cgi)) //read through file and assign host and service status into separate arrays 

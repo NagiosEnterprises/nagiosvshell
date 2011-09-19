@@ -110,7 +110,10 @@ access controll mechanisms (usually a htpasswd.users file), as well as the
 cgi.cfg file for Nagios Core.  Most permissions for Nagios Core should be 
 reflected in the Nagios V-Shell as well.  To get started, log into your Nagios 
 webserver at http://<yourserver>/vshell, and enter your Nagios Core 
-authentication information.  
+authentication information. Nagios V-Shell requires a valid user defined in 
+the /path/to/nagios/etc/cgi.cfg file in order to display information for hosts and services.
+ NOTE: V-Shell needs a username from either an apache authentication method or the name 
+need to be hard-coded into the index.php file.  See the code comments for the hard-coded option.  
 
 V-Shell maintains most of the same features of Nagios Core, while utilizing 
 a top menu bar for site navigation.  This is done to maximize space for table 

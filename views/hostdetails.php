@@ -43,7 +43,7 @@ function get_host_details($dets)
 	
 	"; 
 	
-	if($NagiosUser->if_has_authKey('authorized_for_all_host_commands')) 
+	if(!$NagiosUser->if_has_authKey('authorized_for_read_only')) 
 	$page.="	
 	
 		<fieldset class='attributes'>
@@ -86,18 +86,24 @@ function get_host_details($dets)
 
 	<!-- begin comment table -->
 	<div class='commentTable'>
+	";
+	
+	if(!$NagiosUser->if_has_authKey('authorized_for_read_only')) 
+	{
+		$page .=" 
 		<h5 class='commentTable'>".gettext('Comments')."</h5>
 		<p class='commentTable'><a class='label' href='{$dets['AddComment']}' title='".gettext('Add Comment')."'>".gettext('Add Comment')."</a></p> 
 
-	<table class='commentTable'><tr><th>".gettext('Author')."</th><th>".gettext('Entry Time')."</th><th>".gettext('Comment')."</th><th>".gettext('Actions')."</th></tr>
-	";
-	//host comments table from Nagios core 
-	
-	//print host comments in table rows if any exist
-	//see display_functions.php for function  
-	$page .= get_host_comments($dets['Host']);
-	//close comment table 
-	$page .= '</table>'; 	
+		<table class='commentTable'><tr><th>".gettext('Author')."</th><th>".gettext('Entry Time')."</th><th>".gettext('Comment')."</th><th>".gettext('Actions')."</th></tr>
+		";
+		//host comments table from Nagios core 
+		
+		//print host comments in table rows if any exist
+		//see display_functions.php for function  
+		$page .= get_host_comments($dets['Host']);
+		//close comment table 
+		$page .= '</table>';
+	}
 	$page.='</div><br />';
 	return $page;
 }
