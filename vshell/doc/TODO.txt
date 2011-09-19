@@ -12,8 +12,6 @@ MODEL/DATA
 
 CONTROLLER
 
-*** - need ability to filter hosts and services by contact.  Read only users who are contacts for specific hosts should onl be able to view their hosts and child services.  
-
 -create filter function based on monitoring features from Tactical Overview 
 - update xml viewer for all pages and insert links into pages  
 ##There is an xml builder built into the V-Shell, although it's not fully implemented yet.  If you pass the arguments index.php?xml=hosts you'll see what I mean.  I've only added this for some things so far, but it basically just turns an array into xml data and writes it to an xml file in the tmp directory.

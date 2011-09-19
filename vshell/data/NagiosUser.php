@@ -29,7 +29,7 @@ class NagiosUser
 		'authorized_for_configuration_information' => false,
 		'authorized_for_system_commands' => false,
 		'authorized_for_system_information' => false,
-		'authorized_for_read_only' => true,	
+		'authorized_for_read_only' => false,	
 		);
 		
 	/**

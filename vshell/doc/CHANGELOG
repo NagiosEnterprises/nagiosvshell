@@ -1,3 +1,11 @@
+====September 19 - 2011 Mike Guthrie - trunk 1.8
+- Implemented major revisions to the permissions in V-Shell
+	- User-level viewing permissions now match Nagios Core.  Users can only see objects they are contacts for unless specified otherwise in the cgi.cfg file
+	- Read-only users specified in the cgi.cfg are now implemented
+	- A valid user from either HTTP Basic, HTTP Digest, or hard-coded in the index.php file is now required in order utilize the V-Shell interface
+	- Checks added to prevent users from viewing information from a direct URL get request.  
+
+
 ====August 12th - 2011 Mike Guthrie - trunk 1.7
 - Implemented gettext support submitted by Wesley Zhao
 - Rewrote install script to have user feedback and more flexibility with Ubuntu/Debian installs 
