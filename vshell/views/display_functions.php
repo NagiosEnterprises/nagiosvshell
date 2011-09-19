@@ -58,18 +58,9 @@
 //
 function build_nav_links() //build page links based on user's permission level 
 {
-	global $authorizations;
+	global $NagiosUser;
 
-	$keys = array();
-	foreach($authorizations as $key => $value)
-	{
-		//echo "$key : $value <br />";
-		if($value == 1) //if permission is set 
-		{
-			$keys[$key] = 1;
-		}
-	}
-	//print_r($keys);
+
 	//generate links based on permissions 
 	$base = BASEURL.'index.php?';
 
@@ -78,18 +69,14 @@ function build_nav_links() //build page links based on user's permission level
 	$navlinks .= '<ul class="nav">'; 	
 	$navlinks .= '<li class="nav"><a href="index.php" class="nav" rel="internal">'.gettext('Tactical Overview').'</a></li>'; //default tactical overview link 
 		
-	if(isset($keys['hosts'], $keys['services'])) 
-	{		
-		$navlinks .= "<li class='nav'><a href='".$base."type=hosts' class='nav' rel='internal'>".gettext('Hosts')."</a></li>"; //hosts
-		$navlinks .= "<li class='nav'><a href='".$base."type=services' class='nav' rel='internal'>".gettext('Services')."</a></li>"; //services
-		$navlinks .= "<li class='nav'><a href='".$base."type=hostgroups' class='nav' rel='internal'>".gettext('Hostgroups')."</a></li>"; //hostgroups
-		$navlinks .= "<li class='nav'><a href='".$base."type=servicegroups' class='nav' rel='internal'>".gettext('Servicegroups')."</a></li>"; //servicegroups
-	}
-
-
+	$navlinks .= "<li class='nav'><a href='".$base."type=hosts' class='nav' rel='internal'>".gettext('Hosts')."</a></li>"; //hosts
+	$navlinks .= "<li class='nav'><a href='".$base."type=services' class='nav' rel='internal'>".gettext('Services')."</a></li>"; //services
+	$navlinks .= "<li class='nav'><a href='".$base."type=hostgroups' class='nav' rel='internal'>".gettext('Hostgroups')."</a></li>"; //hostgroups
+	$navlinks .= "<li class='nav'><a href='".$base."type=servicegroups' class='nav' rel='internal'>".gettext('Servicegroups')."</a></li>"; //servicegroups
+	
 	
 	/////////////OBJECT VIEWS 
-	if(isset($keys['configuration_information'])) //assuming full admin  
+	if($NagiosUser->if_has_authKey('authorized_for_configuration_information')) //assuming full admin  
 	{
 		$navlinks .= "<li class='nav'><a class='nav' onmouseover='showDropdown(\"confDrop\")' onmouseout='hideDropdown(\"confDrop\")' href='javascript:void(0)'>".gettext('Configurations')."</a>
 		<div onmouseover='showDropdown(\"confDrop\")' onmouseout='hideDropdown(\"confDrop\")' id='confDrop'><ul>";	
@@ -105,7 +92,7 @@ function build_nav_links() //build page links based on user's permission level
 		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=contactgroups'>".gettext('Contactgroups')."</a></li>\n"; //contactgroups
 		
 				//COMMAND VIEW 
-		if(isset($keys['host_commands'],$keys['service_commands'], $keys['system_commands']))
+		if($NagiosUser->is_admin()) 
 		{	
 			//make link for commands 
 			$navlinks .= "<li><a href='".$base."type=object&objtype_filter=commands' class='nav'>".gettext('Commands')."</a></li>\n"; //commands config
@@ -115,7 +102,7 @@ function build_nav_links() //build page links based on user's permission level
 	}
 	
 	//Nagios Core System links dropdown menu 
-	if(isset($keys['system_commands']))
+	if($NagiosUser->if_has_authKey('authorized_for_system_commands')) 
 	{
 		$navlinks .= "<li class='nav'><a class='nav' onmouseover='showDropdown(\"sysDrop\")' 
 				onmouseout='hideDropdown(\"sysDrop\")' href='javascript:void(0)'>".gettext('System Commands')."</a>

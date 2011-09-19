@@ -74,7 +74,7 @@ function parse_perms_file($permsfile = CGICFG) //returns array of authorization 
 			
 			$permusers = explode(',', $userlist);
 			array_walk($permusers, create_function('&$v', 'trim($v);'));
-			$perms[$perm] = $permusers;
+			$perms[$actual_perm] = $permusers; //XXX move all to NagiosUser in future versions
 		}
 
 	}

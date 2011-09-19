@@ -53,17 +53,29 @@
 function get_hostgroup_data()
 {
 	global $NagiosData;
+	global $NagiosUser; 
+	
 	$hostgroups = $NagiosData->getProperty('hostgroups');
 	$hosts = $NagiosData->getProperty('hosts');
 
 	$hostgroup_data = array();
-	foreach ($hostgroups as $group => $members) {
+	foreach ($hostgroups as $group => $members) 
+	{
+		
+		
 		$hostgroup_data[$group] = array(
 			'member_data' => array(),
 			'host_counts'    => get_state_of('hosts', build_hostgroup_details($members)),
 			'service_counts' => get_state_of('services', build_host_servicegroup_details($members))
 			);
+		
+		//skip ahead if there are no authorized hosts			
+		if(array_sum($hostgroup_data[$group]['host_counts'])==0) continue; //skip empty groups 
+			
 		foreach ($members as $member) {
+		
+			if(!$NagiosUser->is_authorized_for_host($member)) continue; //user-level filtering 		
+		
 			$host = $hosts[$member];
 			$hostgroup_data[$group]['member_data'][$member]['host_name'] = $host['host_name'];
 			$hostgroup_data[$group]['member_data'][$member]['host_state'] = $host['current_state'];
@@ -74,6 +86,9 @@ function get_hostgroup_data()
 
 			if (isset($host['services'])) {
 				foreach($host['services'] as $service) {
+				
+					if(!$NagiosUser->is_authorized_for_service($member,$service['service_description'])) continue; //user-level filtering 					
+				
 					$service_data = array(
 						'state_class' => get_color_code($service),
 						'description' => $service['service_description'],
@@ -113,6 +128,8 @@ FILTERDIV;
 	//////////////////////////////////////table creation, displays both summary and grid view   
 	foreach($data as $group => $group_data)
 	{
+		//skip ahead if there are no authorized hosts			
+		if(array_sum($group_data['host_counts'])==0)  continue; //skip empty groups 
 
 		//group label
 		$page .= "<h5><a name=\"$group\">$group</a></h5>"; 

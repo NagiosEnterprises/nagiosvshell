@@ -56,6 +56,8 @@ function get_tac_data()
 	//print "<br /><br /><br /><br />";
 	global $username;
 	global $NagiosData;
+	global $NagiosUser; 	
+	
 	$now = time();
 	$info     = $NagiosData->getProperty('info');
 	$program  = $NagiosData->getProperty('program');
@@ -81,7 +83,7 @@ function get_tac_data()
 	'hostlink' => htmlentities(BASEURL.'index.php?type=hosts&state_filter='),
 	
 	//host counts 
-	'hostsTotal' =>  ($hoststates['UP'] + $hoststates['DOWN'] + $hoststates['UNREACHABLE']),
+	'hostsTotal' =>  ($hoststates['UP'] + $hoststates['DOWN'] + $hoststates['UNREACHABLE'] +$hoststates['PENDING']),
 	'hostsUpTotal' => $hoststates['UP'],
 	'hostsDownTotal' => $hoststates['DOWN'],
 	'hostsUnreachableTotal' => $hoststates['UNREACHABLE'],
@@ -135,6 +137,7 @@ function get_tac_data()
 	'servicesWarningDisabled' => 0,
 	'servicesCriticalDisabled' => 0,
 	'servicesUnknownDisabled' => 0,
+	'servicesTotalDisabled' => 0,
 	'servicesPending' => 0,
 	'servicesPendingDisabled' => 0, 
 	'servicesWarningHostProblem' => 0, 
@@ -165,6 +168,8 @@ function get_tac_data()
 	$hostStates = array(NULL, 'Down', 'Unreachable'); // used in tracking host states
 	foreach($hosts as $h)
 	{
+		if(!$NagiosUser->is_authorized_for_host($h['host_name'])) continue; 	//user-level filtering 
+	
 		//html specific data 		
 		if($h['flap_detection_enabled'] != 1) $tac_data['hostsFlappingDisabled']++;
 		if($h['is_flapping'] == 1) $tac_data['hostsFlapping']++;
@@ -201,7 +206,8 @@ function get_tac_data()
 	$serviceStates = array(NULL, 'Warning', 'Critical', 'Unknown'); // used in tracking service states
 	foreach($services as $s)
 	{
-	
+		if(!$NagiosUser->is_authorized_for_service($s['host_name'],$s['service_description'])) continue; 		
+		
 		//html specific data 		
 		if($s['flap_detection_enabled'] != 1) $tac_data['servicesFlappingDisabled']++;
 		if($s['is_flapping'] == 1)            $tac_data['servicesFlapping']++;
@@ -214,7 +220,7 @@ function get_tac_data()
 		$current_host = $h_states[$s['host_name']];	
 		if($s['last_check'] == 0 && $s['active_checks_enabled'] == 1) { $tac_data['servicesPending']++; continue; } //pending 
 		if($s['last_check'] == 0 && $s['active_checks_enabled'] == 0) { $tac_data['servicesPendingDisabled']++;  continue;  } //pending 
-		if($s['active_checks_enabled'] == 0) $tac_data['servicesDisabled']++;
+		if($s['active_checks_enabled'] == 0) $tac_data['servicesTotalDisabled']++;
 
 		switch($s['current_state']) {
 			case 0:

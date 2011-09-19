@@ -55,24 +55,27 @@ ini_set('display_errors','Off');
 session_start(); //no need for sessions at this time
 ob_start();
 
+$username = false;
+//////////////USE TO OVERRIDE APACHE AUTHENTICATION LOGIC: ///////////////////////////////
+//////////UNCOMMENTING THIS WILL LEAVE YOUR MONITORING ENVIRONMENT WIDE OPEN!!! ///////////////////////////
+//$username = 'nagiosadmin';  
+
+
 include(dirname(__FILE__).'/inc.inc.php'); //master include file 
 
+//load language and other sitewide settings 
 init_vshell(); 
 
-$page_title = 'Nagios Visual Shell';
-
-//check_auth() needs to be revised to include other auth types and contact viewing of hosts 
-$username = get_user();
-
-//$username = 'nagiosadmin'; //uncomment this to only use apache authentication methods  
-
-
-if($username) //if logged in, display the page 
+//needs a username to do anything 
+if($username)  //if logged in, display the page 
 {
-	set_perms($username); //set global $authorization 		
+	//set_perms($username); //set global $authorization 		
 	page_router();
 }
 
+//$hosts = $NagiosData->getProperty('hosts_objs'); 
+//$hosts = $NagiosUser->get_authorized_hosts(); 
+//echo "<pre>".print_r($hosts,true)."</pre>"; 
 
 ob_end_flush();
 ?>

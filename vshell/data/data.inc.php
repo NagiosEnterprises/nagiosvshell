@@ -58,7 +58,8 @@ if (useAPC() && (FALSE || isset($_GET['CLEANCACHE']))) { // For Debugging data f
 require_once('data_utils.php');
 
 require_once('NagiosData.php');
-$NagiosData = NagiosData::singleton();
+require_once('NagiosUser.php'); 
+
 require_once('get_tac_data.php'); 
 
 require_once('build_groups.php');

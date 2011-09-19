@@ -51,13 +51,13 @@
 
 
 $authorizations = array(
-								'host_commands' => 0, 
-								'hosts' => 0, 
-								'service_commands' => 0, 
-								'services' => 0,
-								'configuration_information' => 0, 
-								'system_commands' => 0, 
-								'system_information' => 0, 
+								'authorized_for_host_commands' => 0, 
+								'authorized_for_hosts' => 0, 
+								'authorized_for_service_commands' => 0, 
+								'authorized_for_services' => 0,
+								'authorized_for_configuration_information' => 0, 
+								'authorized_for_system_commands' => 0, 
+								'authorized_for_system_information' => 0, 
 								);
 
 
