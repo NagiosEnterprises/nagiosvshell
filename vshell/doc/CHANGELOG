@@ -1,3 +1,7 @@
+===== ????? - ????? - trunk - 1.9
+- Added German translation file.  Thanks to Herbert Straub for the contribution!
+
+
 ====September 19 - 2011 Mike Guthrie - trunk 1.8
 - Implemented major revisions to the permissions in V-Shell
 	- User-level viewing permissions now match Nagios Core.  Users can only see objects they are contacts for unless specified otherwise in the cgi.cfg file
