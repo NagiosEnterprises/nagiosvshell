@@ -49,38 +49,55 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+//switch constants
+define('OUTOFBLOCK',0);
+define('HOSTDEF',1);
+define('SERVICEDEF',2);
+define('PROGRAM',3);
+define('INFO',4);
+define('HOSTCOMMENT',5);
+define('SERVICECOMMENT',6); 
+
 
 /* TODO 
  * - create status arrays for hostgroups and servicegroups 
  */
 
-/* Parse STATUSFILE for status information, nagios information, as well as 
- * build the details array and collect comments
+/* 	Parse STATUSFILE for status information, nagios information, as well as 
+ * 	build the details array and collect comments
+ *	modified and stripped down to only capture raw data for authorized objects, process values later
  */
 function parse_status_file($statusfile = STATUSFILE)
 {
-
 	$file = fopen($statusfile, "r") or die("Unable to open '$statusfile' file!");
 	
-	if(!$file)
-	{
-		die("File '$statusfile' not found!");
-	}
+	if(!$file) die("File '$statusfile' not found!");
 	
-	$status_collector = array();
-	$details = array();
-	$comments = array();
-	$info = array();
-	$service_counter = 0;
-
-	list($matches, $curtype, $cursubtype) = array(NULL, NULL, NULL);	
-	$kvp = array();
+	$hoststatus = array(); 
+	$servicestatus = array();
+	$hostcomments = array();
+	$servicecomments = array(); 
+	$programstatus = array(); 
+	$info = array(); 
 	
+	//counters for iteration through file 	
+	$case = OUTOFBLOCK;
+	$service_id=0;
+	$s_comment_id = 0;
+	$hostkey = '';
+	//keywords for string match 
+	$hoststring = 'hoststatus {';
+	$servicestring = 'servicestatus {'; 
+	$hostcommentstring = 'hostcomment {';
+	$servicecommentstring = 'servicecomment {';
+	$programstring = 'programstatus {';
+	$infostring = 'info {';
+	//begin parse	
 	while(!feof($file)) //read through file and assign host and service status into separate arrays 
-	{
-	
+	{	
 		$line = fgets($file); //Gets a line from file pointer.
-		
+				
+		/*
 		if (preg_match('/(host|service|program)(status|comment)/', $line, $matches)) {
 			list($fullmatch, $cursubtype, $curtype) = $matches;
 		 
@@ -129,97 +146,111 @@ function parse_status_file($statusfile = STATUSFILE)
 		} else {
 			// outside of a status
 		}
-	}
+		*/
+		
+		//////////////////////////NEW REVISION//////////////////////////
+		if($case==OUTOFBLOCK) {
+			//host
+			if(strpos($line,$hoststring)!==false) {	
+				$case = HOSTDEF; //enable grabbing of host variables
+				unset($hostkey);
+				continue; 
+			}	
+			//service
+			if(strpos($line,$servicestring)!==false) {
+				$case = SERVICEDEF; //enable grabbing of service variables
+				$servicestatus[$service_id++] = array(); 
+				continue;
+			}
+			//hostcomment
+			if(strpos($line,$hostcommentstring)!==false) {	
+				$case = HOSTCOMMENT; //enable grabbing of host variables
+				unset($hostkey);
+				continue; 
+			}
+			//service
+			if(strpos($line,$servicecommentstring)!==false) {
+				$case = SERVICECOMMENT; //enable grabbing of service variables
+				$s_comment_id++; 
+				continue;
+			}
+			//program status 
+			if(strpos($line,$programstring)!==false) {
+				$case = PROGRAM; 
+				continue;
+			}			
+			//info
+			if(strpos($line,$programstring)!==false) {
+				$case = PROGRAM; 
+				continue;
+			}		
+		} //end OUTOFBLOCK IF 
+		
+		if(strpos($line, '}') !==false) {
+			$case = OUTOFBLOCK; //turn off switches once a definition ends 		
+			continue;
+		}
+		//capture key / value pair 
+		list($key,$value) = get_key_value($line);
+		
+		//grab variables according to the enabled boolean switch	
+		switch($case) 
+		{					
+			case HOSTDEF:
+			//do something
+				if(!isset($hoststatus[$key]) && $key=='host_name') {
+					$hostkey = $key;
+					$hoststatus[$hostkey] = array();
+				}					 
+				$hoststatus[$hostkey][$key]= $value;				
+			break;
+			
+			case SERVICEDEF:  					 
+				$servicestatus[$service_id][$key]= $value;	
+				$servicedetails[$service_id]['service_id']= $service_id;							
+			break;
+			
+			case HOSTCOMMENT:
+				if(!isset($hoststatus[$key]) && $key=='host_name') {
+					$hostkey = $key;
+					$hoststatus[$hostkey] = array();
+				}					 
+				$hostcomments[$hostkey][$key]= $value;				
+			break;
+			
+			case SERVICECOMMENT:				 
+				$servicecomments[$s_comment_id][$key]= $value;			
+			break;
+			
+			case INFO:
+				$info[$key] = $value; 
+			break;
+			
+			case PROGRAMSTATUS:				
+				$programstatus[$key] = $value; 
+			break;
+			
+			case OUTOFBLOCK:
+			default:
+				//switches are off, do nothing 
+			break;			
+		}	//end of switch 	
+		
+		
+	}//end of WHILE 
 	
 	fclose($file);
 	
 	return array(
-		'hosts' => $status_collector['host'], 
-		'services' => $status_collector['service'], 
-		'comments' => $comments, 
-		'program' => $status_collector['program'],
+		'hosts' => $hoststatus, 
+		'services' => $servicestatus, 
+		'hostcomments' => $hostcomments,
+		'servicecomments' => $servicecomments,
+		'program' => $programstatus,
 		'info' => $info, 
-		'details' => $details);
+		);
 }
 
-/* Given the raw data for a collected host process it into usable information
- * Maps host states from integers into "standard" nagios values
- * Assigns to each collected service a hostID
- */
-function process_host_status_keys($rawdata)
-{
 
-	static $hostindex = 1;
-	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth', 'problem_has_been_acknowledged'));
-	
-	$processed_data['hostID'] = 'Host'.$hostindex++;
-	
-	$host_states = array( 0 => 'UP', 1 => 'DOWN', 2 => 'UNREACHABLE', 3 => 'UNKNOWN' );
-	if($rawdata['current_state'] == 0 && $rawdata['last_check'] == 0)//added conditions for pending state -MG
-	{ 
-		$processed_data['current_state'] = 'PENDING'; 
-		$processed_data['plugin_output']="No data received yet";
-		$processed_data['duration']="N/A";
-		$processed_data['attempt']="N/A";
-		$processed_data['last_check']="N/A";
-	} 
-	else { $processed_data['current_state'] = state_map($rawdata['current_state'], $host_states); }
- 
-	return $processed_data;
-}
-
-/* Given the raw data for a collected service process it into usable information
- * Maps service states from integers into "standard" nagios values
- * Assigns to each collected service a serviceID
- */
-function process_service_status_keys($rawdata)
-{
-
-	static $serviceindex = 0;
-	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth', 'service_description', 'problem_has_been_acknowledged'));
-	
-	$processed_data['serviceID'] = 'service'.$serviceindex++;
-	//print "$serviceindex<br />";
-	$service_states = array( 0 => 'OK', 1 => 'WARNING', 2 => 'CRITICAL', 3 => 'UNKNOWN' );
-	if($rawdata['current_state'] == 0 && $rawdata['last_check'] == 0)//added conditions for pending state -MG
-	{ 
-		$processed_data['current_state'] = 'PENDING'; 
-		$processed_data['plugin_output']="No data received yet";
-		$processed_data['duration']="N/A";
-		$processed_data['attempt']="N/A";
-		$processed_data['last_check']="N/A";
-	}
-	else { $processed_data['current_state'] = state_map($rawdata['current_state'], $service_states); }
-	//print_r($processed_data);
-	//print "<br /><br />";
-	return $processed_data;
-}
-
-/* given some raw data return an array of shared ("standard values") and 
- *  keys which need to be copied verbatim into the output
- */
-function get_standard_values($rawdata, $identical_keys)
-{
-	$standard_values = array();
-	
-	foreach($identical_keys as $key) { 
-		$standard_values[$key] = $rawdata[$key];
-	}
-	
-	$standard_values['attempt'] = $rawdata['current_attempt'].' / '.$rawdata['max_attempts'];
-	$standard_values['duration'] = calculate_duration($rawdata['last_state_change']);
-	$standard_values['last_check'] = date('M d H:i\:s\s Y', $rawdata['last_check']);
-	
-	return $standard_values;
-}
-
-/* Given an integer state and an associative array mapping integer states into
- *   human readable values, return the associated value to that state.  If no
- *   appropriate value is provided return 'UNKNOWN'
- */
-function state_map($cur_state, $states)
-{
-	return array_key_exists($cur_state, $states) ? $states[$cur_state] : 'UNKNOWN';
-}
 
 ?>
