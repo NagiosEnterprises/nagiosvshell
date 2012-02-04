@@ -49,6 +49,16 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
+//switch constants
+define('OUTOFBLOCK',0);
+define('HOSTDEF',1);
+define('SERVICEDEF',2);
+define('PROGRAM',3);
+define('INFO',4);
+define('HOSTCOMMENT',5);
+define('SERVICECOMMENT',6); 
+
 /*  Open and parse the Nagios objects file.
  *
  *  Returns an array of the following arrays:
@@ -64,62 +74,75 @@
  */
 function parse_objects_file($objfile = OBJECTSFILE)
 {
-
-	$objs_file = fopen($objfile, "r") or die("Unable to open '$objfile' file!");
+	$file = fopen($objfile, "r") or die("Unable to open '$objfile' file!");
 	
-	$defmatches = array();
-	$curdeftype = NULL;
-	$kvp = array();
-	$object_collector = array();
+	$objects = array(   'host' => array(),
+						'service' => array(),
+						'hostgroup' => array(),
+						'servicegroup' => array(),
+						'timeperiod' => array(),
+						'command' => array(),
+						'contact' => array(),
+						'contactgroup' => array(),
+						'serviceescalation' => array(),
+						'hostescalation' => array(),
+						'hostdepencency' => array(),
+						'servicedependency' => array(),
+					);
+	$counters = array(  'host' => 0,
+						'service' => 0,
+						'hostgroup' => 0,
+						'servicegroup' => 0,
+						'timeperiod' => 0,
+						'command' => 0,
+						'contact' => 0,
+						'contactgroup' => 0,
+						'serviceescalation' => 0,
+						'hostescalation' => 0,
+						'hostdepencency' => 0,
+						'servicedependency' => 0,
+					);
 	
-	while(!feof($objs_file)) //read through the file and read object definitions
+	$in_block = false; 	
+	$matches = array();
+	$object_type = NULL;
+		
+	while(!feof($file)) //read through the file and read object definitions
 	{
-		$line = fgets($objs_file); //Gets a line from file pointer.
-	
-	if (preg_match('/^\s*define\s+(\w+)\s*{\s*$/', $line, $defmatches)) {
-		// Beginning of a new definition;
-		$curdeftype = $defmatches[1];
-	
-	} elseif (preg_match('/^\s*}\s*$/', $line)) {
-		// End of a definition.  Assign key-value pairs and reset variables
-		switch($curdeftype){
-			case 'host':
-			case 'servicegroup':
-			$object_collector[typemap($curdeftype)][$kvp[$curdeftype.'_name']] = $kvp;
-			break;
-
-			case 'service':
-			$object_collector[typemap('host')][$kvp['host_name']]['services'][] = $kvp;
-			$object_collector[typemap($curdeftype)][] = $kvp;
-			break;			
-
-			default:
-			$object_collector[typemap($curdeftype)][] = $kvp;
-			break;
+		$line = fgets($file); //Gets a line from file pointer.
+		
+		if($in_block) {
+			// Collect the key-value pairs for the definition
+			list($key, $value) = explode("\t", trim($line), 2);
+			//$objects['host'][0]['host_name'] = 'thename'; 
+			$objects[$object_type][$counters[$object_type] ][trim($key)] = trim($value);
+			continue; 
 		}
-
-		$curdeftype = NULL;
-		$kvp = array();
-	
-	} elseif($curdeftype != NULL) {
-		// Collect the key-value pairs for the definition
-		list($key, $value) = explode("\t", trim($line), 2);
-		$kvp[trim($key)] = trim($value);
-	
-	} else {
-		// outside of definitions? Comments and whitespace should be caught
-	}
+		else {  //outside of a block 
+			if(preg_match('/^\s*define\s+(\w+)\s*{\s*$/', $line, $matches)) {
+				$object_type = $matches[1];
+				continue;
+			}	
+			if (strpos($line,'}') !== FALSE) { 
+				$in_block = false; //end of block 
+				//increment type counter 
+				$objects[$object_type][$counters[$object_type]++]; 
+			}
+		}
 	      
 	} //end of while
 	
 	fclose($objs_file);	
 
-	$object_collector['hostgroups'] = build_group_array($object_collector['hostgroups_objs'], 'host');
-	$object_collector['servicegroups'] = build_group_array($object_collector['servicegroups_objs'], 'service');
+	//only do this for group and details page
+//	$object_collector['hostgroups'] = build_group_array($object_collector['hostgroups_objs'], 'host');
+//	$object_collector['servicegroups'] = build_group_array($object_collector['servicegroups_objs'], 'service');
 
-	return $object_collector;
+	return $object;
 }
 
+
+/*
 function typemap($type)
 {
   $retval = NULL;
@@ -132,7 +155,7 @@ function typemap($type)
 
   return $retval;
 }
-
+*/
 //creates group array based on type 
 //$objectarray - expecting an object group array -> $hostgroups_objs $servicegroups_objs $contactgroups
 //				-these groups are read from objects.cache file  
