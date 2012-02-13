@@ -91,8 +91,8 @@ function dump($array)
 */
 function get_key_value($line) {
 	$strings = explode('=', $line,2);			
-	$key = trim($strings[0]);
-	$value = trim($strings[1]);
+	$key = isset($strings[0]) ? trim($strings[0]) : '';
+	$value = isset($strings[1]) ? trim($strings[1]) : '';
 	return array($key,$value); 
 
 }
@@ -102,71 +102,76 @@ function get_key_value($line) {
  * Maps host states from integers into "standard" nagios values
  * Assigns to each collected service a hostID
  */
-function process_host_status_keys($rawdata)
+// function process_host_status_keys($rawdata)
+function process_host_status_keys(&$data)
 {
 
 	static $hostindex = 1;
-	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth', 'problem_has_been_acknowledged'));
-	
-	$processed_data['hostID'] = 'Host'.$hostindex++;
+	//$processed_data = get_standard_values($data, array('host_name', 'plugin_output', 'scheduled_downtime_depth', 'problem_has_been_acknowledged'));
+	get_standard_values($data, array('host_name', 'plugin_output', 'scheduled_downtime_depth', 'problem_has_been_acknowledged'));
+	$data['hostID'] = 'Host'.$hostindex++;
 	
 	$host_states = array( 0 => 'UP', 1 => 'DOWN', 2 => 'UNREACHABLE', 3 => 'UNKNOWN' );
-	if($rawdata['current_state'] == 0 && $rawdata['last_check'] == 0)//added conditions for pending state -MG
+	if($data['current_state'] == 0 && $data['last_check'] == 0)//added conditions for pending state -MG
 	{ 
-		$processed_data['current_state'] = 'PENDING'; 
-		$processed_data['plugin_output']="No data received yet";
-		$processed_data['duration']="N/A";
-		$processed_data['attempt']="N/A";
-		$processed_data['last_check']="N/A";
+		$data['current_state'] = 'PENDING'; 
+		$data['plugin_output']="No data received yet";
+		$data['duration']="N/A";
+		$data['attempt']="N/A";
+		$data['last_check']="N/A";
 	} 
-	else { $processed_data['current_state'] = state_map($rawdata['current_state'], $host_states); }
+	else { $data['current_state'] = state_map($data['current_state'], $host_states); }
  
-	return $processed_data;
+	//return $processed_data;
 }
 
 /* Given the raw data for a collected service process it into usable information
  * Maps service states from integers into "standard" nagios values
  * Assigns to each collected service a serviceID
  */
-function process_service_status_keys($rawdata)
+function process_service_status_keys(&$data)
 {
 
 	static $serviceindex = 0;
-	$processed_data = get_standard_values($rawdata, array('host_name', 'plugin_output', 'scheduled_downtime_depth', 'service_description', 'problem_has_been_acknowledged'));
+	get_standard_values($data, array('host_name', 'plugin_output', 'scheduled_downtime_depth', 'service_description', 'problem_has_been_acknowledged'));
 	
-	$processed_data['serviceID'] = 'service'.$serviceindex++;
+	$data['serviceID'] = 'service'.$serviceindex++;
 	//print "$serviceindex<br />";
 	$service_states = array( 0 => 'OK', 1 => 'WARNING', 2 => 'CRITICAL', 3 => 'UNKNOWN' );
 	if($rawdata['current_state'] == 0 && $rawdata['last_check'] == 0)//added conditions for pending state -MG
 	{ 
-		$processed_data['current_state'] = 'PENDING'; 
-		$processed_data['plugin_output']="No data received yet";
-		$processed_data['duration']="N/A";
-		$processed_data['attempt']="N/A";
-		$processed_data['last_check']="N/A";
+		$data['current_state'] = 'PENDING'; 
+		$data['plugin_output']="No data received yet";
+		$data['duration']="N/A";
+		$data['attempt']="N/A";
+		$data['last_check']="N/A";
 	}
-	else { $processed_data['current_state'] = state_map($rawdata['current_state'], $service_states); }
+	else { $data['current_state'] = state_map($data['current_state'], $service_states); }
 	//print_r($processed_data);
 	//print "<br /><br />";
-	return $processed_data;
+	//return $processed_data;
 }
 
 /* given some raw data return an array of shared ("standard values") and 
  *  keys which need to be copied verbatim into the output
  */
-function get_standard_values($rawdata, $identical_keys)
+function get_standard_values(&$rawdata, $identical_keys)
 {
-	$standard_values = array();
+//	$standard_values = array();
 	
-	foreach($identical_keys as $key) { 
-		$standard_values[$key] = $rawdata[$key];
-	}
+//	foreach($identical_keys as $key) { 
+//		$standard_values[$key] = $rawdata[$key];
+//	}
 	
-	$standard_values['attempt'] = $rawdata['current_attempt'].' / '.$rawdata['max_attempts'];
-	$standard_values['duration'] = calculate_duration($rawdata['last_state_change']);
-	$standard_values['last_check'] = date('M d H:i\:s\s Y', $rawdata['last_check']);
+//	$standard_values['attempt'] = $rawdata['current_attempt'].' / '.$rawdata['max_attempts'];
+//	$standard_values['duration'] = calculate_duration($rawdata['last_state_change']);
+//	$standard_values['last_check'] = date('M d H:i\:s\s Y', $rawdata['last_check']);
 	
-	return $standard_values;
+	$rawdata['attempt'] = $rawdata['current_attempt'].' / '.$rawdata['max_attempts'];
+	$rawdata['duration'] = calculate_duration($rawdata['last_state_change']);
+	$rawdata['last_check'] = date('M d H:i\:s\s Y', $rawdata['last_check']);
+	
+//	return $standard_values;
 }
 
 /* Given an integer state and an associative array mapping integer states into

@@ -70,7 +70,8 @@ function get_state_of($type, $array=NULL) //create host or service arrays by sta
 
 	if($type == 'services')
 	{
-		$state_counts = array('OK'=>0, 'WARNING'=>0, 'CRITICAL'=>0, 'UNKNOWN'=>0, 'PENDING'=>0);	
+		$state_counts = array('OK'=>0, 'WARNING'=>0, 'CRITICAL'=>0, 'UNKNOWN'=>0, 'PENDING'=>0);
+		//$state_counts = array(0 =>0, 1 =>0, 2 =>0, 3=>0, 'PENDING'=>0);	
 		if (is_null($array)) {
 			$array = $NagiosData->getProperty('services');
 			
@@ -90,13 +91,16 @@ function get_state_of($type, $array=NULL) //create host or service arrays by sta
 
 	foreach($array as $a)
 	{
+		 
 		if($type=='services')
 		{
+			//process_service_status_keys($a);
 			if($NagiosUser->is_authorized_for_service($a['host_name'],$a['service_description']))  
 				$state_counts[$a['current_state']]++;		
 		}	
 		if($type=='hosts')
 		{
+			//process_host_status_keys($a);
 			if($NagiosUser->is_authorized_for_host($a['host_name'])) 
 					$state_counts[$a['current_state']]++;	
 		}

@@ -2,7 +2,7 @@
 
 
 //initialize main classes 
-$NagiosData = NagiosData::singleton();
+$NagiosData = new NagiosData();
 $NagiosUser = new NagiosUser(); 
 
 

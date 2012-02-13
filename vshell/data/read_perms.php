@@ -75,7 +75,8 @@ function parse_perms_file($permsfile = CGICFG) //returns array of authorization 
 			$permusers = explode(',', $userlist);
 			//XXX change this, create_function too slow and consumes HUGE memory
 			//array_walk($permusers, create_function('&$v', 'trim($v);'));
-			array_walk($perm_users,'trim'); 
+			if(is_array($permusers)) 
+				array_walk($permusers,'trim'); 
 			$perms[$actual_perm] = $permusers; //XXX move all to NagiosUser in future versions
 		}
 

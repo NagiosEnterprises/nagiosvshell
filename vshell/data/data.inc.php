@@ -63,4 +63,9 @@ require_once('NagiosUser.php');
 require_once('get_tac_data.php'); 
 
 require_once('build_groups.php');
+require_once('read_objects.php');
+require_once('read_status.php'); 
+require_once('read_perms.php'); 
+
+
 ?>

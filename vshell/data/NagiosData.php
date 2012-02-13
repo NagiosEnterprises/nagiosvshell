@@ -57,32 +57,16 @@ class NagiosData
 	// Storage for all necessary variables.  Replaces the many globals
 	protected $_vars;
 
-	protected static $property_list = array('hosts_objs', 'services_objs', 
+	protected static $properties = array('hosts_objs', 'services_objs', 
 		'hostgroups_objs', 'servicegroups_objs', 'contacts', 'contactgroups', 
 		'timeperiods', 'commands', 'hosts', 'services', 'comments', 'info',
 		'details', 'permissions', 'hostgroups', 'servicegroups', 'program',
 		'hostescalations','serviceescalations','hostdependencys','servicedependencys');
 
-	/*  Return, and build as necessary, the singleton to store nagios data
-	 *
-	 * TODO:  Check APC cache for object
-	 *        Modify __update()/cache_or_disk to only update data if it
-	 *         out of date.
-	 */
-	public static function singleton() 
-	{
-		if (!isset(self::$instance)) {
-			$c = __CLASS__;
-			self::$instance = new $c;
-		}
-		self::$instance->__update();
-		return self::$instance;
-	}
-	
 	
 	public function dumpVars()
 	{
-		return $this->_vars; 
+		return $this->properties; 
 	}
 
 	/* General purpose "getter" for protected properties
@@ -97,8 +81,8 @@ class NagiosData
 	{
 		$retval = NULL;
 		
-		if (self::_is_valid_variable($var)) {
-			$retval = $this->_vars[$var];
+		if (isset($this->properties[$var])) {
+			$retval = $this->properties[$var];
 		}
 
 		return $retval;
@@ -112,8 +96,8 @@ class NagiosData
 	public function grab_details($type) 
 	{
 		//fb("grab_details({$type})");
-		$details = self::$instance->getProperty('details'); 
-		return $details[$type];
+		$details = $this->getProperty($type.'s'); 
+		return $details;
 	}
 
 	/* 
@@ -134,7 +118,7 @@ class NagiosData
 
 		$details = NULL;
 		if (in_array($type, array('service', 'host'))) {
-			$details = self::$instance->grab_details($type);
+			$details = $this->grab_details($type);
 		} else { 
 			// XXX Do soemthing better here
 			//fb("invalid type '$type'"); 
@@ -164,72 +148,28 @@ class NagiosData
 	}
 
 	// A private constructor; prevents direct creation of object
-	private function __construct()
+	function __construct()
 	{
-		$this->_vars = array();
+		//objects.cache data 
+		list($this->properties['hosts_objs'], $this->properties['services_objs'], 
+		$this->properties['hostgroups_objs'], $this->properties['servicegroups_objs'], $this->properties['contacts'],
+		$this->properties['contactgroups'],$this->properties['timeperiods'], $this->properties['commands'], 
+		$this->properties['hostescalations'],$this->properties['serviceescalations'],
+		$this->properties['hostdependencys'],$this->properties['servicedependencys']) = parse_objects_file();
+		
+		//status.dat data  
+		list($this->properties['hosts'],
+			$this->properties['services'],
+			$this->properties['hostcomments'],
+			$this->properties['servicecomments'],
+			$this->properties['program'],
+			$this->properties['info']) = parse_status_file();  
+			
+		//todo hostgroups, servicegroups, permissions
+		$this->properties['permissions'] = parse_perms_file(); 
 	}
 
-	/* When a new singleton is requested make sure the contained data is up 
-	 * to date
-	 *
-	 * This wraps what used to live in data.inc.php and loads all of the
-	 *  appropriate properties from cache or disk
-	 *
-	 * TODO: Cache object between requests and then simply check to see if 
-	 *        the cache needs to be updated because of a change on disk.  
-	 *        This will be a massive performance increase
-	 *
-	 */
-	private function __update() 
-	{
-		$disk_cache_keys = array('hosts_objs', 'services_objs', 
-			'hostgroups_objs', 'servicegroups_objs', 'contacts', 
-			'contactgroups', 'timeperiods', 'commands', 'hostgroups', 
-			'servicegroups', 'program','hostescalations','serviceescalations',
-			'hostdependencys','servicedependencys');
-		self::$instance->_set_vars(cache_or_disk('objects', OBJECTSFILE, $disk_cache_keys));
 
-		self::$instance->_set_vars(cache_or_disk('perms', CGICFG, array('permissions')));
-
-		self::$instance->_set_vars(cache_or_disk('status', STATUSFILE, array('hosts', 'services', 'comments', 'info', 'details', 'program')));
-
-	}
-
-	private static function _is_valid_variable($var)
-	{
-		return in_array($var, NagiosData::$property_list);
-	}
-
-	private function _setProperty($var, $value)
-	{
-		if (self::_is_valid_variable($var)) {
-			$this->_vars[$var] = $value;
-		} else {
-			// XXX Do something better here
-			//fb($var, "Invalid property");
-			echo "invalid property <pre>".print_r($var,true)." ".print_r($value,true)." </pre>"; 
-		}
-	}
-
-	/* Helper function to store data returned from cache_or_disk(...) to 
-	 *   properties
-	 *  
-	 * Given an array of the form array('property_name' => property_data, ...)
-	 *  set the property called property name to property_data
-	 */
-	private function _set_vars($array) 
-	{
-		foreach (array_keys($array) as $key)
-		{
-			self::$instance->_setProperty($key, $array[$key]);
-		}
-	}
-	
-	// Prevent users to clone the instance since this is a singleton
-	public function __clone()
-	{
-		trigger_error('Singleton', E_USER_ERROR);
-	}
 
 
 }

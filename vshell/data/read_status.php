@@ -153,19 +153,19 @@ function parse_status_file($statusfile = STATUSFILE)
 			//host
 			if(strpos($line,$hoststring)!==false) {	
 				$case = HOSTDEF; //enable grabbing of host variables
-				unset($hostkey);
+				//unset($hostkey);
 				continue; 
 			}	
 			//service
 			if(strpos($line,$servicestring)!==false) {
 				$case = SERVICEDEF; //enable grabbing of service variables
-				$servicestatus[$service_id++] = array(); 
+				$servicestatus[$service_id] = array(); 
 				continue;
 			}
 			//hostcomment
 			if(strpos($line,$hostcommentstring)!==false) {	
 				$case = HOSTCOMMENT; //enable grabbing of host variables
-				unset($hostkey);
+				//unset($hostkey);
 				continue; 
 			}
 			//service
@@ -180,13 +180,15 @@ function parse_status_file($statusfile = STATUSFILE)
 				continue;
 			}			
 			//info
-			if(strpos($line,$programstring)!==false) {
-				$case = PROGRAM; 
+			if(strpos($line,$infostring)!==false) {
+				$case = INFO; 
 				continue;
 			}		
 		} //end OUTOFBLOCK IF 
 		
 		if(strpos($line, '}') !==false) {
+			if($case == SERVICEDEF) 
+				$service_id++; 
 			$case = OUTOFBLOCK; //turn off switches once a definition ends 		
 			continue;
 		}
@@ -198,8 +200,8 @@ function parse_status_file($statusfile = STATUSFILE)
 		{					
 			case HOSTDEF:
 			//do something
-				if(!isset($hoststatus[$key]) && $key=='host_name') {
-					$hostkey = $key;
+				if(!isset($hoststatus[$value]) && $key=='host_name') {
+					$hostkey = $value;
 					$hoststatus[$hostkey] = array();
 				}					 
 				$hoststatus[$hostkey][$key]= $value;				
@@ -226,7 +228,7 @@ function parse_status_file($statusfile = STATUSFILE)
 				$info[$key] = $value; 
 			break;
 			
-			case PROGRAMSTATUS:				
+			case PROGRAM:				
 				$programstatus[$key] = $value; 
 			break;
 			
@@ -241,16 +243,27 @@ function parse_status_file($statusfile = STATUSFILE)
 	
 	fclose($file);
 	
-	return array(
-		'hosts' => $hoststatus, 
-		'services' => $servicestatus, 
-		'hostcomments' => $hostcomments,
-		'servicecomments' => $servicecomments,
-		'program' => $programstatus,
-		'info' => $info, 
+	return array($hoststatus, 
+					$servicestatus, 
+					$hostcomments,
+					$servicecomments,
+					$programstatus,
+					$info, 
 		);
+}
+
+/*
+function get_key_value($line) {
+	$strings = explode('=', $line,2);			
+	$key = isset($strings[0]) ? trim($strings[0]) : '';
+	$value = isset($strings[1]) ? trim($strings[1]) : '';
+	return array($key,$value); 
+
 }
 
 
 
+$data = parse_status_file('/usr/local/nagios/var/status.dat'); 
+print "<pre>".print_r($data,true)."</pre>";
+*/ 
 ?>

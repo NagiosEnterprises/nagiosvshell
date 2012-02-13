@@ -51,13 +51,13 @@
 
 
 //switch constants
-define('OUTOFBLOCK',0);
-define('HOSTDEF',1);
-define('SERVICEDEF',2);
-define('PROGRAM',3);
-define('INFO',4);
-define('HOSTCOMMENT',5);
-define('SERVICECOMMENT',6); 
+//define('OUTOFBLOCK',0);
+//define('HOSTDEF',1);
+//define('SERVICEDEF',2);
+//define('PROGRAM',3);
+//define('INFO',4);
+//define('HOSTCOMMENT',5);
+//define('SERVICECOMMENT',6); 
 
 /*  Open and parse the Nagios objects file.
  *
@@ -89,6 +89,7 @@ function parse_objects_file($objfile = OBJECTSFILE)
 						'hostdepencency' => array(),
 						'servicedependency' => array(),
 					);
+					
 	$counters = array(  'host' => 0,
 						'service' => 0,
 						'hostgroup' => 0,
@@ -112,34 +113,53 @@ function parse_objects_file($objfile = OBJECTSFILE)
 		$line = fgets($file); //Gets a line from file pointer.
 		
 		if($in_block) {
-			// Collect the key-value pairs for the definition
-			list($key, $value) = explode("\t", trim($line), 2);
-			//$objects['host'][0]['host_name'] = 'thename'; 
-			$objects[$object_type][$counters[$object_type] ][trim($key)] = trim($value);
-			continue; 
-		}
-		else {  //outside of a block 
-			if(preg_match('/^\s*define\s+(\w+)\s*{\s*$/', $line, $matches)) {
-				$object_type = $matches[1];
-				continue;
-			}	
 			if (strpos($line,'}') !== FALSE) { 
 				$in_block = false; //end of block 
 				//increment type counter 
 				$objects[$object_type][$counters[$object_type]++]; 
-			}
+				continue;
+			}		
+			else {
+				// Collect the key-value pairs for the definition
+				@list($key, $value) = explode("\t", trim($line), 2);
+				//$objects['host'][0]['host_name'] = 'thename'; 
+				$objects[$object_type][$counters[$object_type] ][trim($key)] = trim($value);
+			} 
+		}
+		else {  //outside of a block 
+			if(preg_match('/^\s*define\s+(\w+)\s*{\s*$/', $line, $matches)) {
+				$object_type = $matches[1];
+				$in_block = true;
+				continue;
+			}	
+
 		}
 	      
 	} //end of while
 	
-	fclose($objs_file);	
+	fclose($file);	
 
 	//only do this for group and details page
 //	$object_collector['hostgroups'] = build_group_array($object_collector['hostgroups_objs'], 'host');
 //	$object_collector['servicegroups'] = build_group_array($object_collector['servicegroups_objs'], 'service');
 
-	return $object;
+	return array(  $objects['host'],
+						$objects['service'],
+						$objects['hostgroup'],
+						$objects['servicegroup'],
+						$objects['timeperiod'],
+						$objects['command'],
+						$objects['contact'],
+						$objects['contactgroup'],
+						$objects['serviceescalation'],
+						$objects['hostescalation'],
+						$objects['hostdepencency'],
+						$objects['servicedependency'],
+					);
 }
+
+//$objects = parse_objects_file('/usr/local/nagios/var/objects.cache'); 
+//print "<pre>".print_r($objects,true)."</pre>";
 
 
 /*

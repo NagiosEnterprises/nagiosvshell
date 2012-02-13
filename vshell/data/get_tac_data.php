@@ -61,7 +61,7 @@ function get_tac_data()
 	$now = time();
 	$info     = $NagiosData->getProperty('info');
 	$program  = $NagiosData->getProperty('program');
-	$program  = $program[0];
+	//$program  = $program[0];
 	$services = $NagiosData->grab_details('service'); 
 	$hosts    = $NagiosData->grab_details('host');
 	$h_states = $NagiosData->getProperty('host'); 	
