@@ -154,9 +154,13 @@ function build_nav_links() //build page links based on user's permission level
  * 
  * USAGE: $tr_class = get_color_code($host)
  */
-function get_color_code($array) 
+function get_color_code($array,$int=false) 
 {
-	$state = strtolower($array['current_state']);
+
+	if($int)
+		$state = strtolower(return_host_state($array['current_state']));
+	else 
+		$state = strtolower($array['current_state']);	
 	$vals = array('ok', 'up', 'down', 'warning', 'unknown', 'critical', 'pending');
 	$str = (in_array($state, $vals) ? $state : 'unknown');
 	return $str;
@@ -167,16 +171,13 @@ function get_color_code($array)
  */
 function get_host_status_color($hostname)
 {
-	$hostname = trim($hostname);
-
 	global $NagiosData;
-	$hosts = $NagiosData->getProperty('hosts');
+	$host = $NagiosData->get_details_by('host',$hostname);
 
 	$color = '';
-	if(isset($hosts) && isset($hosts[$hostname]))
-	{
-		$color = get_color_code($hosts[$hostname]);
-	}
+	if(isset($host))
+		$color = get_color_code($host,true);
+	
 
 	return $color;
 }

@@ -48,10 +48,24 @@ function hosts_and_services_data($type, $state_filter=NULL, $name_filter=NULL)
 				$data = $acknowledged; 				
 			}//end acknowledged if 
 		}
-		else 
-		{
-			$data = get_by_state($state_filter, $data); 
+		elseif($state_filter=='PENDING' || $state_filter=='OK' || $state_filter=='UP') {
+			$filtered = array(); 
+			//pending 
+			if($state_filter == 'PENDING') {
+				foreach($data as $d) 
+					if($d['current_state']==0 && $d['last_check']==0) $filtered[] = $d; 
+			}		
+			else {
+				foreach($data as $d) 
+					if($d['current_state']==0 && $d['last_check']!=0) $filtered[] = $d;
+			}	
+			$data = $filtered; 		
 		}
+		else {
+			$s = ($type == 'services') ? true : false; 
+			$data = get_by_state($state_filter, $data,$s); 
+		}	
+		
 	}
 	if ($name_filter)
 	{

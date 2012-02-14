@@ -55,6 +55,17 @@ ini_set('display_errors','On');
 session_start(); //no need for sessions at this time
 ob_start();
 
+/////
+
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$start = $time;
+
+
+///
+
+
 $username = false;
 //////////////USE TO OVERRIDE APACHE AUTHENTICATION LOGIC: ///////////////////////////////
 //////////UNCOMMENTING THIS WILL LEAVE YOUR MONITORING ENVIRONMENT WIDE OPEN!!! ///////////////////////////
@@ -76,6 +87,14 @@ if($NagiosUser->get_username())  //if logged in, display the page
 //$hosts = $NagiosData->getProperty('hosts_objs'); 
 //$hosts = $NagiosUser->get_authorized_hosts(); 
 //echo "<pre>".print_r($hosts,true)."</pre>"; 
+
+
+$time = microtime();
+$time = explode(' ', $time);
+$time = $time[1] + $time[0];
+$finish = $time;
+$total_time = round(($finish - $start), 4);
+echo 'Page generated in '.$total_time.' seconds.'."\n";
 
 ob_end_flush();
 ?>

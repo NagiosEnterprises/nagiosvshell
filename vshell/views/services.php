@@ -99,12 +99,14 @@ function display_services($services,$start,$limit)
 	{
 		if ($i > $resultsCount) break;      //short circuit
 		if(!isset($services[$i])) continue; //skip undefined indexes of array
+		
+		process_service_status_keys($services[$i]);
 
 		//get $vars to complete table data 
 		$tr = get_color_code($services[$i]);
-		#$url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$services[$i]['serviceID']);
+		//$url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$services[$i]['serviceID']);
 		$url = htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$services[$i]['serviceID']);
-		#$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$services[$i]['host_name']);
+		//$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$services[$i]['host_name']);
 		$host_url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$services[$i]['host_name']);
 		$color = get_host_status_color($services[$i]['host_name']);		
 		$hosticons = fetch_host_icons($services[$i]['host_name']);

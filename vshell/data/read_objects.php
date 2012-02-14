@@ -107,6 +107,7 @@ function parse_objects_file($objfile = OBJECTSFILE)
 	$in_block = false; 	
 	$matches = array();
 	$object_type = NULL;
+	$host_name = ''; 
 		
 	while(!feof($file)) //read through the file and read object definitions
 	{
@@ -116,14 +117,22 @@ function parse_objects_file($objfile = OBJECTSFILE)
 			if (strpos($line,'}') !== FALSE) { 
 				$in_block = false; //end of block 
 				//increment type counter 
-				$objects[$object_type][$counters[$object_type]++]; 
+				if($object_type != 'host')
+					$objects[$object_type][$counters[$object_type]++]; 
 				continue;
 			}		
 			else {
 				// Collect the key-value pairs for the definition
 				@list($key, $value) = explode("\t", trim($line), 2);
-				//$objects['host'][0]['host_name'] = 'thename'; 
-				$objects[$object_type][$counters[$object_type] ][trim($key)] = trim($value);
+				//$objects['host'][0]['host_name'] = 'thename';
+				if($object_type=='host') {
+					if($key == 'host_name') //index array by hostname 
+						$host_name = $value; 
+					$objects[$object_type][$host_name][trim($key)] = trim($value); 
+				
+				}					
+				else //all other objects  
+					$objects[$object_type][$counters[$object_type] ][trim($key)] = trim($value);
 			} 
 		}
 		else {  //outside of a block 

@@ -167,7 +167,7 @@ function services_table($tac_data)
 	   <td class='critical'><a class='highlight' href='{$tac_data['servlink']}CRITICAL'><div class='td'>{$tac_data['servicesCriticalTotal']} ".gettext('Critical')."</div></a></td>
 		<td class='warning'><a class='highlight' href='{$tac_data['servlink']}WARNING'><div class='td'>{$tac_data['servicesWarningTotal']} ".gettext('Warning')."</div></a></td>		
 		<td class='unknown'><a class='highlight' href='{$tac_data['servlink']}UNKNOWN'><div class='td'>{$tac_data['servicesUnknownTotal']} ".gettext('Unknown')."</div></a></td>
-		<td class='pending'><a class='highlight' href='{$tac_data['servlink']}PENDING'><div class='td'>{$tac_data['servicesPending']} ".gettext('Pending')."</div></a></td>
+		<td class='pending'><a class='highlight' href='{$tac_data['servlink']}PENDING'><div class='td'>{$tac_data['servicesPendingTotal']} ".gettext('Pending')."</div></a></td>
   </tr>
   <tr>
 	<td class='problem'><a class='highlight' href='{$tac_data['servlink']}PROBLEMS'><div class='td'>{$tac_data['servicesProblemsTotal']} ".gettext('Problems')."</div></a></td>

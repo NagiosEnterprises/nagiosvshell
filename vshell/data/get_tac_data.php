@@ -64,7 +64,7 @@ function get_tac_data()
 	//$program  = $program[0];
 	$services = $NagiosData->grab_details('service'); 
 	$hosts    = $NagiosData->grab_details('host');
-	$h_states = $NagiosData->getProperty('host'); 	
+	//$h_states = $NagiosData->getProperty('host'); 	
 	$tac_data = array(); //main array with all of the counter data for this function 
 
 	//default to xml 
@@ -168,7 +168,7 @@ function get_tac_data()
 	$hostStates = array(NULL, 'Down', 'Unreachable'); // used in tracking host states
 	foreach($hosts as $h)
 	{
-		if(!$NagiosUser->is_authorized_for_host($h['host_name'])) continue; 	//user-level filtering 
+		if(!isset($h['host_name']) || !$NagiosUser->is_authorized_for_host($h['host_name'])) continue; 	//user-level filtering 
 	
 		//html specific data 		
 		if($h['flap_detection_enabled'] != 1) $tac_data['hostsFlappingDisabled']++;
@@ -217,7 +217,8 @@ function get_tac_data()
 		if($s['passive_checks_enabled'] == 0) $tac_data['servicesPassiveChecksDisabled']++;
 	
 		//xml necessary for Nagios Fusion 
-		$current_host = $h_states[$s['host_name']];	
+		//$current_host = $h_states[$s['host_name']];	
+		$current_host = $hosts[$s['host_name']];
 		if($s['last_check'] == 0 && $s['active_checks_enabled'] == 1) { $tac_data['servicesPending']++; continue; } //pending 
 		if($s['last_check'] == 0 && $s['active_checks_enabled'] == 0) { $tac_data['servicesPendingDisabled']++;  continue;  } //pending 
 		if($s['active_checks_enabled'] == 0) $tac_data['servicesTotalDisabled']++;
@@ -262,7 +263,7 @@ function get_tac_data()
 	$tac_data['hostsAcknowledgedTotal']    = $tac_data['hostsDownAcknowledged']      +$tac_data['hostsUnreachableAcknowledged']; 
 	$tac_data['servicesUnhandledTotal']    = $tac_data['servicesWarningUnhandled']   +$tac_data['servicesUnknownUnhandled']    +$tac_data['servicesCriticalUnhandled']; 
 	$tac_data['servicesAcknowledgedTotal'] = $tac_data['servicesWarningAcknowledged']+$tac_data['servicesUnknownAcknowledged'] +$tac_data['servicesCriticalAcknowledged'];
-	
+	$tac_data['servicesPendingTotal'] = $tac_data['servicesPending'] + $tac_data['servicesPendingDisabled']; 
 	
 	return $tac_data; 
 } //end get_tac_data() 

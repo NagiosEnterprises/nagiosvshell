@@ -133,17 +133,10 @@ class NagiosData
 			$retval = $details[$id];	//call service details by array index 
 	
 		}
-		elseif ($type == 'host')
-		{
-			foreach($details as $host_details)
-			{
-				if(strtolower($host_details['host_name']) == $arg) 
-				{
-					$retval = $host_details;
-					break;
-				}
-			}
-		}
+		if ($type == 'host')	
+			$retval = $details[$arg]; 
+
+
 		return $retval;
 	}
 

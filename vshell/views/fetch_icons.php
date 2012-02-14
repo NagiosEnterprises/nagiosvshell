@@ -75,11 +75,7 @@ function fetch_host_icons($hostname)
 	global $NagiosData;
 	$hosts_objs = $NagiosData->getProperty('hosts_objs'); //host config, used to check for icon image
 	$host_obj = $hosts_objs[$hostname]; //get host config array 
-	$details = $NagiosData->grab_details('host'); //host details 
- 	foreach($details as $d) 
- 	{ 
- 		if($d['host_name'] == $hostname) $host = $d; //extract host details for icons 
- 	}	
+	$host = $NagiosData->get_details_by('host',$hostname); //host details 
 		
 	$icons = '';	
 	$icons .= "<a href='index.php?type=services&name_filter=".rawurlencode($hostname)."'>

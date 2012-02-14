@@ -96,13 +96,13 @@ function get_state_of($type, $array=NULL) //create host or service arrays by sta
 		{
 			//process_service_status_keys($a);
 			if($NagiosUser->is_authorized_for_service($a['host_name'],$a['service_description']))  
-				$state_counts[$a['current_state']]++;		
+					$state_counts[return_service_state($a['current_state'])]++;							
 		}	
 		if($type=='hosts')
 		{
 			//process_host_status_keys($a);
-			if($NagiosUser->is_authorized_for_host($a['host_name'])) 
-					$state_counts[$a['current_state']]++;	
+			if(isset($a['host_name']) && $NagiosUser->is_authorized_for_host($a['host_name'])) 
+					$state_counts[return_host_state($a['current_state'])]++;	
 		}
 	}
 		
@@ -142,14 +142,27 @@ function get_hosts_by_state($state, $host_data)
 //
 function get_services_by_state($state, $service_data)
 {
-	return get_by_state($state, $service_data);
+	return get_by_state($state, $service_data,true);
 }
 
-function get_by_state($state, $data)
+function get_by_state($state, $data,$service=false)
 {
+	$newdata = array(); 
+				
+	if($service) {
+		foreach($data as $d)
+			if(return_service_state($d['current_state']) == $state)  $newdata[] = $d;  	
+	}
+	else 	{
+		foreach($data as $d)
+			if(return_host_state($d['current_state']) == $state)  $newdata[] = $d;   		
+	}	
 
-	return array_filter($data, create_function('$d', 'return $d[\'current_state\'] == \''.$state.'\';'));
-
+	return $newdata;
+//		return array_filter($data, create_function('$d', 'return return_service_state($d[\'current_state\']) == \''.$state.'\';'));
+//	else 
+//		return array_filter($data, create_function('$d', 'return return_host_state($d[\'current_state\']) == \''.$state.'\';'));	
+	
 }
 
 

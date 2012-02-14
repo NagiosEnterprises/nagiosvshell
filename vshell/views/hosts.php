@@ -98,6 +98,8 @@ function display_hosts($hosts, $start,$limit)
 		if ($i >= $resultsCount) break;
 		if(!isset($hosts[$hostnames[$i]])) continue; //skip undefined indexes of hosts array 
 		$host = $hosts[$hostnames[$i]];
+		//process remaining variables for display here 
+		process_host_status_keys($host);
 
 		$tr = get_color_code($host); // CSS style class based on status 
 		$url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$host['host_name']);

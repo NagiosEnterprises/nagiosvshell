@@ -200,7 +200,7 @@ function parse_status_file($statusfile = STATUSFILE)
 		{					
 			case HOSTDEF:
 			//do something
-				if(!isset($hoststatus[$value]) && $key=='host_name') {
+				if($key=='host_name' && !isset($hoststatus[$value])) {
 					$hostkey = $value;
 					$hoststatus[$hostkey] = array();
 				}					 
@@ -213,9 +213,9 @@ function parse_status_file($statusfile = STATUSFILE)
 			break;
 			
 			case HOSTCOMMENT:
-				if(!isset($hoststatus[$key]) && $key=='host_name') {
+				if($key=='host_name' && !isset($hostcomments[$key])) {
 					$hostkey = $key;
-					$hoststatus[$hostkey] = array();
+					$hostcomments[$hostkey] = array();
 				}					 
 				$hostcomments[$hostkey][$key]= $value;				
 			break;
