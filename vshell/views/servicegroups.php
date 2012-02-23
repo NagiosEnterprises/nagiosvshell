@@ -49,35 +49,7 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-function get_servicegroup_data()
-{
-	$servicegroup_data = array();
 
-	$sg_details = build_servicegroups_array();
-	foreach($sg_details as $group => $members)
-	{
-		if(empty($sg_details[$group])) continue; //skip unauthorized groups 
-		$servicegroup_data[$group]['state_counts'] = array();
-		foreach(array('OK', 'WARNING', 'CRITICAL', 'UNKNOWN') as $state)
-		{
-			$servicegroup_data[$group]['state_counts'][$state] = count_by_state($state, $members);
-		}
-		$servicegroup_data[$group]['services'] = array();
-		foreach ($members as $serv) {
-			$service_data = array(
-				'host_name'   => $serv['host_name'],
-				'host_url'    => htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$serv['host_name']),
-				'service_url' => htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$serv['serviceID']),
-				'plugin_output' => $serv['plugin_output'],
-				'description'   => $serv['service_description'],
-				'current_state' => $serv['current_state'],
-			);
-			$servicegroup_data[$group]['services'][] = $service_data;
-		}
-	}
-
-	return $servicegroup_data;
-}
 
 function display_servicegroups($data)
 {

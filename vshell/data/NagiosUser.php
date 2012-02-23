@@ -80,6 +80,7 @@ class NagiosUser
 			$this->build_authorized_objects(); 
 		}
 		//print_r($this->authHosts); 
+		//array_dump($this->authKeys); 
 	
 	}
 	
@@ -126,11 +127,13 @@ class NagiosUser
 	{
 		global $NagiosData;
 		$permissions = $NagiosData->getProperty('permissions');
-	
-		foreach($permissions as $key => $array) {
+		
+		foreach($permissions as $key => $array) 
+		{
 			foreach($array as $user) {           //look for wildcard 
 				if($user == $this->username || $user == '*') $this->authorize($key);
-			}				
+			}	
+						
 		}
 	}
 	
@@ -183,7 +186,9 @@ class NagiosUser
 	*	@return boolean decide if this user is an admin 
 	*/
 	private function determine_admin() {
-		if($this->username == 'nagiosadmin') return true; 
+		if($this->username == 'nagiosadmin') 			
+		   return true; 
+			 
 		foreach($this->authKeys as $key)
 		{
 			if($key != true) return false; //if all auth keys are set, user is an admin 

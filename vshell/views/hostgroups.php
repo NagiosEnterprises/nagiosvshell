@@ -48,62 +48,11 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-/* Preprocess all of the data for hostgroups display/output
- */
-function get_hostgroup_data()
-{
-	global $NagiosData;
-	global $NagiosUser; 
-	
-	$hostgroups = $NagiosData->getProperty('hostgroups');
-	$hosts = $NagiosData->getProperty('hosts');
 
-	$hostgroup_data = array();
-	foreach ($hostgroups as $group => $members) 
-	{
-		
-		
-		$hostgroup_data[$group] = array(
-			'member_data' => array(),
-			'host_counts'    => get_state_of('hosts', build_hostgroup_details($members)),
-			'service_counts' => get_state_of('services', build_host_servicegroup_details($members))
-			);
-		
-		//skip ahead if there are no authorized hosts			
-		if(array_sum($hostgroup_data[$group]['host_counts'])==0) continue; //skip empty groups 
-			
-		foreach ($members as $member) {
-		
-			if(!$NagiosUser->is_authorized_for_host($member)) continue; //user-level filtering 		
-		
-			$host = $hosts[$member];
-			$hostgroup_data[$group]['member_data'][$member]['host_name'] = $host['host_name'];
-			$hostgroup_data[$group]['member_data'][$member]['host_state'] = $host['current_state'];
-			$hostgroup_data[$group]['member_data'][$member]['state_class'] = get_color_code($host);
-			$hostgroup_data[$group]['member_data'][$member]['services'] = array();
-			$hostgroup_data[$group]['member_data'][$member]['host_url'] = 
-				htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$host['host_name']);
-
-			if (isset($host['services'])) {
-				foreach($host['services'] as $service) {
-				
-					if(!$NagiosUser->is_authorized_for_service($member,$service['service_description'])) continue; //user-level filtering 					
-				
-					$service_data = array(
-						'state_class' => get_color_code($service),
-						'description' => $service['service_description'],
-						'service_url' => htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$service['serviceID']),
-					);
-					$hostgroup_data[$group]['member_data'][$member]['services'][] = $service_data;
-				}
-			}
-		}
-	}
-	return $hostgroup_data;
-}
 
 function display_hostgroups($data)
 {
+	$bad_chars = array(' ','.',':','(',')','#','[',']');
 	$page = "";
 	$page .= "<h3>".gettext('Host Groups')."</h3>
 		<div class='contentWrapper'>";
@@ -128,6 +77,7 @@ FILTERDIV;
 	//////////////////////////////////////table creation, displays both summary and grid view   
 	foreach($data as $group => $group_data)
 	{
+		$id = str_replace($bad_chars,'_',$group); 
 		//skip ahead if there are no authorized hosts			
 		if(array_sum($group_data['host_counts'])==0)  continue; //skip empty groups 
 
@@ -151,10 +101,10 @@ FILTERDIV;
 					<td class='unknown'> {$group_data['service_counts']['UNKNOWN']} </td>
 				</tr></table>";
 		
-		$page .= "<p class='label'><a onclick=\"showHide('$group')\" href='javascript:void(0)'>Toggle Grid</a></p>";
+		$page .= "<p class='label'><a onclick=\"showHide('$id')\" href='javascript:void(0)'>Toggle Grid</a></p>";
 		
 		//details table in GRID view 
-		$page .= "<div class='hidden' id='$group'>";
+		$page .= "<div class='hidden' id='$id'>";
 		$page .= "<table class='statustable'><tr><th>$group</th><th>Host Status</th><th>Services</th></tr>";
 
 		foreach($group_data['member_data'] as $member => $member_data)

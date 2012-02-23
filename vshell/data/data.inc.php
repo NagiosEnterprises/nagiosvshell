@@ -66,6 +66,6 @@ require_once('build_groups.php');
 require_once('read_objects.php');
 require_once('read_status.php'); 
 require_once('read_perms.php'); 
-
+require_once('process_details.php'); 
 
 ?>

@@ -98,7 +98,7 @@ function fetch_host_icons($hostname)
  */
 function fetch_service_icons($hostname, $servicename)
 {
-	$servicicename = trim($servicename);
+	$servicename = trim($servicename);
 	global $NagiosData;
 	$services_objs = $NagiosData->getProperty('services_objs'); //host config, used to check for icon image
  	foreach($services_objs as $s) 

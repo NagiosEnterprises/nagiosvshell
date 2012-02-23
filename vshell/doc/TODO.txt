@@ -3,6 +3,7 @@ TODO for V Shell Nagios User interface
 BUGS
 
 - "view all services for this host" can sometimes return extra results 
+	- needs to new filter condition other than "name_filter"
 
 MODEL/DATA
 

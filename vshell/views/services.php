@@ -84,30 +84,33 @@ function display_services($services,$start,$limit)
 	<th class="attempt">'.gettext('Attempt').'</th>
 	<th class="last_check">'.gettext('Last Check').'</th>
 	<th class="plugin_output">'.gettext('Status Information').'</th></tr>';
-		
+	
+	/*	
 	// Fixup post filtering indices
 	$curidx = 0;
 	foreach ($services as $id => $servinfo) {
 			unset($services[$id]);
 			$services[$curidx++] = $servinfo;
 	}
+	*/
 
 	//process service array   
 	//service table rows 
 	$last_displayed_host = NULL;
 	for($i=$start; $i<=($start+$limit); $i++)
 	{
-		if ($i > $resultsCount) break;      //short circuit
-		if(!isset($services[$i])) continue; //skip undefined indexes of array
 		
+		if ($i > $resultsCount) break;      //short circuit		
+		if(!isset($services[$i])) continue; //skip undefined indexes of array
+
 		process_service_status_keys($services[$i]);
 
 		//get $vars to complete table data 
 		$tr = get_color_code($services[$i]);
 		//$url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$services[$i]['serviceID']);
-		$url = htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$services[$i]['serviceID']);
+		$url = htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$services[$i]['service_id']);
 		//$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$services[$i]['host_name']);
-		$host_url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$services[$i]['host_name']);
+		$host_url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter=').urlencode($services[$i]['host_name']);
 		$color = get_host_status_color($services[$i]['host_name']);		
 		$hosticons = fetch_host_icons($services[$i]['host_name']);
 		$serviceicons = fetch_service_icons($services[$i]['host_name'], $services[$i]['service_description']); 		
@@ -118,7 +121,7 @@ function display_services($services,$start,$limit)
 		{
 			$last_displayed_host = $services[$i]['host_name'];
 			$hostlink = "<a class='highlight' href='$host_url' title='".gettext('View Host Details')."'>";
-			$td1 = "<td class='$color'><div class='hostname'>$hostlink".$services[$i]['host_name']."</a> $hosticons </div></td>";
+			$td1 = "<td class='$color'><div class='hostname'>$hostlink".htmlentities($services[$i]['host_name'])."</a> $hosticons </div></td>";
 		}
 		
 		//table data generation 				

@@ -75,6 +75,11 @@
 function parse_objects_file($objfile = OBJECTSFILE)
 {
 	$file = fopen($objfile, "r") or die("Unable to open '$objfile' file!");
+	$in_block = false; 	
+	$matches = array();
+	$object_type = NULL;
+	$host_name = ''; 
+	$serviceID = 0; 
 	
 	$objects = array(   'host' => array(),
 						'service' => array(),
@@ -104,10 +109,7 @@ function parse_objects_file($objfile = OBJECTSFILE)
 						'servicedependency' => 0,
 					);
 	
-	$in_block = false; 	
-	$matches = array();
-	$object_type = NULL;
-	$host_name = ''; 
+
 		
 	while(!feof($file)) //read through the file and read object definitions
 	{
@@ -116,9 +118,13 @@ function parse_objects_file($objfile = OBJECTSFILE)
 		if($in_block) {
 			if (strpos($line,'}') !== FALSE) { 
 				$in_block = false; //end of block 
+				//add a service id 
+				if($object_type ==' service')	
+					$objects[$object_type][$counters[$object_type] ]['service_id'] = $serviceID++;
 				//increment type counter 
 				if($object_type != 'host')
 					$objects[$object_type][$counters[$object_type]++]; 
+
 				continue;
 			}		
 			else {
@@ -130,7 +136,11 @@ function parse_objects_file($objfile = OBJECTSFILE)
 						$host_name = $value; 
 					$objects[$object_type][$host_name][trim($key)] = trim($value); 
 				
-				}					
+				}
+				//create unique service ID 
+				//if($object_type=='service')
+					//$objects[$object_type][$counters[$object_type] ]['service_id'] = $serviceID; 
+										
 				else //all other objects  
 					$objects[$object_type][$counters[$object_type] ][trim($key)] = trim($value);
 			} 
@@ -169,7 +179,7 @@ function parse_objects_file($objfile = OBJECTSFILE)
 
 //$objects = parse_objects_file('/usr/local/nagios/var/objects.cache'); 
 //print "<pre>".print_r($objects,true)."</pre>";
-
+//die(); 
 
 /*
 function typemap($type)
@@ -185,46 +195,6 @@ function typemap($type)
   return $retval;
 }
 */
-//creates group array based on type 
-//$objectarray - expecting an object group array -> $hostgroups_objs $servicegroups_objs $contactgroups
-//				-these groups are read from objects.cache file  
-//$type - expecting 'host' 'service' or 'contact'  
-function build_group_array($objectarray, $type)
-{
-	$membersArray = array(); 
-	$index = $type.'group_name';
 
-	foreach ($objectarray as $object)
-	{
-		$group = $object[$index];
-		if (isset($object['members']))
-		{
-			$members = $object['members'];
-			$lineitems = explode(',', trim($members));
-			array_walk($lineitems, create_function('$v', '$v = trim($v);'));
-			$group_members = NULL;
-			if ($type == 'host' || $type == 'contact')
-			{
-				$group_members = $lineitems;
-			}
-			elseif ($type == 'service')
-			{
-				for ($i = 0; $i < count($lineitems); $i+=2)
-				{
-					$host = $lineitems[$i];
-					$service = $lineitems[$i+1];
-					$group_members[] = array(
-						'host_name' => $host,
-						'service_description' => $service);
-
-				}
-			}
-
-			$membersArray[$group] = $group_members;
-		}
-	}
-	//ARRAY MEMBERS NEED SPACES TRIMMED!!!!!!!! 
-	return $membersArray;
-}
 
 ?>

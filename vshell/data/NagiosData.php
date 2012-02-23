@@ -80,10 +80,30 @@ class NagiosData
 	public function getProperty($var) 
 	{
 		$retval = NULL;
-		
-		if (isset($this->properties[$var])) {
-			$retval = $this->properties[$var];
+		//echo "VAR IS: $var<br />"; 
+		if($var=='hostgroups') { //build hostgroup data			 
+				$this->properties['hostgroups'] = build_group_array($this->properties['hostgroups_objs'], 'host');
+				foreach($this->properties['services'] as $service) {
+					if(!isset($this->properties['hosts'][$service['host_name']]['services'])) 
+						$this->properties['hosts'][$service['host_name']]['services'] = array(); 
+					$this->properties['hosts'][$service['host_name']]['services'][] = $service;	
+				}
 		}
+		if($var=='servicegroups') {//build servicegroup data 				
+				$this->properties['servicegroups'] = build_group_array($this->properties['servicegroups_objs'], 'service');
+				
+				//array_dump($this->properties['servicegroups']); 				
+				/*
+				foreach($this->properties['services'] as $service) {
+					if(!isset($this->properties['hosts'][$service['host_name']]['services'])) 
+						$this->properties['hosts'][$service['host_name']]['services'] = array(); 
+					$this->properties['hosts'][$service['host_name']]['services'][] = $service;	
+				}
+				*/
+		}
+				
+		if (isset($this->properties[$var]))			
+			$retval = $this->properties[$var];
 
 		return $retval;
 	}
@@ -133,9 +153,18 @@ class NagiosData
 			$retval = $details[$id];	//call service details by array index 
 	
 		}
-		if ($type == 'host')	
-			$retval = $details[$arg]; 
-
+		if ($type == 'host')	{
+			if(isset($details[$arg]))
+				$retval = $details[$arg];
+			else { //character replacement search 
+				foreach($details as $hostname => $array) {
+					if(strtolower($hostname) == $arg) {
+						$retval = $array;
+						break;
+					}//end IF 
+				}//end foreach 
+			}//end ELSE 	
+		}//end IF host 
 
 		return $retval;
 	}
@@ -144,12 +173,19 @@ class NagiosData
 	function __construct()
 	{
 		//objects.cache data 
-		list($this->properties['hosts_objs'], $this->properties['services_objs'], 
-		$this->properties['hostgroups_objs'], $this->properties['servicegroups_objs'], $this->properties['contacts'],
-		$this->properties['contactgroups'],$this->properties['timeperiods'], $this->properties['commands'], 
-		$this->properties['hostescalations'],$this->properties['serviceescalations'],
-		$this->properties['hostdependencys'],$this->properties['servicedependencys']) = parse_objects_file();
-		
+		list( $this->properties['hosts_objs'], 
+				$this->properties['services_objs'], 
+			   $this->properties['hostgroups_objs'], 
+			   $this->properties['servicegroups_objs'], 
+			   $this->properties['timeperiods'],
+			   $this->properties['commands'],
+			   $this->properties['contacts'],
+				$this->properties['contactgroups'],				 
+				$this->properties['serviceescalations'],				 
+				$this->properties['hostescalations'],
+				$this->properties['hostdependencys'],
+				$this->properties['servicedependencys']) = parse_objects_file();
+						
 		//status.dat data  
 		list($this->properties['hosts'],
 			$this->properties['services'],
@@ -161,9 +197,6 @@ class NagiosData
 		//todo hostgroups, servicegroups, permissions
 		$this->properties['permissions'] = parse_perms_file(); 
 	}
-
-
-
 
 }
 

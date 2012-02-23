@@ -185,7 +185,7 @@ function parse_status_file($statusfile = STATUSFILE)
 				continue;
 			}		
 		} //end OUTOFBLOCK IF 
-		
+		//end of definition 
 		if(strpos($line, '}') !==false) {
 			if($case == SERVICEDEF) 
 				$service_id++; 
@@ -209,7 +209,7 @@ function parse_status_file($statusfile = STATUSFILE)
 			
 			case SERVICEDEF:  					 
 				$servicestatus[$service_id][$key]= $value;	
-				$servicedetails[$service_id]['service_id']= $service_id;							
+				$servicestatus[$service_id]['service_id']= $service_id;	 				
 			break;
 			
 			case HOSTCOMMENT:
@@ -260,10 +260,10 @@ function get_key_value($line) {
 	return array($key,$value); 
 
 }
+*/
 
 
-
-$data = parse_status_file('/usr/local/nagios/var/status.dat'); 
-print "<pre>".print_r($data,true)."</pre>";
-*/ 
+//$data = parse_status_file('/usr/local/nagios/var/status.dat'); 
+//print "<pre>".print_r($data,true)."</pre>";
+//die();  
 ?>

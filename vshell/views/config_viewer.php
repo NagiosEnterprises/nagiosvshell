@@ -5,8 +5,7 @@
 //expects $array from objects file such as $hosts_objs 
 //        $arg is the argument taken from the browser.  example object=services_objs 
 function build_object_list($data, $arg) //expecting arrays from read_objects.php file 
-{
-
+{	
 	$count = 0;
 	$object_list = '';
 	$name_filter = isset($_GET['name_filter']) ? htmlentities($_GET['name_filter']) : '';
@@ -41,7 +40,7 @@ FILTERDIV;
 				$name=$a['host_name'];
 				$linkkey = 'host'.$a['host_name'];
 				#$link = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$name);
-				$link = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$name);
+				$link = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter=').urlencode($name);
 				$title = gettext('Host').": <a href='$link' title='Host Details'>$name</a>";
 			break;
 			
@@ -51,7 +50,7 @@ FILTERDIV;
 				$linkkey = 'service'.$count;
 				$host = $a['host_name'];
 				#$hlink = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$host);
-				$hlink = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$host);
+				$hlink = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter=').urlencode($host);
 				#$link = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$linkkey);
 				$link = htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$linkkey);
 				$title = gettext('Host').": <a href='$hlink' title='Host Details'>$host</a> 

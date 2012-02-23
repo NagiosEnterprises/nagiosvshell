@@ -66,16 +66,18 @@ function hosts_and_services_data($type, $state_filter=NULL, $name_filter=NULL)
 			$data = get_by_state($state_filter, $data,$s); 
 		}	
 		
-	}
+	}//end IF $state_filter 
 	if ($name_filter)
 	{
 		$name_data = get_by_name($name_filter, $data);
 		$service_data = get_by_name($name_filter, $data, 'service_description');
 		$data = $name_data;
+		//array_dump($data);
 		foreach ($service_data as $i => $service)
 		{
 			if (!isset($data[$i])) { $data[$i] = $service; }
 		}
+		$data = array_values($data);
 	}
 	//var_dump($data); 
 	return $data;
@@ -102,13 +104,17 @@ function hostgroups_and_servicegroups_data($type, $name_filter=NULL)
 
 		// TODO filters against Services and/or hosts within groups, status of services/hosts in groups, etc...
 		$name = preg_quote($name_filter, '/');
+		//XXX create_function needs to be removed 
 		$match_keys = array_filter(array_keys($data), create_function('$d', 'return !preg_match("/'.$name.'/i", $d);'));
+		
+		
 		// XXX is there a better way?
 		foreach ($match_keys as $key)
 		{
 			unset($data[$key]);
 		}
 	}
+		
 	return $data;
 }
 
