@@ -87,4 +87,8 @@ define("OBJECTSFILE", $ini_array["OBJECTSFILE"]); //main object configuration fi
 define("CGICFG", $ini_array["CGICFG"]); //cfg file with permissions cfg 
 
 define("RESULTLIMIT", $ini_array["RESULTLIMIT"]); //limits the default number for maximum results displayed in a table 
+//max time to live for apc_cached data
+$ttl = isset($ini_array['TTL']) ? $ini_array['TTL'] : 90; 
+define('TTL',$ttl); 
+ 
 ?>

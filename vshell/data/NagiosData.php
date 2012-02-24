@@ -89,19 +89,10 @@ class NagiosData
 					$this->properties['hosts'][$service['host_name']]['services'][] = $service;	
 				}
 		}
-		if($var=='servicegroups') {//build servicegroup data 				
+		//build servicegroup data 
+		if($var=='servicegroups')				
 				$this->properties['servicegroups'] = build_group_array($this->properties['servicegroups_objs'], 'service');
-				
-				//array_dump($this->properties['servicegroups']); 				
-				/*
-				foreach($this->properties['services'] as $service) {
-					if(!isset($this->properties['hosts'][$service['host_name']]['services'])) 
-						$this->properties['hosts'][$service['host_name']]['services'] = array(); 
-					$this->properties['hosts'][$service['host_name']]['services'][] = $service;	
-				}
-				*/
-		}
-				
+						
 		if (isset($this->properties[$var]))			
 			$retval = $this->properties[$var];
 
@@ -172,31 +163,194 @@ class NagiosData
 	// A private constructor; prevents direct creation of object
 	function __construct()
 	{
-		//objects.cache data 
-		list( $this->properties['hosts_objs'], 
-				$this->properties['services_objs'], 
-			   $this->properties['hostgroups_objs'], 
-			   $this->properties['servicegroups_objs'], 
-			   $this->properties['timeperiods'],
-			   $this->properties['commands'],
-			   $this->properties['contacts'],
-				$this->properties['contactgroups'],				 
-				$this->properties['serviceescalations'],				 
-				$this->properties['hostescalations'],
-				$this->properties['hostdependencys'],
-				$this->properties['servicedependencys']) = parse_objects_file();
-						
-		//status.dat data  
+		$objects_are_cached = false;
+		$status_is_cached	= false;
+		$perms_are_cached=false;
+		$apc_exists = false;
+	
+		//if apc exists
+		if(function_exists('apc_fetch')) {
+			$apc_exists = true;
+			//echo "APC EXISTS!<br />";
+			if(isset($_GET['clearcache']) && $_GET['clearcache']=='true') {
+              apc_clear_cache('user');
+              apc_clear_cache('opcode');
+              echo "CACHE CLEARED!<br />";	
+			}	
+			//see what data is available 
+			list($objects_are_cached,$status_is_cached,$perms_are_cached) = $this->use_apc_data();
+			if($objects_are_cached) {
+				echo "objects are cached<br />";
+				$this->get_data_from_apc('objects');
+			}	
+			if($status_is_cached) {
+			   echo "status is cached<br />"; 
+				$this->get_data_from_apc('status');	 
+			}	
+			if($perms_are_cached) {
+			    echo "perms is cached<br />";
+				$this->get_data_from_apc('permissions');
+			}		 	
+		} 
+		//fetch any data that isn't cached 
+		if(!$status_is_cached || !$objects_are_cached || !$perms_are_cached)
+			$this->raw_file_parse($objects_are_cached,$perms_are_cached,$apc_exists); 
+ 
+	}
+	
+	private function raw_file_parse($objects_are_cached = false,$perms_are_cached=false,$apc_exists = false) 
+	{
+		echo "RAW PARSE<br />"; 		
+		if(!$objects_are_cached) 
+		{
+			//objects.cache data 
+			list( $this->properties['hosts_objs'], 
+					$this->properties['services_objs'], 
+				   $this->properties['hostgroups_objs'], 
+				   $this->properties['servicegroups_objs'], 
+				   $this->properties['timeperiods'],
+				   $this->properties['commands'],
+				   $this->properties['contacts'],
+					$this->properties['contactgroups'],				 
+					$this->properties['serviceescalations'],				 
+					$this->properties['hostescalations'],
+					$this->properties['hostdependencys'],
+					$this->properties['servicedependencys']) = parse_objects_file();
+					
+			if($apc_exists)		
+			   $this->set_data_to_apc('objects');		
+																		
+		}				
+		//status.dat data always gets parsed if this function is called  
 		list($this->properties['hosts'],
 			$this->properties['services'],
 			$this->properties['hostcomments'],
 			$this->properties['servicecomments'],
 			$this->properties['program'],
 			$this->properties['info']) = parse_status_file();  
+		if($apc_exists) {
+			echo "SAVING STATUS TO CACHE...<BR />"; 			
+			$this->set_data_to_apc('status');				
+		}		
 			
-		//todo hostgroups, servicegroups, permissions
-		$this->properties['permissions'] = parse_perms_file(); 
+		//grab perms if they need to be updated 
+		if(!$perms_are_cached)	{
+			$this->properties['permissions'] = parse_perms_file();
+         if($apc_exists)
+            $this->set_data_to_apc('permissions');
+		}		
+	}//end raw_file_parse() 
+	
+	private function use_apc_data() {
+	
+		$use_apc_objects  = false;
+		$use_apc_status = false;
+		$use_apc_perms = false;
+		
+		//is there is APC object data? 
+		if(apc_fetch('object_data_exists'))  {
+			$objects_filemtime = apc_fetch('last_objects_mtime'); 
+//			echo $objects_filemtime."<br />";
+//			echo filemtime(OBJECTSFILE);
+			//if objects.cache has been updated since last cached value, re-read all data
+			if((filemtime(OBJECTSFILE) == $objects_filemtime)) 					
+				$use_apc_objects = true;			
+		}
+		//apc status data? 
+		if(apc_fetch('status_data_exists'))
+			$use_apc_status = true;
+			
+		//apc CGI data?
+		if(apc_fetch('cgi_data_exists'))  {
+			$filemtime = apc_fetch('last_cgi_mtime'); 
+			//if objects.cache has been updated since last cached value, re-read all data
+			if($filemtime && (filemtime(CGICFG) == $filemtime)) 					
+				$use_apc_perms = true;			
+		}
+		
+		return array($use_apc_objects,$use_apc_status,$use_apc_perms);
+	
 	}
+	
+	private function get_data_from_apc($type) 
+	{
+		
+		if($type=='objects') {
+			echo "Gettign object data from cache<br />"; 
+			//set object data from cache
+			$this->properties['hosts_objs'] = apc_fetch('hosts_objs'); 
+			$this->properties['services_objs'] = apc_fetch('services_objs'); 
+			$this->properties['hostgroups_objs'] = apc_fetch('hostgroups_objs'); 
+			$this->properties['servicegroups_objs'] = apc_fetch('servicegroup_objs');
+			$this->properties['timeperiods'] = apc_fetch('timeperiods');
+			$this->properties['commands'] = apc_fetch('commands');
+			$this->properties['contacts'] = apc_fetch('contacts');
+			$this->properties['contactgroups'] = apc_fetch('contactgroups');				 
+			$this->properties['serviceescalations'] = apc_fetch('serviceescalations');				 
+			$this->properties['hostescalations'] = apc_fetch('hostescalations');
+			$this->properties['hostdependencys'] = apc_fetch('hostdependencys');
+			$this->properties['servicedependencys'] = apc_fetch('servicedependencys');
+
+		}
+		
+		if($type=='status') {
+			echo "Getting status data from cache<br />";
+			//set data from status cache
+			$this->properties['hosts'] = apc_fetch('hosts');
+			$this->properties['services'] = apc_fetch('services');
+			$this->properties['hostcomments'] = apc_fetch('hostcomments');
+			$this->properties['servicecomments'] = apc_fetch('servicecomments');
+			$this->properties['program'] = apc_fetch('program');
+			$this->properties['info'] = apc_fetch('info');
+		}	
+		
+		if($type=='permissions') {//set data from cgi.cfg cache
+			$this->properties['permissions'] = apc_fetch('permissions');
+			echo "Gettign cgi data from cache<br />";
+		}		
+	}
+	
+	private function set_data_to_apc($type) 
+	{
+		if($type=='objects') {
+			echo "Saving object data to cache<br />";
+			//set object data from cache
+			apc_store('hosts_objs',$this->properties['hosts_objs']); 
+			apc_store('services_objs',$this->properties['services_objs']); 
+			apc_store('hostgroups_objs',$this->properties['hostgroups_objs']); 
+			apc_store('servicegroup_objs',$this->properties['servicegroups_objs']);
+			apc_store('timeperiods',$this->properties['timeperiods']);
+			apc_store('commands',$this->properties['commands']);
+			apc_store('contacts',$this->properties['contacts']);
+			apc_store('contactgroups',$this->properties['contactgroups']);				 
+			apc_store('serviceescalations',$this->properties['serviceescalations']);				 
+			apc_store('hostescalations',$this->properties['hostescalations']);
+			apc_store('hostdependencys',$this->properties['hostdependencys']);
+			apc_store('servicedependencys',$this->properties['servicedependencys']);
+			apc_store('object_data_exists',true);
+			apc_store('last_objects_mtime',filemtime(OBJECTSFILE)); 
+		}
+		
+		if($type=='status') {
+			echo "Saving status data to cache<br />";
+			//set data from status cache
+			apc_store('hosts',$this->properties['hosts'],TTL);
+			apc_store('services',$this->properties['services'],TTL);
+			apc_store('hostcomments',$this->properties['hostcomments'],TTL);
+			apc_store('servicecomments',$this->properties['servicecomments'],TTL);
+			apc_store('program',$this->properties['program'],TTL);
+			apc_store('info',$this->properties['info'],TTL);
+			apc_store('status_data_exists',true,TTL);
+		}	
+		
+		if($type=='permissions') {
+			echo "Saving cgi data to cache<br />";
+			//set data from cgi.cfg cache
+			apc_store('permissions',$this->properties['permissions']);
+			apc_store('last_cgi_mtime',filemtime(CGICFG));
+			apc_store('cgi_data_exists',true);
+		}	
+	}//end set_data_to_apc
 
 }
 
