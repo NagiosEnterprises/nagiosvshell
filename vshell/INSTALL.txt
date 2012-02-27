@@ -21,7 +21,7 @@ Installation
 ------------
 
 Prerequisites:  
-
+-------------
 V-Shell requires apache and php 5.x already installed in the system, as well as php-cli if it's not already there. 
 
 You will need to know the location of Apache configuration directory where your
@@ -30,16 +30,22 @@ your Nagios Core authorizations.  These can be found using the following
 command: locate <filename>
 
 
+APC Caching
+--------------
 V-Shell takes advantage of the Alternative PHP Cache system (APC), which is 
 of particular importance if you are managing a large installation.  For 
 information about APC and installation instructions see 
   http://php.net/manual/en/book.apc.php
   
-  RHEL/CentOS/Fedora: yum install php-pecl-apc
+  RHEL/CentOS/Fedora: yum install php-pecl-apc php-pecl-apc-devel
   Ubuntu/Debian		: sudo apt-get install php-apc
   
+You may need to increase your PHP 'memory_limit' setting in your system's php.ini file
+if you're using APC.  For large systems try a setting as high as 256-512MB.  
+  
 
-To install:
+To Install V-Shell:
+-------------------
 Download and untar the latest V-Shell tarball from:
   http://assets.nagios.com/downloads/exchange/nagiosvshell/vshell.tar.gz
 
@@ -100,6 +106,15 @@ Default Apache Configuration Locations:
 
 Future versions will include a separate config file and possibly a wizard to 
 verify system configuration.  
+
+APC Caching
+---------------
+Nagios V-Shell is configured to automatically detect and use APC caching
+if it installed.  APC caching caches object configuration data each time there is 
+a change to the objects.cache file, and it caches status data based on the TTL 
+config option in the vshell.conf file.  If TTL=90, V-Shell will cache data from
+the status.dat file for 90 seconds before re-parsing the file.  This cache can be refreshed
+at any time by selecting the "Refresh Data" link at the top right of the page. 
 
 
 Getting Started

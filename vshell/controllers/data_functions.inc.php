@@ -4,7 +4,7 @@
 
 
 
-function hosts_and_services_data($type, $state_filter=NULL, $name_filter=NULL)
+function hosts_and_services_data($type, $state_filter=NULL, $name_filter=NULL,$host_filter=NULL)
 {
 	global $NagiosData;
 	global $NagiosUser; 
@@ -73,12 +73,23 @@ function hosts_and_services_data($type, $state_filter=NULL, $name_filter=NULL)
 		$service_data = get_by_name($name_filter, $data, 'service_description');
 		$data = $name_data;
 		//array_dump($data);
-		foreach ($service_data as $i => $service)
-		{
+		foreach ($service_data as $i => $service)		
 			if (!isset($data[$i])) { $data[$i] = $service; }
-		}
+		
 		$data = array_values($data);
 	}
+	if ($host_filter)
+	{
+		$name_data = get_by_name($name_filter, $data,'host_name',$host_filter);
+		$service_data = get_by_name($name_filter, $data, 'service_description',$host_filter);
+		$data = $name_data;
+		//array_dump($service_data);
+		foreach ($service_data as $i => $service)
+			if (!isset($data[$i])) { $data[$i] = $service; }
+		
+		$data = array_values($data);
+	}
+		
 	//var_dump($data); 
 	return $data;
 }

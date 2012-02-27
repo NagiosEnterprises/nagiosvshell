@@ -1,6 +1,12 @@
-===== ????? - ????? - trunk - 1.9
-- Added German translation file.  Thanks to Herbert Straub for the contribution!
-
+===== February 27 - 2011 - Mike Guthrie - trunk - 1.9
+- Added German translation file.  (Herbert Straub)
+- Overhauled backend, removed data processing at parsing time to improve performance
+- Fixed bug with hostgroup grids not expanding correctly
+- Fixed bug where "See All Services For This Host" could return multiple hosts
+- Re-implemented APC caching, added a TTL variable to the vshell.conf file to cache status data
+- APC caching not automatically used if available
+- Various code tweaks to improve overall performance.  With APC enabled, load times reduced up to 75% on average, 40% without. 
+ 
 
 ====September 19 - 2011 Mike Guthrie - trunk 1.8
 - Implemented major revisions to the permissions in V-Shell

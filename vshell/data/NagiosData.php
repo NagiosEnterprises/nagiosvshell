@@ -172,35 +172,37 @@ class NagiosData
 		if(function_exists('apc_fetch')) {
 			$apc_exists = true;
 			//echo "APC EXISTS!<br />";
-			if(isset($_GET['clearcache']) && $_GET['clearcache']=='true') {
+			if(isset($_GET['clearcache']) && htmlentities($_GET['clearcache'],ENT_QUOTES)=='true') {
               apc_clear_cache('user');
               apc_clear_cache('opcode');
-              echo "CACHE CLEARED!<br />";	
+              //echo "CACHE CLEARED!<br />";	
 			}	
 			//see what data is available 
 			list($objects_are_cached,$status_is_cached,$perms_are_cached) = $this->use_apc_data();
 			if($objects_are_cached) {
-				echo "objects are cached<br />";
+				//echo "objects are cached<br />";
 				$this->get_data_from_apc('objects');
 			}	
 			if($status_is_cached) {
-			   echo "status is cached<br />"; 
+			   //echo "status is cached<br />"; 
 				$this->get_data_from_apc('status');	 
 			}	
 			if($perms_are_cached) {
-			    echo "perms is cached<br />";
+			    //echo "perms is cached<br />";
 				$this->get_data_from_apc('permissions');
 			}		 	
 		} 
 		//fetch any data that isn't cached 
 		if(!$status_is_cached || !$objects_are_cached || !$perms_are_cached)
 			$this->raw_file_parse($objects_are_cached,$perms_are_cached,$apc_exists); 
+			
+		//echo "MEMORY PEAK: ".memory_get_peak_usage()."<br />";	
  
 	}
 	
 	private function raw_file_parse($objects_are_cached = false,$perms_are_cached=false,$apc_exists = false) 
 	{
-		echo "RAW PARSE<br />"; 		
+		//echo "RAW PARSE<br />"; 		
 		if(!$objects_are_cached) 
 		{
 			//objects.cache data 
@@ -229,7 +231,7 @@ class NagiosData
 			$this->properties['program'],
 			$this->properties['info']) = parse_status_file();  
 		if($apc_exists) {
-			echo "SAVING STATUS TO CACHE...<BR />"; 			
+			//echo "SAVING STATUS TO CACHE...<BR />"; 			
 			$this->set_data_to_apc('status');				
 		}		
 			
@@ -276,7 +278,7 @@ class NagiosData
 	{
 		
 		if($type=='objects') {
-			echo "Gettign object data from cache<br />"; 
+			//echo "Gettign object data from cache<br />"; 
 			//set object data from cache
 			$this->properties['hosts_objs'] = apc_fetch('hosts_objs'); 
 			$this->properties['services_objs'] = apc_fetch('services_objs'); 
@@ -294,7 +296,7 @@ class NagiosData
 		}
 		
 		if($type=='status') {
-			echo "Getting status data from cache<br />";
+			//echo "Getting status data from cache<br />";
 			//set data from status cache
 			$this->properties['hosts'] = apc_fetch('hosts');
 			$this->properties['services'] = apc_fetch('services');
@@ -306,14 +308,14 @@ class NagiosData
 		
 		if($type=='permissions') {//set data from cgi.cfg cache
 			$this->properties['permissions'] = apc_fetch('permissions');
-			echo "Gettign cgi data from cache<br />";
+			//echo "Getting cgi data from cache<br />";
 		}		
 	}
 	
 	private function set_data_to_apc($type) 
 	{
 		if($type=='objects') {
-			echo "Saving object data to cache<br />";
+			//echo "Saving object data to cache<br />";
 			//set object data from cache
 			apc_store('hosts_objs',$this->properties['hosts_objs']); 
 			apc_store('services_objs',$this->properties['services_objs']); 
@@ -332,7 +334,7 @@ class NagiosData
 		}
 		
 		if($type=='status') {
-			echo "Saving status data to cache<br />";
+			//echo "Saving status data to cache<br />";
 			//set data from status cache
 			apc_store('hosts',$this->properties['hosts'],TTL);
 			apc_store('services',$this->properties['services'],TTL);
@@ -344,7 +346,7 @@ class NagiosData
 		}	
 		
 		if($type=='permissions') {
-			echo "Saving cgi data to cache<br />";
+			//echo "Saving cgi data to cache<br />";
 			//set data from cgi.cfg cache
 			apc_store('permissions',$this->properties['permissions']);
 			apc_store('last_cgi_mtime',filemtime(CGICFG));

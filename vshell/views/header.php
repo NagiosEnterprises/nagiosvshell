@@ -95,6 +95,7 @@ $(document).ready(function() {
 	<div class="corelink">
 		<a class="label" href="'.$coreurl.'" target="_blank" title="'.gettext('Access Nagios Core').'">'.gettext('Access Nagios Core').'</a>
 	</div>
+	'.clear_cache_link().'
 
 	<div class="topnav">
 		'.$navlinks.'
@@ -102,6 +103,7 @@ $(document).ready(function() {
 
 
 <div class="main">
+   
 ';
 	return $header;
 }

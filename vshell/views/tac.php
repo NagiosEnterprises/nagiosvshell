@@ -74,7 +74,7 @@ function info_table()
 <div id='infodiv'>
 
 <p class='note'>Nagios V-Shell $version<br />
-	Copyright (c) 2010 <br />
+	Copyright (c) 2010-2012 <br />
 	Nagios Enterprises, LLC. <br />
    ".gettext('Written by')." Mike Guthrie<br />
    ".gettext("For questions, feedback, <br /> or support, visit the")." <br />

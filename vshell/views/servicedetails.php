@@ -60,8 +60,9 @@ function get_service_details($dets)
 	<div class='detailWrapper'>
 	
 	<h4><em>".gettext('Service').": </em>{$dets['Service']}</h4>
-	<h4><em>".gettext('Host').": </em>{$dets['Host']}</h4>
+	<h4><em>".gettext('Host').": </em><a href='index.php?type=hostdetail&name_filter={$dets['Host']}' title='".gettext('Host Details')."'>{$dets['Host']}</a></h4>
 	<h5><em>".gettext('Member of').": </em>{$dets['MemberOf']}</h5>
+	<h6><em><a href='index.php?type=services&host_filter={$dets['Host']}' title='".gettext('See All Services For This Host')."'>".gettext('See All Services For This Host')."</a></h6>
 	
 	<div class='detailcontainer'>
 	<fieldset class='servicedetails'>

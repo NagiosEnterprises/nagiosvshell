@@ -78,7 +78,7 @@ function fetch_host_icons($hostname)
 	$host = $NagiosData->get_details_by('host',$hostname); //host details 
 		
 	$icons = '';	
-	$icons .= "<a href='index.php?type=services&name_filter=".rawurlencode($hostname)."'>
+	$icons .= "<a href='index.php?type=services&host_filter=".rawurlencode($hostname)."'>
 					<img class='tableIcon' src='views/images/statusdetailmulti.png' height='12' widt='12' title='".gettext('See All Services For This Host')."' alt='S' /></a>";
 	$icons .= isset($host_obj['icon_image']) ? '<img class="tableIcon" border="0" width="15" height="15" title="" alt="" src="views/images/logos/'.$host_obj['icon_image'].'">' : ''; 
 	$icons.= comment_icon($host['host_name']); //comment icon and count, see function def below  
@@ -96,25 +96,30 @@ function fetch_host_icons($hostname)
 /* expecting host name 
  * returns all image icons for the host status tables if icon exists 
  */
-function fetch_service_icons($hostname, $servicename)
+function fetch_service_icons($service_id)
 {
-	$servicename = trim($servicename);
+	//$servicename = trim($servicename);
 	global $NagiosData;
 	$services_objs = $NagiosData->getProperty('services_objs'); //host config, used to check for icon image
+	//array_dump($services_objs);
+	$service_obj = $services_objs[$service_id]; 
+	unset($services_objs); 
+	/*
  	foreach($services_objs as $s) 
  	{ 
  		if($s['host_name'] == $hostname && $s['service_description'] == $servicename) $service_obj = $s; //extract host details for icons 
  	}	
-	
+	*/
 	//$service_obj = $services_objs[$servicename]; //get host config array 
-	$details = $NagiosData->grab_details('service'); //host details 
+	$service = $NagiosData->get_details_by('service','service'.$service_id); //host details 
 	//print_r($details); 
 	//die(); 
+	/*
  	foreach($details as $d) 
  	{ 
  		if($d['host_name'] == $hostname && $d['service_description'] == $servicename) $service = $d; //extract host details for icons 
  	}	
-		
+	*/	
 	$icons = '';	
 	$icons .= isset($service_obj['icon_image']) ? '<img class="tableIcon" border="0" width="15" height="15" title="" alt="" src="views/images/logos/'.$service_obj['icon_image'].'">' : ''; 
 	$icons.= comment_icon($service['host_name'], $service['service_description']); //comment icon and count, see function def below  

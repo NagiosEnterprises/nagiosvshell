@@ -79,21 +79,26 @@ function page_router()
 	global $NagiosUser; 
 
 	list($mode, $type) = array(NULL, NULL);
-	list($state_filter, $name_filter, $objtype_filter) = array(NULL, NULL, NULL);
+	list($state_filter, $name_filter, $objtype_filter, $host_filter) = array(NULL, NULL, NULL, NULL);
 
 	if (isset($_GET['type'])) { $type = strtolower($_GET['type']); } else { $type = 'overview'; }
 	if (isset($_GET['mode'])) { $mode = strtolower($_GET['mode']); } else { $mode = 'html'; }
 
-	if (isset($_GET['state_filter'])   && trim($_GET['state_filter'])   != '') { $state_filter    = process_state_filter(htmlentities($_GET['state_filter']));     }
-	if (isset($_GET['name_filter'])    && trim($_GET['name_filter'])    != '') { $name_filter     = process_name_filter(htmlentities($_GET['name_filter']),ENT_QUOTES);       }
-	if (isset($_GET['objtype_filter']) && trim($_GET['objtype_filter']) != '') { $objtype_filter  = process_objtype_filter(htmlentities($_GET['objtype_filter'])); }
+	if (isset($_GET['state_filter'])   && trim($_GET['state_filter'])   != '') 
+	   $state_filter    = process_state_filter(htmlentities($_GET['state_filter']));     
+	if (isset($_GET['name_filter'])    && trim($_GET['name_filter'])    != '')
+	   $name_filter     = process_name_filter(htmlentities($_GET['name_filter']),ENT_QUOTES);  
+	if (isset($_GET['host_filter'])    && trim($_GET['host_filter'])    != '')  
+	   $host_filter = htmlentities($_GET['host_filter'],ENT_QUOTES);       
+	if (isset($_GET['objtype_filter']) && trim($_GET['objtype_filter']) != '') 
+	   $objtype_filter  = process_objtype_filter(htmlentities($_GET['objtype_filter'])); 
 
 	list($data, $html_output_function) = array(NULL, NULL);
 
 	switch($type) {
 		case 'services':
 		case 'hosts':
-				$data = hosts_and_services_data($type, $state_filter, $name_filter);
+				$data = hosts_and_services_data($type, $state_filter, $name_filter, $host_filter);
 				$html_output_function = 'hosts_and_services_output';
 		break;
 

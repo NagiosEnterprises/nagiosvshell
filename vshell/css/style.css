@@ -92,7 +92,8 @@ a.highlight { color: #097AC7;}
 ul.nav { top: 52px; position: absolute; width: 1000px; }
 li.nav { list-style: none; padding-left: 10px; float: left; }
 
-div.corelink {position: absolute; right: 15px; top: 25px;}
+div.corelink {position: absolute; right: 15px; top: 15px;}
+#clearcache {position: absolute; right: 32px; top: 32px;}
 
 #infodiv { position: absolute; right: 20px; }
 

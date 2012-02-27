@@ -113,7 +113,7 @@ function display_services($services,$start,$limit)
 		$host_url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter=').urlencode($services[$i]['host_name']);
 		$color = get_host_status_color($services[$i]['host_name']);		
 		$hosticons = fetch_host_icons($services[$i]['host_name']);
-		$serviceicons = fetch_service_icons($services[$i]['host_name'], $services[$i]['service_description']); 		
+		$serviceicons = fetch_service_icons($services[$i]['service_id']); 		
 	
 		//removing duplicate host names from table for a cleaner look 
 		if ($services[$i]['host_name'] == $last_displayed_host) $td1 = '<td></td>';

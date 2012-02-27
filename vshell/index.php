@@ -50,21 +50,18 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 //hide error output in browser
-ini_set('display_errors','On'); 
+ini_set('display_errors','Off'); 
 
-session_start(); //no need for sessions at this time
-ob_start();
+//session_start(); //no need for sessions at this time
+//ob_start();
 
-/////
-
+/////Benchmarking//
+/*
 $time = microtime();
 $time = explode(' ', $time);
 $time = $time[1] + $time[0];
 $start = $time;
-
-
-///
-
+*/
 
 $username = false;
 //////////////USE TO OVERRIDE APACHE AUTHENTICATION LOGIC: ///////////////////////////////
@@ -88,13 +85,14 @@ if($NagiosUser->get_username())  //if logged in, display the page
 //$hosts = $NagiosUser->get_authorized_hosts(); 
 //echo "<pre>".print_r($hosts,true)."</pre>"; 
 
-
+/*
 $time = microtime();
 $time = explode(' ', $time);
 $time = $time[1] + $time[0];
 $finish = $time;
 $total_time = round(($finish - $start), 4);
 echo 'Page generated in '.$total_time.' seconds.'."\n";
-
-ob_end_flush();
+echo "TOTAL MEMORY PEAK: ".memory_get_peak_usage()."<br />";
+*/
+//ob_end_flush();
 ?>

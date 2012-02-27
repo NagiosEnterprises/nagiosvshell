@@ -420,5 +420,24 @@ function color_code($num)
 }
 
 
+//if status data is being cached, show a link with an option to clear the data and read fresh from status.dat 
+function clear_cache_link() {
+
+   $link =''; 
+
+   if(function_exists('apc_fetch'))   {        
+      $cache = apc_fetch('status_data_exists');
+      if($cache==true) {
+         $query = str_replace('&clearcache=true','',$_SERVER['QUERY_STRING']);
+         $query = ($query == '') ? '?clearcache=true' :  htmlentities('?'.$query.'&clearcache=true');
+         $link = "<div id='clearcache' class='label'>
+                     <a href='".$_SERVER['PHP_SELF'].$query."' title='".gettext('Clear Cached Data')."'>".gettext('Refresh Data')."
+                     </a></div>"; 
+
+        }
+   } 
+   return $link;     
+         
+}
 
 ?>
