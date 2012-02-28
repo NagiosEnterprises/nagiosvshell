@@ -106,12 +106,6 @@ function display_hosts($hosts, $start,$limit)
 		
 		//add function to fetch_icons 
 		$icons = fetch_host_icons($host['host_name']); //returns all icons in one string 
-		/*
-		$comments = comment_icon($host['host_name']); //has comments icon 
-		$dt_icon = downtime_icon($host['scheduled_downtime_depth']); //scheduled downtime icon 
-		*/ 
-				
-		
 		
 		$pagerow = <<<TABLEROW
 	

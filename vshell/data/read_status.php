@@ -84,6 +84,7 @@ function parse_status_file($statusfile = STATUSFILE)
 	$case = OUTOFBLOCK;
 	$service_id=0;
 	$s_comment_id = 0;
+	$h_comment_id = 0;
 	$hostkey = '';
 	//keywords for string match 
 	$hoststring = 'hoststatus {';
@@ -96,58 +97,7 @@ function parse_status_file($statusfile = STATUSFILE)
 	while(!feof($file)) //read through file and assign host and service status into separate arrays 
 	{	
 		$line = fgets($file); //Gets a line from file pointer.
-				
-		/*
-		if (preg_match('/(host|service|program)(status|comment)/', $line, $matches)) {
-			list($fullmatch, $cursubtype, $curtype) = $matches;
-		 
-		} elseif (preg_match('/^\s*info\s*{\s*$/', $line)) {
-			$curtype = 'info';
-		
-		} elseif (preg_match('/^\s*}\s*$/', $line)) {
-		
-			if ($curtype == 'status') {			
-				$details[$cursubtype][] = $kvp;
-				
-				if ($cursubtype == 'host') {
-					$kvp = process_host_status_keys($kvp); 
-					$status_collector[$cursubtype][$kvp['host_name']] = $kvp;
-				}
-				elseif ($cursubtype == 'service') {
-					$kvp['serviceID']=$service_counter++; //added serviceID to details array 
-					$kvp = process_service_status_keys($kvp);
-					$status_collector[$cursubtype][] = $kvp;
-					$status_collector['host'][$kvp['host_name']]['services'][] = $kvp;
-				}
-				else {	//subtype is program status 
-					 
-					$status_collector[$cursubtype][] = $kvp;
-				}
-		
-			} elseif ($curtype == 'comment') {
-				$status_collector['host'][$kvp['host_name']]['comments'][] = $kvp;
-				$comments[] = $kvp;
-		
-			} elseif ($curtype == 'info') {
-				$info = $kvp;
-	
-			} else {
-				// another type!
-			}
-		
-			list($cursubtype, $curtype) = array(NULL, NULL);
-			$kvp = array();
-		
-		} elseif ($curtype != NULL) {
-			# Collect the key-value pairs for the definition
-			@list($key, $value) = explode('=', trim($line), 2);
-			$kvp[trim($key)] = htmlentities(trim($value), ENT_QUOTES);
-		
-		} else {
-			// outside of a status
-		}
-		*/
-		
+						
 		//////////////////////////NEW REVISION//////////////////////////
 		if($case==OUTOFBLOCK) {
 			//host
@@ -189,6 +139,10 @@ function parse_status_file($statusfile = STATUSFILE)
 		if(strpos($line, '}') !==false) {
 			if($case == SERVICEDEF) 
 				$service_id++; 
+			if($case == SERVICECOMMENT)
+			   $s_comment_id++;	
+			if($case == HOSTCOMMENT)
+			   $h_comment_id++;	 
 			$case = OUTOFBLOCK; //turn off switches once a definition ends 		
 			continue;
 		}
@@ -213,11 +167,10 @@ function parse_status_file($statusfile = STATUSFILE)
 			break;
 			
 			case HOSTCOMMENT:
-				if($key=='host_name' && !isset($hostcomments[$key])) {
-					$hostkey = $key;
-					$hostcomments[$hostkey] = array();
-				}					 
-				$hostcomments[$hostkey][$key]= $value;				
+				if(!isset($hostcomments[$h_comment_id])) 
+					$hostcomments[$h_comment_id] = array();
+														 
+				$hostcomments[$h_comment_id][$key]= $value;				
 			break;
 			
 			case SERVICECOMMENT:				 
