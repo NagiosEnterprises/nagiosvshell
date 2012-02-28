@@ -144,15 +144,11 @@ function fetch_service_icons($service_id)
 //
 function comment_icon($host='', $service='')
 {
-	$host = trim($host);
-	$service = trim($service);
-
 	$check = check_comments($host,$service);
 	$img = '';
 	if($check>0)
-	{
 		$img = '<img src="views/images/hascomments.png" title="'.$check.' Comment(s)" alt="Comments" class="tableIcon" height="15" width="15" />';
-	}
+	
 	return $img;
 }
 

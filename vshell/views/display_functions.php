@@ -187,79 +187,54 @@ function get_host_status_color($hostname)
 //////////////////////////////////////////////////////
 //expecting a host name
 //used on host details page 
-function get_host_comments($host='')
+function get_host_comments($host)
 {
-	$host = trim($host);
-	$hostcomments = check_comments($host);
+	global $NagiosData;
+	
+	$hostcomments = $NagiosData->getProperty('hostcomments');
 	$comments = "";
-	if($hostcomments)
+	
+
+	foreach($hostcomments as $comment)
 	{
-		global $NagiosData;
-		$hosts = $NagiosData->getProperty('hosts');
-
-		foreach($hosts[$host]['comments'] as $comment)
-		{
-			$author = $comment['author'];
-			$entrytime = date('M d H:i\:s\s', $comment['entry_time']);
-			$data = $comment['comment_data'];
-			$desc = '';
-			if(isset($comment['service_description']))
-			{
-				$desc = $comment['service_description'].' : ';
-			}
-
-			$cid = $comment['comment_id'];
-			$row = "<tr><td>$author</td><td>$entrytime</td><td>$desc $data</td><td>
-						<a href='".CORECMD."cmd_typ=2&com_id=$cid' title='".gettext('Delete Comment')."'>
-						<img class='iconLink' src='views/images/delete.png' alt='Delete' width='15' height='15' /></a></td></tr>\n";
-			$comments .= $row;
+	   if($comment['host_name'] == $host) 
+	   {
+   		$entrytime = date('M d H:i\:s\s', $comment['entry_time']);
+   		$comments .= "<tr><td>".$comment['author']."</td><td>$entrytime</td><td>".$comment['comment_data']."</td><td>
+   					<a href='".CORECMD."cmd_typ=2&com_id=".$comment['comment_id']."' title='".gettext('Delete Comment')."'>
+   					<img class='iconLink' src='views/images/delete.png' alt='Delete' width='15' height='15' /></a></td></tr>\n";
 		}
-		 
-	}
-	else
-	{
-		$comments .= "<tr><td colspan='3'>".gettext('There are no comments associated with this host')."</td></tr>";
-	}
+	}//end foreach 
+
+	if($comments == '')
+		$comments .= "<tr><td colspan='4'>".gettext('There are no comments associated with this host')."</td></tr>";
+	
 	return $comments; 
 }
 
-/* expecting a host name
+/** expecting a host name
  * used on host details page 
+ * @TODO replace CORECMD link with a call to core_command_link(...)
  */
-function get_service_comments($host='', $service='')
+function get_service_comments($host, $service)
 {
-	$host = trim($host);
-	$service = trim($service);
+   global $NagiosData;
+	$comments = '';	
+	$servicecomments = $NagiosData->getProperty('servicecomments');
 
-// XXX TODO replace CORECMD link with a call to core_command_link(...)
-
-	$hostcomments = check_comments($host, $service);
-	$comments = "";
-	if($hostcomments)
+	foreach($servicecomments as $comment) 
 	{
-		global $NagiosData;
-		$hosts = $NagiosData->getProperty('hosts');
-
-		if (isset($hosts[$host]) && isset($hosts[$host]['comments'])) {
-			foreach($hosts[$host]['comments'] as $comment) {
-				if (isset($comment['service_description']) && $comment['service_description'] == $service) {
-					$author = $comment['author'];
-					$entrytime = date('M d H:i\:s\s', $comment['entry_time']);
-					$data = $comment['comment_data'];
-							
-					$cid = $comment['comment_id'];		
-					$row = "<tr><td>$author</td><td>$entrytime</td><td>$data</td><td>
-								<a href='".CORECMD."cmd_typ=4&com_id=$cid' title='".gettext('Delete Comment')."'>
-								<img class='iconLink' src='views/images/delete.png' alt='Delete' width='15' height='15' /></a></td></tr>\n";
-					$comments .= $row;
-				}
-			}
+		if ($comment['host_name'] == $host && $comment['service_description'] == $service) {
+			$entrytime = date('M d H:i\:s\s', $comment['entry_time']);		
+			$comments .= "<tr><td>".$comment['author']."</td><td>$entrytime</td><td>".$comment['comment_data']."</td><td>
+						<a href='".CORECMD."cmd_typ=4&com_id=".$comment['comment_id']."' title='".gettext('Delete Comment')."'>
+						<img class='iconLink' src='views/images/delete.png' alt='Delete' width='15' height='15' /></a></td></tr>\n";
 		}
-	}//end if 
-	else
-	{
-		$comments .= "<tr><td colspan='3'>".gettext('There are no comments associated with this host')."</td></tr>";
 	}
+   
+	if($comments=='')	
+		$comments .= "<tr><td colspan='3'>".gettext('There are no comments associated with this host')."</td></tr>";
+	
 	return $comments;
 }
 

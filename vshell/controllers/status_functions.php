@@ -303,30 +303,24 @@ function index_or_default($arg, $vals, $default)
 //				(optional) $servicename = 'service_description'  
 //returns count of comments for a host or service 
 //
-function check_comments($hostname='',$servicename='')
+function check_comments($hostname,$servicename='')
 {
-	global $NagiosData;
-	$hosts = $NagiosData->getProperty('hosts');
-
-	$hostname = trim($hostname);
-
+	global $NagiosData;	
 	$count = 0;
+   //count service 
+	if ($servicename != '') {
+	   $servicecomments = $NagiosData->getProperty('servicecomments');
+		foreach($servicecomments as $comment) {
+			if ($comment['host_name'] == $hostname && $comment['service_description'] == $servicename)  $count++;
+			
+		}//end foreach 
+	} //end IF 
+	else { //count host comments
+	   $hostcomments = $NagiosData->getProperty('hostcomments');
+		foreach($hostcomments as $comment)
+		   if($comment['host_name']==$hostname) $count++;
+   } //end else 
 
-	if ($hostname != '') {
-		if (isset($hosts[$hostname]) && isset($hosts[$hostname]['comments'])) {
-
-			$servicename = trim($servicename);
-			if ($servicename != '') {
-				foreach($hosts[$hostname]['comments'] as $comment) {
-					if (isset($comment['service_description']) && $comment['service_description'] == $servicename) {
-						$count++;
-					}
-				}
-			} else {
-				$count = count($hosts[$hostname]['comments']);
-			}
-		}
-	}
 
 	return ($count == 0 ? false : $count);
 }
