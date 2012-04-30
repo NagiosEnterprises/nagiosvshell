@@ -1,3 +1,7 @@
+===== ??????????? - 2012 - Mike Guthrie - trunk - 1.9
+- Applied patch to allow for json-p format: submitted by Andrew Beresford
+
+
 ===== February 27 - 2011 - Mike Guthrie - trunk - 1.9
 - Added German translation file.  (Herbert Straub)
 - Overhauled backend, removed data processing at parsing time to improve performance
