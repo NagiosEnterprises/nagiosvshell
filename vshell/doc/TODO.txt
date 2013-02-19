@@ -1,6 +1,7 @@
 TODO for V Shell Nagios User interface
 
 BUGS
+- Fix pending/up host count. Up hosts total includes pending hosts.
 
 MODEL/DATA
 
