@@ -372,9 +372,9 @@ class Nagios_data extends CI_Model {
 	 * $timeperiods
 	 * $commands
 	 */
-	function parse_objects_file($objfile = OBJECTSFILE)
+	private function parse_objects_file()
 	{
-		$file = fopen($objfile, "r") or die("Unable to open '$objfile' file!");
+		$file = fopen(OBJECTSFILE, "r") or die("Unable to open objects: '".OBJECTSFILE."' file!");
 		$in_block = false; 	
 		$matches = array();
 		$object_type = NULL;
@@ -488,9 +488,9 @@ class Nagios_data extends CI_Model {
 	 * 	build the details array and collect comments
 	 *	modified and stripped down to only capture raw data for authorized objects, process values later
 	 */
-	function parse_status_file($statusfile = STATUSFILE)
+	private function parse_status_file()
 	{
-		$file = fopen($statusfile, "r") or die("Unable to open '$statusfile' file!");
+		$file = fopen(STATUSFILE, "r") or die("Unable to open status: '".STATUSFILE."' file!");
 		
 		if(!$file) die("File '$statusfile' not found!");
 		
@@ -637,9 +637,9 @@ class Nagios_data extends CI_Model {
 	
 	
 	
-	private function parse_perms_file($permsfile = CGICFG) //returns array of authorization => users[array] 
+	private function parse_perms_file() //returns array of authorization => users[array] 
 	{
-		$cgi = fopen($permsfile, "r") or exit("Unable to open '$permsfile' file!");
+		$cgi = fopen(CGICFG, "r") or exit("Unable to open cgi '".CGICFG."' file!");
 		
 		if(!$cgi)
 		{

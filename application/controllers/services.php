@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Hosts extends CI_Controller {
+class Services extends CI_Controller {
 
 
 	// Nagios V-Shell
@@ -51,6 +51,11 @@ class Hosts extends CI_Controller {
 	// NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 	// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
+	public function __construct() {
+        parent::__construct();
+    }
+    
 	/**
 	 * Index Page for this controller.
 	 *
@@ -66,10 +71,38 @@ class Hosts extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
-	public function index()
-	{
+	public function index() {
+		
+		$ci = &get_instance(); 
+		$services = $ci->nagios_data->grab_details('service'); 
+		$start = $this->input->get('start');
+		$limit = $this->input->get('limit'); 
+		$name_filter = $this->input->get('name_filter');
+		
+		//LOGIC 
+		//get variables needed to display page
+		$limit = empty($limit) ? RESULTLIMIT : $limit; 	
+		
+		$resultsCount = count($services);
+		//if results are greater than number that the page can display, create page links
+		//calculate number of pages 
+		$pageCount = (($resultsCount / $limit) < 1) ? 1 : intval($resultsCount/$limit);
+		$doPagination = $pageCount * $limit < $resultsCount;
+	
+		
+		$data = array(
+			'services' => $services,
+			'start' => intval($start),
+			'limit' => $limit,
+			'resultsCount' => $resultsCount,
+			'pageCount' => $pageCount,
+			'doPagination' => $doPagination,
+			'name_filter' => $name_filter,
+			);	
+			
+			
 		$this->load->view('header');
-		$this->load->view('hosts');
+		$this->load->view('services',$data);
 		$this->load->view('footer');
 	}
 }

@@ -50,32 +50,24 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 //expecting array of service status and returns a service table  
-function display_services($services,$start,$limit)
-{
-	//LOGIC 
-	$resultsCount = count($services);
-	//if results are greater than number that the page can display, create page links
-	//calculate number of pages 
-	$pageCount = (($resultsCount / $limit) < 1) ? 1 : intval($resultsCount/$limit);
-	$doPagination = $pageCount * $limit < $resultsCount;
-	$name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
+
 
 	//VIEW / html output 
-	$page=''; 
-	$st = services_table(get_tac_data()); //tac Summary table
-	$page .= "<div class='tacTable'>$st</div>\n"; 
+//	$page=''; 
+//	$st = services_table(get_tac_data()); //tac Summary table
+//	echo "<div class='tacTable'>$st</div>\n"; 
 	
-	$page .="<div class='tableOptsWrapper'>\n";
+	echo "<div class='tableOptsWrapper'>\n";
 	//check if more than one page is needed 
-	if($doPagination) $page .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
+	if($doPagination) echo do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
 	//creates notes for total results as well as form for setting page limits 
-	$page .= do_result_notes($start,$limit,$resultsCount,'services');		
+	echo do_result_notes($start,$limit,$resultsCount,'services');		
 	//moved result filter to display_functions.php and made into function 
-	$page .=result_filter($name_filter,'service');	  
-	$page .= "\n</div> <!-- end tableOptsWrapper --> \n"; 
+	echo result_filter($name_filter,'service');	  
+	echo "\n</div> <!-- end tableOptsWrapper --> \n"; 
 
 	//Table header generation 
-	$page .= '<div class="statusTable">
+	echo '<div class="statusTable">
 	<table class="servicetable"><tr> 
 	<th class="hostname">'.gettext('Host Name').'</th>
 	<th class="service_description">'.gettext('Service').'</th>
@@ -85,14 +77,6 @@ function display_services($services,$start,$limit)
 	<th class="last_check">'.gettext('Last Check').'</th>
 	<th class="plugin_output">'.gettext('Status Information').'</th></tr>';
 	
-	/*	
-	// Fixup post filtering indices
-	$curidx = 0;
-	foreach ($services as $id => $servinfo) {
-			unset($services[$id]);
-			$services[$curidx++] = $servinfo;
-	}
-	*/
 
 	//process service array   
 	//service table rows 
@@ -126,7 +110,7 @@ function display_services($services,$start,$limit)
 		
 		//table data generation 				
 		//Using HEREDOC string syntax to print rows 
-		$pagerow = <<<TABLEROW
+		echo <<<TABLEROW
 		
 		<tr class='statustablerow'>	
 			{$td1}
@@ -140,17 +124,15 @@ function display_services($services,$start,$limit)
 		
 TABLEROW;
 
-		$page .= $pagerow;
+		
 		
 	}
-	$page .= "</table>\n</div> <!--end div.statusTable -->\n" ;
+	echo "</table>\n</div> <!--end div.statusTable -->\n" ;
 
 	if($doPagination)
 	{
-		$page .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
+		echo do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
 	}
 
-	return $page;
-}
-//end php 
-?>
+
+

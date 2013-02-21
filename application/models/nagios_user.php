@@ -446,44 +446,6 @@ class Nagios_user extends CI_Model {
 	
 	
 	
-
-	private function parse_perms_file($permsfile = CGICFG) //returns array of authorization => users[array] 
-	{
-		$cgi = fopen($permsfile, "r") or exit("Unable to open '$permsfile' file!");
-		
-		if(!$cgi)
-		{
-			die('cgi.cfg not found');
-		}
-	
-		$keywords = array('host_commands', 'hosts', 'service_commands', 'services',
-				'configuration_information', 'system_commands', 'system_information', 'read_only');
-		$keyword_regex = '/('.join('|', $keywords).')/';
-	
-		while(!feof($cgi)) //read through file and assign host and service status into separate arrays 
-		{
-			$line = fgets($cgi); //Gets a line from file pointer. 
-	
-			if (!preg_match('/^\s*#/', $line) && preg_match($keyword_regex, $line, $keyword_matches)) {
-				$perm = $keyword_matches[1];
-				
-				list($actual_perm, $userlist) = explode('=', trim($line), 2);
-				
-				$permusers = explode(',', $userlist);
-				//XXX change this, create_function too slow and consumes HUGE memory
-				//array_walk($permusers, create_function('&$v', 'trim($v);'));
-				if(is_array($permusers)) 
-					array_walk($permusers,'trim'); 
-				$perms[$actual_perm] = $permusers; //XXX move all to NagiosUser in future versions
-			}
-	
-		}
-		fclose($cgi);
-	
-		return $perms;
-	}	
-		
-	
 } ///////////////////end NagiosUser class ////////////////////////
 
 

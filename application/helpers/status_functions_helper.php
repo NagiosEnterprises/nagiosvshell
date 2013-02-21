@@ -207,8 +207,8 @@ function check_boolean($type,$arg,$int)
 {
 	$retval = false;
 
-	global $NagiosData;
-	$details = $NagiosData->grab_details($type); //grab full status details for host/service
+	$ci =& get_instance();
+	$details = $ci->nagios_data->grab_details($type); //grab full status details for host/service
 	$count = 0;
 
 	foreach($details as $object)
@@ -304,18 +304,18 @@ function index_or_default($arg, $vals, $default)
 //
 function check_comments($hostname,$servicename='')
 {
-	global $NagiosData;	
+	$ci =& get_instance();	
 	$count = 0;
    //count service 
 	if ($servicename != '') {
-	   $servicecomments = $NagiosData->getProperty('servicecomments');
+	   $servicecomments = $ci->nagios_data->getProperty('servicecomments');
 		foreach($servicecomments as $comment) {
 			if ($comment['host_name'] == $hostname && $comment['service_description'] == $servicename)  $count++;
 			
 		}//end foreach 
 	} //end IF 
 	else { //count host comments
-	   $hostcomments = $NagiosData->getProperty('hostcomments');
+	   $hostcomments = $ci->nagios_data->getProperty('hostcomments');
 		foreach($hostcomments as $comment)
 		   if($comment['host_name']==$hostname) $count++;
    } //end else 
@@ -326,8 +326,8 @@ function check_comments($hostname,$servicename='')
 
 function get_host_downtime($hostname)
 {
-	global $NagiosData;
-	$host = $NagiosData->get_details_by('host', $hostname);
+	$ci =& get_instance();
+	$host = $ci->nagios_data->get_details_by('host', $hostname);
 
 	return $host['scheduled_downtime_depth']; //returns integer 
 

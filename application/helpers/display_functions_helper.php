@@ -61,17 +61,17 @@ function build_nav_links() //build page links based on user's permission level
 	$ci = & get_instance(); 
 
 	//generate links based on permissions 
-	$base = BASEURL.'index.php?';
+	$base = BASEURL.'index.php';
 
 	$navlinks = "";
 	//NAV LINKS	 are added to a floated <ul>
 	$navlinks .= '<ul class="nav">'; 	
 	$navlinks .= '<li class="nav"><a href="index.php" class="nav" rel="internal">'.gettext('Tactical Overview').'</a></li>'; //default tactical overview link 
 		
-	$navlinks .= "<li class='nav'><a href='".$base."type=hosts' class='nav' rel='internal'>".gettext('Hosts')."</a></li>"; //hosts
-	$navlinks .= "<li class='nav'><a href='".$base."type=services' class='nav' rel='internal'>".gettext('Services')."</a></li>"; //services
-	$navlinks .= "<li class='nav'><a href='".$base."type=hostgroups' class='nav' rel='internal'>".gettext('Hostgroups')."</a></li>"; //hostgroups
-	$navlinks .= "<li class='nav'><a href='".$base."type=servicegroups' class='nav' rel='internal'>".gettext('Servicegroups')."</a></li>"; //servicegroups
+	$navlinks .= "<li class='nav'><a href='".$base."/hosts' class='nav' rel='internal'>".gettext('Hosts')."</a></li>"; //hosts
+	$navlinks .= "<li class='nav'><a href='".$base."/services' class='nav' rel='internal'>".gettext('Services')."</a></li>"; //services
+	$navlinks .= "<li class='nav'><a href='".$base."/hostgroups' class='nav' rel='internal'>".gettext('Hostgroups')."</a></li>"; //hostgroups
+	$navlinks .= "<li class='nav'><a href='".$base."/servicegroups' class='nav' rel='internal'>".gettext('Servicegroups')."</a></li>"; //servicegroups
 	
 	
 	/////////////OBJECT VIEWS 
@@ -170,8 +170,8 @@ function get_color_code($array,$int=false)
  */
 function get_host_status_color($hostname)
 {
-	global $NagiosData;
-	$host = $NagiosData->get_details_by('host',$hostname);
+	$ci = & get_instance();
+	$host = $ci->nagios_data->get_details_by('host',$hostname);
 
 	$color = '';
 	if(isset($host))
@@ -188,9 +188,9 @@ function get_host_status_color($hostname)
 //used on host details page 
 function get_host_comments($host)
 {
-	global $NagiosData;
+	$ci = & get_instance();
 	
-	$hostcomments = $NagiosData->getProperty('hostcomments');
+	$hostcomments = $ci->nagios_data->getProperty('hostcomments');
 	$comments = "";
 	
 
@@ -414,4 +414,3 @@ function clear_cache_link() {
          
 }
 
-?>

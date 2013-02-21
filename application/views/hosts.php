@@ -50,38 +50,23 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-//displays hosts table for any array of hosts 
-function display_hosts($hosts, $start,$limit)
-{
-	//LOGIC 
-	//get variables needed to display page
-	$resultsCount = count($hosts);
-	//if results are greater than number that the page can display, create page links
-	//calculate number of pages 
-	$pageCount = (($resultsCount / $limit) < 1) ? 1 : intval($resultsCount/$limit);
-	$doPagination = $pageCount * $limit < $resultsCount;
-	$name_filter = isset($_GET['name_filter']) ? htmlentities($_GET['name_filter']) : '';
-	$hostnames = array_keys($hosts);
-	sort($hostnames);
-	
-
 
 	//begin html output / VIEW 
-	$page = ''; 
-	$ht = hosts_table(get_tac_data());  //tac host summary table
-	$page .= "<div class='tacTable'>$ht</div>\n"; 
+
+//	$ht = hosts_table(get_tac_data());  //tac host summary table
+//	echo "<div class='tacTable'>$ht</div>\n"; 
 	
-	$page .="<div class='tableOptsWrapper'>\n";	
-	if($doPagination) $page .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'hosts');
+	echo"<div class='tableOptsWrapper'>\n";	
+	if($doPagination) echo do_pagenumbers($pageCount,$start,$limit,$resultsCount,'hosts');
 	//creates notes for total results as well as form for setting page limits 
-	$page .= do_result_notes($start,$limit,$resultsCount,'hosts');		
+	echo do_result_notes($start,$limit,$resultsCount,'hosts');		
 	//moved result filter to display_functions.php and made into function 
-	$page .=result_filter($name_filter,'host'); 	  
-	$page .= "\n</div> <!-- end tableOptsWrapper --> \n"; 
+	echo result_filter($name_filter,'host'); 	  
+	echo "\n</div> <!-- end tableOptsWrapper --> \n"; 
 
 	
 	//begin status table 
-	$page .= '<div class="statusTable">
+	echo '<div class="statusTable">
 			<table class="statusTable">
 				<tr> 
 					<th>'.gettext('Host Name').'</th>
@@ -107,7 +92,7 @@ function display_hosts($hosts, $start,$limit)
 		//add function to fetch_icons 
 		$icons = fetch_host_icons($host['host_name']); //returns all icons in one string 
 		
-		$pagerow = <<<TABLEROW
+		echo <<<TABLEROW
 	
 		<tr>	
 			<td><a href="{$url}">{$host['host_name']}</a>{$icons}</td>
@@ -119,16 +104,15 @@ function display_hosts($hosts, $start,$limit)
 		</tr>
 			
 TABLEROW;
-		$page .= $pagerow;
+
 	}
 	
 	
-	$page .= "</table></div><!--end statusTable div -->\n";
+	echo "</table></div><!--end statusTable div -->\n";
 
 	//check if more than one page is needed 
-	if($doPagination) $page .= do_pagenumbers($pageCount,$start,$limit,$resultsCount,'hosts');
+	if($doPagination) echo do_pagenumbers($pageCount,$start,$limit,$resultsCount,'hosts');
 
 	//print the page numbers here accordingly 
-	return $page;
-} 
-?>
+
+
