@@ -1,0 +1,32 @@
+TODO for V Shell Nagios User interface
+
+BUGS
+
+MODEL/DATA
+
+- support for mklivestatus and ndoutils broker modules, build into NagiosData class 
+- integration for PNP and Nagiosgraph -> Link icons for hosts/services that lead to their respective performance graphs 
+
+
+CONTROLLER
+
+-create filter function based on monitoring features from Tactical Overview 
+- update xml viewer for all pages and insert links into pages  
+##There is an xml builder built into the V-Shell, although it's not fully implemented yet.  If you pass the arguments index.php?xml=hosts you'll see what I mean.  I've only added this for some things so far, but it basically just turns an array into xml data and writes it to an xml file in the tmp directory.
+
+
+VIEW
+
+- option to use alias or displayname as the name shown in the interface 
+- tactical overview - additional data about monitoring performance??
+- tactical overview - filter for flapping, notification, event handlers, active checks, passive checks 
+- add links for xml viewing where applicable
+- create filters for hostgroups->state_types and servicegroup->state_types
+- create nagios.cmd API for submitting commands without Core interface 
+
+
+DOC
+
+
+MISC
+

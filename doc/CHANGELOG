@@ -1,0 +1,108 @@
+===== February 27 - 2011 - Mike Guthrie - trunk - 1.9
+- Added German translation file.  (Herbert Straub)
+- Overhauled backend, removed data processing at parsing time to improve performance
+- Fixed bug with hostgroup grids not expanding correctly
+- Fixed bug where "See All Services For This Host" could return multiple hosts
+- Re-implemented APC caching, added a TTL variable to the vshell.conf file to cache status data
+- APC caching not automatically used if available
+- Various code tweaks to improve overall performance.  With APC enabled, load times reduced up to 75% on average, 40% without. 
+ 
+
+====September 19 - 2011 Mike Guthrie - trunk 1.8
+- Implemented major revisions to the permissions in V-Shell
+	- User-level viewing permissions now match Nagios Core.  Users can only see objects they are contacts for unless specified otherwise in the cgi.cfg file
+	- Read-only users specified in the cgi.cfg are now implemented
+	- A valid user from either HTTP Basic, HTTP Digest, or hard-coded in the index.php file is now required in order utilize the V-Shell interface
+	- Checks added to prevent users from viewing information from a direct URL get request.  
+
+
+====August 12th - 2011 Mike Guthrie - trunk 1.7
+- Implemented gettext support submitted by Wesley Zhao
+- Rewrote install script to have user feedback and more flexibility with Ubuntu/Debian installs 
+- Created language files for French and Spanish translations
+- Minor CSS fixes 
+
+
+====June 30th - 2011 Mike Guthrie - trunk 1.6
+- fixed bug that prevented host details from being displayed correctly for some hosts
+- Fixed CSS bug on windows XP machines on tactical overview
+- Fixed CSS issues for long plugin output and check commands
+
+====June 15 - 2011 Mike Guthrie - trunk 1.5
+hosts.php -Added "View all services for this host" link 
+hostdetail.php -Added "View all services for this host" link
+controller.php -Reverted name_filter feature back to DW's original function.
+
+====April 23 - 2011 Mike Guthrie - trunk  1.4 
+-added version info to vshell.conf and constants.inc.php
+-changed tactical overview tables so that table cells are now links
+-moved V-Shell logo into DOM and made into home link
+-added host and service health meters to tactical overview 
+
+
+====Mar 30 - 2011 - Tony Yarusso - Devel Branch
+- Move README, TODO, CHANGELOG, and license to doc/ folder.
+- Move Apache config file into config/ instead of doc/
+- Split user configuration out into a separate file, to be put in /etc
+	Config file is in INI format, and intended to go in /etc
+	constants.inc.php loads everything from there - shouldn't be edited by users now
+- Started very rudimentary install script
+- Updated README to reflect the above
+
+=====Feb 1 - 2011 - Mike Guthrie - Devel Branch
+-Completed pseudo state filters for host and service tables
+-created cleaner functions to fetch icons for host and services tables
+-Final tweaks and bug fixes for v1.3 release.  
+
+=====Jan 25-27 - 2011 - Mike Guthrie - Devel Branch
+- Added XML backend access for Nagios Fusion.  index.php?type=backend&mode=xml
+- Overhauled tactical overview.  Created better view/logic separation.  Created global array for tactical data 
+- Fixed CSS issues on hostdetails.php and servicedetails.php
+- Fixed bug for grabbing hostdetails array for hostdetails.php
+- Reformatted hosts.php and services.php for more consistant css and display between browsers.  Added tac tables
+- Began work to add filters for Problems, Unhandled, Acknowledged, Pending
+
+======Jan 02 - 2011 - Dave Worth - Devel Branch
+- Major refactoring of page_router() to allow for HTML and JSON output.
+    New routing allows for filtering of various views by name/state
+	JSON output supported for all views by appending &type=json (XML to follow)
+	This is essentially a major MVC change.
+- Calls into CORE by number are now abstracted away by referencing the name
+    of the method rather than by magic numbers.  Numbers are from common.h in nagios 3.2.*
+
+======Dec 26 - 2010 - Dave Worth - Devel Branch
+- major optimization away from trim(...).  All data is trimmed during read-time
+- Small patch for calculating durations more accurately (date(...) didn't do the trick)
+
+======Dec 18 - 2010 - Dave Worth - Devel Branch
+- To improve speed  and readability removed evals and optimized the group building methods
+- fixed up get_<thing>_by_state() methods by abstracting them into get_by_state()
+
+======Dec 16 - 2010 - Dave Worth - Devel Branch
+- Encapsulated all of the previously global variables from read_(data|status|permissions).php methods
+    into an object from which everything can be accessed
+
+======Dec 12 - 2010 - Dave Worth - Devel Branch
+- moved global building into data.inc.php for some variable encapsulation
+
+======Dec 03 - 2010 - Dave Worth - Devel Branch
+- Replaced read_comments.php with comment handling in read_status.php
+- Support varying HTTP(S) ports 
+
+======Nov 26 - 2010: 
+- code improvements on read_objects.php - submitted by Dave Worth
+- Bug fix for service groups displaying the same group of services for all groups - submitted by Dave Worth 
+- Fixed potential bug with servicegroups without an alias. 
+
+======Nov 2010 - Patches submitted by Dave Worth 
+- Added support for https protocal
+- Added support for wildcard '*' option in the cgi.cfg file for user permissions.  
+
+
+=======Nov - 2010 - Mike Guthrie:  mguthrie@nagios.com
+- fixed an issue with the table data fields resizing while the page was loading 
+- added fixed width to some of the <td> fields for better viewing 
+- tweaked some of the colors for easier reading of the tables 
+- fixed a bug to account for empty groups.  
+- Added info for support forum
+

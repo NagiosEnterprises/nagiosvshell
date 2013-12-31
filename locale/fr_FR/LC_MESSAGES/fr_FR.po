@@ -1,0 +1,627 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: vshell\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-08-12 11:58-0600\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: vshell <mguthrie@nagios.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-SourceCharset: iso-8859-1\n"
+"X-Poedit-KeywordsList: gettext\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: C:\\Users\\mguthrie\\SVN\\nagiosvshell\\trunk\\vshell\\views\n"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/config_viewer.php:50
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/config_viewer.php:66
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:17
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:65
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicegroups.php:123
+msgid "Host"
+msgstr "Hôte"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/config_viewer.php:67
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:64
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicegroups.php:123
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/services.php:81
+msgid "Service"
+msgstr "Service"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/config_viewer.php:76
+msgid "Command"
+msgstr "Commande"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/config_viewer.php:85
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/config_viewer.php:94
+msgid "Group Name"
+msgstr "Nom du groupe"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/config_viewer.php:103
+msgid "Timeperiod"
+msgstr "Période"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/config_viewer.php:112
+msgid "Contact"
+msgstr "Contactez"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/config_viewer.php:121
+msgid "Contact Group"
+msgstr "Groupe de contact"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/config_viewer.php:127
+msgid "Access Denied"
+msgstr "Accès refusé"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/config_viewer.php:128
+msgid "You do not have permissions to view this information"
+msgstr "Vous n'avez pas l'autorisation d'afficher ces informations"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/config_viewer.php:145
+msgid "Config"
+msgstr "Config"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/config_viewer.php:145
+msgid "Value"
+msgstr "Valeur"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:79
+msgid "Tactical Overview"
+msgstr "Aperçu tactique"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:83
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:99
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:140
+msgid "Hosts"
+msgstr "Hôtes"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:84
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:100
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:165
+msgid "Services"
+msgstr "Services"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:85
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:101
+msgid "Hostgroups"
+msgstr "Groupes d'hôtes"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:86
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:102
+msgid "Servicegroups"
+msgstr "Groupes de services"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:94
+msgid "Configurations"
+msgstr "Configurations"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:103
+msgid "Timeperiods"
+msgstr "Périodes de temps"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:104
+msgid "Contacts"
+msgstr "Contacts"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:105
+msgid "Contactgroups"
+msgstr "Groupes de contact"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:111
+msgid "Commands"
+msgstr "Commandes"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:121
+msgid "System Commands"
+msgstr "Commandes du système"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:123
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:84
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:132
+msgid "Comments"
+msgstr "Commentaires"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:124
+msgid "Downtime"
+msgstr "Temps d'arrêt"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:125
+msgid "Process Info"
+msgstr "Informations sur le processus"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:126
+msgid "Performance Info"
+msgstr "Infos performance"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:127
+msgid "Scheduling Queue"
+msgstr "Queue Scheduling"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:132
+msgid "Reports"
+msgstr "Rapports"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:134
+msgid "Availability"
+msgstr "Disponibilité"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:135
+msgid "Trends"
+msgstr "Tendances"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:136
+msgid "Alert History"
+msgstr "Historique des alertes"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:137
+msgid "Alert Summary"
+msgstr "Résumé d'alerte"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:138
+msgid "Alert Histogram"
+msgstr "Histogramme alerte"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:139
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:54
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:103
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:208
+msgid "Notifications"
+msgstr "Notifications"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:140
+msgid "Event Log"
+msgstr "Event Log"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:225
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:264
+msgid "Delete Comment"
+msgstr "Supprimer les commentaires"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:233
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:273
+msgid "There are no comments associated with this host"
+msgstr "Il n'y a aucun commentaire associé à cet hôte"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:346
+msgid "Current Result Limit"
+msgstr "Limite Résultat Courant"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:351
+msgid "Limit Results"
+msgstr "Limiter les résultats"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:359
+msgid "Set Limit"
+msgstr "Set Limit"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:383
+msgid "Filter by State"
+msgstr "Filtrer par l'Etat"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/display_functions.php:399
+msgid "Search"
+msgstr "Rechercher"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/fetch_icons.php:86
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:19
+msgid "See All Services For This Host"
+msgstr "Voir tous les services de cet hôte"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/fetch_icons.php:89
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/fetch_icons.php:125
+msgid "In Downtime"
+msgstr "En temps d'arrêt"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/fetch_icons.php:90
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/fetch_icons.php:126
+msgid "Notifications Disabled"
+msgstr "Notifications handicapés"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/fetch_icons.php:91
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/fetch_icons.php:127
+msgid "State Is Flapping"
+msgstr "Etat oscille"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/fetch_icons.php:92
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/fetch_icons.php:128
+msgid "Passive Checks Enabled"
+msgstr "Les contrôles passifs Enabled"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/fetch_icons.php:93
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/fetch_icons.php:129
+msgid "Problem Has Been Acknowledged"
+msgstr "Problème est reconnu"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/header.php:96
+msgid "Access Nagios Core"
+msgstr "Accès de base de Nagios"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:15
+msgid "Host Status Detail"
+msgstr "Détail état ​​de l'hôte"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:18
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:66
+msgid "Member of"
+msgstr "Membre du"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:22
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:70
+msgid "Advanced Details"
+msgstr "Détails avancés"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:24
+msgid "Current State"
+msgstr "État actuel"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:25
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hosts.php:92
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicegroups.php:123
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/services.php:86
+msgid "Status Information"
+msgstr "Informations sur l'état"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:26
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hosts.php:89
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:75
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/services.php:83
+msgid "Duration"
+msgstr "Durée"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:27
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:76
+msgid "State Type"
+msgstr "Type d'Etat"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:28
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:77
+msgid "Current Check"
+msgstr "Vérifiez actuelle"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:29
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hosts.php:91
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:78
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/services.php:85
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:96
+msgid "Last Check"
+msgstr "Vérifiez Dernière"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:30
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:79
+msgid "Next Check"
+msgstr "Vérifiez Suivant"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:31
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:80
+msgid "Last State Change"
+msgstr "Changement d'état Dernière"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:32
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:81
+msgid "Last Notification"
+msgstr "Dernière Notification"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:33
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:82
+msgid "Check Type"
+msgstr "Vérifier Type"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:34
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:83
+msgid "Check Latency"
+msgstr "Vérifiez la latence"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:35
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:84
+msgid "Execution Time"
+msgstr "Temps d'exécution"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:36
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:85
+msgid "State Change"
+msgstr "Changement d'état"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:37
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:86
+msgid "Performance Data"
+msgstr "Les données de performance"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:46
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:95
+msgid "Service Attributes"
+msgstr "Attributs de Service"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:48
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:97
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:209
+msgid "Active Checks"
+msgstr "Contrôles Actifs"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:49
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:98
+msgid "Toggle Active Checks"
+msgstr "Basculer contrôles actifs"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:50
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:99
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:209
+msgid "Passive Checks"
+msgstr "Les contrôles passifs"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:51
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:100
+msgid "Toggle Passive Checks"
+msgstr "Basculer contrôles passifs"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:52
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:101
+msgid "Obsession"
+msgstr "Obsession"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:53
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:102
+msgid "Toggle Obsession"
+msgstr "Obsession bascule"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:55
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:104
+msgid "Toggle Notifications"
+msgstr "Notifications bascule"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:56
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:105
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:208
+msgid "Flap Detection"
+msgstr "Détection d'oscillation"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:57
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:106
+msgid "Toggle Flap Detection"
+msgstr "Détection d'oscillation bascule"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:59
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:108
+msgid "Commands will not appear until after page reload"
+msgstr "Commandes n'apparaîtra pas qu'après rechargement de la page"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:65
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:115
+msgid "Core Commands"
+msgstr "Commandes de base"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:67
+msgid "Map Host"
+msgstr "Hôte Carte"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:67
+msgid "Locate host on map"
+msgstr "Localisez sur la carte d'hôte"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:68
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:118
+msgid "Send Custom Notification"
+msgstr "Envoyer une notification personnalisée"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:68
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:118
+msgid "Send custom notification"
+msgstr "Envoyer des notifications personnalisées"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:69
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:119
+msgid "Schedule Downtime"
+msgstr "Horaire Downtime"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:69
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:119
+msgid "Schedule downtime"
+msgstr "Horaire Indisponibilité"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:70
+msgid "Schedule Recursive Downtime"
+msgstr "Prévoir une indisponibilité récursifs"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:70
+msgid "Schedule downtime for this host and all services"
+msgstr "Horaire indisponibilité de cet hôte et tous les services"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:71
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:120
+msgid "Schedule Check"
+msgstr "Planifier la vérification"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:71
+msgid "Schedule a check for all services of this host"
+msgstr "Horaire d'un chèque pour tous les services de cet hôte"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:73
+msgid "See This Host In Nagios Core"
+msgstr "Voir cette machine dans Nagios base"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:85
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:133
+msgid "Add Comment"
+msgstr "Ajouter un commentaire"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:87
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:135
+msgid "Author"
+msgstr "Auteur"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:87
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:135
+msgid "Entry Time"
+msgstr "Heure d'entrée"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:87
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:135
+msgid "Comment"
+msgstr "Commentaire"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hostdetails.php:87
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:135
+msgid "Actions"
+msgstr "Actions"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hosts.php:87
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/services.php:80
+msgid "Host Name"
+msgstr "Nom de l'hôte"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hosts.php:88
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicegroups.php:123
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/services.php:82
+msgid "Status"
+msgstr "Statut"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/hosts.php:90
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/services.php:84
+msgid "Attempt"
+msgstr "Tentative de"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:61
+msgid "Service Status Detail"
+msgstr "Détail Statut du service"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:72
+msgid "Service State"
+msgstr "Service de l'Etat"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:73
+msgid "Check Command"
+msgstr "Vérifiez commande"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:74
+msgid "Plugin Output"
+msgstr "Sortie plugin"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:120
+msgid "Reschedule Next Check"
+msgstr "Replanifier Vérifiez Suivant"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicedetails.php:122
+msgid "See This Service In Nagios Core"
+msgstr "Voir ce Service Nagios base"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicegroups.php:85
+msgid "Service Groups"
+msgstr "Groupes de services"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicegroups.php:94
+msgid "Search Service Group Names"
+msgstr "Noms Recherche Service Group"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicegroups.php:109
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:169
+msgid "Critical"
+msgstr "Critique"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicegroups.php:109
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:170
+msgid "Warning"
+msgstr "Attention"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicegroups.php:109
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:171
+msgid "Unknown"
+msgstr "Inconnue"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/servicegroups.php:118
+msgid "Toggle Grid"
+msgstr "Grille bascule"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/services.php:118
+msgid "View Host Details"
+msgstr "Afficher les détails Hôte"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:79
+msgid "Written by"
+msgstr "`Ecrit par"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:80
+msgid "For questions, feedback, <br /> or support, visit the"
+msgstr "Pour toutes questions, commentaires, <br /> ou de soutien, visitez le"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:81
+msgid "Forum"
+msgstr "Forum"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:93
+msgid "Tactical Monitoring Overview"
+msgstr "Aperçu de surveillance tactique"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:97
+msgid "Updated every 90 seconds"
+msgstr "Mise à jour toutes les 90 secondes"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:98
+msgid "Nagios® Core™"
+msgstr ""
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:99
+msgid "Logged in as"
+msgstr "Connecté en tant que"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:127
+msgid "Health"
+msgstr "Santé"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:142
+msgid "Up"
+msgstr "Jusqu'à"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:143
+msgid "Down"
+msgstr "Bas"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:144
+msgid "Unreachable"
+msgstr "Injoignable"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:145
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:172
+msgid "Pending"
+msgstr "Dans l'attente"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:149
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:175
+msgid "Problems"
+msgstr "Problèmes"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:150
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:176
+msgid "Unhandled"
+msgstr "Unhandled"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:151
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:177
+msgid "Acknowledged"
+msgstr "Reconnu"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:152
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:178
+msgid "Total"
+msgstr "Total"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:168
+msgid "Ok"
+msgstr "Ok"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:192
+msgid "Search String"
+msgstr "Search String"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:194
+msgid "Filter"
+msgstr "Filtre"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:206
+msgid "Monitoring Features"
+msgstr "Fonctions de contrôle"
+
+#: C:\Users\mguthrie\SVN\nagiosvshell\trunk\vshell\views/tac.php:208
+msgid "Event Handlers"
+msgstr "Des gestionnaires d'événements"
+
