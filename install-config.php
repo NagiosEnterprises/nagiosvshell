@@ -2,13 +2,14 @@
 
 ## Custom values 
 #
-# Add any custom values here. If a value is null, the default value defined 
+# Add any custom values here. If a value is empty, the default value defined 
 # below is used. 
 
 $custom = array(
 	'targetdir'      => '',
-	'apacheconf'     => '',
-	# See config/vshell.conf.php for explanations of each value
+	'apacheconfdir'  => '',
+	'htpasswd_file'  => '',
+	# See config/vshell.conf.template for explanations of each value
 	'vshell_baseurl' => '',
 	'nagios_coreurl' => '',
 	'resultlimit'    => '',
@@ -24,7 +25,8 @@ $defaults = array();
 
 $defaults['debian'] = array(
 	'targetdir'      => '/usr/local/vshell',
-	'apacheconf'     => '/etc/apache2/conf.d',
+	'apacheconfdir'  => '/etc/apache2/conf.d',
+	'htpasswd_file'  => '/etc/nagios3/htpasswd.users',
 	'vshell_baseurl' => 'vshell',
 	'nagios_coreurl' => 'nagios3',
 	'resultlimit'    => '100',
@@ -34,7 +36,8 @@ $defaults['debian'] = array(
 
 $defaults['redhat'] = array(
 	'targetdir'      => '/usr/local/vshell',
-	'apacheconf'     => '/etc/httpd/conf.d',
+	'apacheconfdir'  => '/etc/httpd/conf.d',
+	'htpasswd_file'  => '/etc/nagios/passwd',
 	'vshell_baseurl' => 'vshell',
 	'nagios_coreurl' => 'nagios',
 	'resultlimit'    => '100',

@@ -22,7 +22,8 @@ Installation
 
 Prerequisites:  
 -------------
-V-Shell requires apache and php 5.x already installed in the system, as well as php-cli if it's not already there. 
+V-Shell requires apache and php 5.x already installed in the system, as well as
+php-cli if it's not already there. 
 
 You will need to know the location of Apache configuration directory where your
 nagios.conf file is located, as well as the htpasswd.users file that contains 
@@ -66,16 +67,14 @@ wget http://assets.nagios.com/downloads/exchange/nagiosvshell/vshell.tar.gz
 tar zxf vshell.tar.gz
 cd vshell
 
-Verify or Modify the following two lines in install.php to match your installation (lines 10-15)	
-		define('TARGETDIR',"/usr/local/vshell");
-		define('APACHECONF',"/etc/httpd/conf.d"); 	
+Verify values in `install-config.php`.
 	
 chmod +x install.php	
 ./install.php  #located in the root vshell directory where the web files are stored 
 
-
-After running this script, be sure to verify the location of the files specified in the /etc/vshell.conf file,
-as well as the location of the htpasswd.users file that is specified by your apache configuration.
+After running this script, be sure to verify the location of the files
+specified in the `/etc/vshell.conf` file, as well as the location of the
+htpasswd.users file that is specified by your apache configuration.
     
 These will be required in order for V-Shell to run correctly.
 
