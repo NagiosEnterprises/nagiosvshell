@@ -1,17 +1,18 @@
 <?php
 
-# Custom values 
+## Custom values 
 #
-# NOTE: Add any custom values here
+# Add any custom values here. If a value is null, the default value defined 
+# below is used. 
 
 $custom = array(
 	'targetdir'  => '',
 	'apacheconf' => '',
 );
 
-# Default values
+## Default values
 #
-# Make an educated guess at sensible defaults
+# Do not edit these defaults
 
 $defaults = array();
 
@@ -25,7 +26,7 @@ $defaults['redhat'] = array(
 	'apacheconf' => '/etc/httpd/conf.d',
 );
 
-# Create defintions
+## Create defintions
 #
 # Determine the OS family, merge custom values with defaults,
 # and create PHP definitions for each key.
@@ -36,7 +37,7 @@ $config = array_merge($default_values, $custom_values);
 
 create_definitions($config);
 
-# Helper functions
+## Helper functions
 
 function get_os_family(){
 	# Simple uname check, default to redhat
