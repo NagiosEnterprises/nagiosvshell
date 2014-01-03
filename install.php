@@ -22,16 +22,16 @@ $errorstring = '';
 
 // Create apache conf file for project
 echo "Copying apache configuration file...\n";
-$output = system('/bin/cp config/vshell_apache.conf '.APACHECONF.'/vshell.conf', $code);
+$output = system('/bin/cp config/vshell_apache.conf '.escapeshellarg(APACHECONF).'/vshell.conf', $code);
 if($code > 0)
 {
-	$errorstring .= "Failed to copy apache configuration file config/vshell_apache.conf to ".APACHECONF."\n $output\n";
 	$errors++;
+	$errorstring .= "Failed to copy apache configuration file config/vshell_apache.conf to ".APACHECONF."\n $output\n";
 }
 
 // Make web directory
 echo "Creating web directory...\n";
-$output = system('/bin/mkdir '.TARGETDIR,$code);
+$output = system('/usr/bin/test -d '.escapeshellarg(TARGETDIR).' || /bin/mkdir '.escapeshellarg(TARGETDIR), $code);
 if($code > 0)
 {
 	$errors++;
@@ -40,7 +40,7 @@ if($code > 0)
 
 // Copy web files to web directory
 echo "Copying files...\n";
-$output = system('/bin/cp -r * '.TARGETDIR.'/',$code);
+$output = system('/bin/cp -r * '.escapeshellarg(TARGETDIR).'/', $code);
 if($code > 0)
 {
 	$errors++;
@@ -49,7 +49,7 @@ if($code > 0)
 
 // Remove install files from target web directory
 echo "Cleaning up...\n";
-$output = system('/bin/rm -f '.TARGETDIR.'/install.php '.TARGETDIR.'/install-config.php',$code);
+$output = system('/bin/rm -f '.escapeshellarg(TARGETDIR).'/install.php '.escapeshellarg(TARGETDIR).'/install-config.php', $code);
 if($code > 0)
 {
 	$errors++;
@@ -58,18 +58,22 @@ if($code > 0)
 
 // Restart apache service
 
-if( file_exists('/etc/init.d/httpd') ){
-	$service = '/etc/init.d/httpd';
-}elseif( file_exists('/etc/init.d/apache2') ){
-	$service = '/etc/init.d/apache2';
+if( file_exists('/etc/init.d/httpd') ){ // RHEL
+	$action = 'service';
+	$service = 'httpd';
+}elseif( file_exists('/etc/init.d/apache2') ){ // Debian
+	$action = 'invoke-rc.d';
+	$service = 'apache2';
 }else{
+	$action = false;
 	$service = false;
 }
 
-if( ! $service)
+if($service)
 {
 	echo "Restarting apache...\n";
-	$output = system($service." restart",$code);
+	$output = system("{$action} {$service} restart", $code);
+	echo $output;
 	if($code > 0)
 	{
 		$errors++;
@@ -79,7 +83,7 @@ if( ! $service)
 else
 {
 	$errors++;
-	$errorstring .= "ERROR: Failed to restart apache, please restart apache manually \n$output\n";
+	$errorstring .= "ERROR: Failed to restart apache, could not find service name. Please restart apache manually \n$output\n";
 }
 
 
@@ -103,8 +107,9 @@ elseif(file_exists('/var/cache/nagios3/status.dat'))  //ubuntu debian nagios3 in
 }
 else
 {
-	$statusfile = '';
+	$errors++;
 	$errorstring .= "NOTICE: status.dat file not found.  Please specify the location of this file in your /etc/vshell.conf file\n";
+	$statusfile = '';
 }
 
 define('STATUSFILE', $statusfile);
@@ -125,8 +130,9 @@ elseif(file_exists('/var/cache/nagios3/objects.cache'))  //ubuntu debian nagios3
 }
 else
 {
-	$objectfile = '';
+	$errors++;
 	$errorstring .= "NOTICE: objects.cache file not found.  Please specify the location of this file in your /etc/vshell.conf file\n";
+	$objectfile = '';
 }
 
 define('OBJECTSFILE', $objectfile);
@@ -147,30 +153,35 @@ elseif(file_exists('/etc/nagios3/cgi.cfg'))  //ubuntu/debian nagios3 installs
 }
 else
 {
-	$cgifile = '';
+	$errors++;
 	$errorstring .= "NOTICE: cgi.cfg file not found.  Please specify the location of this file in your /etc/vshell.conf file\n";
+	$cgifile = '';
 }
 
 define('CGICFG', $cgifile);
 
 // nagios.cmd file
+//
+// Check for directory instead of file. The file is actually a named
+// pipe and its existence can be transient.
 
-if(file_exists('/usr/local/nagios/var/rw/nagios.cmd'))
+if(is_dir('/usr/local/nagios/var/rw'))
 {
 	$nagcmd = '/usr/local/nagios/var/rw/nagios.cmd';  //source install
 }
-elseif(file_exists('/var/nagios/rw/nagios.cmd'))  //yum install
+elseif(is_dir('/var/nagios/rw'))  //yum install
 {
 	$nagcmd = '/var/nagios/rw/nagios.cmd';
 }
-elseif(file_exists('/var/lib/nagios3/rw/nagios.cmd'))  //ubuntu/debian nagios3
+elseif(is_dir('/var/lib/nagios3/rw'))  //ubuntu/debian nagios3
 {
 	$nagcmd = '/var/lib/nagios3/rw/nagios.cmd';
 }
 else
 {
-	$nagcmd = '';
+	$errors++;
 	$errorstring .= "NOTICE: nagios.cmd file not found.  Please specify the location of this file in your /etc/vshell.conf file\n";
+	$nagcmd = '';
 }
 
 define('NAGCMD', $nagcmd);
