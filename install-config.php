@@ -6,8 +6,14 @@
 # below is used. 
 
 $custom = array(
-	'targetdir'  => '',
-	'apacheconf' => '',
+	'targetdir'      => '',
+	'apacheconf'     => '',
+	# See config/vshell.conf.php for explanations of each value
+	'vshell_baseurl' => '',
+	'nagios_coreurl' => '',
+	'resultlimit'    => '',
+	'lang'           => '',
+	'TTL'            => '',
 );
 
 ## Default values
@@ -17,13 +23,23 @@ $custom = array(
 $defaults = array();
 
 $defaults['debian'] = array(
-	'targetdir'  => '/usr/local/vshell',
-	'apacheconf' => '/etc/apache2/conf.d',
+	'targetdir'      => '/usr/local/vshell',
+	'apacheconf'     => '/etc/apache2/conf.d',
+	'vshell_baseurl' => 'vshell',
+	'nagios_coreurl' => 'nagios',
+	'resultlimit'    => '100',
+	'lang'           => 'en_GB',
+	'TTL'            => '90',
 );
 
 $defaults['redhat'] = array(
-	'targetdir'  => '/usr/local/vshell',
-	'apacheconf' => '/etc/httpd/conf.d',
+	'targetdir'      => '/usr/local/vshell',
+	'apacheconf'     => '/etc/httpd/conf.d',
+	'vshell_baseurl' => 'vshell',
+	'nagios_coreurl' => 'nagios',
+	'resultlimit'    => '100',
+	'lang'           => 'en_GB',
+	'TTL'            => '90',
 );
 
 ## Create defintions
