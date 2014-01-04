@@ -49,10 +49,10 @@ if($code > 0)
 
 // Create apache conf file for project
 echo "Copying apache configuration file...\n";
-$output = system('/usr/bin/touch '.escapeshellarg(APACHECONFDIR).'/vshell.conf', $code);
+$output = system('/bin/touch '.escapeshellarg(APACHECONFDIR).'/vshell.conf || /usr/bin/touch '.escapeshellarg(APACHECONFDIR).'/vshell.conf', $code);
 if($code > 0){
 	$errors++;
-	$errorstring .= "Failed to create apache configuration file in the ".APACHECONFDIR." directory \n$output\n";
+	$errorstring .= "ERROR: Failed to create apache configuration file in the ".APACHECONFDIR." directory \n$output\n";
 }else{
 	// Try to create from template file, fall back on default file
 	ob_start();
@@ -60,12 +60,12 @@ if($code > 0){
 	$apache_conf = ob_get_clean();
 	if( ! file_put_contents(APACHECONFDIR.'/vshell.conf', $apache_conf) ){
 		$errors++;
-		$errorstring .= "Failed to create apache config file from template.";
+		$errorstring .= "ERROR: Failed to create apache config file from template.";
 		$errorstring .= "Installing default file instead. Manually check ".APACHECONFDIR."/vshell.conf values are correct\n";
 		$output = system('/bin/cp config/vshell_apache.conf '.escapeshellarg(APACHECONFDIR).'/vshell.conf', $code);
 		if($code > 0) {
 			$errors++;
-			$errorstring .= "Failed to create apache configuration file from default file \n$output\n";
+			$errorstring .= "ERROR: Failed to create apache configuration file from default file \n$output\n";
 		}
 	}
 }
@@ -115,6 +115,10 @@ elseif(file_exists('/var/nagios/status.dat'))  //yum installs
 {
 	$statusfile = '/var/nagios/status.dat';
 }
+elseif(file_exists('/var/log/nagios/status.dat'))  // centos 6.5 yum package install
+{
+	$statusfile = '/var/log/nagios/status.dat';
+}
 elseif(file_exists('/var/cache/nagios3/status.dat'))  //ubuntu debian nagios3 installs
 {
 	$statusfile = '/var/cache/nagios3/status.dat';
@@ -137,6 +141,10 @@ if(file_exists('/usr/local/nagios/var/objects.cache'))
 elseif(file_exists('/var/nagios/objects.cache'))  //yum installs
 {
 	$objectfile = '/var/nagios/objects.cache';
+}
+elseif(file_exists('/var/log/nagios/objects.cache'))  // centos 6.5 yum package install
+{
+	$objectfile = '/var/log/nagios/objects.cache';
 }
 elseif(file_exists('/var/cache/nagios3/objects.cache'))  //ubuntu debian nagios3 installs
 {
@@ -187,6 +195,10 @@ elseif(is_dir('/var/nagios/rw'))  //yum install
 {
 	$nagcmd = '/var/nagios/rw/nagios.cmd';
 }
+elseif(file_exists('/var/spool/nagios/cmd'))  // centos 6.5 yum package install
+{
+	$nagcmd = '/var/spool/nagios/cmd/nagios.cmd';
+}
 elseif(is_dir('/var/lib/nagios3/rw'))  //ubuntu/debian nagios3
 {
 	$nagcmd = '/var/lib/nagios3/rw/nagios.cmd';
@@ -208,7 +220,7 @@ echo "Creating vshell configuration file...\n";
 $output = system('/bin/touch /etc/vshell.conf', $code);
 if($code > 0){
 	$errors++;
-	$errorstring .= "Failed to create config/vshell.conf file in /etc directory \n$output\n";
+	$errorstring .= "ERROR: Failed to create config/vshell.conf file in /etc directory \n$output\n";
 }else{
 	// Try to create from template file, fall back on default file
 	ob_start();
@@ -216,12 +228,12 @@ if($code > 0){
 	$conf = ob_get_clean();
 	if( ! file_put_contents('/etc/vshell.conf', $conf) ){
 		$errors++;
-		$errorstring .= "Failed to create config/vshell.conf file from template.";
+		$errorstring .= "ERROR: Failed to create config/vshell.conf file from template.";
 		$errorstring .= "Installing default file instead. Manually check /etc/vshell.conf values are correct\n";
 		$output = system('/bin/cp config/vshell.conf.default /etc/vshell.conf', $code);
 		if($code > 0) {
 			$errors++;
-			$errorstring .= "Failed to copy config/vshell.conf file to /etc directory \n$output\n";
+			$errorstring .= "ERROR: Failed to copy config/vshell.conf file to /etc directory \n$output\n";
 		}
 	}
 }
