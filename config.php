@@ -8,6 +8,7 @@
 $custom = array(
 	'targetdir'      => '',
 	'apacheconfdir'  => '',
+	'apacheconffile' => '',
 	'htpasswd_file'  => '',
 	# See config/vshell.conf for explanations of each value
 	'vshell_baseurl' => '',
@@ -26,6 +27,7 @@ $defaults = array();
 $defaults['debian'] = array(
 	'targetdir'      => '/usr/local/vshell',
 	'apacheconfdir'  => '/etc/apache2/conf.d',
+	'apacheconffile' => 'vshell.conf',
 	'htpasswd_file'  => '/etc/nagios3/htpasswd.users',
 	'vshell_baseurl' => 'vshell',
 	'nagios_coreurl' => 'nagios3',
@@ -37,6 +39,7 @@ $defaults['debian'] = array(
 $defaults['redhat'] = array(
 	'targetdir'      => '/usr/local/vshell',
 	'apacheconfdir'  => '/etc/httpd/conf.d',
+	'apacheconffile' => 'vshell.conf',
 	'htpasswd_file'  => '/etc/nagios/passwd',
 	'vshell_baseurl' => 'vshell',
 	'nagios_coreurl' => 'nagios',

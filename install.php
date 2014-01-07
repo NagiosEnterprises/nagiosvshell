@@ -53,7 +53,8 @@ if($code > 0)
 
 // Create apache conf file for project
 echo "Copying apache configuration file...\n";
-$output = system('/bin/touch '.escapeshellarg(APACHECONFDIR).'/vshell.conf || /usr/bin/touch '.escapeshellarg(APACHECONFDIR).'/vshell.conf', $code);
+$apache_conf_file = escapeshellarg(APACHECONFDIR).'/'.escapeshellarg(APACHECONFFILE);
+$output = system('/bin/touch '.$apache_conf_file.' || /usr/bin/touch '.$apache_conf_file, $code);
 if($code > 0){
 	$errors++;
 	$errorstring .= "ERROR: Failed to create apache configuration file in the ".APACHECONFDIR." directory \n$output\n";
@@ -62,11 +63,11 @@ if($code > 0){
 	ob_start();
 	include(dirname(__FILE__).'/config/vshell_apache.conf.template');
 	$apache_conf = ob_get_clean();
-	if( ! file_put_contents(APACHECONFDIR.'/vshell.conf', $apache_conf) ){
+	if( ! file_put_contents(APACHECONFDIR.'/'.APACHECONFFILE, $apache_conf) ){
 		$errors++;
 		$errorstring .= "ERROR: Failed to create apache config file from template.";
-		$errorstring .= "Installing default file instead. Manually check ".APACHECONFDIR."/vshell.conf values are correct\n";
-		$output = system('/bin/cp config/vshell_apache.conf '.escapeshellarg(APACHECONFDIR).'/vshell.conf', $code);
+		$errorstring .= "Installing default file instead. Manually check ".$apache_conf_file." values are correct\n";
+		$output = system('/bin/cp config/vshell_apache.conf '.$apache_conf_file, $code);
 		if($code > 0) {
 			$errors++;
 			$errorstring .= "ERROR: Failed to create apache configuration file from default file \n$output\n";
