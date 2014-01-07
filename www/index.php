@@ -53,12 +53,15 @@ if (defined('ENVIRONMENT'))
 	{
 		case 'cli':
 			error_reporting(E_ALL);
+			define('LOG_LEVEL', 2);
 		break;
 		case 'development':
 			error_reporting(E_ALL);
+			define('LOG_LEVEL', 2);
 		break;
 		case 'live':
 			error_reporting(0);
+			define('LOG_LEVEL', 0);
 		break;
 		default:
 			exit('The application environment is not set correctly.');
