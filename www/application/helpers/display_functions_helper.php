@@ -64,6 +64,7 @@ function build_nav_links() //build page links based on user's permission level
 	$base = '/'.BASEURL;
 
 	$navlinks = "";
+
 	//NAV LINKS	 are added to a floated <ul>
 	$navlinks .= '<ul class="nav">'; 	
 	$navlinks .= '<li class="nav"><a href="index.php" class="nav" rel="internal">'.gettext('Tactical Overview').'</a></li>'; //default tactical overview link 
