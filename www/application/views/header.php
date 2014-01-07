@@ -65,13 +65,13 @@
 <meta http-equiv="content-language" content="en" />
 <meta name="site" content="Nagios" />
 
-<link rel="stylesheet" href="<?php echo config_item('site_url') ?>/css/style.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?php echo STATICURL; ?>/css/style.css" type="text/css" media="screen" />
 <style type="text/css">
 <!-- use external stylesheet to control page style -->
 </style>
 
-<script type="text/javascript" src="<?php echo config_item('site_url') ?>/js/header.inc.js"></script>
-<script type="text/javascript" src="<?php echo config_item('site_url') ?>/js/header.inc.js"></script>
+<script type="text/javascript" src="<?php echo STATICURL; ?>/js/header.inc.js"></script>
+<script type="text/javascript" src="<?php echo STATICURL; ?>/js/header.inc.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
   // Handler for .ready() called.
@@ -81,7 +81,7 @@ $(document).ready(function() {
 
 </head>
 <body>
-	<div id="logoDiv"><a href="index.php"><img src="<?php echo config_item('site_url') ?>/images/vshell.png" /></a></div>
+	<div id="logoDiv"><a href="index.php"><img src="<?php echo STATICURL; ?>/images/vshell.png" /></a></div>
 	<div class="corelink">
 		<a class="label" href="/nagios" target="_blank" title="
 		<?php echo gettext('Access Nagios Core');?>
