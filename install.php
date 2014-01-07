@@ -33,18 +33,9 @@ if($code == 0)
 	}
 }
 
-// Make web directory
-echo "Creating web directory...\n";
-$output = system('/bin/mkdir '.escapeshellarg(TARGETDIR), $code);
-if($code > 0)
-{
-	$errors++;
-	$errorstring .= "ERROR: Failed to create ".TARGETDIR." directory \n$output\n";
-}
-
 // Copy web files to web directory
 echo "Copying files...\n";
-$output = system('/bin/cp -r ./www/* '.escapeshellarg(TARGETDIR).'/', $code);
+$output = system('/bin/cp -r ./www '.escapeshellarg(TARGETDIR), $code);
 if($code > 0)
 {
 	$errors++;
