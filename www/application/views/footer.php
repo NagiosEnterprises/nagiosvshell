@@ -1,5 +1,4 @@
-<?php //footer.php this file closes all html pages 
-
+<?php 
 
 // Nagios V-Shell
 // Copyright (c) 2010 Nagios Enterprises, LLC.
@@ -48,17 +47,13 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, STRICT LIABILITY, TORT (INCLUDING 
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+?>
 
+</section>
 
-function display_footer()
-{
-	$footer = <<<FOOTER
-</div> <!--end of "main" div -->
+<footer>
+
+</footer>
 
 </body>
 </html>
-FOOTER;
-	return $footer;
-}
-
-?>

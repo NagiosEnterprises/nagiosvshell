@@ -1,7 +1,5 @@
 <?php //header.php  this page contains all of the html head information, used as an include file 
 
-
-
 // Nagios V-Shell
 // Copyright (c) 2010 Nagios Enterprises, LLC.
 // Written by Mike Guthrie <mguthrie@nagios.com>
@@ -50,51 +48,46 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 
-?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head profile="http://dublincore.org">
-<title>Nagios V-Shell</title>
+?><!DOCTYPE html>
+<html>
+<head>
 
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<link rel="schema.DC" href="http://dublincore.org/2008/01/14/dcelements.rdf#" />
-<link rel="schema.DCTERMS" href="http://dublincore.org/2008/01/14/dcterms.rdf#" />
-<meta name="description" content="Nagios" />
-<meta name="keywords" content="Nagios" />  
-<meta http-equiv="content-style-type" content="text/css" />
-<meta http-equiv="content-language" content="en" />
-<meta name="site" content="Nagios" />
+	<meta charset="utf-8">
 
-<link rel="stylesheet" href="<?php echo STATICURL; ?>/css/style.css" type="text/css" media="screen" />
-<style type="text/css">
-<!-- use external stylesheet to control page style -->
-</style>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<script type="text/javascript" src="<?php echo STATICURL; ?>/js/header.inc.js"></script>
-<script type="text/javascript" src="<?php echo STATICURL; ?>/js/header.inc.js"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-  // Handler for .ready() called.
-	hide();
-});
-</script>
+	<meta http-equiv="cache-control" content="max-age=0" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="expires" content="0" />
+	<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+	<meta http-equiv="pragma" content="no-cache" />
+
+	<title>Nagios V-Shell2</title>
+
+	<link rel="stylesheet" href="<?php echo STATICURL; ?>/css/style.css">
+
+	<script src="<?php echo STATICURL; ?>/js/header.inc.js"></script>
 
 </head>
 <body>
-	<div id="logoDiv"><a href="index.php"><img src="<?php echo STATICURL; ?>/images/vshell.png" /></a></div>
+
+<header>
+
+	<div id="logoDiv">
+		<a href="/<?php echo BASEURL; ?>"><img src="<?php echo STATICURL; ?>/images/vshell.png"/></a>
+	</div>
+
 	<div class="corelink">
-		<a class="label" href="/nagios" target="_blank" title="
-		<?php echo gettext('Access Nagios Core');?>
-		">
-		<?php echo gettext('Access Nagios Core'); ?>
-		</a>
+		<a class="label" href="/<?php echo COREURL; ?>" target="_blank" title="<?php echo gettext('Access Nagios Core');?>"><?php echo gettext('Access Nagios Core'); ?></a>
 	</div>
 
+	<nav>
+		<div class="topnav">
+			<?php echo build_nav_links(); ?>
+		</div>
+	</nav>
 
-	<div class="topnav">
-<?php echo build_nav_links(); ?>
-	</div>
+</header>
 
-
-<div class="main">
-
+<section class="main">
