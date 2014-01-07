@@ -122,7 +122,7 @@ elseif(file_exists('/var/cache/nagios3/status.dat'))  //ubuntu debian nagios3 in
 else
 {
 	$errors++;
-	$errorstring .= "NOTICE: status.dat file not found.  Please specify the location of this file in your /etc/vshell.conf file\n";
+	$errorstring .= "NOTICE: status.dat file not found.  Please specify the location of this file in your /etc/".ETC_CONF." file\n";
 	$statusfile = '';
 }
 
@@ -149,7 +149,7 @@ elseif(file_exists('/var/cache/nagios3/objects.cache'))  //ubuntu debian nagios3
 else
 {
 	$errors++;
-	$errorstring .= "NOTICE: objects.cache file not found.  Please specify the location of this file in your /etc/vshell.conf file\n";
+	$errorstring .= "NOTICE: objects.cache file not found.  Please specify the location of this file in your /etc/".ETC_CONF." file\n";
 	$objectfile = '';
 }
 
@@ -172,7 +172,7 @@ elseif(file_exists('/etc/nagios3/cgi.cfg'))  //ubuntu/debian nagios3 installs
 else
 {
 	$errors++;
-	$errorstring .= "NOTICE: cgi.cfg file not found.  Please specify the location of this file in your /etc/vshell.conf file\n";
+	$errorstring .= "NOTICE: cgi.cfg file not found.  Please specify the location of this file in your /etc/".ETC_CONF." file\n";
 	$cgifile = '';
 }
 
@@ -202,7 +202,7 @@ elseif(is_dir('/var/lib/nagios3/rw'))  //ubuntu/debian nagios3
 else
 {
 	$errors++;
-	$errorstring .= "NOTICE: nagios.cmd file not found.  Please specify the location of this file in your /etc/vshell.conf file\n";
+	$errorstring .= "NOTICE: nagios.cmd file not found.  Please specify the location of this file in your /etc/".ETC_CONF." file\n";
 	$nagcmd = '';
 }
 
@@ -213,20 +213,20 @@ define('NAGCMD', $nagcmd);
 
 echo "Creating vshell configuration file...\n";
 
-$output = system('/bin/touch /etc/vshell.conf', $code);
+$output = system('/bin/touch /etc/'.ETC_CONF, $code);
 if($code > 0){
 	$errors++;
-	$errorstring .= "ERROR: Failed to create config/vshell.conf file in /etc directory \n$output\n";
+	$errorstring .= "ERROR: Failed to create config/".ETC_CONF." file in /etc directory \n$output\n";
 }else{
 	// Try to create from template file, fall back on default file
 	ob_start();
 	include(dirname(__FILE__).'/config/vshell.conf.template');
 	$conf = ob_get_clean();
-	if( ! file_put_contents('/etc/vshell.conf', $conf) ){
+	if( ! file_put_contents('/etc/'.ETC_CONF, $conf) ){
 		$errors++;
-		$errorstring .= "ERROR: Failed to create config/vshell.conf file from template.";
-		$errorstring .= "Installing default file instead. Manually check /etc/vshell.conf values are correct\n";
-		$output = system('/bin/cp config/vshell.conf.default /etc/vshell.conf', $code);
+		$errorstring .= "ERROR: Failed to create config/".ETC_CONF." file from template.";
+		$errorstring .= "Installing default file instead. Manually check /etc/".ETC_CONF." values are correct\n";
+		$output = system('/bin/cp config/vshell.conf.default /etc/'.ETC_CONF, $code);
 		if($code > 0) {
 			$errors++;
 			$errorstring .= "ERROR: Failed to copy config/vshell.conf file to /etc directory \n$output\n";
