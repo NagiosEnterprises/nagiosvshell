@@ -56,8 +56,9 @@ class Hosts extends CI_Controller {
 
 	public function index() {
 
-		$ci = &get_instance();
-		$hosts = $ci->nagios_data->grab_details('host');
+		$this->load->helper('fetch_icons_helper');
+
+		$hosts = $this->nagios_data->grab_details('host');
 		$start = $this->input->get('start');
 		$limit = $this->input->get('limit');
 		$name_filter = $this->input->get('name_filter');
@@ -69,7 +70,7 @@ class Hosts extends CI_Controller {
 		//if results are greater than number that the page can display, create page links
 		//calculate number of pages
 		$pageCount = (($resultsCount / $limit) < 1) ? 1 : intval($resultsCount/$limit);
-		$doPagination = $pageCount * $limit < $resultsCount;
+		$doPagination = ($pageCount * $limit) < $resultsCount;
 		$hostnames = array_keys($hosts);
 		sort($hostnames);
 
@@ -82,10 +83,10 @@ class Hosts extends CI_Controller {
 			'doPagination' => $doPagination,
 			'name_filter' => $name_filter,
 			'hostnames' => $hostnames,
-			);
+		);
 
 		$this->load->view('header');
-		$this->load->view('hosts',$data);
+		$this->load->view('hosts', $data);
 		$this->load->view('footer');
 	}
 }
