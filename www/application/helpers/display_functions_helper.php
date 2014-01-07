@@ -61,7 +61,7 @@ function build_nav_links() //build page links based on user's permission level
 	$ci = & get_instance(); 
 
 	//generate links based on permissions 
-	$base = BASEURL.'index.php';
+	$base = '/'.BASEURL;
 
 	$navlinks = "";
 	//NAV LINKS	 are added to a floated <ul>

@@ -6,3 +6,5 @@ CSS and JS files linked incorrectly in application/views/header. config_item(); 
 ## Cleanup
 
 Remove application/views/views.inc.php. First make sure these files are loaded elsewhere.
+
+Remove application/views/display_functions.php. There is a helper file by the same name. The view does not appear to be used.

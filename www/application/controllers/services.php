@@ -2,7 +2,6 @@
 
 class Services extends CI_Controller {
 
-
 	// Nagios V-Shell
 	// Copyright (c) 2010 Nagios Enterprises, LLC.
 	// Written by Mike Guthrie <mguthrie@nagios.com>
@@ -13,12 +12,12 @@ class Services extends CI_Controller {
 	// the GNU General Public License. A copy of that license should have
 	// been provided with this software, but in any event can be obtained
 	// from http://www.fsf.org.
-	// 
+	//
 	// This work is distributed in the hope that it will be useful, but
 	// WITHOUT ANY WARRANTY; without even the implied warranty of
 	// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 	// General Public License for more details.
-	// 
+	//
 	// You should have received a copy of the GNU General Public License
 	// along with this program; if not, write to the Free Software
 	// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -33,7 +32,7 @@ class Services extends CI_Controller {
 	// licenses that may apply to the software.)
 	//
 	// Contributions to this software are subject to your understanding and acceptance of
-	// the terms and conditions of the Nagios Contributor Agreement, which can be found 
+	// the terms and conditions of the Nagios Contributor Agreement, which can be found
 	// online at:
 	//
 	// http://www.nagios.com/legal/contributoragreement/
@@ -42,54 +41,36 @@ class Services extends CI_Controller {
 	// DISCLAIMER:
 	//
 	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-	// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
-	// PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+	// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+	// PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
 	// HOLDERS BE LIABLE FOR ANY CLAIM FOR DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
-	// OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+	// OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
 	// GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) OR OTHER
-	// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, STRICT LIABILITY, TORT (INCLUDING 
-	// NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
+	// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, STRICT LIABILITY, TORT (INCLUDING
+	// NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION
 	// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
 	public function __construct() {
-        parent::__construct();
-    }
-    
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -  
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in 
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
+		parent::__construct();
+	}
+
 	public function index() {
-		
-		$ci = &get_instance(); 
-		$services = $ci->nagios_data->grab_details('service'); 
+
+		$ci = &get_instance();
+		$services = $ci->nagios_data->grab_details('service');
 		$start = $this->input->get('start');
-		$limit = $this->input->get('limit'); 
+		$limit = $this->input->get('limit');
 		$name_filter = $this->input->get('name_filter');
-		
-		//LOGIC 
+
 		//get variables needed to display page
-		$limit = empty($limit) ? RESULTLIMIT : $limit; 	
-		
+		$limit = empty($limit) ? RESULTLIMIT : $limit;
+
 		$resultsCount = count($services);
 		//if results are greater than number that the page can display, create page links
-		//calculate number of pages 
+		//calculate number of pages
 		$pageCount = (($resultsCount / $limit) < 1) ? 1 : intval($resultsCount/$limit);
 		$doPagination = $pageCount * $limit < $resultsCount;
-	
-		
+
 		$data = array(
 			'services' => $services,
 			'start' => intval($start),
@@ -98,14 +79,13 @@ class Services extends CI_Controller {
 			'pageCount' => $pageCount,
 			'doPagination' => $doPagination,
 			'name_filter' => $name_filter,
-			);	
-			
-			
+			);
+
 		$this->load->view('header');
 		$this->load->view('services',$data);
 		$this->load->view('footer');
 	}
 }
 
-/* End of file welcome.php */
-/* Location: ./application/controllers/hosts.php */
+/* End of file services.php */
+/* Location: ./application/controllers/services.php */
