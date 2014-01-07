@@ -25,11 +25,6 @@ Prerequisites:
 V-Shell requires apache and php 5.x already installed in the system, as well as
 php-cli if it's not already there. 
 
-You will need to know the location of Apache configuration directory where your
-nagios.conf file is located, as well as the htpasswd.users file that contains 
-your Nagios Core authorizations.  These can be found using the following 
-command: locate <filename>
-
 
 APC Caching
 --------------
@@ -53,13 +48,6 @@ Download and untar the latest V-Shell tarball from:
 To download the latest code from Subversion
   https://nagios.svn.sourceforge.net/svnroot/nagios/nagiosvshell/trunk
 
-(The defaults are appropriate for a Nagios install from SOURCE on CentOS / RHEL.)
-If necessary, to modify your apache configuration, modify the contents of the
-config/apache_vshell.conf file to match the directory structure of your distribution
-and your installation of Nagios BEFORE running th install script.  Use a text
-editor to modify this file as needed, then copy this file to the same directory
-as your nagios.conf file.
-
 Run the following with root permissions:
 
 cd /tmp
@@ -67,7 +55,10 @@ wget http://assets.nagios.com/downloads/exchange/nagiosvshell/vshell.tar.gz
 tar zxf vshell.tar.gz
 cd vshell
 
-Verify values in `install-config.php`.
+Next, verify the values in config.php are correct. Sensible defaults are
+included for RHEL/CentOS 6 and Debian 7, and should require no action.
+
+Once the configuration values are verified finish install vshell:
 	
 chmod +x install.php	
 ./install.php  #located in the root vshell directory where the web files are stored 
@@ -91,18 +82,19 @@ For custom configurations with Apache, changes may need to be made to the
 as well as the Nagios Core cgi's.  
 
 V-Shell assumes that your Nagios Core installation can be accessed via 
-http://<servername>/nagios.  If your configuration differs from this, make 
-changes are appropriate to the /etc/vshell.conf file.  If errors occur after 
-installation, verify that the constants point to the correct web URLS.  
+http://<servername>/nagios (or nagios3 on Debian).  If your configuration
+differs from this, make changes are appropriate to the /etc/vshell.conf file.
+If errors occur after installation, verify that the constants point to the
+correct web URLS.  
 
-You may need to update the location of htpasswd.users file in the apache configuration file.
-For Ubuntu/Debian users on a nagios3 install this file will be at /etc/nagios3/htpasswd.users.
+You may need to update the location of htpasswd.users file in the apache
+configuration file. For Ubuntu/Debian users on a nagios3 install this file will
+be at /etc/nagios3/htpasswd.users.
 
 Default Apache Configuration Locations:
 	RHEL/CentOS: /etc/httpd/conf.d/vshell.conf
 	Ubuntu/Debian: /etc/apache2/conf.d/vshell.conf 
  
-
 Future versions will include a separate config file and possibly a wizard to 
 verify system configuration.  
 

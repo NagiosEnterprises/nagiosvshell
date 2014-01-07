@@ -12,7 +12,7 @@
 //
 // Custom configuration options should be added to install-config.php
 
-include(dirname(__FILE__).'/install-config.php');
+include(dirname(__FILE__).'/config.php');
 
 $errors = 0;
 $errorstring = '';
@@ -20,9 +20,22 @@ $errorstring = '';
 
 /////////////////////////////// Configure Apache //////////////////////////////
 
+// Backup web directory if it already exists.
+$output = system('/usr/bin/test -d '.escapeshellarg(TARGETDIR), $code);
+if($code == 0)
+{
+	echo "Backing up current web directory...\n";
+	$output = system('/bin/mv '.escapeshellarg(TARGETDIR).' '.escapeshellarg(TARGETDIR).'.'.date('Ymd\.His').'.bak', $code);
+	if($code > 0)
+	{
+		$errors++;
+		$errorstring .= "ERROR: Failed to backup existing ".TARGETDIR." directory \n$output\n";
+	}
+}
+
 // Make web directory
 echo "Creating web directory...\n";
-$output = system('/usr/bin/test -d '.escapeshellarg(TARGETDIR).' || /bin/mkdir '.escapeshellarg(TARGETDIR), $code);
+$output = system('/bin/mkdir '.escapeshellarg(TARGETDIR), $code);
 if($code > 0)
 {
 	$errors++;
@@ -31,20 +44,11 @@ if($code > 0)
 
 // Copy web files to web directory
 echo "Copying files...\n";
-$output = system('/bin/cp -r * '.escapeshellarg(TARGETDIR).'/', $code);
+$output = system('/bin/cp -r ./www/* '.escapeshellarg(TARGETDIR).'/', $code);
 if($code > 0)
 {
 	$errors++;
 	$errorstring .= "ERROR: Failed to copy files to ".TARGETDIR." directory \n$output\n";
-}
-
-// Remove install files from target web directory
-echo "Cleaning up...\n";
-$output = system('/bin/rm -f '.escapeshellarg(TARGETDIR).'/install.php '.escapeshellarg(TARGETDIR).'/install-config.php', $code);
-if($code > 0)
-{
-	$errors++;
-	$errorstring .= "ERROR: Failed to delete install script from web directory \n$output\n";
 }
 
 // Create apache conf file for project

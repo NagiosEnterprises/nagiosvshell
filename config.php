@@ -9,7 +9,7 @@ $custom = array(
 	'targetdir'      => '',
 	'apacheconfdir'  => '',
 	'htpasswd_file'  => '',
-	# See config/vshell.conf.template for explanations of each value
+	# See config/vshell.conf for explanations of each value
 	'vshell_baseurl' => '',
 	'nagios_coreurl' => '',
 	'resultlimit'    => '',
