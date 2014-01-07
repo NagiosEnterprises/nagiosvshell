@@ -3,3 +3,6 @@ Appears to use ./www/index.php file. Will this still work with CI ./application 
 CSS and JS files linked incorrectly in application/views/header. config_item(); does not return :port in URL. Also it's a hardcoded value "vshell2" instead of dynamic. Move the hardcoded path to install conf, and then to /etc/vshell.conf (with a note that changing this value after install does not work unless /etc/apache/conf.d files are changed accordingly).
 
 
+## Cleanup
+
+Remove application/views/views.inc.php. First make sure these files are loaded elsewhere.
