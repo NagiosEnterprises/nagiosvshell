@@ -18,26 +18,8 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-	
-	//Set HTTP_HOST if not already defined
-	//	Once CI is loaded, can check for command line specifically by:
-	//	- Checking if STDIN (standard in) is defined.
-	//	- Using the wrapper function in the CI input library,
-	//	  $this->input->is_cli_request();
-	//	  This just checks if STDIN is defined.
-	
-	if( ! isset($_SERVER['HTTP_HOST']) ){
-		if( defined('STDIN') ){ $_SERVER['HTTP_HOST'] = 'cli'; } //command-line
-		else{ $_SERVER['HTTP_HOST'] = ''; }
-	}
-	
-	//Determine environment
-	if( @$_SERVER['HTTP_HOST'] == 'localhost' ){ $environment = 'development'; }
-	elseif( @$_SERVER['HTTP_HOST'] == 'cli' ){ $environment = 'commandline'; }
-	else{ $environment = 'live'; }
-	
-	define('ENVIRONMENT', $environment); unset($environment);
-	
+	define('ENVIRONMENT', 'development');
+	$username = 'nagiosadmin'; 
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -51,15 +33,15 @@ if (defined('ENVIRONMENT'))
 {
 	switch (ENVIRONMENT)
 	{
-		case 'cli':
-			error_reporting(E_ALL);
-		break;
 		case 'development':
 			error_reporting(E_ALL);
 		break;
-		case 'live':
+	
+		case 'testing':
+		case 'production':
 			error_reporting(0);
 		break;
+
 		default:
 			exit('The application environment is not set correctly.');
 	}
@@ -75,7 +57,7 @@ if (defined('ENVIRONMENT'))
  * as this file.
  *
  */
-	$system_path = 'system';
+	$system_path = '../system';
 
 /*
  *---------------------------------------------------------------
@@ -91,7 +73,7 @@ if (defined('ENVIRONMENT'))
  * NO TRAILING SLASH!
  *
  */
-	$application_folder = 'application';
+	$application_folder = '../application';
 
 /*
  * --------------------------------------------------------------------
@@ -117,7 +99,7 @@ if (defined('ENVIRONMENT'))
 	// if your controller is not in a sub-folder within the "controllers" folder
 	// $routing['directory'] = '';
 
-	// The controller class file name.  Example:  Mycontroller.php
+	// The controller class file name.  Example:  Mycontroller
 	// $routing['controller'] = '';
 
 	// The controller function you wish to be called.
@@ -182,6 +164,7 @@ if (defined('ENVIRONMENT'))
 	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
 	// The PHP file extension
+	// this global constant is deprecated.
 	define('EXT', '.php');
 
 	// Path to the system folder
@@ -217,8 +200,7 @@ if (defined('ENVIRONMENT'))
  * And away we go...
  *
  */
-require_once BASEPATH.'core/CodeIgniter'.EXT;
+require_once BASEPATH.'core/CodeIgniter.php';
 
 /* End of file index.php */
 /* Location: ./index.php */
- 
