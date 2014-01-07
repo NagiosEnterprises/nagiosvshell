@@ -1,8 +1,11 @@
 Alias /<?php echo VSHELL_BASEURL; ?> "<?php echo TARGETDIR; ?>"
 
+ServerSignature Off
+ServerTokens Prod
+
 <Directory "<?php echo TARGETDIR; ?>">
    Options None
-   AllowOverride None
+   AllowOverride All
 
    Order allow,deny
    Allow from all
