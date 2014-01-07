@@ -66,8 +66,15 @@ if($code > 0){
 	}
 }
 
-// Restart apache service
+// Enable mod_rewrite
+echo "Enabling Apache module rewrite...\n";
+$output = system('/usr/sbin/a2enmod rewrite', $code);
+if($code > 0){
+	$errors++;
+	$errorstring .= "ERROR: Failed to enable apache module rewrite \n$output\n";
+}
 
+// Restart apache service
 if( file_exists('/etc/init.d/httpd') ){ // RHEL
 	$action = 'service';
 	$service = 'httpd';

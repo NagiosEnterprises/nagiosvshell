@@ -5,6 +5,7 @@ ServerTokens Prod
 
 <Directory "<?php echo TARGETDIR; ?>">
    Options None
+   Options FollowSymLinks
    AllowOverride All
 
    Order allow,deny
