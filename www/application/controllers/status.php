@@ -2,7 +2,6 @@
 
 class Status extends CI_Controller {
 
-
 	// Nagios V-Shell
 	// Copyright (c) 2010 Nagios Enterprises, LLC.
 	// Written by Mike Guthrie <mguthrie@nagios.com>
@@ -258,3 +257,5 @@ class Status extends CI_Controller {
 	}
 }
 
+/* End of file status.php */
+/* Location: ./application/controllers/status.php */
