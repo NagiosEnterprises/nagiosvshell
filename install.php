@@ -66,12 +66,15 @@ if($code > 0){
 	}
 }
 
-// Enable mod_rewrite
-echo "Enabling Apache module rewrite...\n";
-$output = system('/usr/sbin/a2enmod rewrite', $code);
-if($code > 0){
-	$errors++;
-	$errorstring .= "ERROR: Failed to enable apache module rewrite \n$output\n";
+// Enable mod_rewrite. On by default in RHEL/CentOS. Off in Debian.
+$output = system('/usr/bin/which a2enmod', $code);
+if($code == 0){
+	echo "Enabling Apache module rewrite on Debian family distribution...\n";
+	$output = system('/usr/sbin/a2enmod rewrite', $code);
+	if($code > 0){
+		$errors++;
+		$errorstring .= "ERROR: Failed to enable apache module rewrite \n$output\n";
+	}
 }
 
 // Restart apache service
