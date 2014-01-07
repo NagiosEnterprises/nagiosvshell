@@ -77,6 +77,22 @@ if($code == 0){
 	}
 }
 
+// Create .htaccess file with dynamic base url
+echo "Creating custom .htaccess file...\n";
+ob_start(); // Try to create from template file, fall back on default file
+include(dirname(__FILE__).'/config/htaccess.template');
+$htaccess = ob_get_clean();
+if( ! file_put_contents('./www/.htaccess', $htaccess) ){
+	$errors++;
+	$errorstring .= "ERROR: Failed to create custom htaccess file from template.";
+	$errorstring .= "Installing default file instead. Manually check .htaccess values are correct\n";
+	$output = system('/bin/cp config/htaccess ./www/.htaccess', $code);
+	if($code > 0) {
+		$errors++;
+		$errorstring .= "ERROR: Failed to copy config/htaccess file to /www/.htaccess \n$output\n";
+	}
+}
+
 // Restart apache service
 if( file_exists('/etc/init.d/httpd') ){ // RHEL
 	$action = 'service';

@@ -6,7 +6,8 @@
 
 ; The Apache URL path to V-Shell.
 ; If you want to access V-Shell in the browser at http://<yourserver>/vshell/,
-; then set this to "vshell".
+; then set this to "vshell". If this value is changed after installation also
+; update .htaccess file's RewriteBase value.
 BASEURL = "<?php echo VSHELL_BASEURL; ?>"
 
 ; The Apache URL path to your Nagios Core installation
