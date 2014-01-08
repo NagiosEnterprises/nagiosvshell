@@ -32,7 +32,7 @@
 	}
 	
 	//Determine environment
-	if( @$_SERVER['HTTP_HOST'] == 'localhost' ){ $environment = 'development'; }
+	if( strpos(@$_SERVER['HTTP_HOST'], 'localhost') !== False ){ $environment = 'development'; }
 	elseif( @$_SERVER['HTTP_HOST'] == 'cli' ){ $environment = 'commandline'; }
 	else{ $environment = 'live'; }
 	
@@ -47,10 +47,8 @@
  * By default development will show errors but testing and live will hide them.
  */
 
-if (defined('ENVIRONMENT'))
-{
-	switch (ENVIRONMENT)
-	{
+if (defined('ENVIRONMENT')) {
+	switch (ENVIRONMENT) {
 		case 'cli':
 			error_reporting(E_ALL);
 			define('LOG_LEVEL', 2);
