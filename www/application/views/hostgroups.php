@@ -1,4 +1,7 @@
-<?php  //hostgroups.php    display page for hostgroup details
+<?php 
+
+// hostgroups.php
+// display page for hostgroup details
 
 // Nagios V-Shell
 // Copyright (c) 2010 Nagios Enterprises, LLC.

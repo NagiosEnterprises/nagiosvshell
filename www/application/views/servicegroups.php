@@ -1,5 +1,7 @@
-<?php  //servicegroups.php    //display page for service groups 
+<?php 
 
+// servicegroups.php
+// display page for service groups 
 
 // Nagios V-Shell
 // Copyright (c) 2010 Nagios Enterprises, LLC.

@@ -87,11 +87,16 @@
 
 				<?php
 
-					for($i=$start; $i<=($start+$limit); $i++) {
+					for ( $i = $start; $i <= ($start + $limit); $i++) {
 
-						if($i >= $resultsCount) break;
+						if ($i >= $resultsCount){ 
+							break;
+						}
 
-						if(!isset($hosts[$hostnames[$i]])) continue; //skip undefined indexes of hosts array
+						//skip undefined indexes of hosts array
+						if ( ! isset($hosts[$hostnames[$i]]) ){ 
+							continue;
+						}
 
 						$host = $hosts[$hostnames[$i]];
 
@@ -112,7 +117,7 @@
 								<td>'.$host['attempt'].'</td>
 								<td>'.$host['last_check'].'</td>
 								<td>'.$host['plugin_output'].'</td>
-						 	</tr>';
+							</tr>';
 					}
 
 				?>
