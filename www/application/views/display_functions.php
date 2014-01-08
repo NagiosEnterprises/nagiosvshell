@@ -1,5 +1,6 @@
 <?php //display_functions.php  this file contains functions that process display info and contain html tags 
 
+// TODO: Deprecated. Remove file in favor of display_functions helper
 
 // Nagios V-Shell
 // Copyright (c) 2010 Nagios Enterprises, LLC.
