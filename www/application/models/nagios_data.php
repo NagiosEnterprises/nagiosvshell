@@ -712,5 +712,7 @@ class Nagios_data extends CI_Model {
 		return $membersArray;
 	}
 
-} //end NagiosData class 
+}
 
+/* End of file nagios_data.php */
+/* Location: ./application/models/nagios_data.php */
