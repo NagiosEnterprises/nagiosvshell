@@ -63,20 +63,18 @@ class Nagios_group extends CI_Model {
 	 */
 	function build_hostgroup_details($group_members) {
 		//make this return the totals array for hosts and services
-		global $NagiosData;
-		global $NagiosUser;
 
-		$hosts = $NagiosData->getProperty('hosts');
+		$hosts = $this->nagios_data->getProperty('hosts');
 
 	//	//add filter for user-level filtering
-	//	if(!$NagiosUser->is_admin()) {
+	//	if(!$this->nagios_user->is_admin()) {
 			//print $type;
 	//		$hosts = user_filtering($hosts,'hosts');
 	//	}
 
 		$hostgroup_details = array();
 		foreach($group_members as $member) {
-			if($NagiosUser->is_authorized_for_host($member)) //user-level filtering
+			if($this->nagios_user->is_authorized_for_host($member)) //user-level filtering
 				$hostgroup_details[] = $hosts[$member];
 		}
 
@@ -88,17 +86,15 @@ class Nagios_group extends CI_Model {
 	 * $groups = $hostsgroups or $servicegroups
 	 */
 	function build_host_servicegroup_details($group_members) {
-		global $NagiosData;
-		global $NagiosUser;
-		$hosts = $NagiosData->getProperty('hosts');
+		$hosts = $this->nagios_data->getProperty('hosts');
 		$servicegroup_details = array();
 		foreach($group_members as $member) {
 			//user-level filtering
-			if($NagiosUser->is_authorized_for_host($member)) {
+			if($this->nagios_user->is_authorized_for_host($member)) {
 				if (isset($hosts[$member]['services'])) {
 					foreach ($hosts[$member]['services'] as $service) {
  						//user-level filtering
-						if($NagiosUser->is_authorized_for_service($member,$service)) {
+						if($this->nagios_user->is_authorized_for_service($member,$service)) {
 							$servicegroup_details[] = $service;
 						}
 					}
@@ -116,9 +112,8 @@ class Nagios_group extends CI_Model {
 	 * returns a list of groups separated by spaces
 	 */
 	function check_membership($hostname='', $servicename='', $servicegroup_name=''){
-		global $NagiosData;
-		$hostgroups_objs = $NagiosData->getProperty('hostgroups_objs');
-		$servicegroups_objs = $NagiosData->getProperty('servicegroups_objs');
+		$hostgroups_objs = $this->nagios_data->getProperty('hostgroups_objs');
+		$servicegroups_objs = $this->nagios_data->getProperty('servicegroups_objs');
 
 		$hostname = trim($hostname);
 		$servicename = trim($servicename);
@@ -173,11 +168,9 @@ class Nagios_group extends CI_Model {
 	 * Returns 3-dimensional array:groupnames->members->details
 	 */
 	function build_servicegroups_array() {
-		global $NagiosData;
-		global $NagiosUser;
 
-		$servicegroups = $NagiosData->getProperty('servicegroups');
-		$services = $NagiosData->getProperty('services');
+		$servicegroups = $this->nagios_data->getProperty('servicegroups');
+		$services = $this->nagios_data->getProperty('services');
 		$services = user_filtering($services,'services');
 
 		$servicegroups_details = array(); //multi-dim array to hold servicegroups
@@ -197,19 +190,16 @@ class Nagios_group extends CI_Model {
 	/* Preprocess all of the data for hostgroups display/output
 	 */
 	function get_hostgroup_data() {
-		global $NagiosData;
-		global $NagiosUser;
-
-		$hostgroups = $NagiosData->getProperty('hostgroups');
-		$hosts = $NagiosData->getProperty('hosts');
+		$hostgroups = $this->nagios_data->getProperty('hostgroups');
+		$hosts = $this->nagios_data->getProperty('hosts');
 
 		$hostgroup_data = array();
 		foreach ($hostgroups as $group => $members) {
 
 			$hostgroup_data[$group] = array(
 				'member_data' => array(),
-				'host_counts'    => get_state_of('hosts', build_hostgroup_details($members)),
-				'service_counts' => get_state_of('services', build_host_servicegroup_details($members))
+				'host_counts'    => get_state_of('hosts', $this->build_hostgroup_details($members)),
+				'service_counts' => get_state_of('services', $this->build_host_servicegroup_details($members))
 			);
 
 			//skip ahead if there are no authorized hosts
@@ -217,7 +207,7 @@ class Nagios_group extends CI_Model {
 
 			foreach ($members as $member) {
 
-				if(!$NagiosUser->is_authorized_for_host($member)) continue; //user-level filtering
+				if(!$this->nagios_user->is_authorized_for_host($member)) continue; //user-level filtering
 
 				$host = $hosts[$member];
 				process_host_status_keys($host);
@@ -231,7 +221,7 @@ class Nagios_group extends CI_Model {
 				if (isset($host['services'])) {
 					foreach($host['services'] as $service) {
 
-						if(!$NagiosUser->is_authorized_for_service($member,$service['service_description'])) continue; //user-level filtering
+						if(!$this->nagios_user->is_authorized_for_service($member,$service['service_description'])) continue; //user-level filtering
 
 						process_service_status_keys($service);
 						$service_data = array(
