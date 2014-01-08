@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-//this script defines functions for sorting arrays
+// this script defines functions for sorting arrays
 
 // Nagios V-Shell
 // Copyright (c) 2010 Nagios Enterprises, LLC.
@@ -12,12 +12,12 @@
 // the GNU General Public License. A copy of that license should have
 // been provided with this software, but in any event can be obtained
 // from http://www.fsf.org.
-// 
+//
 // This work is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 // General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
@@ -32,7 +32,7 @@
 // licenses that may apply to the software.)
 //
 // Contributions to this software are subject to your understanding and acceptance of
-// the terms and conditions of the Nagios Contributor Agreement, which can be found 
+// the terms and conditions of the Nagios Contributor Agreement, which can be found
 // online at:
 //
 // http://www.nagios.com/legal/contributoragreement/
@@ -41,306 +41,280 @@
 // DISCLAIMER:
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
-// PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+// PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
 // HOLDERS BE LIABLE FOR ANY CLAIM FOR DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
-// OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+// OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
 // GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, STRICT LIABILITY, TORT (INCLUDING 
-// NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, STRICT LIABILITY, TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
-
-//////////////////////////////////////////
-//
-//FUNCTION: get_state_of()
-//
-//DESC: return array of status codes for hosts OR services 
-//
-//ARGS: $type = 'hosts' or 'services', $array = array of hosts or services 
-//
-//USAGE: $stats = get_state_of('services');
-//        print $stats['OK']." OK Services";
-//
-//used for tactical overview tables 
-//
-function get_state_of($type, $array=NULL) //create host or service arrays by status 
-{
+/* FUNCTION: get_state_of()
+ *
+ * DESC: return array of status codes for hosts OR services
+ *
+ * ARGS: $type = 'hosts' or 'services', $array = array of hosts or services
+ *
+ * USAGE: $stats = get_state_of('services');
+ *        print $stats['OK']." OK Services";
+ *
+ * used for tactical overview tables
+ */
+function get_state_of($type, $array = NULL) {
+	//create host or service arrays by status
 	$ci =& get_instance();
 
-	if($type == 'services')
-	{
-		$state_counts = array('OK'=>0, 'WARNING'=>0, 'CRITICAL'=>0, 'UNKNOWN'=>0, 'PENDING'=>0);
-		//$state_counts = array(0 =>0, 1 =>0, 2 =>0, 3=>0, 'PENDING'=>0);	
+	if($type == 'services') {
+
+		$state_counts = array(
+			'OK'       => 0,
+			'WARNING'  => 0,
+			'CRITICAL' => 0,
+			'UNKNOWN'  => 0,
+			'PENDING'  => 0
+		);
+
 		if (is_null($array)) {
 			$array = $ci->nagios_data->getProperty('services');
-			
 		}
-	}
-	elseif($type == 'hosts')
-	{
-		$state_counts = array('UP'=>0, 'DOWN'=>0, 'UNREACHABLE'=>0, 'UNKNOWN'=>0, 'PENDING'=>0);
+
+	} elseif ($type == 'hosts') {
+
+		$state_counts = array(
+			'UP'          => 0,
+			'DOWN'        => 0,
+			'UNREACHABLE' => 0,
+			'UNKNOWN'     => 0,
+			'PENDING'     => 0
+		);
+
 		if (is_null($array)) {
 			$array = $ci->nagios_data->getProperty('hosts');
 		}
-	}
-	else {
+
+	} else {
 		// XXX handle better
 		die("Unknown type for this function");
 	}
 
-	foreach($array as $a)
-	{
-		 
-		if($type=='services')
-		{
+	foreach ($array as $a) {
+		if ($type == 'services') {
 			//process_service_status_keys($a);
-			if($ci->nagios_user->is_authorized_for_service($a['host_name'],$a['service_description']))  
-					$state_counts[return_service_state($a['current_state'])]++;							
-		}	
-		if($type=='hosts')
-		{
+			if ($ci->nagios_user->is_authorized_for_service($a['host_name'], $a['service_description'])) {
+				$state_counts[return_service_state($a['current_state'])]++;
+			}
+		}
+
+		if ($type == 'hosts') {
 			//process_host_status_keys($a);
-			if(isset($a['host_name']) && $ci->nagios_user->is_authorized_for_host($a['host_name'])) 
-					$state_counts[return_host_state($a['current_state'])]++;	
+			if(isset($a['host_name']) && $ci->nagios_user->is_authorized_for_host($a['host_name'])) {
+				$state_counts[return_host_state($a['current_state'])]++;
+			}
 		}
 	}
-		
-	
-	return $state_counts;					  
+
+	return $state_counts;
 }
 
-/////////////////////////////////////////////////
-//
-//FUNCTION: get_hosts_by_state($state)
-//
-//DESC: returns host array by status code 
-//
-//ARG: $state = expecting a status state
-//					[hosts: UP, DOWN, UNREACHABLE, UNKNOWN] 
-//					[services: OK, WARNING, CRITICAL, UNKNOWN]
-//		 $array = expecting array with status details
-//
-//USAGE: $up_hosts = get_host_by_state('UP');
-//
-function get_hosts_by_state($state, $host_data)
-{
+/* FUNCTION: get_hosts_by_state($state)
+ *
+ * DESC: returns host array by status code
+ *
+ * ARG: $state = expecting a status state
+ *					[hosts: UP, DOWN, UNREACHABLE, UNKNOWN]
+ *					[services: OK, WARNING, CRITICAL, UNKNOWN]
+ *		 $array = expecting array with status details
+ *
+ * USAGE: $up_hosts = get_host_by_state('UP');
+ */
+function get_hosts_by_state($state, $host_data) {
 	return get_by_state($state, $host_data);
 }
 
-
-
-/////////////////////////////////////////////////
-//
-//FUNCTION: get_service_by_state($state)
-//
-//DESC: returns host array by status code 
-//
-//ARG: $state = expecting a status code[ 0, 1, 2, 3]
-//
-//USAGE: $s = get_services_by_state(2); 
-//
-function get_services_by_state($state, $service_data)
-{
+/* FUNCTION: get_service_by_state($state)
+ *
+ * DESC: returns host array by status code
+ *
+ * ARG: $state = expecting a status code[ 0, 1, 2, 3]
+ *
+ * USAGE: $s = get_services_by_state(2);
+ */
+function get_services_by_state($state, $service_data) {
 	return get_by_state($state, $service_data,true);
 }
 
-function get_by_state($state, $data,$service=false)
-{
-	$newdata = array(); 
-				
-	if($service) {
-		foreach($data as $d)
-			if(return_service_state($d['current_state']) == $state)  $newdata[] = $d;  	
+function get_by_state($state, $data,$service=false) {
+	$newdata = array();
+
+	if ($service) {
+		foreach ($data as $d) {
+			if (return_service_state($d['current_state']) == $state) {
+				$newdata[] = $d;
+			}
+		}
+	} else {
+		foreach ($data as $d) {
+			if(return_host_state($d['current_state']) == $state) {
+				$newdata[] = $d;
+			}
+		}
 	}
-	else 	{
-		foreach($data as $d)
-			if(return_host_state($d['current_state']) == $state)  $newdata[] = $d;   		
-	}	
 
 	return $newdata;
-//		return array_filter($data, create_function('$d', 'return return_service_state($d[\'current_state\']) == \''.$state.'\';'));
-//	else 
-//		return array_filter($data, create_function('$d', 'return return_host_state($d[\'current_state\']) == \''.$state.'\';'));	
-	
 }
 
-
-
-function get_by_name($name, $data, $field='host_name',$host_filter=false) {
-	//echo $field; 
+function get_by_name($name, $data, $field = 'host_name', $host_filter = FALSE) {
 //	$name = preg_quote($name, '/');
-   $newarray = array();
-	//bug fix for hosts that don't have any services -MG 
-	if(!array_key_exists($field, $data) && htmlentities($_GET['type'],ENT_QUOTES) == 'hosts') 
-	   $field = 'host_name'; 
- 
-	if($host_filter) {//match exact hostname 
-	   foreach($data as $d) {
-	      if($host_filter == $d[$field])
-	         $newarray[]=$d;
-	   } 
-	}   
-	else { //match for search 	   
-	   foreach($data as $d) {
-	      if(preg_match("/$name/i", $d[$field]))
-	      $newarray[] = $d;	   
-	   }
-	 } 
-	   //return array_filter($data, create_function('$d', 'return preg_match("/'.$name.'/i", $d[\''.$field.'\']);'));
-	 return $newarray;  
+	$newarray = array();
+
+	//bug fix for hosts that don't have any services -MG
+	if (! array_key_exists($field, $data) && htmlentities($_GET['type'], ENT_QUOTES) == 'hosts') {
+	   $field = 'host_name';
+	}
+
+	if ($host_filter) {
+		//match exact hostname
+		foreach ($data as $d) {
+			if ($host_filter == $d[$field]) {
+				$newarray[]=$d;
+			}
+		}
+	} else {
+		//match for search
+		foreach ($data as $d) {
+			if (preg_match("/$name/i", $d[$field])) {
+				$newarray[] = $d;
+			}
+		}
+	 }
+
+	 return $newarray;
 }
 
-
-
-////////////////////////////////////////////
-//
-//FUNCTION: check_boolean 
-//
-//DESC:
-//
-//$type - expecting 'host' 'service' or 'program'
-//$arg - expecting config def like 'is_flapping' or 'notifications_enabled' 
-//$int - checking value of $arg, expecting (integer) 1 or 0
-//
-function check_boolean($type,$arg,$int) 
-//arg is a host/service detail like "notifications_enabled"
-{
-	$retval = false;
-
+/* FUNCTION: check_boolean
+ *
+ * DESC:
+ *
+ * $type - expecting 'host' 'service' or 'program'
+ * $arg - expecting config def like 'is_flapping' or 'notifications_enabled'
+ * $int - checking value of $arg, expecting (integer) 1 or 0
+ */
+function check_boolean($type, $arg, $int) {
+	//arg is a host/service detail like "notifications_enabled"
 	$ci =& get_instance();
+	$retval = false;
 	$details = $ci->nagios_data->grab_details($type); //grab full status details for host/service
 	$count = 0;
 
-	foreach($details as $object)
-	{
-		if($object[$arg] == $int)
-		{
+	foreach ($details as $object) {
+		if ($object[$arg] == $int) {
 			$count++;
 		}
 	}
-	if($count>0)
-	{
+
+	if($count>0) {
 		$retval = $count;
 	}
 
 	return $retval;
 }
-////////////////////////////////////////////////
-//
-//RETURNS: integer of hosts or services with 'current_state' matching $state 
-function count_by_state($state, $array)
-{
+
+// RETURNS: integer of hosts or services with 'current_state' matching $state
+function count_by_state($state, $array) {
 	$count = 0;
-	foreach($array as $a)
-	{
-		if($a['current_state'] == $state)
-		{
+	foreach ($array as $a) {
+		if ($a['current_state'] == $state) {
+			$count++;
+		}
+	}
+
+	return $count;
+}
+
+// RETURNS: integer of hosts or services with 'current_state' matching $state filtered by arg
+function count_by_state_with_args($state, $array, $arg1, $arg2) {
+	$count = 0;
+	foreach ($array as $a) {
+		if ($a['current_state'] == $state) {
 			$count++;
 		}
 	}
 	return $count;
 }
 
-////////////////////////////////////////////////
-//
-//RETURNS: integer of hosts or services with 'current_state' matching $state filtered by arg 
-function count_by_state_with_args($state, $array, $arg1, $arg2)
-{
-	$count = 0;
-	foreach($array as $a)
-	{
-		if($a['current_state'] == $state)
-		{
-			$count++;
-		}
-	}
-	return $count;
-}
-
-
-///////////////////////////////////////////////////////
-//expecting a status code, 0-4 
-//returns status as a string 
-function return_service_state($arg)
-{
+/* expecting a status code, 0-4
+ * returns status as a string
+ */
+function return_service_state($arg) {
 	return index_or_default($arg, array('OK', 'WARNING', 'CRITICAL'), 'UNKNOWN');
 }
 
-
-///////////////////////////////////////////////////////
-//expecting a status code, 0-4 
-//returns status as a string 
-function return_host_state($arg)
-{
+/* expecting a status code, 0-4
+ * returns status as a string
+ */
+function return_host_state($arg) {
 	return index_or_default($arg, array('UP', 'DOWN', 'UNREACHABLE'), 'UNKNOWN');
 }
 
-
-///////////////////////////////////////////////////////
-//expecting a status code, 0-1 
-//returns status as a string 
-function return_state_type($arg)
-{
+/* expecting a status code, 0-1
+ * returns status as a string
+ */
+function return_state_type($arg) {
 	return index_or_default($arg, array('Soft', 'Hard'), 'Unknown');
 }
 
-///////////////////////////////////////////////////////
-//expecting a status code, 0-1 
-//returns status as a string 
-function return_enabled($arg)
-{
+/* expecting a status code, 0-1
+ * returns status as a string
+ */
+function return_enabled($arg) {
 	return index_or_default($arg, array('Disabled', 'Enabled'), 'Unknown');
 }
 
-function index_or_default($arg, $vals, $default)
-{
+function index_or_default($arg, $vals, $default) {
 	return (isset($vals[$arg]) ? $vals[$arg] : $default);
 }
 
-///////////////////////////////////
-//Expecting(requires): $hostname
-//				(optional) $servicename = 'service_description'  
-//returns count of comments for a host or service 
-//
-function check_comments($hostname,$servicename='')
-{
-	$ci =& get_instance();	
+/* Expecting(requires): $hostname
+ *          (optional): $servicename = 'service_description'
+ * returns count of comments for a host or service
+ */
+function check_comments($hostname, $servicename = '') {
+	$ci =& get_instance();
 	$count = 0;
-   //count service 
-	if ($servicename != '') {
-	   $servicecomments = $ci->nagios_data->getProperty('servicecomments');
-		foreach($servicecomments as $comment) {
-			if ($comment['host_name'] == $hostname && $comment['service_description'] == $servicename)  $count++;
-			
-		}//end foreach 
-	} //end IF 
-	else { //count host comments
-	   $hostcomments = $ci->nagios_data->getProperty('hostcomments');
-		foreach($hostcomments as $comment)
-		   if($comment['host_name']==$hostname) $count++;
-   } //end else 
 
+	if ($servicename != '') {
+		//count service
+		$servicecomments = $ci->nagios_data->getProperty('servicecomments');
+		foreach ($servicecomments as $comment) {
+			if ($comment['host_name'] == $hostname && $comment['service_description'] == $servicename) {
+				$count++;
+			}
+		}
+	} else {
+		//count host comments
+		$hostcomments = $ci->nagios_data->getProperty('hostcomments');
+		foreach ($hostcomments as $comment) {
+			if ($comment['host_name']==$hostname) {
+				$count++;
+			}
+		}
+	}
 
 	return ($count == 0 ? false : $count);
 }
 
-function get_host_downtime($hostname)
-{
+function get_host_downtime($hostname) {
 	$ci =& get_instance();
 	$host = $ci->nagios_data->get_details_by('host', $hostname);
 
-	return $host['scheduled_downtime_depth']; //returns integer 
-
+	//returns integer
+	return $host['scheduled_downtime_depth'];
 }
-
-
 
 /** Command mapping from Nagios core's common.h
  */
-function get_commands()
-{
+function get_commands() {
 	$core_commands = array(
 		'CMD_NONE' => 0,
 
@@ -557,7 +531,7 @@ function get_commands()
 		'CMD_SET_SVC_NOTIFICATION_NUMBER' => 143,
 
 		/* new commands in Nagios 3.x found below... */
-		'CMD_CHANGE_HOST_CHECK_TIMEPERIOD' => 144,  
+		'CMD_CHANGE_HOST_CHECK_TIMEPERIOD' => 144,
 		'CMD_CHANGE_SVC_CHECK_TIMEPERIOD' => 145,
 
 		'CMD_PROCESS_FILE' => 146,
