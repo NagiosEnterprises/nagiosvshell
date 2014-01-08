@@ -50,10 +50,15 @@ class Hostgroups extends CI_Controller {
 	// NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION 
 	// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-	public function index()
-	{
+	public function index(){
+		$this->load->model('nagios_group');
+		$hostgroup_data = $this->nagios_group->get_hostgroup_data();
+		$data = array(
+			'data' => $hostgroup_data,
+		);
+
 		$this->load->view('header');
-		$this->load->view('hosts');
+		$this->load->view('hostgroups', $data);
 		$this->load->view('footer');
 	}
 }
