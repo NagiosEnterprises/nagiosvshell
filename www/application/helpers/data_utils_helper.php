@@ -84,15 +84,15 @@ function process_service_status_keys(&$data) {
 	$data['serviceID'] = 'service'.$serviceindex++;
 	//print "$serviceindex<br />";
 	$service_states = array( 0 => 'OK', 1 => 'WARNING', 2 => 'CRITICAL', 3 => 'UNKNOWN' );
-	if($data['current_state'] == 0 && $data['last_check'] == 0)//added conditions for pending state -MG
-	{
+	
+	//added conditions for pending state -MG
+	if ($data['current_state'] == 0 && $data['last_check'] == 0) {
 		$data['current_state'] = 'PENDING';
 		$data['plugin_output']="No data received yet";
 		$data['duration']="N/A";
 		$data['attempt']="N/A";
 		$data['last_check']="N/A";
-	}
-	else {
+	} else {
 		$data['current_state'] = state_map($data['current_state'], $service_states);
 		//UI display values
 		$data['attempt'] = $data['current_attempt'].' / '.$data['max_attempts'];
