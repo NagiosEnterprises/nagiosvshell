@@ -14,7 +14,7 @@ function hosts_and_services_data($type, $state_filter = NULL, $name_filter = NUL
 
 	if ($state_filter) {
 		//merge arrays for multiple states
-		if($state_filter == 'PROBLEMS' || $state_filter == 'UNHANDLED' || $state_filter == 'ACKNOWLEDGED') {
+		if ($state_filter == 'PROBLEMS' || $state_filter == 'UNHANDLED' || $state_filter == 'ACKNOWLEDGED') {
 			$data = array_merge(
 				get_by_state('UNKNOWN', $data_in),
 				get_by_state('CRITICAL', $data_in),
@@ -24,7 +24,7 @@ function hosts_and_services_data($type, $state_filter = NULL, $name_filter = NUL
 			);
 
 			//filter down problem array
-			if($state_filter == 'UNHANDLED') {
+			if ($state_filter == 'UNHANDLED') {
 				//loop and return array
 				$unhandled = array();
 				foreach($data as $d) {
@@ -35,7 +35,7 @@ function hosts_and_services_data($type, $state_filter = NULL, $name_filter = NUL
 				$data = $unhandled;
 			}
 
-			if($state_filter == 'ACKNOWLEDGED') {
+			if ($state_filter == 'ACKNOWLEDGED') {
 				//loop and return array
 				$acknowledged = array();
 				foreach($data as $d) {
@@ -45,10 +45,10 @@ function hosts_and_services_data($type, $state_filter = NULL, $name_filter = NUL
 				}
 				$data = $acknowledged;
 			}
-		} elseif($state_filter == 'PENDING' || $state_filter == 'OK' || $state_filter == 'UP') {
+		} elseif ($state_filter == 'PENDING' || $state_filter == 'OK' || $state_filter == 'UP') {
 			$filtered = array();
 
-			if($state_filter == 'PENDING') {
+			if ($state_filter == 'PENDING') {
 				foreach($data as $d) {
 					if( $d['current_state'] == 0 && $d['last_check'] == 0 ){
 						$filtered[] = $d;
