@@ -57,45 +57,6 @@ class Nagios_group extends CI_Model {
 		parent::__construct();
 	}
 
-	//creates group array based on type
-	//$objectarray - expecting an object group array -> $hostgroups_objs $servicegroups_objs $contactgroups
-	//				-these groups are read from objects.cache file
-	//$type - expecting 'host' 'service' or 'contact'
-	function build_group_array($objectarray, $type){
-
-		$membersArray = array();
-		$index = $type.'group_name';
-
-		foreach ($objectarray as $object) {
-			$group = $object[$index];
-			if (isset($object['members'])) {
-				$members = $object['members'];
-				$lineitems = explode(',', trim($members));
-
-				//array_walk($lineitems, create_function('$v', '$v = trim($v);'));  //XXX BAD to use create_function
-				array_walk($lineitems, 'trim');
-
-				$group_members = NULL;
-				if ($type == 'host' || $type == 'contact') {
-					$group_members = $lineitems;
-				} elseif ($type == 'service') {
-					for ($i = 0; $i < count($lineitems); $i+=2) {
-						$host = $lineitems[$i];
-						$service = $lineitems[$i+1];
-						$group_members[$host][] = $service;
-						/* (
-							'host_name' => $host,
-							'service_description' => $service); */
-					}
-				}
-
-				$membersArray[$group] = $group_members;
-			}
-		}
-
-		return $membersArray;
-	}
-
 	/* returns group status details array
 	 *
 	 * $groups = $hostsgroups or $servicegroups
