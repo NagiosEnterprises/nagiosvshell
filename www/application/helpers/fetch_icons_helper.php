@@ -1,4 +1,6 @@
-<?php  //fetch_icons.php  - separate function to grab all icons for host and service tables 
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+//fetch_icons.php  - separate function to grab all icons for host and service tables 
 
 // Nagios V-Shell
 // Copyright (c) 2010 Nagios Enterprises, LLC.
@@ -152,9 +154,5 @@ function comment_icon($host='', $service='')
 	return $img;
 }
 
-
-
-
-
- 
-?>
+/* End of file fetch_icons_helper.php */
+/* Location: ./application/helpers/fetch_icons_helper.php */

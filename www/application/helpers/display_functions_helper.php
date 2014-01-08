@@ -1,5 +1,6 @@
-<?php //display_functions.php  this file contains functions that process display info and contain html tags 
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+//display_functions.php  this file contains functions that process display info and contain html tags 
 
 // Nagios V-Shell
 // Copyright (c) 2010 Nagios Enterprises, LLC.
@@ -80,8 +81,6 @@ function build_nav_links() //build page links based on user's permission level
 	{
 		$navlinks .= "<li class='nav'><a class='nav' onmouseover='showDropdown(\"confDrop\")' onmouseout='hideDropdown(\"confDrop\")' href='javascript:void(0)'>".gettext('Configurations')."</a>
 		<div onmouseover='showDropdown(\"confDrop\")' onmouseout='hideDropdown(\"confDrop\")' id='confDrop'><ul>";	
-	
-	
 	
 		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=hosts_objs'>".gettext('Hosts')."</a></li>\n"; //hosts
 		$navlinks .= "<li><a class='nav' href='".$base."type=object&objtype_filter=services_objs'>".gettext('Services')."</a></li>\n"; //services
@@ -415,3 +414,5 @@ function clear_cache_link() {
          
 }
 
+/* End of file data_functions_helper.php */
+/* Location: ./application/helpers/data_functions_helper.php */

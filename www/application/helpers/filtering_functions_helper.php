@@ -1,4 +1,4 @@
-<?php //filtering_functions.inc.php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
 
@@ -62,6 +62,5 @@ function process_objtype_filter($filter_str)
 	return $ret_filter;
 }
 
-
-
-?>
+/* End of file filtering_functions_helper.php */
+/* Location: ./application/helpers/filtering_functions_helper.php */
