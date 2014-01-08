@@ -71,7 +71,6 @@ class Cache_or_disk extends CI_Model {
 					// get the stats
 					$key = ini_get('apc.rfc1867_prefix') . $_REQUEST['apcid'];
 					$stats = apc_fetch($key);
-					//fb($stats, "APC stats");
 				}
 			}
 		}
@@ -96,9 +95,6 @@ class Cache_or_disk extends CI_Model {
 			$last_disk_read = apc_fetch('last_'.$keyword.'_read', $success);
 			$file_modified_time = filemtime($backing_file);
 
-	//		fb("success: {$success}; last read timestamp {$last_disk_read}, last modified timestamp {$file_modified_time}");
-	//		fb($last_disk_read - $file_modified_time, "modification difference");
-
 			if ($success) {
 				$read_file = $last_disk_read - $file_modified_time < 0;
 				$retval = $read_file;
@@ -115,9 +111,6 @@ class Cache_or_disk extends CI_Model {
 	//   These keys are the names of the globals previously defined (mostly) in data.inc.php
 	function cache_or_disk($keyword, $backing_file, $cache_keys) {
 
-	//  fb("cache_or_disk({$keyword}, {$backing_file}, ...");
-	//  fb($cache_keys, "cache_keys");
-
 		$known_keywords = array('objects', 'status', 'perms');
 		if (!in_array($keyword, $known_keywords)) {
 			// XXX do something better
@@ -130,10 +123,7 @@ class Cache_or_disk extends CI_Model {
 
 		$array = NULL;
 
-		//fb($keyword, "doing cache_or_disk($keyword)");
 		if ($useAPC) {
-
-			//fb(apc_cache_info(), "apc cache info");
 
 			$read_file = cache_needs_update($keyword, $backing_file);
 
@@ -148,14 +138,12 @@ class Cache_or_disk extends CI_Model {
 
 					if (!$success) {
 						$cacheFail = TRUE;
-						//fb("Cache Fail for key {$key}!");
 						break;
 					}
 				}
 
 				if (!$cacheFail) {
 					// Every key was found in cache
-					//fb("$keyword data from cache!");
 				}
 			}
 		}
@@ -174,15 +162,11 @@ class Cache_or_disk extends CI_Model {
 				}
 
 				apc_store('last_'.$keyword.'_read', time());
-				//fb('stored keys to cache');
 			}
 
-			//fb("$keyword data from disk!");
 		}
 
 		$end_time = microtime(TRUE);
-		//fb($end_time - $start_time, "Elapsed load time {$end_time} - {$start_time}");
-
 		return $array;
 	}
 
@@ -194,7 +178,6 @@ class Cache_or_disk extends CI_Model {
 		$func = 'parse_'.$keyword.'_file';
 		$filevars = $func();
 
-		//fb($filevars);
 		return($filevars);
 	}
 

@@ -105,7 +105,6 @@ class Nagios_data extends CI_Model {
 	 */
 	public function grab_details($type) 
 	{
-		//fb("grab_details({$type})");
 		$details = $this->getProperty($type.'s'); 
 		return $details;
 	}
@@ -131,7 +130,6 @@ class Nagios_data extends CI_Model {
 			$details = $this->grab_details($type);
 		} else { 
 			// XXX Do soemthing better here
-			//fb("invalid type '$type'"); 
 		}
 
 		if ($type == 'service')
