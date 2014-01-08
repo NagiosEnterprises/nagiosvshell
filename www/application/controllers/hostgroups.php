@@ -53,6 +53,7 @@ class Hostgroups extends CI_Controller {
 	public function index(){
 		$this->load->model('nagios_group');
 		$hostgroup_data = $this->nagios_group->get_hostgroup_data();
+
 		$data = array(
 			'data' => $hostgroup_data,
 		);

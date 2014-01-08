@@ -78,7 +78,7 @@
 		// skip ahead if there are no authorized hosts
 		if( array_sum($group_data['host_counts']) == 0 ) continue;
 
-		$page .= '<h5><a name="'.$group.'">'.$group.'</a></h5>
+		$page = '<h5><a name="'.$group.'">'.$group.'</a></h5>
 			<table class="statusable">
 				<tr>
 					<th>&nbsp;</th>
