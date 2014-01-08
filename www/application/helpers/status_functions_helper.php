@@ -1,4 +1,6 @@
-<?php //this script defines functions for sorting arrays
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+//this script defines functions for sorting arrays
 
 // Nagios V-Shell
 // Copyright (c) 2010 Nagios Enterprises, LLC.
@@ -596,4 +598,5 @@ function get_commands()
 	return $core_commands;
 }
 
-?>
+/* End of file status_functions_helper.php */
+/* Location: ./application/helpers/status_functions_helper.php */

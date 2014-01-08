@@ -1,4 +1,4 @@
-<?php  //output_functions.inc.php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 function object_output($objtype_filter, $data, $mode)
 {
@@ -61,4 +61,5 @@ function hosts_and_services_output($type, $data, $mode)
 	return $retval;
 }
 
-?>
+/* End of file output_functions_helper.php */
+/* Location: ./application/helpers/output_functions_helper.php */

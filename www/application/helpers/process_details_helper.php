@@ -1,4 +1,5 @@
-<?php //process_details.php  prep function for host/service status detail page
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+//process_details.php  prep function for host/service status detail page
 
 //expecting a service ID such as: 
 //$arg = 'service15';
@@ -270,4 +271,5 @@ function core_function_link($function_name, $hostname, $service ='',$options='')
 	return $cmd;
 }
 
-?>
+/* End of file process_details_helper.php */
+/* Location: ./application/helpers/process_details_helper.php */
