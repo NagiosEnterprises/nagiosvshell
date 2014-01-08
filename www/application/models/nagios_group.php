@@ -66,11 +66,11 @@ class Nagios_group extends CI_Model {
 
 		$hosts = $this->nagios_data->getProperty('hosts');
 
-	//	//add filter for user-level filtering
-	//	if(!$this->nagios_user->is_admin()) {
-			//print $type;
-	//		$hosts = user_filtering($hosts,'hosts');
-	//	}
+		// //add filter for user-level filtering
+		// if(!$this->nagios_user->is_admin()) {
+		// //print $type;
+		// 	$hosts = user_filtering($hosts,'hosts');
+		// }
 
 		$hostgroup_details = array();
 		foreach($group_members as $member) {
@@ -101,6 +101,7 @@ class Nagios_group extends CI_Model {
 				}
 			}
 		}
+
 		return $servicegroup_details;
 	}
 
@@ -134,7 +135,6 @@ class Nagios_group extends CI_Model {
 					$str = isset($group['alias']) ? $group['alias'] : $group['servicegroup_name'];
 					$memberships[] = $str;
 				}
-
 			} else {
 				foreach($servicegroups_objs as $group) {
 					if(isset($group['members']) && preg_match("/$hostservice_regex/", $group['members'])) {
@@ -156,6 +156,7 @@ class Nagios_group extends CI_Model {
 					$memberships[] = $str;
 				}
 			}
+
 		}
 
 	  return empty($memberships) ? NULL : join(' ', $memberships);
@@ -203,11 +204,16 @@ class Nagios_group extends CI_Model {
 			);
 
 			//skip ahead if there are no authorized hosts
-			if(array_sum($hostgroup_data[$group]['host_counts'])==0) continue; //skip empty groups
+			if( array_sum($hostgroup_data[$group]['host_counts']) == 0 ){
+				continue;
+			}
 
 			foreach ($members as $member) {
 
-				if(!$this->nagios_user->is_authorized_for_host($member)) continue; //user-level filtering
+				//user-level filtering
+				if( ! $this->nagios_user->is_authorized_for_host($member) ){
+					continue;
+ 				}
 
 				$host = $hosts[$member];
 				process_host_status_keys($host);
@@ -221,7 +227,10 @@ class Nagios_group extends CI_Model {
 				if (isset($host['services'])) {
 					foreach($host['services'] as $service) {
 
-						if(!$this->nagios_user->is_authorized_for_service($member,$service['service_description'])) continue; //user-level filtering
+						//user-level filtering
+						if( ! $this->nagios_user->is_authorized_for_service($member,$service['service_description']) ){
+							continue;
+						}
 
 						process_service_status_keys($service);
 						$service_data = array(
@@ -236,6 +245,7 @@ class Nagios_group extends CI_Model {
 			}
 
 		}
+
 		return $hostgroup_data;
 	}
 
@@ -252,9 +262,9 @@ class Nagios_group extends CI_Model {
 			$servicegroup_data[$group]['services'] = array();
 			foreach ($members as $serv) {
 				$service_data = array(
-					'host_name'   => $serv['host_name'],
-					'host_url'    => htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$serv['host_name']),
-					'service_url' => htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$serv['service_id']),
+					'host_name'     => $serv['host_name'],
+					'host_url'      => htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$serv['host_name']),
+					'service_url'   => htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$serv['service_id']),
 					'plugin_output' => $serv['plugin_output'],
 					'description'   => $serv['service_description'],
 					'current_state' => $serv['current_state'],
@@ -267,3 +277,6 @@ class Nagios_group extends CI_Model {
 	}
 
 }
+
+/* End of file nagios_group.php */
+/* Location: ./application/models/nagios_group.php */
