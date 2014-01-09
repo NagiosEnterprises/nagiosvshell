@@ -65,6 +65,7 @@ $autoload['libraries'] = array();
 */
 
 $autoload['helper'] = array(
+	'data_functions',
 	'data_utils',
 	'display_functions',
 	'process_details',
