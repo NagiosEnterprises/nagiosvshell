@@ -102,7 +102,7 @@
 
                         // CSS style class based on status
                         $tr = get_color_code($host);
-                        $url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$host['host_name']);
+                        $url = htmlentities('/'.BASEURL.'/details/host/'.$host['host_name']);
 
                         //add function to fetch_icons
                         $icons = fetch_host_icons($host['host_name']); //returns all icons in one string
