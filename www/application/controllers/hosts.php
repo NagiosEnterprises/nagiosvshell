@@ -84,7 +84,7 @@ class Hosts extends CI_Controller
             'pageCount' => $pageCount,
             'doPagination' => $doPagination,
             'name_filter' => $name_filter,
-            'state_filter' => $name_filter,
+            'state_filter' => $state_filter,
             'hostnames' => $hostnames,
         );
 
