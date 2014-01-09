@@ -90,8 +90,8 @@ class Tac_data extends CI_Model
             'version'            => $info['version'],
             'last_command_check' => $lcc,
             'lastcmd'            => date('D M d H:i s\s', $lcc), // XXX TODO FIX for timezone stuff in 5.3+
-            'servlink'           => htmlentities(BASEURL.'index.php?type=services&state_filter='),
-            'hostlink'           => htmlentities(BASEURL.'index.php?type=hosts&state_filter='),
+            'servlink'           => htmlentities('/'.BASEURL.'/services?state_filter='),
+            'hostlink'           => htmlentities('/'.BASEURL.'/hosts?state_filter='),
 
             //host counts
             'hostsTotal'             => ($hoststates['UP'] + $hoststates['DOWN'] + $hoststates['UNREACHABLE'] +$hoststates['PENDING']),
