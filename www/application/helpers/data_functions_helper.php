@@ -146,7 +146,7 @@ function hosts_and_services_data($type, $state_filter = NULL, $name_filter = NUL
 
 function host_and_service_detail_data($type, $name)
 {
-    $data_function = 'process_'.preg_replace('/detail/', '_detail', $type);
+    $data_function = 'process_'.$type.'_detail';;
     $data = $data_function(stripslashes($name)); //added stripslashes because hostnames with periods had them in the variable -MG
 
     return $data;

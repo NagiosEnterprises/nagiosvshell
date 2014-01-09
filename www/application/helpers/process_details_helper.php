@@ -94,7 +94,7 @@ function process_service_detail($serviceid)
     $execution_time = $sd['check_execution_time'].' seconds';
     $state_change   = $sd['percent_state_change'].'%';
 
-    $membership = check_membership($hostname, $sd['service_description']);
+    $membership = $ci->nagios_group->check_membership($hostname, $sd['service_description']);
     $state = return_service_state($sd['current_state']);
 
     //service attributes
@@ -241,7 +241,7 @@ function process_host_detail($in_hostname)
     $execution_time = $hd['check_execution_time'].' seconds';
     $state_change   = $hd['percent_state_change'].'%';
 
-    $membership = check_membership($hostname);
+    $membership = $ci->nagios_group->check_membership($hostname);
     $state = return_host_state($hd['current_state']);
 
     //host attributes
