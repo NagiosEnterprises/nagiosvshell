@@ -56,6 +56,18 @@ class Details extends CI_Controller
         $this->load->view('hosts');
         $this->load->view('footer');
     }
+
+    public function hosts()
+    {
+        $hostname = $this->uri->segment(3);
+
+        if ( ! $hostname ) {
+            header('location:/'.BASEURL);
+            exit();
+        }
+
+       // TODO Get details 
+    }
 }
 
 /* End of file details.php */
