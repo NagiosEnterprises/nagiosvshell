@@ -67,7 +67,7 @@ function fetch_host_icons($hostname)
     $host_obj = $hosts_objs[$hostname];
 
     //host details
-    $host = $ci->nagios_data->get_details_by('host',$hostname);
+    $host = $ci->nagios_data->get_details_by('host', $hostname);
 
     $icons  = '';
     $icons .= "<a href='index.php?type=services&host_filter=".rawurlencode($hostname)."'>";
@@ -110,14 +110,14 @@ function fetch_service_icons($service_id)
     //$service_obj = $services_objs[$servicename];
 
     //host details
-    $service = $ci->nagios_data->get_details_by('service','service'.$service_id);
+    $service = $ci->nagios_data->get_details_by('service', 'service'.$service_id);
 
-    foreach ($details as $d) {
-        if ($d['host_name'] == $hostname && $d['service_description'] == $servicename) {
-            //extract host details for icons
-            $service = $d;
-        }
-    }
+    // foreach ($details as $d) {
+    //     if ($d['host_name'] == $hostname && $d['service_description'] == $servicename) {
+    //         //extract host details for icons
+    //         $service = $d;
+    //     }
+    // }
 
     $icons = '';
     $icons .= isset($service_obj['icon_image']) ? '<img class="tableIcon" border="0" width="15" height="15" title="" alt="" src="views/images/logos/'.$service_obj['icon_image'].'">' : '';
