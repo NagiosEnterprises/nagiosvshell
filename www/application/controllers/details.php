@@ -64,7 +64,7 @@ class Details extends CI_Controller
     public function host()
     {
         $hostname = $this->uri->segment(3);
-        if ( ! $hostname ) {
+        if (! $hostname) {
             header('location:/'.BASEURL);
             exit();
         }

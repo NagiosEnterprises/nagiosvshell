@@ -123,5 +123,4 @@
         </table>
     </div>
 
-    <?php echo $doPagination ? do_pagenumbers($pageCount, $start, $limit, $resultsCount, 'hosts') : ''; ?>
-
+    <?php echo $doPagination ? do_pagenumbers($pageCount, $start, $limit, $resultsCount, 'hosts') : '';

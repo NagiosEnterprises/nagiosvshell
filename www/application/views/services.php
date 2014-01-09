@@ -83,7 +83,7 @@
             </thead>
             <tbody>
 
-                <?php 
+                <?php
 
                     $last_displayed_host = NULL;
                     for ( $i = $start; $i <= ($start + $limit); $i++) {
@@ -117,7 +117,6 @@
                         }
 
                         //table data generation
-                        //Using HEREDOC string syntax to print rows
                         echo '
                             <tr class="statustablerow">
                                 '.$td1.'
@@ -138,5 +137,4 @@
         </table>
     </div>
 
-    <?php echo $doPagination ? do_pagenumbers($pageCount, $start, $limit, $resultsCount, 'services') : ''; ?>
-
+    <?php echo $doPagination ? do_pagenumbers($pageCount, $start, $limit, $resultsCount, 'services') : '';
