@@ -57,11 +57,12 @@ class Services extends CI_Controller
 
     public function index()
     {
-        $ci = &get_instance();
-        $services = $ci->nagios_data->grab_details('service');
+        $this->load->helper('fetch_icons_helper');
+        $services = $this->nagios_data->grab_details('service');
         $start = $this->input->get('start');
         $limit = $this->input->get('limit');
         $name_filter = $this->input->get('name_filter');
+        $state_filter = $this->input->get('state_filter');
 
         //get variables needed to display page
         $limit = empty($limit) ? RESULTLIMIT : $limit;
@@ -80,12 +81,14 @@ class Services extends CI_Controller
             'pageCount' => $pageCount,
             'doPagination' => $doPagination,
             'name_filter' => $name_filter,
+            'state_filter' => $state_filter,
             );
 
         $this->load->view('header');
-        $this->load->view('services',$data);
+        $this->load->view('services', $data);
         $this->load->view('footer');
     }
+
 }
 
 /* End of file services.php */

@@ -58,7 +58,6 @@ class Hosts extends CI_Controller
     public function index()
     {
         $this->load->helper('fetch_icons_helper');
-
         $hosts = $this->nagios_data->grab_details('host');
         $start = $this->input->get('start');
         $limit = $this->input->get('limit');
