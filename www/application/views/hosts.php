@@ -50,10 +50,7 @@
 
 ?>
 
-    <?php
-    //	$ht = hosts_table(get_tac_data());  //tac host summary table
-    //	echo "<div class='tacTable'>$ht</div>\n";
-    ?>
+    <?php echo hosts_table(); ?>
 
     <div class="tableOptsWrapper">
 

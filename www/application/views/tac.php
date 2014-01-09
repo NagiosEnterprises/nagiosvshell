@@ -109,27 +109,7 @@ $ci =& get_instance();
 
 <?php echo hosts_table(); ?>
 
-</table>
-
-<!-- ######################SERVICES TABLE##################### -->
-<table class='tac'>
-<tr><th><?php echo gettext('Services'); ?></th></tr>
-
-  <tr>
-       <td class='ok'><a class='highlight' href='<?php echo $servlink; ?>OK'><div class='td'><?php echo $servicesOkTotal; ?> <?php echo gettext('Ok'); ?></div></a></td>
-       <td class='critical'><a class='highlight' href='<?php echo $servlink; ?>CRITICAL'><div class='td'><?php echo $servicesCriticalTotal; ?> <?php echo gettext('Critical'); ?></div></a></td>
-        <td class='warning'><a class='highlight' href='<?php echo $servlink; ?>WARNING'><div class='td'><?php echo $servicesWarningTotal; ?> <?php echo gettext('Warning'); ?></div></a></td>
-        <td class='unknown'><a class='highlight' href='<?php echo $servlink; ?>UNKNOWN'><div class='td'><?php echo $servicesUnknownTotal; ?> <?php echo gettext('Unknown'); ?></div></a></td>
-        <td class='pending'><a class='highlight' href='<?php echo $servlink; ?>PENDING'><div class='td'><?php echo $servicesPendingTotal; ?> <?php echo gettext('Pending'); ?></div></a></td>
-  </tr>
-  <tr>
-    <td class='problem'><a class='highlight' href='<?php echo $servlink; ?>PROBLEMS'><div class='td'><?php echo $servicesProblemsTotal; ?> <?php echo gettext('Problems'); ?></div></a></td>
-    <td class='unhandled'><a class='highlight' href='<?php echo $servlink; ?>UNHANDLED'><div class='td'><?php echo $servicesUnhandledTotal; ?> <?php echo gettext('Unhandled'); ?></div></a></td>
-    <td class='acknowledged'><a class='highlight' href='<?php echo $servlink; ?>ACKNOWLEDGED'><?php echo $servicesAcknowledgedTotal; ?> <?php echo gettext('Acknowledged'); ?></a></td>
-    <td colspan='2'><a class='highlight' href='index.php?type=services' title='All Services'><div id='td_servicestotal' class='td'><?php echo $servicesTotal; ?> <?php echo gettext('Total'); ?> </div></a></td>
-</tr>
-
-</table>
+<?php echo services_table(); ?>
 
 <!-- #####################SEARCH BOX####################-->
 <div class='resultFilter'>
