@@ -347,30 +347,26 @@ function do_result_notes($start, $limit, $resultsCount, $type)
     //check maximum display number for page
     $end = (($start + $limit) < $resultsCount) ? ($start + $limit) : $resultsCount;
 
+    $limit_options = array();
+    foreach (array(15, 30, 50, 100, 250) as $possible_limit) {
+        $selected = ($possible_limit == $limit) ? 'selected="selected"' : NULL;
+        $limit_options[] = '<option value="'.$possible_limit.'" '.$selected.'>'.$possible_limit.'</option>';
+    }
+    $limit_options = implode("\n", $limit_options);
+
     $resultnotes = '
         <div class="tableNotes">
             <span class="note" style="vertical-align: bottom;">Showing results '.$start.' - '.$end.' of '.$resultsCount.' results<br />
-                '.gettext('Current Result Limit').': '.$limit.'</span>
+            '.gettext('Current Result Limit').': '.$limit.'</span>
+        </div>
+        <div class="resultLimit">
+            <form id="limitform" action="" method="post">
+                <label class="label note" for="pagelimit">'.gettext("Limit Results").'</label><br />
+                <select id="pagelimit" name="pagelimit">'.$limit_options.'</select>
+                <input type="submit" name="submitbutton" value="'.gettext('Set Limit').'" />
+            </form>
         </div>
     ';
-
-    $resultnotes .= '
-        <div class="resultLimit">
-            <form id="limitform" action="'.$_SERVER['PHP_SELF'].'?type=$type" method="post">
-            <label class="label note" for="pagelimit">'.gettext("Limit Results").'</label><br />
-            <select id="pagelimit" name="pagelimit">
-    ';
-
-    foreach (array(15, 30, 50, 100, 250) as $possible_limit) {
-        $selected = ($possible_limit == $limit) ? 'selected="selected"' : NULL;
-        $resultnotes .= '<option value="'.$possible_limit.'" '.$selected.'>'.$possible_limit.'</option>';
-    }
-
-    $resultnotes .= '
-            </select>
-            <input type="submit" name="submitbutton" value="'.gettext('Set Limit').'" />
-        </form>
-        </div>';
 
     return $resultnotes;
 }
