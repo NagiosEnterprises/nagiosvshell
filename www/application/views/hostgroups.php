@@ -63,7 +63,6 @@
 
     <div class="resultFilter">
         <form id="resultfilterform" action="" method="get">
-            <input type="hidden" name="type" value="<?php echo $type; ?>">
             <label class="label" for="name_filter">Search Host Group Names:</label>
             <input type="text" name="name_filter" value="<?php $name_filter; ?>" />
             <input type="submit" name="submitbutton" value="Filter" />

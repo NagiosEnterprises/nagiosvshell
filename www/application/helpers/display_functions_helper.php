@@ -379,9 +379,6 @@ function do_result_notes($start, $limit, $resultsCount, $type)
  */
 function result_filter($name_filter = '', $type = 'host')
 {
-    $ucType = ucfirst($type);
-    $plType = $type.'s';
-
     $host_states = array(
         '',
         'UP',
@@ -419,15 +416,14 @@ function result_filter($name_filter = '', $type = 'host')
     $resultFilter = '
         <form id="resultfilterform" action="" method="get">
             <div class="stateFilter">
-                <input type="hidden" name="type" value="'.$plType.'">
                 <label class="label note" for="resultfilter">'.gettext("Filter by State").': </label><br />
                 <select id="resultfilter" name="state_filter" onChange="this.form.submit();">'.$state_selects.'</select>
             </div>
             <div class="nameFilter">
-                <label class="label note" for="name_filter">'.gettext("Search").' '.$ucType.'name: </label><br />
+                <label class="label note" for="name_filter">'.gettext("Search").' '.ucfirst($type).'name: </label><br />
                 <input type="text" id="name_filter" name="name_filter" value="'.$name_filter.'"></input>
                 <input type="submit" name="submitbutton" value="Filter" />
-        </div>
+            </div>
         </form>
     ';
 
@@ -438,7 +434,7 @@ function hosts_table() {
     $ci = &get_instance();
     extract($ci->tac_data->get_tac_data());
 
-    $table  = '
+    $table = '
         <table class="tac">
             <tbody>
                 <tr>
@@ -467,7 +463,7 @@ function services_table() {
     $ci = &get_instance();
     extract($ci->tac_data->get_tac_data());
 
-    $table  = '
+    $table = '
         <table class="tac">
             <tbody>
                 <tr>
