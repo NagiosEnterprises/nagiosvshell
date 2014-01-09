@@ -63,6 +63,7 @@ class Hosts extends CI_Controller
         $start = $this->input->get('start');
         $limit = $this->input->get('limit');
         $name_filter = $this->input->get('name_filter');
+        $state_filter = $this->input->get('state_filter');
 
         //get variables needed to display page
         $limit = empty($limit) ? RESULTLIMIT : $limit;
@@ -83,6 +84,7 @@ class Hosts extends CI_Controller
             'pageCount' => $pageCount,
             'doPagination' => $doPagination,
             'name_filter' => $name_filter,
+            'state_filter' => $name_filter,
             'hostnames' => $hostnames,
         );
 
