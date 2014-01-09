@@ -51,237 +51,243 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Nagios_group extends CI_Model {
+class Nagios_group extends CI_Model
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	function __construct(){
-		parent::__construct();
-	}
+    /* returns group status details array
+     *
+     * $groups = $hostsgroups or $servicegroups
+     */
+    public function build_hostgroup_details($group_members)
+    {
+        //make this return the totals array for hosts and services
 
-	/* returns group status details array
-	 *
-	 * $groups = $hostsgroups or $servicegroups
-	 */
-	function build_hostgroup_details($group_members) {
-		//make this return the totals array for hosts and services
+        $hosts = $this->nagios_data->getProperty('hosts');
 
-		$hosts = $this->nagios_data->getProperty('hosts');
+        // //add filter for user-level filtering
+        // if (!$this->nagios_user->is_admin()) {
+        // //print $type;
+        //	$hosts = user_filtering($hosts,'hosts');
+        // }
 
-		// //add filter for user-level filtering
-		// if(!$this->nagios_user->is_admin()) {
-		// //print $type;
-		//	$hosts = user_filtering($hosts,'hosts');
-		// }
+        $hostgroup_details = array();
+        foreach ($group_members as $member) {
+            //user-level filtering
+            if ($this->nagios_user->is_authorized_for_host($member)) {
+                $hostgroup_details[] = $hosts[$member];
+            }
+        }
 
-		$hostgroup_details = array();
-		foreach($group_members as $member) {
-			//user-level filtering
-			if ($this->nagios_user->is_authorized_for_host($member)) {
-				$hostgroup_details[] = $hosts[$member];
-			}
-		}
+        return $hostgroup_details;
+    }
 
-		return $hostgroup_details;
-	}
+    /* returns group details array.  This function is used on the hostgroups page for the grid view
+     *
+     * $groups = $hostsgroups or $servicegroups
+     */
+    public function build_host_servicegroup_details($group_members)
+    {
+        $hosts = $this->nagios_data->getProperty('hosts');
+        $servicegroup_details = array();
+        foreach ($group_members as $member) {
 
-	/* returns group details array.  This function is used on the hostgroups page for the grid view
-	 *
-	 * $groups = $hostsgroups or $servicegroups
-	 */
-	function build_host_servicegroup_details($group_members) {
-		$hosts = $this->nagios_data->getProperty('hosts');
-		$servicegroup_details = array();
-		foreach($group_members as $member) {
+            //user-level filtering
+            if ($this->nagios_user->is_authorized_for_host($member)) {
+                if (isset($hosts[$member]['services'])) {
+                    foreach ($hosts[$member]['services'] as $service) {
 
-			//user-level filtering
-			if ($this->nagios_user->is_authorized_for_host($member)) {
-				if (isset($hosts[$member]['services'])) {
-					foreach ($hosts[$member]['services'] as $service) {
+                        //user-level filtering
+                        if ($this->nagios_user->is_authorized_for_service($member,$service)) {
+                            $servicegroup_details[] = $service;
+                        }
+                    }
+                }
+            }
+        }
 
-						//user-level filtering
-						if ($this->nagios_user->is_authorized_for_service($member,$service)) {
-							$servicegroup_details[] = $service;
-						}
-					}
-				}
-			}
-		}
+        return $servicegroup_details;
+    }
 
-		return $servicegroup_details;
-	}
+    /* used on host and service details pages
+     *
+     * Expecting host name and/or service name
+     * checks against list of groups members
+     *
+     * returns a list of groups separated by spaces
+     */
+    public function check_membership($hostname='', $servicename='', $servicegroup_name='')
+    {
+        $hostgroups_objs = $this->nagios_data->getProperty('hostgroups_objs');
+        $servicegroups_objs = $this->nagios_data->getProperty('servicegroups_objs');
 
-	/* used on host and service details pages
-	 *
-	 * Expecting host name and/or service name
-	 * checks against list of groups members
-	 *
-	 * returns a list of groups separated by spaces
-	 */
-	function check_membership($hostname='', $servicename='', $servicegroup_name=''){
-		$hostgroups_objs = $this->nagios_data->getProperty('hostgroups_objs');
-		$servicegroups_objs = $this->nagios_data->getProperty('servicegroups_objs');
+        $hostname = trim($hostname);
+        $servicename = trim($servicename);
+        $servicegroup_name = trim($servicegroup_name);
 
-		$hostname = trim($hostname);
-		$servicename = trim($servicename);
-		$servicegroup_name = trim($servicegroup_name);
+        $memberships = array();
+        if ($hostname!='' && $servicename!='') {
+            //search servicegroups array
 
-		$memberships = array();
-		if ($hostname!='' && $servicename!='') {
-			//search servicegroups array
+            //create regexp string for 'host,service'
+            $hostservice = "$hostname,$servicename";
+            $hostservice_regex = preg_quote($hostservice, '/');
 
-			//create regexp string for 'host,service'
-			$hostservice = "$hostname,$servicename";
-			$hostservice_regex = preg_quote($hostservice, '/');
+            //check regex against servicegroup 'members' index
+            if ($servicegroup_name!='' && isset($servicegroups_objs[$servicegroup_name])) {
+                $group = $servicegroups_objs[$servicegroup_name];
+                if (preg_match("/$hostservice_regex/", $group['members'])) {
+                    $str = isset($group['alias']) ? $group['alias'] : $group['servicegroup_name'];
+                    $memberships[] = $str;
+                }
+            } else {
+                foreach ($servicegroups_objs as $group) {
+                    if (isset($group['members']) && preg_match("/$hostservice_regex/", $group['members'])) {
+                        //use alias as default display name, else use groupname
+                        $str = isset($group['alias']) ? $group['alias'] : $group['servicegroup_name'];
+                        $memberships[] = $str;
+                    }
+                }
+            }
 
-			//check regex against servicegroup 'members' index
-			if ($servicegroup_name!='' && isset($servicegroups_objs[$servicegroup_name])) {
-				$group = $servicegroups_objs[$servicegroup_name];
-				if (preg_match("/$hostservice_regex/", $group['members'])) {
-					$str = isset($group['alias']) ? $group['alias'] : $group['servicegroup_name'];
-					$memberships[] = $str;
-				}
-			} else {
-				foreach($servicegroups_objs as $group) {
-					if(isset($group['members']) && preg_match("/$hostservice_regex/", $group['members'])) {
-						//use alias as default display name, else use groupname
-						$str = isset($group['alias']) ? $group['alias'] : $group['servicegroup_name'];
-						$memberships[] = $str;
-					}
-				}
-			}
+        //check for host membership
+        } elseif ($hostname!='' && $servicename=='') {
 
-		//check for host membership
-		} elseif ($hostname!='' && $servicename=='') {
+            $hostname_regex = preg_quote($hostname, '/');
+            foreach ($hostgroups_objs as $group) {
+                if (isset($group['members']) && preg_match("/$hostname_regex/", $group['members'])) {
+                    //use alias as default display name, else use groupname
+                    $str = isset($group['alias']) ? $group['alias'] : $group['hostgroup_name'];
+                    $memberships[] = $str;
+                }
+            }
 
-			$hostname_regex = preg_quote($hostname, '/');
-			foreach ($hostgroups_objs as $group) {
-				if (isset($group['members']) && preg_match("/$hostname_regex/", $group['members'])) {
-					//use alias as default display name, else use groupname
-					$str = isset($group['alias']) ? $group['alias'] : $group['hostgroup_name'];
-					$memberships[] = $str;
-				}
-			}
+        }
 
-		}
+      return empty($memberships) ? NULL : join(' ', $memberships);
+    }
 
-	  return empty($memberships) ? NULL : join(' ', $memberships);
-	}
+    /* used on servicegroups page
+     *
+     * creates arrays of service details organized by groupnames
+     *	@TODO This function is not very efficient, can definitely be refactored for faster load times
+     * Returns 3-dimensional array:groupnames->members->details
+     */
+    public function build_servicegroups_array()
+    {
+        $servicegroups = $this->nagios_data->getProperty('servicegroups');
+        $services = $this->nagios_data->getProperty('services');
+        $services = user_filtering($services,'services');
 
-	/* used on servicegroups page
-	 *
-	 * creates arrays of service details organized by groupnames
-	 *	@TODO This function is not very efficient, can definitely be refactored for faster load times
-	 * Returns 3-dimensional array:groupnames->members->details
-	 */
-	function build_servicegroups_array() {
+        $servicegroups_details = array(); //multi-dim array to hold servicegroups
+        foreach ($servicegroups as $groupname => $members) {
+            $servicegroups_details[$groupname] = array();
+            foreach ($services as $service) {
+                if (isset($members[$service['host_name']]) && in_array($service['service_description'],$members[$service['host_name']])) {
+                    process_service_status_keys($service);
+                    $servicegroups_details[$groupname][] = $service;
+                }
+            }
+        }
 
-		$servicegroups = $this->nagios_data->getProperty('servicegroups');
-		$services = $this->nagios_data->getProperty('services');
-		$services = user_filtering($services,'services');
+        return $servicegroups_details;
+    }
 
-		$servicegroups_details = array(); //multi-dim array to hold servicegroups
-		foreach ($servicegroups as $groupname => $members) {
-			$servicegroups_details[$groupname] = array();
-			foreach ($services as $service) {
-				if (isset($members[$service['host_name']]) && in_array($service['service_description'],$members[$service['host_name']])) {
-					process_service_status_keys($service);
-					$servicegroups_details[$groupname][] = $service;
-				}
-			}
-		}
+    /* Preprocess all of the data for hostgroups display/output
+     */
+    public function get_hostgroup_data()
+    {
+        $hostgroups = $this->nagios_data->getProperty('hostgroups');
+        $hosts = $this->nagios_data->getProperty('hosts');
 
-		return $servicegroups_details;
-	}
+        $hostgroup_data = array();
+        foreach ($hostgroups as $group => $members) {
 
-	/* Preprocess all of the data for hostgroups display/output
-	 */
-	function get_hostgroup_data() {
-		$hostgroups = $this->nagios_data->getProperty('hostgroups');
-		$hosts = $this->nagios_data->getProperty('hosts');
+            $hostgroup_data[$group] = array(
+                'member_data' => array(),
+                'host_counts'    => get_state_of('hosts', $this->build_hostgroup_details($members)),
+                'service_counts' => get_state_of('services', $this->build_host_servicegroup_details($members))
+            );
 
-		$hostgroup_data = array();
-		foreach ($hostgroups as $group => $members) {
+            //skip ahead if there are no authorized hosts
+            if (array_sum($hostgroup_data[$group]['host_counts']) == 0) {
+                continue;
+            }
 
-			$hostgroup_data[$group] = array(
-				'member_data' => array(),
-				'host_counts'    => get_state_of('hosts', $this->build_hostgroup_details($members)),
-				'service_counts' => get_state_of('services', $this->build_host_servicegroup_details($members))
-			);
+            foreach ($members as $member) {
 
-			//skip ahead if there are no authorized hosts
-			if (array_sum($hostgroup_data[$group]['host_counts']) == 0) {
-				continue;
-			}
+                //user-level filtering
+                if (! $this->nagios_user->is_authorized_for_host($member)) {
+                    continue;
+                }
 
-			foreach ($members as $member) {
+                $host = $hosts[$member];
+                process_host_status_keys($host);
+                $hostgroup_data[$group]['member_data'][$member]['host_name'] = $host['host_name'];
+                $hostgroup_data[$group]['member_data'][$member]['host_state'] = $host['current_state'];
+                $hostgroup_data[$group]['member_data'][$member]['state_class'] = get_color_code($host);
+                $hostgroup_data[$group]['member_data'][$member]['services'] = array();
+                $hostgroup_data[$group]['member_data'][$member]['host_url'] =
+                    BASEURL.'index.php?type=hostdetail&name_filter='.urlencode($host['host_name']);
 
-				//user-level filtering
-				if (! $this->nagios_user->is_authorized_for_host($member)) {
-					continue;
-				}
+                if (isset($host['services'])) {
+                    foreach ($host['services'] as $service) {
 
-				$host = $hosts[$member];
-				process_host_status_keys($host);
-				$hostgroup_data[$group]['member_data'][$member]['host_name'] = $host['host_name'];
-				$hostgroup_data[$group]['member_data'][$member]['host_state'] = $host['current_state'];
-				$hostgroup_data[$group]['member_data'][$member]['state_class'] = get_color_code($host);
-				$hostgroup_data[$group]['member_data'][$member]['services'] = array();
-				$hostgroup_data[$group]['member_data'][$member]['host_url'] =
-					BASEURL.'index.php?type=hostdetail&name_filter='.urlencode($host['host_name']);
+                        //user-level filtering
+                        if (! $this->nagios_user->is_authorized_for_service($member,$service['service_description'])) {
+                            continue;
+                        }
 
-				if (isset($host['services'])) {
-					foreach ($host['services'] as $service) {
+                        process_service_status_keys($service);
+                        $service_data = array(
+                            'state_class' => get_color_code($service),
+                            'description' => $service['service_description'],
+                            'service_url' => htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$service['service_id']),
+                        );
+                        $hostgroup_data[$group]['member_data'][$member]['services'][] = $service_data;
+                    }
+                }
 
-						//user-level filtering
-						if (! $this->nagios_user->is_authorized_for_service($member,$service['service_description'])) {
-							continue;
-						}
+            }
 
-						process_service_status_keys($service);
-						$service_data = array(
-							'state_class' => get_color_code($service),
-							'description' => $service['service_description'],
-							'service_url' => htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$service['service_id']),
-						);
-						$hostgroup_data[$group]['member_data'][$member]['services'][] = $service_data;
-					}
-				}
+        }
 
-			}
+        return $hostgroup_data;
+    }
 
-		}
+    public function get_servicegroup_data()
+    {
+        $servicegroup_data = array();
 
-		return $hostgroup_data;
-	}
+        $sg_details = build_servicegroups_array();
+        foreach ($sg_details as $group => $members) {
+            if (empty($sg_details[$group])) {
+                //skip unauthorized groups
+                continue;
+            }
+            $servicegroup_data[$group]['state_counts'] = array();
+            foreach (array('OK', 'WARNING', 'CRITICAL', 'UNKNOWN') as $state) {
+                $servicegroup_data[$group]['state_counts'][$state] = count_by_state($state, $members);
+            }
+            $servicegroup_data[$group]['services'] = array();
+            foreach ($members as $serv) {
+                $service_data = array(
+                    'host_name'     => $serv['host_name'],
+                    'host_url'      => htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$serv['host_name']),
+                    'service_url'   => htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$serv['service_id']),
+                    'plugin_output' => $serv['plugin_output'],
+                    'description'   => $serv['service_description'],
+                    'current_state' => $serv['current_state'],
+                );
+                $servicegroup_data[$group]['services'][] = $service_data;
+            }
+        }
 
-	function get_servicegroup_data() {
-		$servicegroup_data = array();
-
-		$sg_details = build_servicegroups_array();
-		foreach ($sg_details as $group => $members) {
-			if (empty($sg_details[$group])) {
- 				//skip unauthorized groups
-				continue;
-			}
-			$servicegroup_data[$group]['state_counts'] = array();
-			foreach (array('OK', 'WARNING', 'CRITICAL', 'UNKNOWN') as $state) {
-				$servicegroup_data[$group]['state_counts'][$state] = count_by_state($state, $members);
-			}
-			$servicegroup_data[$group]['services'] = array();
-			foreach ($members as $serv) {
-				$service_data = array(
-					'host_name'     => $serv['host_name'],
-					'host_url'      => htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$serv['host_name']),
-					'service_url'   => htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$serv['service_id']),
-					'plugin_output' => $serv['plugin_output'],
-					'description'   => $serv['service_description'],
-					'current_state' => $serv['current_state'],
-				);
-				$servicegroup_data[$group]['services'][] = $service_data;
-			}
-		}
-
-		return $servicegroup_data;
-	}
+        return $servicegroup_data;
+    }
 
 }
 

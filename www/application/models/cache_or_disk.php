@@ -49,137 +49,142 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 // Check for Alternative PHP Cache enabled on the system
-class Cache_or_disk extends CI_Model {
+class Cache_or_disk extends CI_Model
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	function __construct() {
-		parent::__construct();
-	}
+    public function useAPC()
+    {
+        $useAPC = FALSE;
 
-	function useAPC() {
-		$useAPC = FALSE;
+        // if we have PHP and APC
+        $havePHP = (version_compare(PHP_VERSION, '5.2.0') === 1) ? true : false;
+        $haveAPC = (extension_loaded('apc') && version_compare(phpversion('apc'), '3.0.13') === 1) ? true : false;
 
-		// if we have PHP and APC
-		$havePHP = (version_compare(PHP_VERSION, '5.2.0') === 1) ? true : false;
-		$haveAPC = (extension_loaded('apc') && version_compare(phpversion('apc'), '3.0.13') === 1) ? true : false;
+        if ($havePHP && $haveAPC) {
+            // if APC and upload tracking is enabled
+            if (ini_get('apc.enabled')) {
+                $useAPC = TRUE;
 
-		if ($havePHP && $haveAPC) {
-			// if APC and upload tracking is enabled
-			if (ini_get('apc.enabled')) {
-				$useAPC = TRUE;
+                if (ini_get('apc.rfc1867')) {
+                    // get the stats
+                    $key = ini_get('apc.rfc1867_prefix') . $_REQUEST['apcid'];
+                    $stats = apc_fetch($key);
+                }
+            }
+        }
 
-				if (ini_get('apc.rfc1867')) {
-					// get the stats
-					$key = ini_get('apc.rfc1867_prefix') . $_REQUEST['apcid'];
-					$stats = apc_fetch($key);
-				}
-			}
-		}
-		return $useAPC;
-	}
+        return $useAPC;
+    }
 
-	function cache_needs_update($keyword, $backing_file) {
+    public function cache_needs_update($keyword, $backing_file)
+    {
+        $known_keywords = array('objects', 'status', 'perms');
+        if (!in_array($keyword, $known_keywords)) {
+            // XXX do something better
+            die("Unknown keyword '$keyword'");
+        }
 
-		$known_keywords = array('objects', 'status', 'perms');
-		if (!in_array($keyword, $known_keywords)) {
-			// XXX do something better
-			die("Unknown keyword '$keyword'");
-		}
+        $retval = TRUE;
+        $useAPC = useAPC();
 
-		$retval = TRUE;
-		$useAPC = useAPC();
+        if ($useAPC) {
+            // Check for the last time the file was read and cached and compare it to the
+            // last time it was updated
+            // The success variable determines if the last read key was in the cache
+            $last_disk_read = apc_fetch('last_'.$keyword.'_read', $success);
+            $file_modified_time = filemtime($backing_file);
 
-		if ($useAPC) {
-			// Check for the last time the file was read and cached and compare it to the
-			// last time it was updated
-			// The success variable determines if the last read key was in the cache
-			$last_disk_read = apc_fetch('last_'.$keyword.'_read', $success);
-			$file_modified_time = filemtime($backing_file);
+            if ($success) {
+                $read_file = $last_disk_read - $file_modified_time < 0;
+                $retval = $read_file;
+            }
+        }
 
-			if ($success) {
-				$read_file = $last_disk_read - $file_modified_time < 0;
-				$retval = $read_file;
-			}
-		}
+        return $retval;
+    }
 
-		return $retval;
-	}
+    // Read nagios information from APC (if enabled) or the backing files on disk
+    // keyword is one of 'objects', 'status', or 'perms'
+    // backing_file is one of the constants defined in constants.inc.php
+    // cache_keys are the names of the arrays to be restored at the end of this function
+    //   These keys are the names of the globals previously defined (mostly) in data.inc.php
+    public function cache_or_disk($keyword, $backing_file, $cache_keys)
+    {
+        $known_keywords = array('objects', 'status', 'perms');
+        if (!in_array($keyword, $known_keywords)) {
+            // XXX do something better
+            die("Unknown keyword '$keyword'");
+        }
 
-	// Read nagios information from APC (if enabled) or the backing files on disk
-	// keyword is one of 'objects', 'status', or 'perms'
-	// backing_file is one of the constants defined in constants.inc.php
-	// cache_keys are the names of the arrays to be restored at the end of this function
-	//   These keys are the names of the globals previously defined (mostly) in data.inc.php
-	function cache_or_disk($keyword, $backing_file, $cache_keys) {
+        $useAPC = useAPC();
 
-		$known_keywords = array('objects', 'status', 'perms');
-		if (!in_array($keyword, $known_keywords)) {
-			// XXX do something better
-			die("Unknown keyword '$keyword'");
-		}
+        $start_time = microtime(TRUE);
 
-		$useAPC = useAPC();
+        $array = NULL;
 
-		$start_time = microtime(TRUE);
+        if ($useAPC) {
 
-		$array = NULL;
+            $read_file = cache_needs_update($keyword, $backing_file);
 
-		if ($useAPC) {
+            $cacheFail = FALSE;
+            $success = FALSE;
+            if (!$read_file) {
 
-			$read_file = cache_needs_update($keyword, $backing_file);
+                // Loop through each variables cached value.  If a read fails note it and
+                // read from disk
+                foreach ($cache_keys as $key) {
+                    $array[$key] = apc_fetch($key, $success);
 
-			$cacheFail = FALSE;
-			$success = FALSE;
-			if (!$read_file) {
+                    if (!$success) {
+                        $cacheFail = TRUE;
+                        break;
+                    }
+                }
 
-				// Loop through each variables cached value.  If a read fails note it and
-				// read from disk
-				foreach($cache_keys as $key) {
-					$array[$key] = apc_fetch($key, $success);
+                if (!$cacheFail) {
+                    // Every key was found in cache
+                }
+            }
+        }
 
-					if (!$success) {
-						$cacheFail = TRUE;
-						break;
-					}
-				}
+        // The cache is not enabled or
+        //  the cache is enabled and of the following three conditions occurred
+        //  There was a cache miss
+        //  The data file is newer than the cached version
+        if (!$useAPC || !$success || $read_file || $cacheFail) {
 
-				if (!$cacheFail) {
-					// Every key was found in cache
-				}
-			}
-		}
+            $array = read_disk($keyword, $cache_keys);
 
-		// The cache is not enabled or
-		//  the cache is enabled and of the following three conditions occurred
-		//  There was a cache miss
-		//  The data file is newer than the cached version
-		if (!$useAPC || !$success || $read_file || $cacheFail) {
+            if ($useAPC) {
+                foreach (array_keys($array) as $key) {
+                    apc_store($key, $array[$key]);
+                }
 
-			$array = read_disk($keyword, $cache_keys);
+                apc_store('last_'.$keyword.'_read', time());
+            }
 
-			if ($useAPC) {
-				foreach(array_keys($array) as $key) {
-					apc_store($key, $array[$key]);
-				}
+        }
 
-				apc_store('last_'.$keyword.'_read', time());
-			}
+        $end_time = microtime(TRUE);
 
-		}
+        return $array;
+    }
 
-		$end_time = microtime(TRUE);
-		return $array;
-	}
+    // If we have to read from disk, call the appropriate parsing
+    // function
+    public function read_disk($keyword, $cache_keys)
+    {
+        include("read_$keyword.php");
 
-	// If we have to read from disk, call the appropriate parsing
-	// function
-	function read_disk($keyword, $cache_keys) {
-		include("read_$keyword.php");
+        $func = 'parse_'.$keyword.'_file';
+        $filevars = $func();
 
-		$func = 'parse_'.$keyword.'_file';
-		$filevars = $func();
-
-		return($filevars);
-	}
+        return($filevars);
+    }
 
 }
 
