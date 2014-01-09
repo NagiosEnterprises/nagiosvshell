@@ -54,8 +54,7 @@ $ci =& get_instance();
 
 <!-- ##################Nagios Info Table################### -->
 <div id='infodiv'>
-
-<p class='note'>Nagios V-Shell <?php echo $version; ?><br />
+    <p class='note'>Nagios V-Shell <?php echo $version; ?><br />
     Copyright (c) 2010-2012 <br />
     Nagios Enterprises, LLC. <br />
    <?php echo gettext('Written by'); ?> Mike Guthrie<br />
@@ -63,7 +62,6 @@ $ci =& get_instance();
    <a href='http://support.nagios.com/forum/viewforum.php?f=19' target='_blank'>V-Shell
     <?php echo gettext('Forum'); ?>
    </a>.</p>
-
 </div>
 
 <table class='tac'>
@@ -86,7 +84,7 @@ $ci =& get_instance();
 <?php
     $Total = $hostsTotal;
     $problems = $hostsProblemsTotal;
-    $health = (floatval($Total-$problems) / floatval($Total)) *100;
+    $health = (floatval($Total - $problems) / floatval($Total)) * 100;
     //$health = 30;
 ?>
     <div class='h_container'><?php echo gettext('Host');?> <?php echo gettext('Health'); ?>: <?php echo round($health,2); ?>% <br />

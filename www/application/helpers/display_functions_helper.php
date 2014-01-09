@@ -411,31 +411,28 @@ function result_filter($name_filter = '', $type = 'host')
 
     $states = ($type == 'host') ? $host_states : $other_states;
 
-    //build filterdiv
-    $resultFilter = '
-    <form id="resultfilterform" action="'.$_SERVER["PHP_SELF"].'" method="get">
-      <div class="stateFilter">
-        <input type="hidden" name="type" value="'.$plType.'">
-        <label class="label note" for="resultfilter">'.gettext("Filter by State").': </label><br />
-        <select id="resultfilter" name="state_filter" onChange="this.form.submit();">
-    ';
-
+    $state_selects = array();
     foreach ($states as $val) {
         $selected = (isset($_GET['state_filter']) && $_GET['state_filter'] == $val) ? 'selected="selected"' : '';
         $display_val = $val == '' ? 'None' : $val;
-        $resultFilter.= '<option value="'.$val.'" '.$selected.'>'.$display_val.'</option>';
+        $state_selects[] = '<option value="'.$val.'" '.$selected.'>'.$display_val.'</option>';
     }
+    $state_selects = implode("\n", $state_selects);
 
-    $resultFilter.= '
-        </select>
+    //build filterdiv
+    $resultFilter = '
+        <form id="resultfilterform" action="" method="get">
+            <div class="stateFilter">
+                <input type="hidden" name="type" value="'.$plType.'">
+                <label class="label note" for="resultfilter">'.gettext("Filter by State").': </label><br />
+                <select id="resultfilter" name="state_filter" onChange="this.form.submit();">'.$state_selects.'</select>
+            </div>
+            <div class="nameFilter">
+                <label class="label note" for="name_filter">'.gettext("Search").' '.$ucType.'name: </label><br />
+                <input type="text" id="name_filter" name="name_filter" value="'.$name_filter.'"></input>
+                <input type="submit" name="submitbutton" value="Filter" />
         </div>
-
-        <div class="nameFilter">
-        <label class="label note" for="name_filter">'.gettext("Search").' '.$ucType.'name: </label><br />
-        <input type="text" id="name_filter" name="name_filter" value="'.$name_filter.'"></input>
-        <input type="submit" name="submitbutton" value="Filter" />
-      </div>
-    </form>
+        </form>
     ';
 
     return $resultFilter;
