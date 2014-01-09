@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-// fetch_icons.php 
+// fetch_icons.php
 // separate function to grab all icons for host and service tables
 
 // Nagios V-Shell

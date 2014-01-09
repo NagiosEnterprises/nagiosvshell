@@ -430,10 +430,10 @@ function result_filter($name_filter = '', $type = 'host')
     return $resultFilter;
 }
 
-function hosts_table() {
+function hosts_table()
+{
     $ci = &get_instance();
-    extract($ci->tac_data->get_tac_data());
-
+    $data = $ci->tac_data->get_tac_data();
     $table = '
         <table class="tac">
             <tbody>
@@ -441,16 +441,16 @@ function hosts_table() {
                     <th>'.gettext('Hosts').'</th>
                 </tr>
                 <tr>
-                    <td class="ok"><a class="highlight" href="'.$hostlink.'UP"><div class="td">'.$hostsUpTotal.' '.gettext('Up').'</div></a></td>
-                    <td class="down"><a class="highlight" href="'.$hostlink.'DOWN"><div class="td">'.$hostsDownTotal.' '.gettext('Down').'</div></a></td>
-                    <td class="unreachable"><a class="highlight" href="'.$hostlink.'UNREACHABLE"><div class="td">'.$hostsUnreachableTotal.' '.gettext('Unreachable').'</div></a></td>
-                    <td class="pending"><a class="highlight" href="'.$hostlink.'PENDING"><div class="td">'.$hostsPending.' '.gettext('Pending').'</div></a></td>
+                    <td class="ok"><a class="highlight" href="'.$data['hostlink'].'UP"><div class="td">'.$data['hostsUpTotal'].' '.gettext('Up').'</div></a></td>
+                    <td class="down"><a class="highlight" href="'.$data['hostlink'].'DOWN"><div class="td">'.$data['hostsDownTotal'].' '.gettext('Down').'</div></a></td>
+                    <td class="unreachable"><a class="highlight" href="'.$data['hostlink'].'UNREACHABLE"><div class="td">'.$data['hostsUnreachableTotal'].' '.gettext('Unreachable').'</div></a></td>
+                    <td class="pending"><a class="highlight" href="'.$data['hostlink'].'PENDING"><div class="td">'.$data['hostsPending'].' '.gettext('Pending').'</div></a></td>
                 </tr>
                 <tr>
-                    <td class="problem"><a class="highlight" href="'.$hostlink.'PROBLEMS"><div class="td">'.$hostsProblemsTotal.' '.gettext('Problems').'</div></a></td>
-                    <td class="unhandled"><a class="highlight" href="'.$hostlink.'UNHANDLED"><div class="td">'.$hostsUnhandledTotal.' '.gettext('Unhandled').'</div></a></td>
-                    <td class="acknowledged"><a class="highlight" href="'.$hostlink.'ACKNOWLEDGED"><div class="td">'.$hostsAcknowledgedTotal.' '.gettext('Acknowledged').'</div></a></td>
-                    <td><div class="td"><a class="highlight" href="/'.BASEURL.'/hosts" title="All Hosts">'.$hostsTotal.' '.gettext('Total').'</div></a></td>
+                    <td class="problem"><a class="highlight" href="'.$data['hostlink'].'PROBLEMS"><div class="td">'.$data['hostsProblemsTotal'].' '.gettext('Problems').'</div></a></td>
+                    <td class="unhandled"><a class="highlight" href="'.$data['hostlink'].'UNHANDLED"><div class="td">'.$data['hostsUnhandledTotal'].' '.gettext('Unhandled').'</div></a></td>
+                    <td class="acknowledged"><a class="highlight" href="'.$data['hostlink'].'ACKNOWLEDGED"><div class="td">'.$data['hostsAcknowledgedTotal'].' '.gettext('Acknowledged').'</div></a></td>
+                    <td><div class="td"><a class="highlight" href="/'.BASEURL.'/hosts" title="All Hosts">'.$data['hostsTotal'].' '.gettext('Total').'</div></a></td>
                 </tr>
             </body>
         </table>
@@ -459,10 +459,10 @@ function hosts_table() {
     return $table;
 }
 
-function services_table() {
+function services_table()
+{
     $ci = &get_instance();
-    extract($ci->tac_data->get_tac_data());
-
+    $data = $ci->tac_data->get_tac_data();
     $table = '
         <table class="tac">
             <tbody>
@@ -470,17 +470,17 @@ function services_table() {
                     <th>'.gettext('Services').'</th>
                 </tr>
                 <tr>
-                    <td class="ok"><a class="highlight" href="'.$servlink.'OK"><div class="td">'.$servicesOkTotal.' '.gettext('Ok').'</div></a></td>
-                    <td class="critical"><a class="highlight" href="'.$servlink.'CRITICAL"><div class="td">'.$servicesCriticalTotal.' '.gettext('Critical').'</div></a></td>
-                    <td class="warning"><a class="highlight" href="'.$servlink.'WARNING"><div class="td">'.$servicesWarningTotal.' '.gettext('Warning').'</div></a></td>
-                    <td class="unknown"><a class="highlight" href="'.$servlink.'UNKNOWN"><div class="td">'.$servicesUnknownTotal.' '.gettext('Unknown').'</div></a></td>
-                    <td class="pending"><a class="highlight" href="'.$servlink.'PENDING"><div class="td">'.$servicesPendingTotal.' '.gettext('Pending').'</div></a></td>
+                    <td class="ok"><a class="highlight" href="'.$data['servlink'].'OK"><div class="td">'.$data['servicesOkTotal'].' '.gettext('Ok').'</div></a></td>
+                    <td class="critical"><a class="highlight" href="'.$data['servlink'].'CRITICAL"><div class="td">'.$data['servicesCriticalTotal'].' '.gettext('Critical').'</div></a></td>
+                    <td class="warning"><a class="highlight" href="'.$data['servlink'].'WARNING"><div class="td">'.$data['servicesWarningTotal'].' '.gettext('Warning').'</div></a></td>
+                    <td class="unknown"><a class="highlight" href="'.$data['servlink'].'UNKNOWN"><div class="td">'.$data['servicesUnknownTotal'].' '.gettext('Unknown').'</div></a></td>
+                    <td class="pending"><a class="highlight" href="'.$data['servlink'].'PENDING"><div class="td">'.$data['servicesPendingTotal'].' '.gettext('Pending').'</div></a></td>
                 </tr>
                 <tr>
-                    <td class="problem"><a class="highlight" href="'.$servlink.'PROBLEMS"><div class="td">'.$servicesProblemsTotal.' '.gettext('Problems').'</div></a></td>
-                    <td class="unhandled"><a class="highlight" href="'.$servlink.'UNHANDLED"><div class="td">'.$servicesUnhandledTotal.' '.gettext('Unhandled').'</div></a></td>
-                    <td class="acknowledged"><a class="highlight" href="'.$servlink.'ACKNOWLEDGED">'.$servicesAcknowledgedTotal.' '.gettext('Acknowledged').'</a></td>
-                    <td colspan="2"><a class="highlight" href="/'.BASEURL.'/services" title="All Services"><div id="td_servicestotal" class="td">'.$servicesTotal.' '.gettext('Total').'</div></a></td>
+                    <td class="problem"><a class="highlight" href="'.$data['servlink'].'PROBLEMS"><div class="td">'.$data['servicesProblemsTotal'].' '.gettext('Problems').'</div></a></td>
+                    <td class="unhandled"><a class="highlight" href="'.$data['servlink'].'UNHANDLED"><div class="td">'.$data['servicesUnhandledTotal'].' '.gettext('Unhandled').'</div></a></td>
+                    <td class="acknowledged"><a class="highlight" href="'.$data['servlink'].'ACKNOWLEDGED">'.$data['servicesAcknowledgedTotal'].' '.gettext('Acknowledged').'</a></td>
+                    <td colspan="2"><a class="highlight" href="/'.BASEURL.'/services" title="All Services"><div id="td_servicestotal" class="td">'.$data['servicesTotal'].' '.gettext('Total').'</div></a></td>
                 </tr>
             </tbody>
         </table>
