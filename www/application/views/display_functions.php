@@ -1,4 +1,7 @@
-<?php //display_functions.php  this file contains functions that process display info and contain html tags
+<?php
+
+// display_functions.php 
+// this file contains functions that process display info and contain html tags
 
 // TODO: Deprecated. Remove file in favor of display_functions helper
 
