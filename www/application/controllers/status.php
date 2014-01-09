@@ -60,20 +60,6 @@ class Status extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        //require_install();
-        //require_auth();
-        //require_agreement();
-        //$this->load->model('cache_or_disk');
-        $this->load->model('nagios_user');
-        $this->load->model('nagios_data');
-        $this->load->model('tac_data');
-        $this->load->helper('data_utils');
-        $this->load->helper('display_functions');
-        $this->load->helper('output_functions');
-        $this->load->helper('status_functions');
-        $this->load->helper('process_details');
-        $this->load->helper('output_functions');
-
     }
 
     public function index()
@@ -86,64 +72,61 @@ class Status extends CI_Controller
 
     public function overview()
     {
-                    //create function to return tac data as an array
-                $html_output_function = 'get_tac_html';
-
+        //create function to return tac data as an array
+        $html_output_function = 'get_tac_html';
     }
 
     public function hosts()
     {
-        $state_filter    = process_state_filter(htmlentities($_GET['state_filter']));
-            $name_filter     = process_name_filter(htmlentities($_GET['name_filter']),ENT_QUOTES);
-                    $data = hosts_and_services_data($type, $state_filter, $name_filter, $host_filter);
-                    $html_output_function = 'hosts_and_services_output';
+        $state_filter = process_state_filter(htmlentities($_GET['state_filter']));
+        $name_filter = process_name_filter(htmlentities($_GET['name_filter']), ENT_QUOTES);
+        $data = hosts_and_services_data($type, $state_filter, $name_filter, $host_filter);
+        $html_output_function = 'hosts_and_services_output';
     }
 
     public function services()
     {
-        $state_filter    = process_state_filter(htmlentities($_GET['state_filter']));
-        $name_filter     = process_name_filter(htmlentities($_GET['name_filter']),ENT_QUOTES);
-        $host_filter = htmlentities($_GET['host_filter'],ENT_QUOTES);
-                        $data = hosts_and_services_data($type, $state_filter, $name_filter, $host_filter);
-                    $html_output_function = 'hosts_and_services_output';
-
+        $state_filter = process_state_filter(htmlentities($_GET['state_filter']));
+        $name_filter = process_name_filter(htmlentities($_GET['name_filter']), ENT_QUOTES);
+        $host_filter = htmlentities($_GET['host_filter'], ENT_QUOTES);
+        $data = hosts_and_services_data($type, $state_filter, $name_filter, $host_filter);
+        $html_output_function = 'hosts_and_services_output';
     }
 
     public function hostdetail()
     {
-                        $data = host_and_service_detail_data($type, $name_filter);
-                    if(!$data) send_home(); //bail if not authorized
-                    $html_output_function = 'host_and_service_detail_output';
+        $data = host_and_service_detail_data($type, $name_filter);
+        if(!$data) send_home(); //bail if not authorized
+        $html_output_function = 'host_and_service_detail_output';
     }
 
     public function servicedetail()
     {
-                        $data = host_and_service_detail_data($type, $name_filter);
-                    if(!$data) send_home(); //bail if not authorized
-                    $html_output_function = 'host_and_service_detail_output';
+        $data = host_and_service_detail_data($type, $name_filter);
+        if(!$data) send_home(); //bail if not authorized
+        $html_output_function = 'host_and_service_detail_output';
     }
 
     public function hostgroups()
     {
-                        $data = hostgroups_and_servicegroups_data($type, $name_filter);
-                    $html_output_function = 'hostgroups_and_servicegroups_output';
+        $data = hostgroups_and_servicegroups_data($type, $name_filter);
+        $html_output_function = 'hostgroups_and_servicegroups_output';
     }
 
     public function servicegroups()
     {
-                        $data = hostgroups_and_servicegroups_data($type, $name_filter);
-                    $html_output_function = 'hostgroups_and_servicegroups_output';
-
+        $data = hostgroups_and_servicegroups_data($type, $name_filter);
+        $html_output_function = 'hostgroups_and_servicegroups_output';
     }
 
     public function objectdetail()
     {
-            $objtype_filter  = process_objtype_filter(htmlentities($_GET['objtype_filter']));
-            if ($NagiosUser->if_has_authKey('authorized_for_configuration_information')) { //only administrative users should be able to see config info
-                $data = object_data($objtype_filter, $name_filter);
-                $type = $objtype_filter;
-                $html_output_function = 'object_output';
-            }
+        $objtype_filter  = process_objtype_filter(htmlentities($_GET['objtype_filter']));
+        if ($NagiosUser->if_has_authKey('authorized_for_configuration_information')) { //only administrative users should be able to see config info
+            $data = object_data($objtype_filter, $name_filter);
+            $type = $objtype_filter;
+            $html_output_function = 'object_output';
+        }
     }
 
     public function backend()
@@ -231,16 +214,16 @@ class Status extends CI_Controller
 
     public function is_valid_callback($subject)
     {
-        $identifier_syntax
-          = '/^[$_\p{L}][$_\p{L}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\x{200C}\x{200D}]*+$/u';
+        $identifier_syntax = '/^[$_\p{L}][$_\p{L}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\x{200C}\x{200D}]*+$/u';
 
-        $reserved_words = array('break', 'do', 'instanceof', 'typeof', 'case',
-          'else', 'new', 'var', 'catch', 'finally', 'return', 'void', 'continue',
-          'for', 'switch', 'while', 'debugger', 'function', 'this', 'with',
-          'default', 'if', 'throw', 'delete', 'in', 'try', 'class', 'enum',
-          'extends', 'super', 'const', 'export', 'import', 'implements', 'let',
-          'private', 'public', 'yield', 'interface', 'package', 'protected',
-          'static', 'null', 'true', 'false');
+        $reserved_words = array(
+            'break', 'do', 'instanceof', 'typeof', 'case',
+            'else', 'new', 'var', 'catch', 'finally', 'return', 'void', 'continue',
+            'for', 'switch', 'while', 'debugger', 'function', 'this', 'with',
+            'default', 'if', 'throw', 'delete', 'in', 'try', 'class', 'enum',
+            'extends', 'super', 'const', 'export', 'import', 'implements', 'let',
+            'private', 'public', 'yield', 'interface', 'package', 'protected',
+            'static', 'null', 'true', 'false');
 
         return preg_match($identifier_syntax, $subject)
             && ! in_array(mb_strtolower($subject, 'UTF-8'), $reserved_words);
