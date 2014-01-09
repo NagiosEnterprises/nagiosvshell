@@ -57,21 +57,29 @@ class Details extends CI_Controller
 
     public function index()
     {
-        $this->load->view('header');
-        $this->load->view('hosts');
-        $this->load->view('footer');
+        header('location:/'.BASEURL);
+        exit();
     }
 
-    public function hosts()
+    public function host()
     {
         $hostname = $this->uri->segment(3);
-
         if ( ! $hostname ) {
             header('location:/'.BASEURL);
             exit();
         }
 
-       // TODO Get details 
+        $is_authorized = ! $this->nagios_user->if_has_authKey('authorized_for_read_only');
+        $details = host_and_service_detail_data('host', $hostname);
+
+        $data = array(
+            'is_authorized' => $is_authorized,
+            'details'       => $details,
+        );
+
+        $this->load->view('header');
+        $this->load->view('hostdetails', $data);
+        $this->load->view('footer');
     }
 }
 
