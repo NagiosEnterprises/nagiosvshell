@@ -50,6 +50,11 @@ class Servicegroups extends CI_Controller
     // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION
     // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index()
     {
         $this->load->view('header');
