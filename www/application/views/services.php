@@ -48,80 +48,95 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-//expecting array of service status and returns a service table
+?>
 
-    //VIEW / html output
-//	$page='';
-//	$st = services_table(get_tac_data()); //tac Summary table
-//	echo "<div class='tacTable'>$st</div>\n";
+    <?php echo services_table(); ?>
 
-    echo "<div class='tableOptsWrapper'>\n";
-    //check if more than one page is needed
-    if($doPagination) echo do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
-    //creates notes for total results as well as form for setting page limits
-    echo do_result_notes($start,$limit,$resultsCount,'services');
-    //moved result filter to display_functions.php and made into function
-    echo result_filter($name_filter,'service');
-    echo "\n</div> <!-- end tableOptsWrapper --> \n";
+    <div class="tableOptsWrapper">
 
-    //Table header generation
-    echo '<div class="statusTable">
-    <table class="servicetable"><tr>
-    <th class="hostname">'.gettext('Host Name').'</th>
-    <th class="service_description">'.gettext('Service').'</th>
-    <th class="status">'.gettext('Status').'</th>
-    <th class="duration">'.gettext('Duration').'</th>
-    <th class="attempt">'.gettext('Attempt').'</th>
-    <th class="last_check">'.gettext('Last Check').'</th>
-    <th class="plugin_output">'.gettext('Status Information').'</th></tr>';
+        <?php echo $doPagination ? do_pagenumbers($pageCount, $start, $limit, $resultsCount, 'services') : ''; ?>
 
-    //process service array
-    //service table rows
-    $last_displayed_host = NULL;
-    for ($i=$start; $i<=($start+$limit); $i++) {
+        <?php
 
-        if ($i > $resultsCount) break;      //short circuit
-        if(!isset($services[$i])) continue; //skip undefined indexes of array
+            //creates notes for total results as well as form for setting page limits
+            echo do_result_notes($start, $limit, $resultsCount, 'services');
 
-        process_service_status_keys($services[$i]);
+            //moved result filter to display_functions.php and made into function
+            echo result_filter($name_filter, 'service');
 
-        //get $vars to complete table data
-        $tr = get_color_code($services[$i]);
-        //$url = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$services[$i]['serviceID']);
-        $url = htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$services[$i]['service_id']);
-        //$host_url = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$services[$i]['host_name']);
-        $host_url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter=').urlencode($services[$i]['host_name']);
-        $color = get_host_status_color($services[$i]['host_name']);
-        $hosticons = fetch_host_icons($services[$i]['host_name']);
-        $serviceicons = fetch_service_icons($services[$i]['service_id']);
+        ?>
 
-        //removing duplicate host names from table for a cleaner look
-        if ($services[$i]['host_name'] == $last_displayed_host) $td1 = '<td></td>';
-        else {
-            $last_displayed_host = $services[$i]['host_name'];
-            $hostlink = "<a class='highlight' href='$host_url' title='".gettext('View Host Details')."'>";
-            $td1 = "<td class='$color'><div class='hostname'>$hostlink".htmlentities($services[$i]['host_name'])."</a> $hosticons </div></td>";
-        }
+    </div>
 
-        //table data generation
-        //Using HEREDOC string syntax to print rows
-        echo <<<TABLEROW
+    <div class="statusTable">
+        <table class="statusTable">
+            <thead>
+                <tr>
+                    <th class="hostname"><?php echo gettext('Host Name')?></th>
+                    <th class="service_description"><?php echo gettext('Service')?></th>
+                    <th class="status"><?php echo gettext('Status')?></th>
+                    <th class="duration"><?php echo gettext('Duration')?></th>
+                    <th class="attempt"><?php echo gettext('Attempt')?></th>
+                    <th class="last_check"><?php echo gettext('Last Check')?></th>
+                    <th class="plugin_output"><?php echo gettext('Status Information')?></th>
+                </tr>
+            </thead>
+            <tbody>
 
-        <tr class='statustablerow'>
-            {$td1}
-            <td class='service_description'><div class='service_description'><a href="{$url}">{$services[$i]['service_description']}</a> $serviceicons </div></td>
-            <td class="{$tr}">{$services[$i]['current_state']}</td>
-            <td class='duration'>{$services[$i]['duration']}</td>
-            <td class='attempt'>{$services[$i]['attempt']}</td>
-            <td class='last_check'>{$services[$i]['last_check']}</td>
-            <td class='plugin_output'><div class='plugin_output'>{$services[$i]['plugin_output']}</div></td>
-        </tr>
+                <?php 
 
-TABLEROW;
+                    $last_displayed_host = NULL;
+                    for ( $i = $start; $i <= ($start + $limit); $i++) {
 
-    }
-    echo "</table>\n</div> <!--end div.statusTable -->\n" ;
+                        if ($i > $resultsCount) {
+                            break;
+                        }
 
-    if ($doPagination) {
-        echo do_pagenumbers($pageCount,$start,$limit,$resultsCount,'services');
-    }
+                        // Skip undefined indexes
+                        if (! isset($services[$i])) {
+                            continue;
+                        }
+
+                        process_service_status_keys($services[$i]);
+
+                        $tr = get_color_code($services[$i]);
+                        $url = htmlentities('/'.BASEURL.'/details/service/'.$services[$i]['service_id']);
+                        $host_url = htmlentities('/'.BASEURL.'/details/host/').urlencode($services[$i]['host_name']);
+
+                        $color = get_host_status_color($services[$i]['host_name']);
+                        $hosticons = fetch_host_icons($services[$i]['host_name']);
+                        $serviceicons = fetch_service_icons($services[$i]['service_id']);
+
+                        //removing duplicate host names from table for a cleaner look
+                        if ($services[$i]['host_name'] == $last_displayed_host) {
+                            $td1 = '<td>&nbsp;</td>';
+                        } else {
+                            $last_displayed_host = $services[$i]['host_name'];
+                            $hostlink = '<a class="highlight" href="'.$host_url.'" title="'.gettext('View Host Details').'">';
+                            $td1 = '<td class="'.$color.'"><div class="hostname">'.$hostlink.' '.htmlentities($services[$i]['host_name']).'</a>'.$hosticons.'</div></td>';
+                        }
+
+                        //table data generation
+                        //Using HEREDOC string syntax to print rows
+                        echo '
+                            <tr class="statustablerow">
+                                '.$td1.'
+                                <td class="service_description"><div class="service_description"><a href="'.$url.'">'.$services[$i]['service_description'].'</a>'.$serviceicons.'</div></td>
+                                <td class="'.$tr.'">'.$services[$i]['current_state'].'</td>
+                                <td class="duration">'.$services[$i]['duration'].'</td>
+                                <td class="attempt">'.$services[$i]['attempt'].'</td>
+                                <td class="last_check">'.$services[$i]['last_check'].'</td>
+                                <td class="plugin_output"><div class="plugin_output">'.$services[$i]['plugin_output'].'</div></td>
+                            </tr>
+                        ';
+
+                    }
+
+                ?>
+
+            </tbody>
+        </table>
+    </div>
+
+    <?php echo $doPagination ? do_pagenumbers($pageCount, $start, $limit, $resultsCount, 'services') : ''; ?>
+
