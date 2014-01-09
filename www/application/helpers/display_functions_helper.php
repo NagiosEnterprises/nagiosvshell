@@ -461,7 +461,7 @@ function hosts_table() {
                     <td class="problem"><a class="highlight" href="'.$hostlink.'PROBLEMS"><div class="td">'.$hostsProblemsTotal.' '.gettext('Problems').'</div></a></td>
                     <td class="unhandled"><a class="highlight" href="'.$hostlink.'UNHANDLED"><div class="td">'.$hostsUnhandledTotal.' '.gettext('Unhandled').'</div></a></td>
                     <td class="acknowledged"><a class="highlight" href="'.$hostlink.'ACKNOWLEDGED"><div class="td">'.$hostsAcknowledgedTotal.' '.gettext('Acknowledged').'</div></a></td>
-                    <td><div class="td"><a class="highlight" href="index.php?type=hosts" title="All Hosts">'.$hostsTotal.' '.gettext('Total').'</div></a></td>
+                    <td><div class="td"><a class="highlight" href="/'.BASEURL.'/hosts" title="All Hosts">'.$hostsTotal.' '.gettext('Total').'</div></a></td>
                 </tr>
             </body>
         </table>
