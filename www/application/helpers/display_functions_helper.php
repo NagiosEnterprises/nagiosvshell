@@ -441,6 +441,64 @@ function result_filter($name_filter = '', $type = 'host')
     return $resultFilter;
 }
 
+function hosts_table() {
+    $ci = &get_instance();
+    extract($ci->tac_data->get_tac_data());
+
+    $table  = '
+        <table class="tac">
+            <tbody>
+                <tr>
+                    <th>'.gettext('Hosts').'</th>
+                </tr>
+                <tr>
+                    <td class="ok"><a class="highlight" href="'.$hostlink.'UP"><div class="td">'.$hostsUpTotal.' '.gettext('Up').'</div></a></td>
+                    <td class="down"><a class="highlight" href="'.$hostlink.'DOWN"><div class="td">'.$hostsDownTotal.' '.gettext('Down').'</div></a></td>
+                    <td class="unreachable"><a class="highlight" href="'.$hostlink.'UNREACHABLE"><div class="td">'.$hostsUnreachableTotal.' '.gettext('Unreachable').'</div></a></td>
+                    <td class="pending"><a class="highlight" href="'.$hostlink.'PENDING"><div class="td">'.$hostsPending.' '.gettext('Pending').'</div></a></td>
+                </tr>
+                <tr>
+                    <td class="problem"><a class="highlight" href="'.$hostlink.'PROBLEMS"><div class="td">'.$hostsProblemsTotal.' '.gettext('Problems').'</div></a></td>
+                    <td class="unhandled"><a class="highlight" href="'.$hostlink.'UNHANDLED"><div class="td">'.$hostsUnhandledTotal.' '.gettext('Unhandled').'</div></a></td>
+                    <td class="acknowledged"><a class="highlight" href="'.$hostlink.'ACKNOWLEDGED"><div class="td">'.$hostsAcknowledgedTotal.' '.gettext('Acknowledged').'</div></a></td>
+                    <td><div class="td"><a class="highlight" href="index.php?type=hosts" title="All Hosts">'.$hostsTotal.' '.gettext('Total').'</div></a></td>
+                </tr>
+            </body>
+        </table>
+    ';
+
+    return $table;
+}
+
+function services_table() {
+    $ci = &get_instance();
+    extract($ci->tac_data->get_tac_data());
+
+    $table  = '
+        <table class="tac">
+            <tbody>
+                <tr>
+                    <th>'.gettext('Hosts').'</th>
+                </tr>
+                <tr>
+                    <td class="ok"><a class="highlight" href="'.$hostlink.'UP"><div class="td">'.$hostsUpTotal.' '.gettext('Up').'</div></a></td>
+                    <td class="down"><a class="highlight" href="'.$hostlink.'DOWN"><div class="td">'.$hostsDownTotal.' '.gettext('Down').'</div></a></td>
+                    <td class="unreachable"><a class="highlight" href="'.$hostlink.'UNREACHABLE"><div class="td">'.$hostsUnreachableTotal.' '.gettext('Unreachable').'</div></a></td>
+                    <td class="pending"><a class="highlight" href="'.$hostlink.'PENDING"><div class="td">'.$hostsPending.' '.gettext('Pending').'</div></a></td>
+                </tr>
+                <tr>
+                    <td class="problem"><a class="highlight" href="'.$hostlink.'PROBLEMS"><div class="td">'.$hostsProblemsTotal.' '.gettext('Problems').'</div></a></td>
+                    <td class="unhandled"><a class="highlight" href="'.$hostlink.'UNHANDLED"><div class="td">'.$hostsUnhandledTotal.' '.gettext('Unhandled').'</div></a></td>
+                    <td class="acknowledged"><a class="highlight" href="'.$hostlink.'ACKNOWLEDGED"><div class="td">'.$hostsAcknowledgedTotal.' '.gettext('Acknowledged').'</div></a></td>
+                    <td><div class="td"><a class="highlight" href="index.php?type=hosts" title="All Hosts">'.$hostsTotal.' '.gettext('Total').'</div></a></td>
+                </tr>
+            </body>
+        </table>
+    ';
+
+    return $table;
+}
+
 /* expects a number (percent value)
  * returns an rgb string to use as a css style "$r,$g,$b"
  */

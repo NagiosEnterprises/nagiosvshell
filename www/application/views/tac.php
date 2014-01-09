@@ -107,22 +107,7 @@ $ci =& get_instance();
 
 </div> <!-- end health meters -->
 
-<!-- ########################HOSTS TABLE########################## -->
-<table class='tac'>
-<tr><th><?php echo gettext('Hosts'); ?></th></tr>
-<tr>
-    <td class='ok'><a class='highlight' href='<?php echo $hostlink; ?>UP'><div class='td'><?php echo $hostsUpTotal; ?> <?php echo gettext('Up'); ?></div></a></td>
-    <td class='down'><a class='highlight' href='<?php echo $hostlink; ?>DOWN'><div class='td'><?php echo $hostsDownTotal; ?> <?php echo gettext('Down'); ?></div></a></td>
-    <td class='unreachable'><a class='highlight' href='<?php echo $hostlink; ?>UNREACHABLE'><div class='td'><?php echo $hostsUnreachableTotal; ?> <?php echo gettext('Unreachable'); ?></div></a></td>
-    <td class='pending'><a class='highlight' href='<?php echo $hostlink; ?>PENDING'><div class='td'><?php echo $hostsPending; ?> <?php echo gettext('Pending'); ?></div></a></td>
-
-</tr>
-<tr>
-    <td class='problem'><a class='highlight' href='<?php echo $hostlink; ?>PROBLEMS'><div class='td'><?php echo $hostsProblemsTotal; ?> <?php echo gettext('Problems'); ?></div></a></td>
-    <td class='unhandled'><a class='highlight' href='<?php echo $hostlink; ?>UNHANDLED'><div class='td'><?php echo $hostsUnhandledTotal; ?> <?php echo gettext('Unhandled'); ?></div></a></td>
-    <td class='acknowledged'><a class='highlight' href='<?php echo $hostlink; ?>ACKNOWLEDGED'><div class='td'><?php echo $hostsAcknowledgedTotal; ?> <?php echo gettext('Acknowledged'); ?></div></a></td>
-    <td><div class='td'><a class='highlight' href='index.php?type=hosts' title='All Hosts'><?php echo $hostsTotal; ?> <?php echo gettext('Total'); ?></div></a></td>
-</tr>
+<?php echo hosts_table(); ?>
 
 </table>
 
