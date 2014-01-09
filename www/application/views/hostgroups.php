@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 // hostgroups.php
 // display page for hostgroup details
@@ -56,96 +56,96 @@
 <h3><?php echo gettext('Host Groups'); ?></h3>
 <div class="contentWrapper">
 
-	<?php
-		$name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
-		$type = isset($_GET['type']) ? $_GET['type'] : '';
-	?>
+    <?php
+        $name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
+        $type = isset($_GET['type']) ? $_GET['type'] : '';
+    ?>
 
-	<div class="resultFilter">
-		<form id="resultfilterform" action="" method="get">
-			<input type="hidden" name="type" value="<?php echo $type; ?>">
-			<label class="label" for="name_filter">Search Host Group Names:</label>
-			<input type="text" name="name_filter" value="<?php $name_filter; ?>" />
-			<input type="submit" name="submitbutton" value="Filter" />
-		</form>
-	</div>
+    <div class="resultFilter">
+        <form id="resultfilterform" action="" method="get">
+            <input type="hidden" name="type" value="<?php echo $type; ?>">
+            <label class="label" for="name_filter">Search Host Group Names:</label>
+            <input type="text" name="name_filter" value="<?php $name_filter; ?>" />
+            <input type="submit" name="submitbutton" value="Filter" />
+        </form>
+    </div>
 
-	<?php
+    <?php
 
-	$illegal_chars = array(' ','.',':','(',')','#','[',']');
+    $illegal_chars = array(' ','.',':','(',')','#','[',']');
 
-	foreach($data as $group => $group_data) {
+    foreach ($data as $group => $group_data) {
 
-		$id = str_replace($illegal_chars, '_', $group);
-		
-		// skip ahead if there are no authorized hosts
-		if( array_sum($group_data['host_counts']) == 0 ) continue;
+        $id = str_replace($illegal_chars, '_', $group);
 
-		$page = '<h5><a name="'.$group.'">'.$group.'</a></h5>
-			<table class="statusable">
-				<tr>
-					<th>&nbsp;</th>
-					<th>Up</th>
-					<th>Down</th>
-					<th colspan="2">Unreachable</th>
-				</tr>
-				<tr>
-					<td>Hosts</td>
-					<td class="ok">'.$group_data['host_counts']['UP'].'</td>
-					<td class="down">'.$group_data['host_counts']['DOWN'].'</td>
-					<td class="unreachable" colspan="2">'.$group_data['host_counts']['UNREACHABLE'].'</td>
-				</tr>
-				<tr>
-					<th>&nbsp;</th>
-					<th>Ok</th>
-					<th>Warning</th>
-					<th>Critical</th>
-					<th>Unknown</th>
-				</tr>
-				<tr>
-					<td>Services</td>
-					<td class="ok">'.$group_data['service_counts']['OK'].'</td>
-					<td class="warning">'.$group_data['service_counts']['WARNING'].'</td>
-					<td class="critical">'.$group_data['service_counts']['CRITICAL'].'</td>
-					<td class="unknown">'.$group_data['service_counts']['UNKNOWN'].'</td>
-				</tr>
-			</table>';
+        // skip ahead if there are no authorized hosts
+        if( array_sum($group_data['host_counts']) == 0 ) continue;
 
-		$page .= '<p class="label"><a onclick="showHide('.$id.')" href="javascript:void(0)">Toggle Grid</a></p>';
+        $page = '<h5><a name="'.$group.'">'.$group.'</a></h5>
+            <table class="statusable">
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Up</th>
+                    <th>Down</th>
+                    <th colspan="2">Unreachable</th>
+                </tr>
+                <tr>
+                    <td>Hosts</td>
+                    <td class="ok">'.$group_data['host_counts']['UP'].'</td>
+                    <td class="down">'.$group_data['host_counts']['DOWN'].'</td>
+                    <td class="unreachable" colspan="2">'.$group_data['host_counts']['UNREACHABLE'].'</td>
+                </tr>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Ok</th>
+                    <th>Warning</th>
+                    <th>Critical</th>
+                    <th>Unknown</th>
+                </tr>
+                <tr>
+                    <td>Services</td>
+                    <td class="ok">'.$group_data['service_counts']['OK'].'</td>
+                    <td class="warning">'.$group_data['service_counts']['WARNING'].'</td>
+                    <td class="critical">'.$group_data['service_counts']['CRITICAL'].'</td>
+                    <td class="unknown">'.$group_data['service_counts']['UNKNOWN'].'</td>
+                </tr>
+            </table>';
 
-		//details table in GRID view
-		$page .= '<div class="hidden" id="'.$id.'">';
-		$page .= '<table class="statustable">
-					<tr>
-						<th>'.$group.'</th>
-						<th>Host Status</th>
-						<th>Services</th>
-					</tr>';
+        $page .= '<p class="label"><a onclick="showHide('.$id.')" href="javascript:void(0)">Toggle Grid</a></p>';
 
-		foreach($group_data['member_data'] as $member => $member_data){
-			$page .= '<tr>';
+        //details table in GRID view
+        $page .= '<div class="hidden" id="'.$id.'">';
+        $page .= '<table class="statustable">
+                    <tr>
+                        <th>'.$group.'</th>
+                        <th>Host Status</th>
+                        <th>Services</th>
+                    </tr>';
 
-				//pull group member data from global $hosts array
-				$page .= '<td><a href="'.$member_data['host_url'].'">'.$member_data['host_name'].'</a></td>';
-				$page .= '<td class="'.$member_data['state_class'].'">'.$member_data['host_state'].'</td>';
+        foreach ($group_data['member_data'] as $member => $member_data) {
+            $page .= '<tr>';
 
-				//pull group member data from global $services array
-				$page .= '<td>';
-				foreach($member_data['services'] as $service => $service_data){
-					$page .= '<span class="'.$service_data['state_class'].'"><a href="'.$service_data['service_url'].'">'.$service_data['description'].'</a></span>';
-				}
-				$page .= '</td>';
+                //pull group member data from global $hosts array
+                $page .= '<td><a href="'.$member_data['host_url'].'">'.$member_data['host_name'].'</a></td>';
+                $page .= '<td class="'.$member_data['state_class'].'">'.$member_data['host_state'].'</td>';
 
-			$page .= '</tr>';
-		}
+                //pull group member data from global $services array
+                $page .= '<td>';
+                foreach ($member_data['services'] as $service => $service_data) {
+                    $page .= '<span class="'.$service_data['state_class'].'"><a href="'.$service_data['service_url'].'">'.$service_data['description'].'</a></span>';
+                }
+                $page .= '</td>';
 
-		$page .= '</table>';
-		$page .= '</div><br />';
+            $page .= '</tr>';
+        }
 
-		echo $page;
+        $page .= '</table>';
+        $page .= '</div><br />';
 
-	}
+        echo $page;
 
-	?>
+    }
+
+    ?>
 
 </div>

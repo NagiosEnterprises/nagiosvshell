@@ -50,81 +50,80 @@
 
 ?>
 
-	<?php
-	//	$ht = hosts_table(get_tac_data());  //tac host summary table
-	//	echo "<div class='tacTable'>$ht</div>\n";
-	?>
+    <?php
+    //	$ht = hosts_table(get_tac_data());  //tac host summary table
+    //	echo "<div class='tacTable'>$ht</div>\n";
+    ?>
 
-	<div class="tableOptsWrapper">
+    <div class="tableOptsWrapper">
 
-		<?php echo $doPagination ? do_pagenumbers($pageCount, $start, $limit, $resultsCount, 'hosts') : ''; ?>
+        <?php echo $doPagination ? do_pagenumbers($pageCount, $start, $limit, $resultsCount, 'hosts') : ''; ?>
 
-		<?php
+        <?php
 
-			//creates notes for total results as well as form for setting page limits
-			echo do_result_notes($start, $limit, $resultsCount, 'hosts');
+            //creates notes for total results as well as form for setting page limits
+            echo do_result_notes($start, $limit, $resultsCount, 'hosts');
 
-			//moved result filter to display_functions.php and made into function
-			echo result_filter($name_filter, 'host');
+            //moved result filter to display_functions.php and made into function
+            echo result_filter($name_filter, 'host');
 
-		?>
+        ?>
 
-	</div>
+    </div>
 
-	<div class="statusTable">
-		<table class="statusTable">
-			<thead>
-				<tr>
-					<th><?php echo gettext('Host Name'); ?></th>
-					<th><?php echo gettext('Status'); ?></th>
-					<th><?php echo gettext('Duration'); ?></th>
-					<th><?php echo gettext('Attempt'); ?></th>
-					<th><?php echo gettext('Last Check'); ?></th>
-					<th><?php echo gettext('Status Information'); ?></th>
-				</tr>
-			</thead>
-			<tbody>
+    <div class="statusTable">
+        <table class="statusTable">
+            <thead>
+                <tr>
+                    <th><?php echo gettext('Host Name'); ?></th>
+                    <th><?php echo gettext('Status'); ?></th>
+                    <th><?php echo gettext('Duration'); ?></th>
+                    <th><?php echo gettext('Attempt'); ?></th>
+                    <th><?php echo gettext('Last Check'); ?></th>
+                    <th><?php echo gettext('Status Information'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
 
-				<?php
+                <?php
 
-					for ( $i = $start; $i <= ($start + $limit); $i++) {
+                    for ( $i = $start; $i <= ($start + $limit); $i++) {
 
-						if ($i >= $resultsCount){ 
-							break;
-						}
+                        if ($i >= $resultsCount) {
+                            break;
+                        }
 
-						//skip undefined indexes of hosts array
-						if ( ! isset($hosts[$hostnames[$i]]) ){ 
-							continue;
-						}
+                        //skip undefined indexes of hosts array
+                        if ( ! isset($hosts[$hostnames[$i]]) ) {
+                            continue;
+                        }
 
-						$host = $hosts[$hostnames[$i]];
+                        $host = $hosts[$hostnames[$i]];
 
-						//process remaining variables for display here
-						process_host_status_keys($host);
+                        //process remaining variables for display here
+                        process_host_status_keys($host);
 
-						// CSS style class based on status
-						$tr = get_color_code($host);
-						$url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$host['host_name']);
+                        // CSS style class based on status
+                        $tr = get_color_code($host);
+                        $url = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$host['host_name']);
 
-						//add function to fetch_icons
-						$icons = fetch_host_icons($host['host_name']); //returns all icons in one string
+                        //add function to fetch_icons
+                        $icons = fetch_host_icons($host['host_name']); //returns all icons in one string
 
-						echo '<tr>
-								<td><a href="'.$url.'">'.$host['host_name'].'</a>'.$icons.'</td>
-								<td class="'.$tr.'">'.$host['current_state'].'</td>
-								<td>'.$host['duration'].'</td>
-								<td>'.$host['attempt'].'</td>
-								<td>'.$host['last_check'].'</td>
-								<td>'.$host['plugin_output'].'</td>
-							</tr>';
-					}
+                        echo '<tr>
+                                <td><a href="'.$url.'">'.$host['host_name'].'</a>'.$icons.'</td>
+                                <td class="'.$tr.'">'.$host['current_state'].'</td>
+                                <td>'.$host['duration'].'</td>
+                                <td>'.$host['attempt'].'</td>
+                                <td>'.$host['last_check'].'</td>
+                                <td>'.$host['plugin_output'].'</td>
+                            </tr>';
+                    }
 
-				?>
+                ?>
 
-			</tbody>
-		</table>
-	</div>
+            </tbody>
+        </table>
+    </div>
 
-	<?php echo $doPagination ? do_pagenumbers($pageCount, $start, $limit, $resultsCount, 'hosts') : ''; ?>
-
+    <?php echo $doPagination ? do_pagenumbers($pageCount, $start, $limit, $resultsCount, 'hosts') : '';
