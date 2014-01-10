@@ -81,6 +81,27 @@ class Details extends CI_Controller
         $this->load->view('hostdetails', $data);
         $this->load->view('footer');
     }
+
+    public function service()
+    {
+        $servicename = $this->uri->segment(3);
+        if (! $servicename) {
+            header('location:/'.BASEURL);
+            exit();
+        }
+
+        $is_authorized = ! $this->nagios_user->if_has_authKey('authorized_for_read_only');
+        $details = host_and_service_detail_data('service', $servicename);
+
+        $data = array(
+            'is_authorized' => $is_authorized,
+            'details'       => $details,
+        );
+
+        $this->load->view('header');
+        $this->load->view('servicedetails', $data);
+        $this->load->view('footer');
+    }
 }
 
 /* End of file details.php */
