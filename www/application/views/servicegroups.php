@@ -51,68 +51,82 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-function display_servicegroups($data)
-{
+?>
 
-    $page = "";
-    $page .= "<h3>".gettext('Service Groups')."</h3>
-                        <div class='contentWrapper'>";
+<h3><?php echo gettext('Service Groups'); ?></h3>
+<div class="contentWrapper">
 
-    $name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
-    $type = isset($_GET['type']) ? $_GET['type'] : '';
+    <div class="resultFilter">
+        <form id="resultfilterform" action="" method="get">
+            <label class="label" for="name_filter"><?php echo gettext('Search Service Group Names') ?></label>
+            <input type="text" name="name_filter" value="<?php echo $name_filter; ?>"></input>
+            <input type="submit" name="submitbutton" value="Filter" />
+        </form>
+    </div>
 
-    $page .= "
-<div class='resultFilter'>
-    <form id='resultfilterform' action='{$_SERVER['PHP_SELF']}' method='get'>
-        <input type='hidden' name='type' value='$type'>
-        <label class='label' for='name_filter'>".gettext('Search Service Group Names')."</label>
-        <input type='text' name='name_filter' value='$name_filter'></input>
-        <input type='submit' name='submitbutton' value='Filter' />
-    </form>
-</div>
-";
+    <?php 
 
-    //////////////////////////////////////table creation, displays both summary and grid view
+    //create two joined tables, one summary, one grid
     foreach ($data as $group => $group_data) {
-        //create two joined tables, one summary, one grid
+        $page = '<h5>'.$group.'</h5>';
 
-        $page .= "<h5>$group</h5>";
-        //summary table
-        $page .= "<table class='statustable'><tr>
-                    <th>Ok</th><th>".gettext('Critical')."</th><th>".gettext('Warning')."</th><th>".gettext('Unknown')."</th></tr>
+        $page .= '
+            <table class="statustable">
+                <thead>
                     <tr>
-                        <td class='ok'>{$group_data['state_counts']['OK']}</td>
-                        <td class='critical'>{$group_data['state_counts']['CRITICAL']}</td>
-                        <td class='warning'>{$group_data['state_counts']['WARNING']}</td>
-                        <td class='unknown'>{$group_data['state_counts']['UNKNOWN']}</td>
+                        <th>Ok</th>
+                        <th>'.gettext('Critical').'</th>
+                        <th>'.gettext('Warning').'</th>
+                        <th>'.gettext('Unknown').'</th>
                     </tr>
-                </table>";
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="ok">'.$group_data['state_counts']['OK'].'</td>
+                        <td class="critical">'.$group_data['state_counts']['CRITICAL'].'</td>
+                        <td class="warning">'.$group_data['state_counts']['WARNING'].'</td>
+                        <td class="unknown">'.$group_data['state_counts']['UNKNOWN'].'</td>
+                    </tr>
+                </tbody>
+            </table>
+        ';
 
-        $page .= "<p class='label'><a onclick=\"showHide('$group')\" href='javascript:void(0)'>".gettext('Toggle Grid')."</a></p><br />";
-        //grid table
+        $page .= '<p class="label"><a onclick="showHide("'.$group.'")" href="javascript:void(0)">'.gettext('Toggle Grid').'</a></p>';
 
-        $page .= "<div class='hidden' id='$group'>
-                <table class='statustable'>
-                <tr><th>".gettext('Host')."</th>
-                    <th>".gettext('Status')."</th>
-                    <th>".gettext('Service')."</th>
-                    <th>".gettext('Status Information')."</th>
-                </tr>";
-
-        #foreach($members as $serv)
-        foreach ($group_data['services'] as $serv) {		//add a hoststatus element to service arrays
-
-            $page .= "<tr>
-                        <td><a href='{$serv['host_url']}'>".$serv['host_name']."</a></td>
-                        <td class='".strtolower($serv['current_state'])."'>".$serv['current_state']."</td>
-                        <td><a href='{$serv['service_url']}'>".$serv['description']."</a></td>
-                        <td>".$serv['plugin_output']."</td>
-                    </tr>";
-
+        //details table in GRID view
+        $grid_rows = array();
+        foreach ($group_data['services'] as $serv) {
+            //add a hoststatus element to service arrays
+            $grid_rows[] = '
+                <tr>
+                    <td><a href="'.$serv['host_url'].'">'.$serv['host_name'].'</a></td>
+                    <td class="'.strtolower($serv['current_state']).'">'.$serv['current_state'].'</td>
+                    <td><a href="'.$serv['service_url'].'">'.$serv['description'].'</a></td>
+                    <td>'.$serv['plugin_output'].'</td>
+                </tr>
+            ';
         }
-        $page .= '</table></div>';
-    }
-    $page .= "</div> <!-- end contentWrapper div-->";
+        $grid_rows = implode("\n", $grid_rows);
 
-    return $page;
-}
+        $page .= '
+            <div class="hidden" id="'.$group.'">
+                <table class="statustable">
+                    <tbody>
+                        <tr>
+                            <th>'.gettext('Host').'</th>
+                            <th>'.gettext('Status').'</th>
+                            <th>'.gettext('Service').'</th>
+                            <th>'.gettext('Status Information').'</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        ';
+
+        echo $page;
+
+    }
+
+    ?>
+
+</div>
