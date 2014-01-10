@@ -54,7 +54,8 @@
     <div class='detailWrapper'>
     <h4><em>".gettext('Host').": </em>{$details['Host']}</h4>
     <h5><em>".gettext('Member of').": </em>{$details['MemberOf']}</h5>
-    <h5><a href='index.php?type=services&host_filter={$details['Host']}' title='".gettext('See All Services For This Host')."'>".gettext('See All Services For This Host')."</a></h5>
+    <h5><a href='/".BASEURL."/services?host_filter={$details['Host']}' title='".gettext('See All Services For This Host')."'>".gettext('See All Services For This Host')."</a></h5>
+
     <div class='detailcontainer'>
     <fieldset class='hostdetails'>
     <legend>".gettext('Advanced Details')."</legend>
