@@ -56,11 +56,6 @@
 <h3><?php echo gettext('Host Groups'); ?></h3>
 <div class="contentWrapper">
 
-    <?php
-        $name_filter = isset($_GET['name_filter']) ? $_GET['name_filter'] : '';
-        $type = isset($_GET['type']) ? $_GET['type'] : '';
-    ?>
-
     <div class="resultFilter">
         <form id="resultfilterform" action="" method="get">
             <label class="label" for="name_filter">Search Host Group Names:</label>
