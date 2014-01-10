@@ -262,7 +262,7 @@ class Nagios_group extends CI_Model
     {
         $servicegroup_data = array();
 
-        $sg_details = build_servicegroups_array();
+        $sg_details = $this->build_servicegroups_array();
         foreach ($sg_details as $group => $members) {
             if (empty($sg_details[$group])) {
                 //skip unauthorized groups

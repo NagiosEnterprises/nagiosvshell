@@ -57,8 +57,15 @@ class Servicegroups extends CI_Controller
 
     public function index()
     {
+        $servicegroup_data = $this->nagios_group->get_servicegroup_data();
+
+        $data = array(
+            'data' => $servicegroup_data,
+            'name_filter' => $this->input->get('name_filter'),
+        );
+
         $this->load->view('header');
-        $this->load->view('hosts');
+        $this->load->view('servicegroups', $data);
         $this->load->view('footer');
     }
 }
