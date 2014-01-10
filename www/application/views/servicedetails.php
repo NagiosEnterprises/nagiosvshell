@@ -1,4 +1,4 @@
-<?php //service details view page
+<?php
 
 // Nagios V-Shell
 // Copyright (c) 2010 Nagios Enterprises, LLC.
@@ -48,43 +48,40 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-function get_service_details($dets)
-{
-    global $NagiosUser;
-
     $page="
 
     <h3>".gettext('Service Status Detail')."</h3>
     <div class='detailWrapper'>
 
-    <h4><em>".gettext('Service').": </em>{$dets['Service']}</h4>
-    <h4><em>".gettext('Host').": </em><a href='index.php?type=hostdetail&name_filter={$dets['Host']}' title='".gettext('Host Details')."'>{$dets['Host']}</a></h4>
-    <h5><em>".gettext('Member of').": </em>{$dets['MemberOf']}</h5>
-    <h6><em><a href='index.php?type=services&host_filter={$dets['Host']}' title='".gettext('See All Services For This Host')."'>".gettext('See All Services For This Host')."</a></h6>
+    <h4><em>".gettext('Service').": </em>{$details['Service']}</h4>
+    <h4><em>".gettext('Host').": </em><a href='/".BASEURL."/details/host/{$details['Host']}' title='".gettext('Host Details')."'>{$details['Host']}</a></h4>
+    <h5><em>".gettext('Member of').": </em>{$details['MemberOf']}</h5>
+    <h6><em><a href='/".BASEURL."/services?host_filter={$details['Host']}' title='".gettext('See All Services For This Host')."'>".gettext('See All Services For This Host')."</a></h6>
 
     <div class='detailcontainer'>
     <fieldset class='servicedetails'>
     <legend>".gettext('Advanced Details')."</legend>
     <table class='details'>
-        <tr><td>".gettext('Service State')."</td><td class='{$dets['State']}'>{$dets['State']}</td></tr>
+        <tr><td>".gettext('Service State')."</td><td class='{$details['State']}'>{$details['State']}</td></tr>
     ";
-    if($NagiosUser->if_has_authKey('authorized_for_configuration_information'))
-        $page .="<tr><td>".gettext('Check Command')."</td><td><div class='td_maxwidth'>{$dets['CheckCommand']}</div></td></tr>";
+    if(! $is_authorized) {
+        $page .="<tr><td>".gettext('Check Command')."</td><td><div class='td_maxwidth'>{$details['CheckCommand']}</div></td></tr>";
+    }
 
     $page.="
-        <tr><td>".gettext('Plugin Output')."</td><td><div class='td_maxwidth'>{$dets['Output']}</div></td></tr>
-        <tr><td>".gettext('Duration')."</td><td>{$dets['Duration']}</td></tr>
-        <tr><td>".gettext('State Type')."</td><td>{$dets['StateType']}</td></tr>
-        <tr><td>".gettext('Current Check')."</td><td>{$dets['CurrentCheck']}</td></tr>
-        <tr><td>".gettext('Last Check')."</td><td>{$dets['LastCheck']}</td></tr>
-        <tr><td>".gettext('Next Check')."</td><td>{$dets['NextCheck']}</td></tr>
-        <tr><td>".gettext('Last State Change')."</td><td>{$dets['LastStateChange']}</td></tr>
-        <tr><td>".gettext('Last Notification')."</td><td>{$dets['LastNotification']}</td></tr>
-        <tr><td>".gettext('Check Type')."</td><td>{$dets['CheckType']}</td></tr>
-        <tr><td>".gettext('Check Latency')."</td><td>{$dets['CheckLatency']}</td></tr>
-        <tr><td>".gettext('Execution Time')."</td><td>{$dets['ExecutionTime']}</td></tr>
-        <tr><td>".gettext('State Change')."</td><td>{$dets['StateChange']}</td></tr>
-        <tr><td>".gettext('Performance Data')."</td><td><div class='td_maxwidth'>{$dets['PerformanceData']}</div></td></tr>
+        <tr><td>".gettext('Plugin Output')."</td><td><div class='td_maxwidth'>{$details['Output']}</div></td></tr>
+        <tr><td>".gettext('Duration')."</td><td>{$details['Duration']}</td></tr>
+        <tr><td>".gettext('State Type')."</td><td>{$details['StateType']}</td></tr>
+        <tr><td>".gettext('Current Check')."</td><td>{$details['CurrentCheck']}</td></tr>
+        <tr><td>".gettext('Last Check')."</td><td>{$details['LastCheck']}</td></tr>
+        <tr><td>".gettext('Next Check')."</td><td>{$details['NextCheck']}</td></tr>
+        <tr><td>".gettext('Last State Change')."</td><td>{$details['LastStateChange']}</td></tr>
+        <tr><td>".gettext('Last Notification')."</td><td>{$details['LastNotification']}</td></tr>
+        <tr><td>".gettext('Check Type')."</td><td>{$details['CheckType']}</td></tr>
+        <tr><td>".gettext('Check Latency')."</td><td>{$details['CheckLatency']}</td></tr>
+        <tr><td>".gettext('Execution Time')."</td><td>{$details['ExecutionTime']}</td></tr>
+        <tr><td>".gettext('State Change')."</td><td>{$details['StateChange']}</td></tr>
+        <tr><td>".gettext('Performance Data')."</td><td><div class='td_maxwidth'>{$details['PerformanceData']}</div></td></tr>
 
     </table>
 
@@ -94,21 +91,21 @@ function get_service_details($dets)
     <div class='rightContainer'>
     ";
 
-    if(!$NagiosUser->if_has_authKey('authorized_for_read_only'))
+    if ($is_authorized) {
     $page.="
         <fieldset class='attributes'>
         <legend>".gettext('Service Attributes')."</legend>
         <table>
-        <tr><td class='{$dets['ActiveChecks']}'>".gettext('Active Checks').": {$dets['ActiveChecks']}</td>
-        <td><a href='{$dets['CmdActiveChecks']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Active Checks')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
-        <tr><td class='{$dets['PassiveChecks']}'>".gettext('Passive Checks').": {$dets['PassiveChecks']}</td>
-        <td><a href='{$dets['CmdPassiveChecks']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Passive Checks')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
-        <tr><td class='{$dets['Obsession']}'>".gettext('Obsession').": {$dets['Obsession']}</td>
-        <td><a href='{$dets['CmdObsession']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Obsession')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
-        <tr><td class='{$dets['Notifications']}'>".gettext('Notifications').": {$dets['Notifications']}</td>
-        <td><a href='{$dets['CmdNotifications']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Notifications')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
-        <tr><td class='{$dets['FlapDetection']}'>".gettext('Flap Detection').": {$dets['FlapDetection']}</td>
-        <td><a href='{$dets['CmdFlapDetection']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Flap Detection')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
+        <tr><td class='{$details['ActiveChecks']}'>".gettext('Active Checks').": {$details['ActiveChecks']}</td>
+        <td><a href='{$details['CmdActiveChecks']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Active Checks')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
+        <tr><td class='{$details['PassiveChecks']}'>".gettext('Passive Checks').": {$details['PassiveChecks']}</td>
+        <td><a href='{$details['CmdPassiveChecks']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Passive Checks')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
+        <tr><td class='{$details['Obsession']}'>".gettext('Obsession').": {$details['Obsession']}</td>
+        <td><a href='{$details['CmdObsession']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Obsession')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
+        <tr><td class='{$details['Notifications']}'>".gettext('Notifications').": {$details['Notifications']}</td>
+        <td><a href='{$details['CmdNotifications']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Notifications')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
+        <tr><td class='{$details['FlapDetection']}'>".gettext('Flap Detection').": {$details['FlapDetection']}</td>
+        <td><a href='{$details['CmdFlapDetection']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Flap Detection')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
         </table>
         <p class='note'>".gettext('Commands will not appear until after page reload')."</p>
         </fieldset>
@@ -119,13 +116,14 @@ function get_service_details($dets)
         <legend>".gettext('Core Commands')."</legend>
         <table>
 
-        <tr><td><a href='{$dets['CmdCustomNotification']}' title='".gettext('Send Custom Notification')."'><img src='views/images/notification.gif' class='iconLink' height='12' width='12' alt='Notification' /></a></td><td>".gettext('Send custom notification')."</td></tr>
-        <tr><td><a href='{$dets['CmdScheduleDowntime']}' title='".gettext('Schedule Downtime')."'><img src='views/images/downtime.png' class='iconLink' height='12' width='12' alt='Downtime' /></a></td><td>".gettext('Schedule downtime')."</td></tr>
-        <tr><td><a href='{$dets['CmdScheduleChecks']}' title='".gettext('Schedule Check')."'><img src='views/images/schedulecheck.png' class='iconLink' height='12' width='12' alt='Schedule' /></a></td><td>".gettext('Reschedule Next Check')."</td></tr>
-        <tr><td><a href='{$dets['CmdAcknowledge']}' title='{$dets['AckTitle']}'><img src='views/images/ack.png' class='iconLink' height='12' width='12' alt='Acknowledge' /></a></td><td>{$dets['AckTitle']}</td></tr>
-        <tr><td colspan='2'><a class='label' href='{$dets['CoreLink']}' title='".gettext('See This Service In Nagios Core')."'>".gettext('See This Service In Nagios Core')."</a></td></tr>
+        <tr><td><a href='{$details['CmdCustomNotification']}' title='".gettext('Send Custom Notification')."'><img src='views/images/notification.gif' class='iconLink' height='12' width='12' alt='Notification' /></a></td><td>".gettext('Send custom notification')."</td></tr>
+        <tr><td><a href='{$details['CmdScheduleDowntime']}' title='".gettext('Schedule Downtime')."'><img src='views/images/downtime.png' class='iconLink' height='12' width='12' alt='Downtime' /></a></td><td>".gettext('Schedule downtime')."</td></tr>
+        <tr><td><a href='{$details['CmdScheduleChecks']}' title='".gettext('Schedule Check')."'><img src='views/images/schedulecheck.png' class='iconLink' height='12' width='12' alt='Schedule' /></a></td><td>".gettext('Reschedule Next Check')."</td></tr>
+        <tr><td><a href='{$details['CmdAcknowledge']}' title='{$details['AckTitle']}'><img src='views/images/ack.png' class='iconLink' height='12' width='12' alt='Acknowledge' /></a></td><td>{$details['AckTitle']}</td></tr>
+        <tr><td colspan='2'><a class='label' href='{$details['CoreLink']}' title='".gettext('See This Service In Nagios Core')."'>".gettext('See This Service In Nagios Core')."</a></td></tr>
         </table>
-        </fieldset>"; //end if authorized for commands
+        </fieldset>";
+    }
 
     $page .="
     </div><!-- end rightContainer -->
@@ -135,19 +133,19 @@ function get_service_details($dets)
     <div class='commentTable'>
     ";
 
-    if (!$NagiosUser->if_has_authKey('authorized_for_read_only')) {
+    if ($is_authorized) {
         $page.="
         <h5 class='commentTable'>".gettext('Comments')."</h5>
-        <p class='commentTable'><a class='label' href='{$dets['AddComment']}' title='".gettext('Add Comment')."'>".gettext('Add Comment')."</a></p>
+        <p class='commentTable'><a class='label' href='{$details['AddComment']}' title='".gettext('Add Comment')."'>".gettext('Add Comment')."</a></p>
         <table class='commentTable'><tr><th>".gettext('Author')."</th><th>".gettext('Entry Time')."</th><th>".gettext('Comment')."</th><th>".gettext('Actions')."</th></tr>
         ";
         //print service comments in table rows if any exist
         //see display_functions.php for function
-        $page .= get_service_comments($dets['Host'], $dets['Service']);
+        $page .= get_service_comments($details['Host'], $details['Service']);
         //close comment table
         $page .= '</table>';
     }
+
     $page.='</div><br />';
 
-    return $page;
-}
+    echo $page;
