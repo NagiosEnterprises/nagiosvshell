@@ -48,37 +48,97 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+?>
+
+    <h3><?php echo gettext('Host Status Detail'); ?></h3>
+
+    <div class="detailWrapper">
+
+        <h4>
+            <em><?php echo gettext('Host'); ?>: </em>
+            <?php echo $details['Host']; ?>
+        </h4>
+
+        <h5>
+            <em><?php echo gettext('Member of'); ?>: </em>
+            <?php echo $details['MemberOf']; ?>
+        </h5>
+
+        <h5>
+            <?php $service_link = '/'.BASEURL.'/services?host_filter='.$details['Host']; ?>
+            <a href="<?php echo $service_link; ?>" title="<?php echo gettext('See All Services For This Host'); ?>"><?php echo gettext('See All Services For This Host'); ?></a>
+        </h5>
+
+        <div class="detailcontainer">
+
+            <fieldset class="hostdetails">
+                <legend><?php echo gettext('Advanced Details'); ?></legend>
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><?php echo gettext('Current State'); ?></td>
+                            <td class="<?php echo $details['State']; ?>"><?php echo $details['State']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Status Information'); ?></td>
+                            <td><div class="td_maxwidth"><?php echo $details['StatusInformation']; ?></div></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Duration'); ?></td>
+                            <td><?php echo $details['Duration']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('State Type'); ?></td>
+                            <td><?php echo $details['StateType']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Current Check'); ?></td>
+                            <td><?php echo $details['CurrentCheck']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Last Check'); ?></td>
+                            <td><?php echo $details['LastCheck']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Next Check'); ?></td>
+                            <td><?php echo $details['NextCheck']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Last State Change'); ?></td>
+                            <td><?php echo $details['LastStateChange']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Last Notification'); ?></td>
+                            <td><?php echo $details['LastNotification']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Check Type'); ?></td>
+                            <td><?php echo $details['CheckType']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Check Latency'); ?></td>
+                            <td><?php echo $details['CheckLatency']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Execution Time'); ?></td>
+                            <td><?php echo $details['ExecutionTime']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('State Change'); ?></td>
+                            <td><?php echo $details['StateChange']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Performance Data'); ?></td>
+                            <td><div class="td_maxwidth"><?php echo $details['PerformanceData']; ?></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+
+        </div>
+<?php
     $page="
-
-    <h3>".gettext('Host Status Detail')."</h3>
-    <div class='detailWrapper'>
-    <h4><em>".gettext('Host').": </em>{$details['Host']}</h4>
-    <h5><em>".gettext('Member of').": </em>{$details['MemberOf']}</h5>
-    <h5><a href='/".BASEURL."/services?host_filter={$details['Host']}' title='".gettext('See All Services For This Host')."'>".gettext('See All Services For This Host')."</a></h5>
-
-    <div class='detailcontainer'>
-    <fieldset class='hostdetails'>
-    <legend>".gettext('Advanced Details')."</legend>
-    <table>
-        <tr><td>".gettext('Current State')."</td><td class='{$details['State']}'>{$details['State']}</td></tr>
-        <tr><td>".gettext('Status Information')."</td><td><div class='td_maxwidth'>{$details['StatusInformation']}</div></td></tr>
-        <tr><td>".gettext('Duration')."</td><td>{$details['Duration']}</td></tr>
-        <tr><td>".gettext('State Type')."</td><td>{$details['StateType']}</td></tr>
-        <tr><td>".gettext('Current Check')."</td><td>{$details['CurrentCheck']}</td></tr>
-        <tr><td>".gettext('Last Check')."</td><td>{$details['LastCheck']}</td></tr>
-        <tr><td>".gettext('Next Check')."</td><td>{$details['NextCheck']}</td></tr>
-        <tr><td>".gettext('Last State Change')."</td><td>{$details['LastStateChange']}</td></tr>
-        <tr><td>".gettext('Last Notification')."</td><td>{$details['LastNotification']}</td></tr>
-        <tr><td>".gettext('Check Type')."</td><td>{$details['CheckType']}</td></tr>
-        <tr><td>".gettext('Check Latency')."</td><td>{$details['CheckLatency']}</td></tr>
-        <tr><td>".gettext('Execution Time')."</td><td>{$details['ExecutionTime']}</td></tr>
-        <tr><td>".gettext('State Change')."</td><td>{$details['StateChange']}</td></tr>
-        <tr><td>".gettext('Performance Data')."</td><td><div class='td_maxwidth'>{$details['PerformanceData']}</div></td></tr>
-
-    </table>
-
-    </fieldset>
-    </div><!-- end detailcontainer -->
 
     <div class='rightContainer'>
 
