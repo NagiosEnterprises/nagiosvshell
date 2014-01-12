@@ -137,15 +137,13 @@
             </fieldset>
 
         </div>
+
+        <?php if ($is_authorized) : ?>
+
+        <div class="rightContainer">
+
 <?php
-    $page="
-
-    <div class='rightContainer'>
-
-    ";
-
-    if ($is_authorized) {
-        $page.="
+        $page ="
 
             <fieldset class='attributes'>
             <legend>".gettext('Service Attributes')."</legend>
@@ -179,33 +177,38 @@
             </table>
             </fieldset>
             ";
-    }
 
-    $page.="
-    </div><!-- end rightContainer -->
-    </div><!-- end detailWrapper -->
+        echo $page;
+?>
 
+        </div>
 
-    <!-- begin comment table -->
-    <div class='commentTable'>
-    ";
+        <?php endif; ?>
 
-    if ($is_authorized) {
-        $page .="
-        <h5 class='commentTable'>".gettext('Comments')."</h5>
-        <p class='commentTable'><a class='label' href='{$details['AddComment']}' title='".gettext('Add Comment')."'>".gettext('Add Comment')."</a></p>
+    </div>
 
-        <table class='commentTable'><tr><th>".gettext('Author')."</th><th>".gettext('Entry Time')."</th><th>".gettext('Comment')."</th><th>".gettext('Actions')."</th></tr>
-        ";
-        //host comments table from Nagios core
+    <?php if ($is_authorized) : ?>
 
-        //print host comments in table rows if any exist
-        //see display_functions.php for function
-        $page .= get_host_comments($details['Host']);
-        //close comment table
-        $page .= '</table>';
-    }
+    <div class="commentTable">
 
-    $page.='</div><br />';
+        <h5 class="commentTable"><?php echo gettext('Comments'); ?></h5>
 
-    echo $page;
+        <p class="commentTable">
+            <a class="label" href="<?php echo $details['AddComment']; ?>" title="<?php echo gettext('Add Comment'); ?>"><?php echo gettext('Add Comment'); ?></a>
+        </p>
+
+        <table class="commentTable">
+            <tbody>
+                <tr>
+                    <th><?php echo gettext('Author'); ?></th>
+                    <th><?php echo gettext('Entry Time'); ?></th>
+                    <th><?php echo gettext('Comment'); ?></th>
+                    <th><?php echo gettext('Actions'); ?></th>
+                </tr>
+                <?php echo get_host_comments($details['Host']); ?>
+            <tbody>
+        </table>
+
+    </div>
+
+    <?php endif; ?>
