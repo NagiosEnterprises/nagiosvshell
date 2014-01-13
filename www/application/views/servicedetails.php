@@ -50,7 +50,7 @@
 
 ?>
 
-    <h3><?php gettext('Service Status Detail'); ?></h3>
+    <h3><?php echo gettext('Service Status Detail'); ?></h3>
 
     <div class="detailWrapper">
 
@@ -83,7 +83,7 @@
                             <td class="<?php echo $details['State']; ?>"><?php echo $details['State']; ?></td>
                         </tr>
 
-                        <?php if (! $is_authorized): ?>
+                        <?php if ($is_authorized): ?>
 
                         <tr>
                             <td><?php echo gettext('Check Command'); ?></td>
@@ -155,65 +155,133 @@
             </fieldset>
         </div>
 
+
+        <?php if ($is_authorized) : ?>
+
         <div class="rightContainer">
 
-    <?php
+            <fieldset class="attributes">
+                <legend><?php echo gettext('Service Attributes'); ?></legend>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="<?php echo $details['ActiveChecks']; ?>"><?php echo gettext('Active Checks'); ?>: <?php echo $details['ActiveChecks']; ?></td>
+                            <td>
+                                <a href="<?php echo $details['CmdActiveChecks']; ?>">
+                                    <img src="views/images/action_small.gif" title="<?php echo gettext('Toggle Active Checks'); ?>" class="iconLink" height="12" width="12" alt="Toggle" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="<?php echo $details['PassiveChecks']; ?>"><?php echo gettext('Passive Checks'); ?>: <?php echo $details['PassiveChecks']; ?></td>
+                            <td>
+                                <a href="<?php echo $details['CmdPassiveChecks']; ?>">
+                                    <img src="views/images/action_small.gif" title="<?php echo gettext('Toggle Passive Checks'); ?>" class="iconLink" height="12" width="12" alt="Toggle" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="<?php echo $details['Obsession']; ?>"><?php echo gettext('Obsession'); ?>: <?php echo $details['Obsession']; ?></td>
+                            <td>
+                                <a href="<?php echo $details['CmdObsession']; ?>">
+                                    <img src="views/images/action_small.gif" title="<?php echo gettext('Toggle Obsession'); ?>" class="iconLink" height="12" width="12" alt="Toggle" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="<?php echo $details['Notifications']; ?>"><?php echo gettext('Notifications'); ?>: <?php echo $details['Notifications']; ?></td>
+                            <td>
+                                <a href="<?php echo $details['CmdNotifications']; ?>">
+                                    <img src="views/images/action_small.gif" title="<?php echo gettext('Toggle Notifications'); ?>" class="iconLink" height="12" width="12" alt="Toggle" />
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="<?php echo $details['FlapDetection']; ?>"><?php echo gettext('Flap Detection'); ?>: <?php echo $details['FlapDetection']; ?></td>
+                            <td>
+                                <a href="<?php echo $details['CmdFlapDetection']; ?>">
+                                    <img src="views/images/action_small.gif" title="<?php echo gettext('Toggle Flap Detection'); ?>" class="iconLink" height="12" width="12" alt="Toggle" />
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="note"><?php echo gettext('Commands will not appear until after page reload'); ?></p>
+            </fieldset>
 
-    if ($is_authorized) {
-    $page ="
-        <fieldset class='attributes'>
-        <legend>".gettext('Service Attributes')."</legend>
-        <table>
-        <tr><td class='{$details['ActiveChecks']}'>".gettext('Active Checks').": {$details['ActiveChecks']}</td>
-        <td><a href='{$details['CmdActiveChecks']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Active Checks')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
-        <tr><td class='{$details['PassiveChecks']}'>".gettext('Passive Checks').": {$details['PassiveChecks']}</td>
-        <td><a href='{$details['CmdPassiveChecks']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Passive Checks')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
-        <tr><td class='{$details['Obsession']}'>".gettext('Obsession').": {$details['Obsession']}</td>
-        <td><a href='{$details['CmdObsession']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Obsession')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
-        <tr><td class='{$details['Notifications']}'>".gettext('Notifications').": {$details['Notifications']}</td>
-        <td><a href='{$details['CmdNotifications']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Notifications')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
-        <tr><td class='{$details['FlapDetection']}'>".gettext('Flap Detection').": {$details['FlapDetection']}</td>
-        <td><a href='{$details['CmdFlapDetection']}'><img src='views/images/action_small.gif' title='".gettext('Toggle Flap Detection')."' class='iconLink' height='12' width='12' alt='Toggle' /></a></td></tr>
+            <fieldset class="corecommands">
+                <legend><?php echo gettext('Core Commands'); ?></legend>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a href="<?php echo $details['CmdCustomNotification']; ?>" title="<?php echo gettext('Send Custom Notification'); ?>">
+                                    <img src="views/images/notification.gif" class="iconLink" height="12" width="12" alt="Notification" />
+                                </a>
+                            </td>
+                            <td><?php echo gettext('Send custom notification'); ?></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="<?php echo $details['CmdScheduleDowntime']; ?>" title="<?php echo gettext('Schedule Downtime'); ?>">
+                                    <img src="views/images/downtime.png" class="iconLink" height="12" width="12" alt="Downtime" />
+                                </a>
+                            </td>
+                            <td><?php echo gettext('Schedule downtime'); ?></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="<?php echo $details['CmdScheduleChecks']; ?>" title="<?php echo gettext('Schedule Check'); ?>">
+                                    <img src="views/images/schedulecheck.png" class="iconLink" height="12" width="12" alt="Schedule" />
+                                </a>
+                            </td>
+                            <td><?php echo gettext('Reschedule Next Check'); ?></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="<?php echo $details['CmdAcknowledge']; ?>" title="<?php echo $details['AckTitle']; ?>">
+                                    <img src="views/images/ack.png" class="iconLink" height="12" width="12" alt="Acknowledge" />
+                                </a>
+                            </td>
+                            <td><?php echo $details['AckTitle']; ?></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <a class="label" href="<?php echo $details['CoreLink']; ?>" title="<?php echo gettext('See This Service In Nagios Core'); ?>"><?php echo gettext('See This Service In Nagios Core'); ?></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+
+        </div>
+
+        <?php endif; ?>
+
+    </div>
+
+    <?php if ($is_authorized): ?>
+
+    <div class="commentTable">
+
+        <h5 class="commentTable"><?php echo gettext('Comments'); ?></h5>
+
+        <p class="commentTable">
+            <a class="label" href="<?php echo $details['AddComment']; ?>" title="<?php echo gettext('Add Comment'); ?>"><?php echo gettext('Add Comment'); ?></a>
+        </p>
+
+        <table class="commentTable">
+            <tbody>
+                <tr>
+                    <th><?php echo gettext('Author'); ?></th>
+                    <th><?php echo gettext('Entry Time'); ?></th>
+                    <th><?php echo gettext('Comment'); ?></th>
+                    <th><?php echo gettext('Actions'); ?></th>
+                </tr>
+                <?php echo get_service_comments($details['Host'], $details['Service']); ?>
+            </tbody>
         </table>
-        <p class='note'>".gettext('Commands will not appear until after page reload')."</p>
-        </fieldset>
 
-        <!-- Nagios Core Command Table -->
+    </div>
 
-        <fieldset class='corecommands'>
-        <legend>".gettext('Core Commands')."</legend>
-        <table>
-
-        <tr><td><a href='{$details['CmdCustomNotification']}' title='".gettext('Send Custom Notification')."'><img src='views/images/notification.gif' class='iconLink' height='12' width='12' alt='Notification' /></a></td><td>".gettext('Send custom notification')."</td></tr>
-        <tr><td><a href='{$details['CmdScheduleDowntime']}' title='".gettext('Schedule Downtime')."'><img src='views/images/downtime.png' class='iconLink' height='12' width='12' alt='Downtime' /></a></td><td>".gettext('Schedule downtime')."</td></tr>
-        <tr><td><a href='{$details['CmdScheduleChecks']}' title='".gettext('Schedule Check')."'><img src='views/images/schedulecheck.png' class='iconLink' height='12' width='12' alt='Schedule' /></a></td><td>".gettext('Reschedule Next Check')."</td></tr>
-        <tr><td><a href='{$details['CmdAcknowledge']}' title='{$details['AckTitle']}'><img src='views/images/ack.png' class='iconLink' height='12' width='12' alt='Acknowledge' /></a></td><td>{$details['AckTitle']}</td></tr>
-        <tr><td colspan='2'><a class='label' href='{$details['CoreLink']}' title='".gettext('See This Service In Nagios Core')."'>".gettext('See This Service In Nagios Core')."</a></td></tr>
-        </table>
-        </fieldset>";
-    }
-
-    $page .="
-    </div><!-- end rightContainer -->
-    </div><!-- end detailWrapper -->
-
-    <!-- begin comment table -->
-    <div class='commentTable'>
-    ";
-
-    if ($is_authorized) {
-        $page.="
-        <h5 class='commentTable'>".gettext('Comments')."</h5>
-        <p class='commentTable'><a class='label' href='{$details['AddComment']}' title='".gettext('Add Comment')."'>".gettext('Add Comment')."</a></p>
-        <table class='commentTable'><tr><th>".gettext('Author')."</th><th>".gettext('Entry Time')."</th><th>".gettext('Comment')."</th><th>".gettext('Actions')."</th></tr>
-        ";
-        //print service comments in table rows if any exist
-        //see display_functions.php for function
-        $page .= get_service_comments($details['Host'], $details['Service']);
-        //close comment table
-        $page .= '</table>';
-    }
-
-    $page.='</div><br />';
-
-    echo $page;
+    <?php endif; ?>

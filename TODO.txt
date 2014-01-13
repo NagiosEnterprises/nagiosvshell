@@ -1,7 +1,5 @@
 Implement IMAGESURL constant.
 
-Clean up servicedetails view files.
-
 Fix header.inc.js file
 
 Update location of vshell.conf in www/application/config/constants to be dynamic
