@@ -1,4 +1,6 @@
-<?php //tactical overview page
+<?php
+
+// tactical overview page
 
 // Nagios V-Shell
 // Copyright (c) 2010 Nagios Enterprises, LLC.
@@ -48,118 +50,127 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-$ci =& get_instance();
-
 ?>
 
-<!-- ##################Nagios Info Table################### -->
-<div id='infodiv'>
-    <p class='note'>Nagios V-Shell <?php echo $version; ?><br />
+<div id="infodiv">
+    <p class="note">Nagios V-Shell <?php echo $data['version']; ?><br />
     Copyright (c) 2010-2012 <br />
     Nagios Enterprises, LLC. <br />
-   <?php echo gettext('Written by'); ?> Mike Guthrie<br />
-   <?php echo gettext("For questions, feedback, <br /> or support, visit the"); ?><br />
-   <a href='http://support.nagios.com/forum/viewforum.php?f=19' target='_blank'>V-Shell
+    <?php echo gettext('Written by'); ?> Mike Guthrie<br />
+    <?php echo gettext("For questions, feedback, <br /> or support, visit the"); ?><br />
+    <a href="http://support.nagios.com/forum/viewforum.php?f=19" target="_blank">V-Shell
     <?php echo gettext('Forum'); ?>
    </a>.</p>
 </div>
 
-<table class='tac'>
-<tr><th><?php echo gettext('Tactical Monitoring Overview'); ?></th></tr>
-    <tr>
-        <td>
-            <?php echo gettext('Last Check'); echo ": $lastcmd"; ?><br />
-             Nagios® Core™ <?php echo $version; ?> - www.nagios.org<br />
-            <?php echo gettext('Logged in as'); ?> :
-            <?php echo $ci->nagios_user->get_username(); ?>
-            <br />
-        </td>
-    </tr>
+<table class="tac">
+    <tbody>
+        <tr>
+            <th><?php echo gettext('Tactical Monitoring Overview'); ?></th>
+        </tr>
+        <tr>
+            <td>
+                <?php echo gettext('Last Check'); ?>: <?php echo $data['lastcmd']; ?><br />
+                Nagios® Core™ <?php echo $data['version']; ?> - www.nagios.org<br />
+                <?php echo gettext('Logged in as'); ?> :
+                <?php echo $username; ?>
+                <br />
+            </td>
+        </tr>
+    </tbody>
 </table>
 
-<!-- builds health meter divs for hosts and services -->
+<div id="meterContainer">
 
-    <div id='meterContainer'>
+    <?php
+        $total = $data['hostsTotal'];
+        $problems = $data['hostsProblemsTotal'];
+        $health = (floatval($total - $problems) / floatval($total)) * 100;
+    ?>
 
-<?php
-    $Total = $hostsTotal;
-    $problems = $hostsProblemsTotal;
-    $health = (floatval($Total - $problems) / floatval($Total)) * 100;
-    //$health = 30;
-?>
-    <div class='h_container'><?php echo gettext('Host');?> <?php echo gettext('Health'); ?>: <?php echo round($health,2); ?>% <br />
-                    <div class='borderDiv'>
-                    <div class='healthmeter' style='background: rgb(<?php echo color_code(round($health,0)); ?>); width: <?php echo $health; ?>%;'>
-                </div></div></div>
+    <div class="h_container">
+        <?php echo gettext('Host');?> <?php echo gettext('Health'); ?>: <?php echo round($health, 2); ?>% <br />
+        <div class="borderDiv">
+                <div class="healthmeter" style="background: rgb(<?php echo color_code(round($health,0)); ?>); width: <?php echo $health; ?>%;"></div>
+        </div>
+    </div>
 
-<?php
-    $Total = $servicesTotal;
-    $problems = $servicesProblemsTotal;
-    $health = (floatval($Total-$problems) / floatval($Total)) *100;
-    //$health = 30;
-?>
-    <div class='h_container'><?php echo gettext('Service');?> <?php echo gettext('Health'); ?>: <?php echo round($health,2); ?>% <br />
-                    <div class='borderDiv'>
-                    <div class='healthmeter' style='background: rgb(<?php echo color_code(round($health,0)); ?>); width: <?php echo $health; ?>%;'>
-                </div></div></div>
+    <?php
+        $total = $data['servicesTotal'];
+        $problems = $data['servicesProblemsTotal'];
+        $health = (floatval($total - $problems) / floatval($total)) * 100;
+    ?>
 
-</div> <!-- end health meters -->
+    <div class="h_container">
+        <?php echo gettext('Service');?> <?php echo gettext('Health'); ?>: <?php echo round($health, 2); ?>% <br />
+        <div class="borderDiv">
+            <div class="healthmeter" style="background: rgb(<?php echo color_code(round($health,0)); ?>); width: <?php echo $health; ?>%;"></div>
+        </div>
+    </div>
+
+</div>
 
 <?php echo hosts_table(); ?>
 
 <?php echo services_table(); ?>
 
-<!-- #####################SEARCH BOX####################-->
-<div class='resultFilter'>
-    <form id='resultfilterform' action='<?php echo $_SERVER['PHP_SELF']; ?>' method='get'>
-        <input type='hidden' name='type' value='services'>
-        <label class='label' for='name_filter'><?php echo gettext('Search String'); ?></label>
-        <input type='text' name='name_filter'></input>
-        <input type='submit' name='submitbutton' value='<?php echo gettext('Filter'); ?>' />
+<table class="tac">
+    <tbody>
+
+        <tr>
+            <th><?php echo gettext('Monitoring Features'); ?></th>
+        </tr>
+
+        <tr>
+            <td><?php echo gettext('Flap Detection'); ?></td>
+            <td><?php echo gettext('Notifications'); ?></td>
+            <td><?php echo gettext('Event Handlers'); ?></td>
+            <td><?php echo gettext('Active Checks'); ?></td>
+            <td><?php echo gettext('Passive Checks'); ?></td>
+        </tr>
+
+        <tr>
+
+            <!-- Flapping -->
+            <td class="green">
+                <?php echo $data['hostsFdHtml']; ?><br />
+                <?php echo $data['servicesFdHtml']; ?><br />
+                <?php echo $data['hostsFlapHtml']; ?><br />
+                <?php echo $data['servicesFlapHtml']; ?><br />
+            </td>
+
+            <!-- Notifications -->
+            <td class="green">
+                <?php echo $data['hostsNtfHtml']; ?><br />
+                <?php echo $data['servicesNtfHtml']; ?><br />
+            </td>
+
+            <!-- Event Handlers -->
+            <td class="green">
+                <?php echo $data['hostsEhHtml']; ?><br />
+                <?php echo $data['servicesEhHtml']; ?><br />
+            </td>
+
+            <!-- Active/Passive CHECKS -->
+            <td class="green">
+                <?php echo $data['hostsAcHtml']; ?><br />
+                <?php echo $data['servicesAcHtml']; ?><br />
+            </td>
+
+            <td class="green">
+                <?php echo $data['hostsPcHtml']; ?><br />
+                <?php echo $data['servicesPcHtml']; ?><br />
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+<div class="resultFilter">
+    <form id="resultfilterform" action="/<?php echo BASEURL; ?>/services" method="get">
+        <label class="label" for="name_filter"><?php echo gettext('Search Services'); ?></label>
+        <input type="text" name="name_filter"></input>
+        <input type="submit" name="submitbutton" value="<?php echo gettext('Filter'); ?>" />
     </form>
 </div>
 
-<!-- #####################ENABLED FEATURES TABLE ####################-->
-<table class='tac'>
-<tr><th><?php echo gettext('Monitoring Features'); ?></th></tr>
-<tr>
-    <td><?php echo gettext('Flap Detection'); ?></td><td><?php echo gettext('Notifications'); ?></td><td><?php echo gettext('Event Handlers'); ?></td>
-    <td><?php echo gettext('Active Checks'); ?></td><td><?php echo gettext('Passive Checks'); ?></td>
-</tr><tr>
-
-<!-- ///////////////////////FLAPPING//////////////////////////////// -->
-    <td class='green'>
-        <?php echo $hostsFdHtml; ?><br />
-         <?php echo $servicesFdHtml; ?><br />
-        <?php echo $hostsFlapHtml; ?><br />
-         <?php echo $servicesFlapHtml; ?><br />
-    </td>
-
-    <!-- /////////////////////////////NOTIFICATIONS/////////////////////////////// -->
-    <td class='green'>
-        <?php echo $hostsNtfHtml; ?><br />
-         <?php echo $servicesNtfHtml; ?><br />
-    </td>
-
-    <!-- ///////////////////////////////EVENT HANDLERS///////////////////////////// -->
-    <td class='green'>
-        <?php echo $hostsEhHtml; ?><br />
-         <?php echo $servicesEhHtml; ?><br />
-    </td>
-
-    <!-- /////////////////////////////////ACTIVE/PASSIVE CHECKS///////////////////////////	-->
-    <td class='green'>
-        <?php echo $hostsAcHtml; ?><br />
-         <?php echo $servicesAcHtml; ?><br />
-    </td>
-
-    <td class='green'>
-        <?php echo $hostsPcHtml; ?><br />
-         <?php echo $servicesPcHtml; ?><br />
-    </td>
-
-</tr>
-</table>
-<br />
-
-<?php
