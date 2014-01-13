@@ -1,4 +1,4 @@
-Implement IMAGESURL constant.
+Tackle config pages.
 
 Search results on all pages. Check ?name_filter= is working.
 

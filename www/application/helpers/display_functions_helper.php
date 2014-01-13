@@ -72,18 +72,18 @@ function build_nav_links()
     $navlinks .= '<li class="nav"><a href="index.php" class="nav" rel="internal">'.gettext('Tactical Overview').'</a></li>';
 
     //hosts
-    $navlinks .= "<li class='nav'><a href='".$base."/hosts' class='nav' rel='internal'>".gettext('Hosts')."</a></li>";
+    $navlinks .= '<li class="nav"><a href="'.$base.'/hosts" class="nav" rel="internal">'.gettext('Hosts').'</a></li>';
 
     //services
-    $navlinks .= "<li class='nav'><a href='".$base."/services' class='nav' rel='internal'>".gettext('Services')."</a></li>";
+    $navlinks .= '<li class="nav"><a href="'.$base.'/services" class="nav" rel="internal">'.gettext('Services').'</a></li>';
 
     //hostgroups
-    $navlinks .= "<li class='nav'><a href='".$base."/hostgroups' class='nav' rel='internal'>".gettext('Hostgroups')."</a></li>";
+    $navlinks .= '<li class="nav"><a href="'.$base.'/hostgroups" class="nav" rel="internal">'.gettext('Hostgroups').'</a></li>';
 
     //servicegroups
-    $navlinks .= "<li class='nav'><a href='".$base."/servicegroups' class='nav' rel='internal'>".gettext('Servicegroups')."</a></li>";
+    $navlinks .= '<li class="nav"><a href="'.$base.'/servicegroups" class="nav" rel="internal">'.gettext('Servicegroups').'</a></li>';
 
-    //OBJECT VIEWS
+    //Object Views
     if ($ci->nagios_user->if_has_authKey('authorized_for_configuration_information')) {
         //assuming full admin
 
@@ -228,7 +228,7 @@ function get_host_comments($host)
             $comments .= '<td>'.$comment['comment_data'].'</td>';
             $comments .= '<td>';
             $comments .= '<a href="'.CORECMD.'cmd_typ=2&com_id='.$comment["comment_id"].'" title="'.gettext("Delete Comment").'">';
-            $comments .= '<img class="iconLink" src="views/images/delete.png" alt="Delete" width="15" height="15" />';
+            $comments .= '<img class="iconLink" src="'.IMAGESURL.'/delete.png" alt="Delete" width="15" height="15" />';
             $comments .= '</a>';
             $comments .= '</td>';
             $comments .= '</tr>';
@@ -263,7 +263,7 @@ function get_service_comments($host, $service)
             $comments .= '<td>'.$comment['comment_data'].'</td>';
             $comments .= '<td>';
             $comments .= '<a href="'.CORECMD.'cmd_typ=4&com_id='.$comment['comment_id'].'" title="'.gettext('Delete Comment').'">';
-            $comments .= '<img class="iconLink" src="views/images/delete.png" alt="Delete" width="15" height="15" />';
+            $comments .= '<img class="iconLink" src="'.IMAGESURL.'/delete.png" alt="Delete" width="15" height="15" />';
             $comments .= '</a>';
             $comments .= '</td>';
             $comments .= '</tr>';

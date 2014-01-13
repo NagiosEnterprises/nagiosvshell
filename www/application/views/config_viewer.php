@@ -153,7 +153,7 @@ FILTERDIV;
         $confighead="
 
         <li class='configlist'>{$title} <a class='label' onclick='showHide(\"{$id}\")' href='javascript:void(0)'>
-        <img class='label' src='views/images/expand.gif' title='Show Config' alt='Image' height='12' width='12' />
+        <img class='label' src='".IMAGESURL."/expand.gif' title='Show Config' alt='Image' height='12' width='12' />
         </a></li>
 
         <div class='hidden' id='{$id}'>
