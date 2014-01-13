@@ -148,23 +148,23 @@
                     <tbody>
                         <tr>
                             <td class="<?php echo $details['ActiveChecks']; ?>"><?php echo gettext('Active Checks'); ?>: <?php echo $details['ActiveChecks']; ?></td>
-                            <td><a href="<?php echo $details['CmdActiveChecks']; ?>"><img src="views/images/action_small.gif" title="<?php echo gettext('Toggle Active Checks'); ?>" class="iconLink" height="12" width="12" alt="Toggle" /></a></td>
+                            <td><a href="<?php echo $details['CmdActiveChecks']; ?>"><img src="<?php echo IMAGESURL; ?>/action_small.gif" title="<?php echo gettext('Toggle Active Checks'); ?>" class="iconLink" height="12" width="12" alt="Toggle" /></a></td>
                         </tr>
                         <tr>
                             <td class="<?php echo $details['PassiveChecks']; ?>"><?php echo gettext('Passive Checks'); ?>: <?php echo $details['PassiveChecks']; ?></td>
-                            <td><a href="<?php echo $details['CmdPassiveChecks']; ?>"><img src="views/images/action_small.gif" title="<?php echo gettext('Toggle Passive Checks'); ?>" class="iconLink" height="12" width="12" alt="Toggle" /></a></td>
+                            <td><a href="<?php echo $details['CmdPassiveChecks']; ?>"><img src="<?php echo IMAGESURL; ?>/action_small.gif" title="<?php echo gettext('Toggle Passive Checks'); ?>" class="iconLink" height="12" width="12" alt="Toggle" /></a></td>
                         </tr>
                         <tr>
                             <td class="<?php echo $details['Obsession']; ?>"><?php echo gettext('Obsession'); ?>: <?php echo $details['Obsession']; ?></td>
-                            <td><a href="<?php echo $details['CmdObsession']; ?>"><img src="views/images/action_small.gif" title="<?php echo gettext('Toggle Obsession'); ?>" class="iconLink" height="12" width="12" alt="Toggle" /></a></td>
+                            <td><a href="<?php echo $details['CmdObsession']; ?>"><img src="<?php echo IMAGESURL; ?>/action_small.gif" title="<?php echo gettext('Toggle Obsession'); ?>" class="iconLink" height="12" width="12" alt="Toggle" /></a></td>
                         </tr>
                         <tr>
                             <td class="<?php echo $details['Notifications']; ?>"><?php echo gettext('Notifications'); ?>: <?php echo $details['Notifications']; ?></td>
-                            <td><a href="<?php echo $details['CmdNotifications']; ?>"><img src="views/images/action_small.gif" title="<?php echo gettext('Toggle Notifications'); ?>" class="iconLink" height="12" width="12" alt="Toggle" /></a></td>
+                            <td><a href="<?php echo $details['CmdNotifications']; ?>"><img src="<?php echo IMAGESURL; ?>/action_small.gif" title="<?php echo gettext('Toggle Notifications'); ?>" class="iconLink" height="12" width="12" alt="Toggle" /></a></td>
                         </tr>
                         <tr>
                             <td class="<?php echo $details['FlapDetection']; ?>"><?php echo gettext('Flap Detection'); ?>: <?php echo $details['FlapDetection']; ?></td>
-                            <td><a href="<?php echo $details['CmdFlapDetection']; ?>"><img src="views/images/action_small.gif" title="<?php echo gettext('Toggle Flap Detection'); ?>" class="iconLink" height="12" width="12" alt="Toggle" /></a></td>
+                            <td><a href="<?php echo $details['CmdFlapDetection']; ?>"><img src="<?php echo IMAGESURL; ?>/action_small.gif" title="<?php echo gettext('Toggle Flap Detection'); ?>" class="iconLink" height="12" width="12" alt="Toggle" /></a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -176,27 +176,27 @@
                 <table>
                     <tbody>
                         <tr>
-                            <td><a href="<?php echo $details['MapHost']; ?>" title="<?php echo gettext('Map Host'); ?>"><img src="views/images/statusmapballoon.png" class="iconLink" height="12" width="12" alt="Map" /></a></td>
+                            <td><a href="<?php echo $details['MapHost']; ?>" title="<?php echo gettext('Map Host'); ?>"><img src="<?php echo IMAGESURL; ?>/statusmapballoon.png" class="iconLink" height="12" width="12" alt="Map" /></a></td>
                             <td><?php echo gettext('Locate host on map'); ?></td>
                         </tr>
                         <tr>
-                            <td><a href="<?php echo $details['CmdCustomNotification']; ?>" title="<?php echo gettext('Send Custom Notification'); ?>"><img src="views/images/notification.gif" class="iconLink" height="12" width="12" alt="Notification" /></a></td>
+                            <td><a href="<?php echo $details['CmdCustomNotification']; ?>" title="<?php echo gettext('Send Custom Notification'); ?>"><img src="<?php echo IMAGESURL; ?>/notification.gif" class="iconLink" height="12" width="12" alt="Notification" /></a></td>
                             <td><?php echo gettext('Send custom notification'); ?></td>
                         </tr>
                         <tr>
-                            <td><a href="<?php echo $details['CmdScheduleDowntime']; ?>" title="<?php echo gettext('Schedule Downtime'); ?>"><img src="views/images/downtime.png" class="iconLink" height="12" width="12" alt="Downtime" /></a></td>
+                            <td><a href="<?php echo $details['CmdScheduleDowntime']; ?>" title="<?php echo gettext('Schedule Downtime'); ?>"><img src="<?php echo IMAGESURL; ?>/downtime.png" class="iconLink" height="12" width="12" alt="Downtime" /></a></td>
                             <td><?php echo gettext('Schedule downtime'); ?></td>
                         </tr>
                         <tr>
-                            <td><a href="<?php echo $details['CmdScheduleDowntimeAll']; ?>" title="<?php echo gettext('Schedule Recursive Downtime'); ?>"><img src="views/images/downtime.png" class="iconLink" height="12" width="12" alt="Downtime" /></a></td>
+                            <td><a href="<?php echo $details['CmdScheduleDowntimeAll']; ?>" title="<?php echo gettext('Schedule Recursive Downtime'); ?>"><img src="<?php echo IMAGESURL; ?>/downtime.png" class="iconLink" height="12" width="12" alt="Downtime" /></a></td>
                             <td><?php echo gettext('Schedule downtime for this host and all services'); ?></td>
                         </tr>
                         <tr>
-                            <td><a href="<?php echo $details['CmdScheduleChecks']; ?>" title="<?php echo gettext('Schedule Check'); ?>"><img src="views/images/schedulecheck.png" class="iconLink" height="12" width="12" alt="Schedule" /></a></td>
+                            <td><a href="<?php echo $details['CmdScheduleChecks']; ?>" title="<?php echo gettext('Schedule Check'); ?>"><img src="<?php echo IMAGESURL; ?>/schedulecheck.png" class="iconLink" height="12" width="12" alt="Schedule" /></a></td>
                             <td><?php echo gettext('Schedule a check for all services of this host'); ?></td>
                         </tr>
                         <tr>
-                            <td><a href="<?php echo $details['CmdAcknowledge']; ?>" title="<?php echo $details['AckTitle']; ?>"><img src="views/images/ack.png" class="iconLink" height="12" width="12" alt="Acknowledge" /></a></td>
+                            <td><a href="<?php echo $details['CmdAcknowledge']; ?>" title="<?php echo $details['AckTitle']; ?>"><img src="<?php echo IMAGESURL; ?>/ack.png" class="iconLink" height="12" width="12" alt="Acknowledge" /></a></td>
                             <td><?php echo $details['AckTitle']; ?></td>
                         </tr>
                         <tr>

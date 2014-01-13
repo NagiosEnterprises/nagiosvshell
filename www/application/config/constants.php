@@ -26,6 +26,7 @@ define('BASEURL', $conf_file['BASEURL']);
 define('SERVERBASE', 'http://localhost'); //http://<address> 
 define('DIRBASE', dirname(__FILE__)); //assigns current directory as root 
 define('STATICURL', '/'.BASEURL.'/static');
+define('IMAGESURL', STATICURL.'/images');
 
 // nagios core locations 
 define('COREURL', '/'.$conf_file['COREURL']); //Nagios core web URL 

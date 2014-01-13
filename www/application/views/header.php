@@ -79,7 +79,7 @@
 <header>
 
     <div id="logoDiv">
-        <a href="/<?php echo BASEURL; ?>"><img src="<?php echo STATICURL; ?>/images/vshell.png"/></a>
+        <a href="/<?php echo BASEURL; ?>"><img src="<?php echo IMAGESURL; ?>/vshell.png"/></a>
     </div>
 
     <div class="corelink">
