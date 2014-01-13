@@ -48,51 +48,119 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-    $page="
+?>
 
-    <h3>".gettext('Service Status Detail')."</h3>
-    <div class='detailWrapper'>
+    <h3><?php gettext('Service Status Detail'); ?></h3>
 
-    <h4><em>".gettext('Service').": </em>{$details['Service']}</h4>
-    <h4><em>".gettext('Host').": </em><a href='/".BASEURL."/details/host/{$details['Host']}' title='".gettext('Host Details')."'>{$details['Host']}</a></h4>
-    <h5><em>".gettext('Member of').": </em>{$details['MemberOf']}</h5>
-    <h6><em><a href='/".BASEURL."/services?host_filter={$details['Host']}' title='".gettext('See All Services For This Host')."'>".gettext('See All Services For This Host')."</a></h6>
+    <div class="detailWrapper">
 
-    <div class='detailcontainer'>
-    <fieldset class='servicedetails'>
-    <legend>".gettext('Advanced Details')."</legend>
-    <table class='details'>
-        <tr><td>".gettext('Service State')."</td><td class='{$details['State']}'>{$details['State']}</td></tr>
-    ";
-    if(! $is_authorized) {
-        $page .="<tr><td>".gettext('Check Command')."</td><td><div class='td_maxwidth'>{$details['CheckCommand']}</div></td></tr>";
-    }
+        <h4>
+            <em><?php echo gettext('Service'); ?>: </em>
+            <?php echo $details['Service']; ?>
+        </h4>
 
-    $page.="
-        <tr><td>".gettext('Plugin Output')."</td><td><div class='td_maxwidth'>{$details['Output']}</div></td></tr>
-        <tr><td>".gettext('Duration')."</td><td>{$details['Duration']}</td></tr>
-        <tr><td>".gettext('State Type')."</td><td>{$details['StateType']}</td></tr>
-        <tr><td>".gettext('Current Check')."</td><td>{$details['CurrentCheck']}</td></tr>
-        <tr><td>".gettext('Last Check')."</td><td>{$details['LastCheck']}</td></tr>
-        <tr><td>".gettext('Next Check')."</td><td>{$details['NextCheck']}</td></tr>
-        <tr><td>".gettext('Last State Change')."</td><td>{$details['LastStateChange']}</td></tr>
-        <tr><td>".gettext('Last Notification')."</td><td>{$details['LastNotification']}</td></tr>
-        <tr><td>".gettext('Check Type')."</td><td>{$details['CheckType']}</td></tr>
-        <tr><td>".gettext('Check Latency')."</td><td>{$details['CheckLatency']}</td></tr>
-        <tr><td>".gettext('Execution Time')."</td><td>{$details['ExecutionTime']}</td></tr>
-        <tr><td>".gettext('State Change')."</td><td>{$details['StateChange']}</td></tr>
-        <tr><td>".gettext('Performance Data')."</td><td><div class='td_maxwidth'>{$details['PerformanceData']}</div></td></tr>
+        <h4>
+            <em><?php echo gettext('Host'); ?>: </em>
+            <a href='/<?php echo BASEURL; ?>/details/host/<?php echo $details['Host']; ?>' title='<?php echo gettext('Host Details'); ?>'><?php echo $details['Host']; ?></a>
+        </h4>
 
-    </table>
+        <h5>
+            <em><?php echo gettext('Member of'); ?>: </em>
+            <?php echo $details['MemberOf']; ?>
+        </h5>
 
-    </fieldset>
-    </div><!-- end detailcontainer -->
+        <h6>
+            <em><a href="/<?php echo BASEURL; ?>/services?host_filter=<?php echo $details['Host']; ?>" title="<?php echo gettext('See All Services For This Host'); ?>"><?php echo gettext('See All Services For This Host'); ?></a>
+        </h6>
 
-    <div class='rightContainer'>
-    ";
+        <div class="detailcontainer">
+            <fieldset class="servicedetails">
+                <legend><?php echo gettext('Advanced Details'); ?></legend>
+                <table class="details">
+                    <tbody>
+                        <tr>
+                            <td><?php echo gettext('Service State'); ?></td>
+                            <td class="<?php echo $details['State']; ?>"><?php echo $details['State']; ?></td>
+                        </tr>
+
+                        <?php if (! $is_authorized): ?>
+
+                        <tr>
+                            <td><?php echo gettext('Check Command'); ?></td>
+                            <td>
+                                <div class="td_maxwidth"><?php echo $details['CheckCommand']; ?></div>
+                            </td>
+                        </tr>
+
+                        <?php endif; ?>
+
+                        <tr>
+                            <td><?php echo gettext('Plugin Output'); ?></td>
+                            <td>
+                                <div class='td_maxwidth'><?php echo $details['Output']; ?></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Duration'); ?></td>
+                            <td><?php echo $details['Duration']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('State Type'); ?></td>
+                            <td><?php echo $details['StateType']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Current Check'); ?></td>
+                            <td><?php echo $details['CurrentCheck']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Last Check'); ?></td>
+                            <td><?php echo $details['LastCheck']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Next Check'); ?></td>
+                            <td><?php echo $details['NextCheck']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Last State Change'); ?></td>
+                            <td><?php echo $details['LastStateChange']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Last Notification'); ?></td>
+                            <td><?php echo $details['LastNotification']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Check Type'); ?></td>
+                            <td><?php echo $details['CheckType']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Check Latency'); ?></td>
+                            <td><?php echo $details['CheckLatency']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Execution Time'); ?></td>
+                            <td><?php echo $details['ExecutionTime']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('State Change'); ?></td>
+                            <td><?php echo $details['StateChange']; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo gettext('Performance Data'); ?></td>
+                            <td>
+                                <div class="td_maxwidth"><?php echo $details['PerformanceData']; ?></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
+
+        <div class="rightContainer">
+
+    <?php
 
     if ($is_authorized) {
-    $page.="
+    $page ="
         <fieldset class='attributes'>
         <legend>".gettext('Service Attributes')."</legend>
         <table>
