@@ -1,5 +1,7 @@
 Implement IMAGESURL constant.
 
+Search results on all pages. Check ?name_filter= is working.
+
 Fix header.inc.js file
 
 Update location of vshell.conf in www/application/config/constants to be dynamic
