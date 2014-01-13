@@ -2,6 +2,24 @@ Tackle config pages.
 
 Search results on all pages. Check ?name_filter= is working.
 
+## Controllers
+
+Build commands.php file. Is this file needed?
+
+Build configuration.php file. Is this file needed?
+
+Build reports.php file.
+
+Build system.php file. Is this file needed?
+
+Deprecate unused functions in status.php.
+
+## Views
+
+Check views/xml.php file. Does not seem to be used. Move functions to helper file instead and deprecate functions. Also look into tac_xml output.
+
+## Other
+
 Fix header.inc.js file
 
 Update location of vshell.conf in www/application/config/constants to be dynamic
