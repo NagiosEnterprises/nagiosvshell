@@ -7,11 +7,3 @@ Update location of vshell.conf in www/application/config/constants to be dynamic
 ## 404 Page
 
 Change default CI 404 page
-
-## Cleanup
-
-Remove application/views/views.inc.php. First make sure these files are loaded elsewhere.
-
-Remove application/views/display_functions.php. There is a helper file by the same name. The view does not appear to be used.
-
-Remove application/views/fetch_icons.php. There is a helper file by the same name. The view does not appear to be used.
