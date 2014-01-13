@@ -155,7 +155,6 @@
             </fieldset>
         </div>
 
-
         <?php if ($is_authorized) : ?>
 
         <div class="rightContainer">
