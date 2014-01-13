@@ -78,16 +78,17 @@ function process_state_filter($filter_str)
 {
     $ret_filter = NULL;
     $filter_str = strtoupper($filter_str);
-    $valid_states = array(  'UP',
-                            'DOWN',
-                            'UNREACHABLE',
-                            'OK',
-                            'CRITICAL',
-                            'WARNING',
-                            'UNKNOWN',
-                            'PENDING',
-                            'PROBLEMS','UNHANDLED',
-                            'ACKNOWLEDGED'
+    $valid_states = array(
+        'UP',
+        'DOWN',
+        'UNREACHABLE',
+        'OK',
+        'CRITICAL',
+        'WARNING',
+        'UNKNOWN',
+        'PENDING',
+        'PROBLEMS','UNHANDLED',
+        'ACKNOWLEDGED'
     );
 
     if (in_array($filter_str, $valid_states)) {
@@ -108,14 +109,15 @@ function process_objtype_filter($filter_str)
 {
     $ret_filter = NULL;
     $filter_str = strtolower($filter_str);
-    $valid_objtypes = array('hosts_objs',
-                            'services_objs',
-                            'hostgroups_objs',
-                            'servicegroups_objs',
-                            'timeperiods',
-                            'contacts',
-                            'contactgroups',
-                            'commands'
+    $valid_objtypes = array(
+        'hosts_objs',
+        'services_objs',
+        'hostgroups_objs',
+        'servicegroups_objs',
+        'timeperiods',
+        'contacts',
+        'contactgroups',
+        'commands'
     );
 
     if (in_array($filter_str, $valid_objtypes)) {
