@@ -1,5 +1,7 @@
 <?php
 
+# TODO: Deprecated, see fetch_icons helper file.
+
 // fetch_icons.php
 // separate function to grab all icons for host and service tables
 

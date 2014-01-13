@@ -1,3 +1,5 @@
+Implement IMAGESURL constant.
+
 Clean up servicedetails view files.
 
 Fix header.inc.js file
@@ -13,3 +15,5 @@ Change default CI 404 page
 Remove application/views/views.inc.php. First make sure these files are loaded elsewhere.
 
 Remove application/views/display_functions.php. There is a helper file by the same name. The view does not appear to be used.
+
+Remove application/views/fetch_icons.php. There is a helper file by the same name. The view does not appear to be used.
