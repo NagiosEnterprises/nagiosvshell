@@ -64,7 +64,14 @@ class Status extends CI_Controller
 
     public function index()
     {
-        $data = $this->tac_data->get_tac_data();
+        $tac_data = $this->tac_data->get_tac_data();
+        $username = $this->nagios_user->get_username();
+
+        $data = array(
+            'data'     => $tac_data,
+            'username' => $username,
+        );
+
         $this->load->view('header');
         $this->load->view('tac', $data);
         $this->load->view('footer');
