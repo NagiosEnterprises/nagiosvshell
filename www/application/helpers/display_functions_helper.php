@@ -63,10 +63,8 @@ function build_nav_links()
     //generate links based on permissions
     $base = '/'.BASEURL;
 
-    $navlinks = "";
-
     //NAV LINKS	 are added to a floated <ul>
-    $navlinks .= '<ul class="nav">';
+    $navlinks  = '<ul class="nav">';
 
     //default tactical overview link
     $navlinks .= '<li class="nav"><a href="'.$base.'" class="nav" rel="internal">'.gettext('Tactical Overview').'</a></li>';
