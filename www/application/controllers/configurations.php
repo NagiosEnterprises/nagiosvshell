@@ -59,12 +59,13 @@ class Configurations extends CI_Controller
     {
         $name_filter = $this->input->get('name_filter');
         $objtype_filter = $this->input->get('objtype_filter');
-        $type = $this->input->get('type');
+
+        $object_data = object_data($objtype_filter, $name_filter);
 
         $data = array(
             'name_filter'    => $name_filter,
             'objtype_filter' => $objtype_filter,
-            'type'           => $type,
+            'data'           => $object_data,
         );
 
         $this->load->view('header');

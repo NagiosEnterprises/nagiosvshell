@@ -77,7 +77,7 @@
         $linkkey = '';
 
         //change variables based on type of object being viewed
-        switch ($arg) {
+        switch ($objtype_filter) {
             case 'hosts_objs':
                 $name = $a['host_name'];
                 $linkkey = 'host'.$a['host_name'];

@@ -1,4 +1,6 @@
-Tackle config pages.
+Change objtype_filter from GET variable to uri element configurations/hosts, etc.
+
+Cleanup configurations view.
 
 Search results on all pages. Check ?name_filter= is working.
 
