@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Configuration extends CI_Controller
+class Configurations extends CI_Controller
 {
     // Nagios V-Shell
     // Copyright (c) 2010 Nagios Enterprises, LLC.
@@ -57,8 +57,18 @@ class Configuration extends CI_Controller
 
     public function index()
     {
+        $name_filter = $this->input->get('name_filter');
+        $objtype_filter = $this->input->get('objtype_filter');
+        $type = $this->input->get('type');
+
+        $data = array(
+            'name_filter'    => $name_filter,
+            'objtype_filter' => $objtype_filter,
+            'type'           => $type,
+        );
+
         $this->load->view('header');
-        $this->load->view('hosts');
+        $this->load->view('configurations', $data);
         $this->load->view('footer');
     }
 }
