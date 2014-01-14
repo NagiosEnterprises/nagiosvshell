@@ -1,3 +1,4 @@
+
 Tackle config pages.
 
 Search results on all pages. Check ?name_filter= is working.
@@ -12,7 +13,7 @@ Build reports.php file.
 
 Build system.php file. Is this file needed?
 
-Deprecate unused functions in status.php.
+Remove deprecated code in controllers/status. As a result remove orphaned helpers/output_functions_helper as well.
 
 ## Views
 

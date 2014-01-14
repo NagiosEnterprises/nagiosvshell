@@ -50,12 +50,13 @@ class Status extends CI_Controller
     // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION
     // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-    public $state_filter;
-    public $name_filter;
-    public $type;
-    public $mode;
-    public $host_filter;
-    public $objtype_filter;
+    // TODO: Deprecated
+    // public $state_filter;
+    // public $name_filter;
+    // public $type;
+    // public $mode;
+    // public $host_filter;
+    // public $objtype_filter;
 
     public function __construct()
     {
@@ -77,164 +78,165 @@ class Status extends CI_Controller
         $this->load->view('footer');
     }
 
-    public function overview()
-    {
-        //create function to return tac data as an array
-        $html_output_function = 'get_tac_html';
-    }
+    // TODO: Deprecated
+    // public function overview()
+    // {
+    //     //create function to return tac data as an array
+    //     $html_output_function = 'get_tac_html';
+    // }
 
-    public function hosts()
-    {
-        $state_filter = process_state_filter(htmlentities($_GET['state_filter']));
-        $name_filter = process_name_filter(htmlentities($_GET['name_filter']), ENT_QUOTES);
-        $data = hosts_and_services_data($type, $state_filter, $name_filter, $host_filter);
-        $html_output_function = 'hosts_and_services_output';
-    }
+    // public function hosts()
+    // {
+    //     $state_filter = process_state_filter(htmlentities($_GET['state_filter']));
+    //     $name_filter = process_name_filter(htmlentities($_GET['name_filter']), ENT_QUOTES);
+    //     $data = hosts_and_services_data($type, $state_filter, $name_filter, $host_filter);
+    //     $html_output_function = 'hosts_and_services_output';
+    // }
 
-    public function services()
-    {
-        $state_filter = process_state_filter(htmlentities($_GET['state_filter']));
-        $name_filter = process_name_filter(htmlentities($_GET['name_filter']), ENT_QUOTES);
-        $host_filter = htmlentities($_GET['host_filter'], ENT_QUOTES);
-        $data = hosts_and_services_data($type, $state_filter, $name_filter, $host_filter);
-        $html_output_function = 'hosts_and_services_output';
-    }
+    // public function services()
+    // {
+    //     $state_filter = process_state_filter(htmlentities($_GET['state_filter']));
+    //     $name_filter = process_name_filter(htmlentities($_GET['name_filter']), ENT_QUOTES);
+    //     $host_filter = htmlentities($_GET['host_filter'], ENT_QUOTES);
+    //     $data = hosts_and_services_data($type, $state_filter, $name_filter, $host_filter);
+    //     $html_output_function = 'hosts_and_services_output';
+    // }
 
-    public function hostdetail()
-    {
-        $data = host_and_service_detail_data($type, $name_filter);
-        if(!$data) send_home(); //bail if not authorized
-        $html_output_function = 'host_and_service_detail_output';
-    }
+    // public function hostdetail()
+    // {
+    //     $data = host_and_service_detail_data($type, $name_filter);
+    //     if(!$data) send_home(); //bail if not authorized
+    //     $html_output_function = 'host_and_service_detail_output';
+    // }
 
-    public function servicedetail()
-    {
-        $data = host_and_service_detail_data($type, $name_filter);
-        if(!$data) send_home(); //bail if not authorized
-        $html_output_function = 'host_and_service_detail_output';
-    }
+    // public function servicedetail()
+    // {
+    //     $data = host_and_service_detail_data($type, $name_filter);
+    //     if(!$data) send_home(); //bail if not authorized
+    //     $html_output_function = 'host_and_service_detail_output';
+    // }
 
-    public function hostgroups()
-    {
-        $data = hostgroups_and_servicegroups_data($type, $name_filter);
-        $html_output_function = 'hostgroups_and_servicegroups_output';
-    }
+    // public function hostgroups()
+    // {
+    //     $data = hostgroups_and_servicegroups_data($type, $name_filter);
+    //     $html_output_function = 'hostgroups_and_servicegroups_output';
+    // }
 
-    public function servicegroups()
-    {
-        $data = hostgroups_and_servicegroups_data($type, $name_filter);
-        $html_output_function = 'hostgroups_and_servicegroups_output';
-    }
+    // public function servicegroups()
+    // {
+    //     $data = hostgroups_and_servicegroups_data($type, $name_filter);
+    //     $html_output_function = 'hostgroups_and_servicegroups_output';
+    // }
 
-    public function objectdetail()
-    {
-        $objtype_filter  = process_objtype_filter(htmlentities($_GET['objtype_filter']));
-        if ($NagiosUser->if_has_authKey('authorized_for_configuration_information')) { //only administrative users should be able to see config info
-            $data = object_data($objtype_filter, $name_filter);
-            $type = $objtype_filter;
-            $html_output_function = 'object_output';
-        }
-    }
+    // public function objectdetail()
+    // {
+    //     $objtype_filter  = process_objtype_filter(htmlentities($_GET['objtype_filter']));
+    //     if ($NagiosUser->if_has_authKey('authorized_for_configuration_information')) { //only administrative users should be able to see config info
+    //         $data = object_data($objtype_filter, $name_filter);
+    //         $type = $objtype_filter;
+    //         $html_output_function = 'object_output';
+    //     }
+    // }
 
-    public function backend()
-    {
-        $xmlout = tac_xml(get_tac_data());
+    // public function backend()
+    // {
+    //     $xmlout = tac_xml(get_tac_data());
 
-        switch ($mode) {
-            case 'html':
-            default:
-                $output =  mode_header($mode);
-                $output .= $html_output_function($type, $data, $mode);
-                $output .= mode_footer($mode);
-            break;
+    //     switch ($mode) {
+    //         case 'html':
+    //         default:
+    //             $output =  mode_header($mode);
+    //             $output .= $html_output_function($type, $data, $mode);
+    //             $output .= mode_footer($mode);
+    //         break;
 
-            case 'json':
-                header('Content-type: application/json');
-                $output = json_encode($data);
-            break;
+    //         case 'json':
+    //             header('Content-type: application/json');
+    //             $output = json_encode($data);
+    //         break;
 
-                    case 'jsonp':
-                            if (isset($_GET['callback']) && is_valid_callback($_GET['callback'])) { $callback_name = $_GET['callback']; }
-                            if (isset($_GET['jsonp']) && is_valid_callback($_GET['jsonp']) ) { $callback_name = $_GET['jsonp']; }
-                            if (!isset($callback_name)) { $callback_name = 'callback'; }
+    //                 case 'jsonp':
+    //                         if (isset($_GET['callback']) && is_valid_callback($_GET['callback'])) { $callback_name = $_GET['callback']; }
+    //                         if (isset($_GET['jsonp']) && is_valid_callback($_GET['jsonp']) ) { $callback_name = $_GET['jsonp']; }
+    //                         if (!isset($callback_name)) { $callback_name = 'callback'; }
 
-                            header('Content-type: application/json-p');
-                            $output = $callback_name . '(' . json_encode($data) . ');';
-                    break;
+    //                         header('Content-type: application/json-p');
+    //                         $output = $callback_name . '(' . json_encode($data) . ');';
+    //                 break;
 
-            case 'xml':
-                if ($type!='backend') {
-                    require_once(DIRBASE.'/views/xml.php');
-                    $title = ucwords($type);
-                    build_xml_page($data, $title);
-                    header('Location: '.BASEURL.'tmp/'.$title.'.xml');
-                }
-                header('Content-type: text/xml');
-                if($type=='backend') echo $xmlout; //xml backend access for nagios fusion
-                    #$output = build_xml_data($data, $title);
-            break;
+    //         case 'xml':
+    //             if ($type!='backend') {
+    //                 require_once(DIRBASE.'/views/xml.php');
+    //                 $title = ucwords($type);
+    //                 build_xml_page($data, $title);
+    //                 header('Location: '.BASEURL.'tmp/'.$title.'.xml');
+    //             }
+    //             header('Content-type: text/xml');
+    //             if($type=='backend') echo $xmlout; //xml backend access for nagios fusion
+    //                 #$output = build_xml_data($data, $title);
+    //         break;
 
-        }
-    }
+    //     }
+    // }
 
-    public function mode_header($mode)
-    {
-        $retval = '';
-        switch ($mode) {
-            case 'html':
-            default:
-                $page_title = 'Nagios Visual Shell';
-                include(DIRBASE.'/views/header.php');  //html head
-                $retval = display_header($page_title);
-            break;
-        }
+    // public function mode_header($mode)
+    // {
+    //     $retval = '';
+    //     switch ($mode) {
+    //         case 'html':
+    //         default:
+    //             $page_title = 'Nagios Visual Shell';
+    //             include(DIRBASE.'/views/header.php');  //html head
+    //             $retval = display_header($page_title);
+    //         break;
+    //     }
 
-        return $retval;
-    }
+    //     return $retval;
+    // }
 
-    public function mode_footer($mode)
-    {
-        $retval = '';
-        switch ($mode) {
-            case 'html':
-            default:
-                include(DIRBASE.'/views/footer.php');  //html head
-                $retval = display_footer();
-            break;
-        }
+    // public function mode_footer($mode)
+    // {
+    //     $retval = '';
+    //     switch ($mode) {
+    //         case 'html':
+    //         default:
+    //             include(DIRBASE.'/views/footer.php');  //html head
+    //             $retval = display_footer();
+    //         break;
+    //     }
 
-        return $retval;
-    }
+    //     return $retval;
+    // }
 
-    public function get_pagination_values()
-    {
-        $start = isset($_GET['start']) ? htmlentities($_GET['start']) : 0;
-        $limit = isset($_COOKIE['limit']) ? $_COOKIE['limit'] : RESULTLIMIT;
-        if (isset($_POST['pagelimit'])) {
-            //set a site-wide cookie for the display limit
-            setcookie('limit', $_POST['pagelimit']);
-            $limit = $_POST['pagelimit'];
-        }
+    // public function get_pagination_values()
+    // {
+    //     $start = isset($_GET['start']) ? htmlentities($_GET['start']) : 0;
+    //     $limit = isset($_COOKIE['limit']) ? $_COOKIE['limit'] : RESULTLIMIT;
+    //     if (isset($_POST['pagelimit'])) {
+    //         //set a site-wide cookie for the display limit
+    //         setcookie('limit', $_POST['pagelimit']);
+    //         $limit = $_POST['pagelimit'];
+    //     }
 
-        return array($start, $limit);
-    }
+    //     return array($start, $limit);
+    // }
 
-    public function is_valid_callback($subject)
-    {
-        $identifier_syntax = '/^[$_\p{L}][$_\p{L}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\x{200C}\x{200D}]*+$/u';
+    // public function is_valid_callback($subject)
+    // {
+    //     $identifier_syntax = '/^[$_\p{L}][$_\p{L}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\x{200C}\x{200D}]*+$/u';
 
-        $reserved_words = array(
-            'break', 'do', 'instanceof', 'typeof', 'case',
-            'else', 'new', 'var', 'catch', 'finally', 'return', 'void', 'continue',
-            'for', 'switch', 'while', 'debugger', 'function', 'this', 'with',
-            'default', 'if', 'throw', 'delete', 'in', 'try', 'class', 'enum',
-            'extends', 'super', 'const', 'export', 'import', 'implements', 'let',
-            'private', 'public', 'yield', 'interface', 'package', 'protected',
-            'static', 'null', 'true', 'false');
+    //     $reserved_words = array(
+    //         'break', 'do', 'instanceof', 'typeof', 'case',
+    //         'else', 'new', 'var', 'catch', 'finally', 'return', 'void', 'continue',
+    //         'for', 'switch', 'while', 'debugger', 'function', 'this', 'with',
+    //         'default', 'if', 'throw', 'delete', 'in', 'try', 'class', 'enum',
+    //         'extends', 'super', 'const', 'export', 'import', 'implements', 'let',
+    //         'private', 'public', 'yield', 'interface', 'package', 'protected',
+    //         'static', 'null', 'true', 'false');
 
-        return preg_match($identifier_syntax, $subject)
-            && ! in_array(mb_strtolower($subject, 'UTF-8'), $reserved_words);
-    }
+    //     return preg_match($identifier_syntax, $subject)
+    //         && ! in_array(mb_strtolower($subject, 'UTF-8'), $reserved_words);
+    // }
 }
 
 /* End of file status.php */
