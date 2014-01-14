@@ -76,10 +76,22 @@ function coarse_time_calculation($duration)
     $seconds = (int) $remaining_duration;
 
     $retval = '';
-    if ($days > 0) { $retval .= sprintf('%d%s', $days,'d-'); }
-    if ($hours > 0 || $days > 0) { $retval .= sprintf('%d%s', $hours, 'h-'); }
-    if ($minutes > 0 || $days > 0 || $hours > 0) { $retval .= sprintf('%d%s', $minutes, 'm-'); }
-    if ($seconds > 0 || $minutes > 0 || $days > 0 || $hours > 0) { $retval .= sprintf('%d%s', $seconds,'s'); }
+
+    if ($days > 0) {
+        $retval .= sprintf('%d%s', $days,'d-');
+    }
+
+    if ($hours > 0 || $days > 0) {
+        $retval .= sprintf('%d%s', $hours, 'h-');
+    }
+
+    if ($minutes > 0 || $days > 0 || $hours > 0) {
+        $retval .= sprintf('%d%s', $minutes, 'm-');
+    }
+
+    if ($seconds > 0 || $minutes > 0 || $days > 0 || $hours > 0) {
+        $retval .= sprintf('%d%s', $seconds,'s');
+    }
 
     return $retval;
 }
@@ -137,8 +149,12 @@ function process_service_status_keys(&$data)
     static $serviceindex = 0;
 
     $data['serviceID'] = 'service'.$serviceindex++;
-    //print "$serviceindex<br />";
-    $service_states = array( 0 => 'OK', 1 => 'WARNING', 2 => 'CRITICAL', 3 => 'UNKNOWN' );
+    $service_states = array(
+        0 => 'OK',
+        1 => 'WARNING',
+        2 => 'CRITICAL',
+        3 => 'UNKNOWN'
+    );
 
     //added conditions for pending state -MG
     if ($data['current_state'] == 0 && $data['last_check'] == 0) {
