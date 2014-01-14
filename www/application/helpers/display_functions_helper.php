@@ -69,7 +69,7 @@ function build_nav_links()
     $navlinks .= '<ul class="nav">';
 
     //default tactical overview link
-    $navlinks .= '<li class="nav"><a href="index.php" class="nav" rel="internal">'.gettext('Tactical Overview').'</a></li>';
+    $navlinks .= '<li class="nav"><a href="'.$base.'" class="nav" rel="internal">'.gettext('Tactical Overview').'</a></li>';
 
     //hosts
     $navlinks .= '<li class="nav"><a href="'.$base.'/hosts" class="nav" rel="internal">'.gettext('Hosts').'</a></li>';
