@@ -85,7 +85,7 @@ class Details extends CI_Controller
     public function service()
     {
         $servicename = $this->uri->segment(3);
-        if (! $servicename) {
+        if ($servicename === False) {
             header('location:/'.BASEURL);
             exit();
         }
