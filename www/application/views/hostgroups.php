@@ -102,7 +102,7 @@
                 </tr>
             </table>';
 
-        $page .= '<p class="label"><a onclick="showHide('.$id.')" href="javascript:void(0)">Toggle Grid</a></p>';
+        $page .= '<p class="label"><a onclick="showHide(\''.$id.'\')" href="javascript:void(0)">Toggle Grid</a></p>';
 
         //details table in GRID view
         $page .= '<div class="hidden" id="'.$id.'">';
