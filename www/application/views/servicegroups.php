@@ -88,7 +88,7 @@
             </table>
         ';
 
-        $page .= '<p class="label"><a onclick="showHide("'.$group.'")" href="javascript:void(0)">'.gettext('Toggle Grid').'</a></p>';
+        $page .= '<p class="label"><a onclick="showHide(\''.$group.'\')" href="javascript:void(0)">'.gettext('Toggle Grid').'</a></p>';
 
         //details table in GRID view
         $grid_rows = array();
