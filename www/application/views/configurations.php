@@ -70,7 +70,6 @@
     <?php 
 
     $id = 0;
-    // TODO: Verify this service_count works as expected. 
     $service_count = 0;
     $object_list = '';
 

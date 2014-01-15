@@ -20,8 +20,6 @@ Check views/xml.php file. Does not seem to be used. Move functions to helper fil
 
 ## Other
 
-Fix header.inc.js file
-
 Add logo images
 
 Update location of vshell.conf in www/application/config/constants to be dynamic
