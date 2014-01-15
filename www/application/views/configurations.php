@@ -87,13 +87,13 @@
             break;
 
             case 'services_objs':
-                $service_count++;
                 $name = $a['service_description'];
                 $host = $a['host_name'];
                 $hlink = htmlentities('/'.BASEURL.'/details/host/'.urlencode($host));
                 $link = htmlentities('/'.BASEURL.'/details/service/'.$service_count);
                 $title = gettext('Host').': <a href="'.$hlink.'" title="Host Details">'.$host.'</a>'.
                          gettext('Service').':<a href="'.$link.'" title="Service Details">'.$name.'</a>';
+                $service_count++;
             break;
 
             case 'commands':
