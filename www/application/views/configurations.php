@@ -65,116 +65,108 @@
     */ 
     ?>
 
+<ul class="configlist">
+
     <?php 
 
-    $count = 0;
-    $object_list = '<ul class="configlist">';
+    $id = 0;
+    // TODO: Verify this service_count works as expected. 
+    $service_count = 0;
+    $object_list = '';
 
     foreach ($data as $a) {
 
-        //default for no permissions
-        $title = '';
-        $linkkey = '';
+        $id++;
 
         //change variables based on type of object being viewed
         switch ($objtype_filter) {
             case 'hosts_objs':
                 $name = $a['host_name'];
-                $linkkey = 'host'.$a['host_name'];
-                #$link = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$name);
-                $link = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter=').urlencode($name);
-                $title = gettext('Host').": <a href='$link' title='Host Details'>$name</a>";
+                $link = htmlentities('/'.BASEURL.'/details/host/'.urlencode($name));
+                $title = gettext('Host').': <a href="'.$link.'" title="Host Details">'.$name.'</a>';
             break;
 
             case 'services_objs':
-                $count++;
-                $name=$a['service_description'];
-                $linkkey = 'service'.$count;
+                $service_count++;
+                $name = $a['service_description'];
                 $host = $a['host_name'];
-                #$hlink = htmlentities(BASEURL.'index.php?cmd=gethostdetail&arg='.$host);
-                $hlink = htmlentities(BASEURL.'index.php?type=hostdetail&name_filter=').urlencode($host);
-                #$link = htmlentities(BASEURL.'index.php?cmd=getservicedetail&arg='.$linkkey);
-                $link = htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$linkkey);
-                $title = gettext('Host').": <a href='$hlink' title='Host Details'>$host</a>
-                            ".gettext('Service').":<a href='$link' title='Service Details'>$name</a>";
-
+                $hlink = htmlentities('/'.BASEURL.'/details/host/'.urlencode($host));
+                $link = htmlentities('/'.BASEURL.'/details/service/'.$service_count);
+                $title = gettext('Host').': <a href="'.$hlink.'" title="Host Details">'.$host.'</a>'.
+                         gettext('Service').':<a href="'.$link.'" title="Service Details">'.$name.'</a>';
             break;
 
             case 'commands':
-                $name=$a['command_name'];
+                $name = $a['command_name'];
                 $title = gettext('Command').": $name";
-                $linkkey = $name;
             break;
 
             case 'hostgroups_objs':
-                $name=$a['hostgroup_name'];
+                $name = $a['hostgroup_name'];
                 $title = gettext('Group Name').": $name";
-                $linkkey = 'hg'.$name;
             break;
 
             case 'servicegroups_objs':
-                $name=$a['servicegroup_name'];
+                $name = $a['servicegroup_name'];
                 $title = gettext('Group Name').": $name";
-                $linkkey = 'sg'.$name;
             break;
 
             case 'timeperiods':
-                $name=$a['timeperiod_name'];
+                $name = $a['timeperiod_name'];
                 $title = gettext('Timeperiod').": $name";
-                $linkkey = 'tp'.$name;
             break;
 
             case 'contacts':
-                $name=$a['contact_name'];
+                $name = $a['contact_name'];
                 $title = gettext('Contact').": $name";
-                $linkkey = $name;
             break;
 
             case 'contactgroups':
-                $name=$a['contactgroup_name'];
+                $name = $a['contactgroup_name'];
                 $title = gettext('Contact Group').": $name";
-                $linkkey = $name;
             break;
 
             default:
-                $title = gettext('Access Denied').'<br />';
-                $linkkey = gettext('You do not have permissions to view this information');
             break;
 
         }
 
-        //replacing dots with underscores
-        $id = preg_replace('/[\. ]/', '_', $linkkey);
-
-        $confighead = "
-
-        <li class='configlist'>{$title} <a class='label' onclick='showHide(\"{$id}\")' href='javascript:void(0)'>
-        <img class='label' src='".IMAGESURL."/expand.gif' title='Show Config' alt='Image' height='12' width='12' />
-        </a></li>
-
-        <div class='hidden' id='{$id}'>
-
-        <table class='objectList'>
-        <tr><th>".gettext('Config')."</th><th>".gettext('Value')."</th></tr>
-
-        ";
-
-        if ($title != '') { //only display if authorized
-            $object_list .= $confighead;
-
-            //print raw config data into a table
-            foreach ($a as $key => $value) {
-                $object_list .= '
-                    <tr class="objectList">
-                        <td>'.$key.'</td>
-                        <td>'.$value.'</td>
-                    </tr>
-                ';
-            }
-            $object_list .= "</table></div>";
+        //print raw config data into a table
+        $data_rows = array();
+        foreach ($a as $key => $value) {
+            $data_rows[] = '
+                <tr class="objectList">
+                    <td>'.$key.'</td>
+                    <td>'.$value.'</td>
+                </tr>
+            ';
         }
+        $data_rows = implode("\n", $data_rows);
+
+        $table_id = 'table_'.$id;
+
+        $object_list .= '
+            <li class="configlist">
+                '.$title.'
+                <a class="label" onclick="showHide('.$table_id.')" href="javascript:void(0)">
+                    <img class="label" src="'.IMAGESURL.'/expand.gif" title="Show Config" alt="Image" height="12" width="12" />
+                </a>
+                <div class="hidden" id="'.$table_id.'">
+                    <table class="objectList">
+                        <tbody>
+                            <tr>
+                                <th>'.gettext('Config').'</th><th>'.gettext('Value').'</th>
+                            </tr>
+                            '.$data_rows.'
+                        </tbody>
+                    </table>
+                </div>
+            </li>
+        ';
     }
 
-    $object_list .= "<ul>";
-
     echo $object_list;
+
+    ?>
+
+</ul>

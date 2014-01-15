@@ -57,6 +57,12 @@ class Configurations extends CI_Controller
 
     public function _remap()
     {
+        $is_authorized = ! $this->nagios_user->if_has_authKey('authorized_for_read_only');
+        if (! $is_authorized) {
+            header('location:/'.BASEURL);
+            exit();
+        }
+
         $objtype_filter = $this->uri->segment(2);
         $name_filter = $this->uri->segment(3);
 
