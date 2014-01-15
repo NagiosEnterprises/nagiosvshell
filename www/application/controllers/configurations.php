@@ -55,17 +55,21 @@ class Configurations extends CI_Controller
         parent::__construct();
     }
 
-    public function index()
+    public function _remap()
     {
-        $name_filter = $this->input->get('name_filter');
-        $objtype_filter = $this->input->get('objtype_filter');
+        $objtype_filter = $this->uri->segment(2);
+        $name_filter = $this->uri->segment(3);
+
+        if (! verify_object_data_filter($objtype_filter)) { header('location:/'.BASEURL);
+            exit();
+        }
 
         $object_data = object_data($objtype_filter, $name_filter);
 
         $data = array(
-            'name_filter'    => $name_filter,
             'objtype_filter' => $objtype_filter,
             'data'           => $object_data,
+            'name_filter'    => $name_filter,
         );
 
         $this->load->view('header');

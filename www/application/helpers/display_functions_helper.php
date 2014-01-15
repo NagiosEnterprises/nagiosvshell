@@ -90,16 +90,16 @@ function build_nav_links()
         $navlinks .= '<div onmouseover="showDropdown("confDrop")" onmouseout="hideDropdown("confDrop")" id="confDrop">';
         $navlinks .= '<ul>';
 
-        $navlinks .= '<li><a class="nav" href="'.$base.'type=object&objtype_filter=hosts_objs">'.gettext('Hosts').'</a></li>';
-        $navlinks .= '<li><a class="nav" href="'.$base.'type=object&objtype_filter=services_objs">'.gettext('Services').'</a></li>';
-        $navlinks .= '<li><a class="nav" href="'.$base.'type=object&objtype_filter=hostgroups_objs">'.gettext('Hostgroups').'</a></li>';
-        $navlinks .= '<li><a class="nav" href="'.$base.'type=object&objtype_filter=servicegroups_objs">'.gettext('Servicegroups').'</a></li>';
-        $navlinks .= '<li><a class="nav" href="'.$base.'type=object&objtype_filter=timeperiods">'.gettext('Timeperiods').'</a></li>';
-        $navlinks .= '<li><a class="nav" href="'.$base.'type=object&objtype_filter=contacts">'.gettext('Contacts').'</a></li>';
-        $navlinks .= '<li><a class="nav" href="'.$base.'type=object&objtype_filter=contactgroups">'.gettext('Contactgroups').'</a></li>';
+        $navlinks .= '<li><a class="nav" href="'.$base.'/configurations/hosts_objs">'.gettext('Hosts').'</a></li>';
+        $navlinks .= '<li><a class="nav" href="'.$base.'/configurations/services_objs">'.gettext('Services').'</a></li>';
+        $navlinks .= '<li><a class="nav" href="'.$base.'/configurations/hostgroups_objs">'.gettext('Hostgroups').'</a></li>';
+        $navlinks .= '<li><a class="nav" href="'.$base.'/configurations/servicegroups_objs">'.gettext('Servicegroups').'</a></li>';
+        $navlinks .= '<li><a class="nav" href="'.$base.'/configurations/timeperiods">'.gettext('Timeperiods').'</a></li>';
+        $navlinks .= '<li><a class="nav" href="'.$base.'/configurations/contacts">'.gettext('Contacts').'</a></li>';
+        $navlinks .= '<li><a class="nav" href="'.$base.'/configurations/contactgroups">'.gettext('Contactgroups').'</a></li>';
 
         if ($ci->nagios_user->is_admin()) {
-            $navlinks .= "<li><a href='".$base."type=object&objtype_filter=commands' class='nav'>".gettext('Commands')."</a></li>\n";
+            $navlinks .= '<li><a href="'.$base.'/configurations/commands" class="nav">'.gettext('Commands').'</a></li>';
         }
 
         $navlinks .= '</ul>';
@@ -143,7 +143,7 @@ function build_nav_links()
     $navlinks .= '</div>';
     $navlinks .= '</li>';
 
-    $navlinks .= '</ul>'; //close main nav list
+    $navlinks .= '</ul>';
 
     // XXX For future developments.....
     /*

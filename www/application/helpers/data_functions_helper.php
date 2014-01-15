@@ -176,19 +176,9 @@ function hostgroups_and_servicegroups_data($type, $name_filter = NULL)
 function object_data($objtype_filter, $name_filter)
 {
     $CI = &get_instance();
+    $data = array();
 
-    $valid_objtype_filters = array(
-        'hosts_objs',
-        'services_objs',
-        'hostgroups_objs',
-        'servicegroups_objs',
-        'timeperiods',
-        'contacts',
-        'contactgroups',
-        'commands'
-    );
-
-    if (in_array($objtype_filter, $valid_objtype_filters)) {
+    if (verify_object_data_filter($objtype_filter)) {
         $data = $CI->nagios_data->getProperty($objtype_filter);
 
         if ($name_filter) {
@@ -205,6 +195,22 @@ function object_data($objtype_filter, $name_filter)
     }
 
     return $data;
+}
+
+function verify_object_data_filter ($objtype_filter)
+{
+    $valid_objtype_filters = array(
+        'hosts_objs',
+        'services_objs',
+        'hostgroups_objs',
+        'servicegroups_objs',
+        'timeperiods',
+        'contacts',
+        'contactgroups',
+        'commands'
+    );
+
+    return in_array($objtype_filter, $valid_objtype_filters);
 }
 
 /* End of file data_functions_helper.php */

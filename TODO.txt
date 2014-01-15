@@ -29,3 +29,7 @@ Update location of vshell.conf in www/application/config/constants to be dynamic
 ## 404 Page
 
 Change default CI 404 page
+
+## Extending functionality
+
+Implement name_filter on /configurations section
