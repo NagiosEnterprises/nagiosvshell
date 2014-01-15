@@ -148,7 +148,7 @@
         $object_list .= '
             <li class="configlist">
                 '.$title.'
-                <a class="label" onclick="showHide('.$table_id.')" href="javascript:void(0)">
+                <a class="label" onclick="showHide(\''.$table_id.'\')" href="javascript:void(0)">
                     <img class="label" src="'.IMAGESURL.'/expand.gif" title="Show Config" alt="Image" height="12" width="12" />
                 </a>
                 <div class="hidden" id="'.$table_id.'">
