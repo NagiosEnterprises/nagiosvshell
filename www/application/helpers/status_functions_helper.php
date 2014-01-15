@@ -170,11 +170,12 @@ function get_by_state($state, $data,$service=false)
 
 function get_by_name($name, $data, $field = 'host_name', $host_filter = FALSE)
 {
-//	$name = preg_quote($name, '/');
+    $ci = &get_instance();
+    // $name = preg_quote($name, '/');
     $newarray = array();
 
     //bug fix for hosts that don't have any services -MG
-    if (! array_key_exists($field, $data) && htmlentities($_GET['type'], ENT_QUOTES) == 'hosts') {
+    if (! array_key_exists($field, $data) && $ci->input->get('type') == 'hosts') {
        $field = 'host_name';
     }
 
@@ -188,7 +189,7 @@ function get_by_name($name, $data, $field = 'host_name', $host_filter = FALSE)
     } else {
         //match for search
         foreach ($data as $d) {
-            if (preg_match("/$name/i", $d[$field])) {
+            if (array_key_exists($field, $d) && preg_match("/$name/i", $d[$field])) {
                 $newarray[] = $d;
             }
         }

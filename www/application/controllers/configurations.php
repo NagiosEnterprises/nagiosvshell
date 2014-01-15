@@ -60,7 +60,8 @@ class Configurations extends CI_Controller
         $objtype_filter = $this->uri->segment(2);
         $name_filter = $this->uri->segment(3);
 
-        if (! verify_object_data_filter($objtype_filter)) { header('location:/'.BASEURL);
+        if (! verify_object_data_filter($objtype_filter)) {
+            header('location:/'.BASEURL);
             exit();
         }
 
