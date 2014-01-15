@@ -67,6 +67,7 @@
 
     <link rel="stylesheet" href="<?php echo STATICURL; ?>/css/style.css">
 
+    <script src="<?php echo STATICURL; ?>/js/jquery-1.4.4.min.js"></script>
     <script src="<?php echo STATICURL; ?>/js/header.inc.js"></script>
 
 </head>

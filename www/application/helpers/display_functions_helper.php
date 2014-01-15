@@ -86,8 +86,8 @@ function build_nav_links()
         //assuming full admin
 
         $navlinks .= '<li class="nav">';
-        $navlinks .= '<a class="nav" onmouseover="showDropdown("confDrop")" onmouseout="hideDropdown("confDrop")" href="javascript:void(0)">'.gettext('Configurations').'</a>';
-        $navlinks .= '<div onmouseover="showDropdown("confDrop")" onmouseout="hideDropdown("confDrop")" id="confDrop">';
+        $navlinks .= '<a class="nav" onmouseover="showDropdown(\'confDrop\')" onmouseout="hideDropdown(\'confDrop\')" href="javascript:void(0)">'.gettext('Configurations').'</a>';
+        $navlinks .= '<div onmouseover="showDropdown(\'confDrop\')" onmouseout="hideDropdown(\'confDrop\')" id="confDrop">';
         $navlinks .= '<ul>';
 
         $navlinks .= '<li><a class="nav" href="'.$base.'/configurations/hosts_objs">'.gettext('Hosts').'</a></li>';
@@ -110,8 +110,8 @@ function build_nav_links()
     //Nagios Core System links dropdown menu
     if ($ci->nagios_user->if_has_authKey('authorized_for_system_commands')) {
         $navlinks .= '<li class="nav">';
-        $navlinks .= '<a class="nav" onmouseover="showDropdown("sysDrop") onmouseout="hideDropdown("sysDrop")" href="javascript:void(0)">'.gettext('System Commands').'</a>';
-        $navlinks .= '<div onmouseover="showDropdown("sysDrop")" onmouseout="hideDropdown("sysDrop")" id="sysDrop">';
+        $navlinks .= '<a class="nav" onmouseover="showDropdown(\'sysDrop\')" onmouseout="hideDropdown(\'sysDrop\')" href="javascript:void(0)">'.gettext('System Commands').'</a>';
+        $navlinks .= '<div onmouseover="showDropdown(\'sysDrop\')" onmouseout="hideDropdown(\'sysDrop\')" id="sysDrop">';
         $navlinks .= '<ul>';
 
         $navlinks .= '<li><a class="nav" target="_blank" href="'.CORECGI.'extinfo.cgi?type=3">'.gettext('Comments').'</a></li>';
@@ -127,17 +127,17 @@ function build_nav_links()
 
     //Nagios Core Reports.  Leaving authorization up to Core for running reports
     $navlinks .= '<li class="nav">';
-    $navlinks .= '<a class="nav" onmouseover="showDropdown("reportDrop")" onmouseout="hideDropdown("reportDrop")" href="javascript:void(0)">'.gettext('Reports').'</a>';
-    $navlinks .= '<div onmouseover="showDropdown("reportDrop")" onmouseout="hideDropdown("reportDrop")" id="reportDrop">';
+    $navlinks .= '<a class="nav" onmouseover="showDropdown(\'reportDrop\')" onmouseout="hideDropdown(\'reportDrop\')" href="javascript:void(0)">'.gettext('Reports').'</a>';
+    $navlinks .= '<div onmouseover="showDropdown(\'reportDrop\')" onmouseout="hideDropdown(\'reportDrop\')" id="reportDrop">';
     $navlinks .= '<ul>';
 
-    $navlinks .= '<li><a class="nav" target="_blank" href="'.CORECGI.'avail.cgi">'.gettext('Availability').'</a></li>\n';
-    $navlinks .= '<li><a class="nav" target="_blank" href="'.CORECGI.'trends.cgi">'.gettext('Trends').'</a></li>\n';
-    $navlinks .= '<li><a class="nav" target="_blank" href="'.CORECGI.'history.cgi?host=all">'.gettext('Alert History').'</a></li>\n';
-    $navlinks .= '<li><a class="nav" target="_blank" href="'.CORECGI.'summary.cgi">'.gettext('Alert Summary').'</a></li>\n';
-    $navlinks .= '<li><a class="nav" target="_blank" href="'.CORECGI.'histogram.cgi">'.gettext('Alert Histogram').'</a></li>\n';
-    $navlinks .= '<li><a class="nav" target="_blank" href="'.CORECGI.'notifications.cgi?contact=all">'.gettext('Notifications').'</a></li>\n';
-    $navlinks .= '<li><a class="nav" target="_blank" href="'.CORECGI.'showlog.cgi">'.gettext('Event Log').'</a></li>\n';
+    $navlinks .= '<li><a class="nav" target="_blank" href="'.CORECGI.'avail.cgi">'.gettext('Availability').'</a></li>';
+    $navlinks .= '<li><a class="nav" target="_blank" href="'.CORECGI.'trends.cgi">'.gettext('Trends').'</a></li>';
+    $navlinks .= '<li><a class="nav" target="_blank" href="'.CORECGI.'history.cgi?host=all">'.gettext('Alert History').'</a></li>';
+    $navlinks .= '<li><a class="nav" target="_blank" href="'.CORECGI.'summary.cgi">'.gettext('Alert Summary').'</a></li>';
+    $navlinks .= '<li><a class="nav" target="_blank" href="'.CORECGI.'histogram.cgi">'.gettext('Alert Histogram').'</a></li>';
+    $navlinks .= '<li><a class="nav" target="_blank" href="'.CORECGI.'notifications.cgi?contact=all">'.gettext('Notifications').'</a></li>';
+    $navlinks .= '<li><a class="nav" target="_blank" href="'.CORECGI.'showlog.cgi">'.gettext('Event Log').'</a></li>';
 
     $navlinks .= '</ul>';
     $navlinks .= '</div>';
