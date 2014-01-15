@@ -288,7 +288,7 @@ function do_pagenumbers($pageCount, $start, $limit, $resultsCount, $type)
 
     parse_str($_SERVER['QUERY_STRING'], $query_vars);
     unset($query_vars['start']);
-    $link_base = 'index.php?' . http_build_query($query_vars);
+    $link_base = '/'.BASEURL.'/'. http_build_query($query_vars);
 
     // Build the pagination back arrow
     $back_arrow = NULL;

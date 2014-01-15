@@ -231,7 +231,7 @@ class Nagios_group extends CI_Model
                 $hostgroup_data[$group]['member_data'][$member]['state_class'] = get_color_code($host);
                 $hostgroup_data[$group]['member_data'][$member]['services'] = array();
                 $hostgroup_data[$group]['member_data'][$member]['host_url'] =
-                    BASEURL.'index.php?type=hostdetail&name_filter='.urlencode($host['host_name']);
+                    '/'.BASEURL.'/details/host/'.urlencode($host['host_name']);
 
                 if (isset($host['services'])) {
                     foreach ($host['services'] as $service) {
@@ -245,7 +245,7 @@ class Nagios_group extends CI_Model
                         $service_data = array(
                             'state_class' => get_color_code($service),
                             'description' => $service['service_description'],
-                            'service_url' => htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$service['service_id']),
+                            'service_url' => htmlentities('/'.BASEURL.'/details/service/'.$service['service_id']),
                         );
                         $hostgroup_data[$group]['member_data'][$member]['services'][] = $service_data;
                     }
@@ -276,8 +276,8 @@ class Nagios_group extends CI_Model
             foreach ($members as $serv) {
                 $service_data = array(
                     'host_name'     => $serv['host_name'],
-                    'host_url'      => htmlentities(BASEURL.'index.php?type=hostdetail&name_filter='.$serv['host_name']),
-                    'service_url'   => htmlentities(BASEURL.'index.php?type=servicedetail&name_filter='.$serv['service_id']),
+                    'host_url'      => htmlentities('/'.BASEURL.'/details/host/'.$serv['host_name']),
+                    'service_url'   => htmlentities('/'.BASEURL.'/details/service/'.$serv['service_id']),
                     'plugin_output' => $serv['plugin_output'],
                     'description'   => $serv['service_description'],
                     'current_state' => $serv['current_state'],

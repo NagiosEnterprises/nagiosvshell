@@ -51,9 +51,6 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# TODO Update with IMAGESURL and BASEURL. Make sure links go to new URIs and not index.php?type=
-# style links
-
 /* expecting host name
  * returns all image icons for the host status tables if icon exists
  */
