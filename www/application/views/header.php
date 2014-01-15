@@ -1,9 +1,5 @@
 <?php
 
-// header.php
-// this page contains all of the html head information, used as an include
-// file
-
 // Nagios V-Shell
 // Copyright (c) 2010 Nagios Enterprises, LLC.
 // Written by Mike Guthrie <mguthrie@nagios.com>

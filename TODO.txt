@@ -1,5 +1,3 @@
-Change objtype_filter from GET variable to uri element configurations/hosts, etc.
-
 Cleanup configurations view.
 
 Search results on all pages. Check ?name_filter= is working.
@@ -7,8 +5,6 @@ Search results on all pages. Check ?name_filter= is working.
 ## Controllers
 
 Build commands.php file. Is this file needed?
-
-Build configuration.php file. Is this file needed?
 
 Build reports.php file.
 

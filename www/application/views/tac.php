@@ -1,7 +1,5 @@
 <?php
 
-// tactical overview page
-
 // Nagios V-Shell
 // Copyright (c) 2010 Nagios Enterprises, LLC.
 // Written by Mike Guthrie <mguthrie@nagios.com>

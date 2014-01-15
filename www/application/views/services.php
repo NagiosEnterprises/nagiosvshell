@@ -1,4 +1,4 @@
-<?php //services.php      //display page for service details
+<?php
 
 // Nagios V-Shell
 // Copyright (c) 2010 Nagios Enterprises, LLC.

@@ -1,4 +1,4 @@
-<?php //xml.php  view any associative data array in xml format
+<?php
 
 // Nagios V-Shell
 // Copyright (c) 2010 Nagios Enterprises, LLC.
