@@ -1,4 +1,4 @@
-Cleanup configurations view.
+Fix bug with service detail. First item is indexed 0 and returns user to homepage instead of showing detail page.
 
 Search results on all pages. Check ?name_filter= is working.
 
