@@ -80,7 +80,7 @@
     </div>
 
     <div class="corelink">
-        <a class="label" href="/<?php echo COREURL; ?>" target="_blank" title="<?php echo gettext('Access Nagios Core');?>"><?php echo gettext('Access Nagios Core'); ?></a>
+        <a class="label" href="<?php echo COREURL; ?>" target="_blank" title="<?php echo gettext('Access Nagios Core');?>"><?php echo gettext('Access Nagios Core'); ?></a>
     </div>
 
     <nav>

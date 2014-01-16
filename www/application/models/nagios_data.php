@@ -217,7 +217,7 @@ class Nagios_data extends CI_Model
         return $retval;
     }
 
-    private function raw_file_parse($objects_are_cached = false,$perms_are_cached=false,$apc_exists = false)
+    private function raw_file_parse($objects_are_cached = false, $perms_are_cached=false, $apc_exists = false)
     {
         if (!$objects_are_cached) {
             //objects.cache data
