@@ -154,9 +154,15 @@ function host_and_service_detail_data($type, $name)
 
 function hostgroups_and_servicegroups_data($type, $name_filter = NULL)
 {
-    include_once(DIRBASE.'/views/'.$type.'.php');
-    $data_function = 'get_'.preg_replace('/s$/', '', $type).'_data';
-    $data = $data_function();
+    $ci = &get_instance();
+    $data = array();
+
+    if ($type == 'hostgroups') {
+        $data = $ci->nagios_group->get_hostgroup_data();
+    } elseif ($type == 'servicegroups') {
+        $data = $ci->nagios_group->get_servicegroup_data();
+    }
+
     if ($name_filter) {
         // TODO filters against Services and/or hosts within groups, status of services/hosts in groups, etc...
         $name = preg_quote($name_filter, '/');
