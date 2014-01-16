@@ -64,19 +64,18 @@ class Configurations extends VS_Controller
         }
 
         $objtype_filter = $this->uri->segment(2);
-        $name_filter = $this->uri->segment(3);
 
         if (! verify_object_data_filter($objtype_filter)) {
             header('location:/'.BASEURL);
             exit();
         }
 
-        $object_data = object_data($objtype_filter, $name_filter);
+        $object_data = object_data($objtype_filter, $this->name_filter);
 
         $data = array(
             'objtype_filter' => $objtype_filter,
             'data'           => $object_data,
-            'name_filter'    => $name_filter,
+            'name_filter'    => $this->name_filter,
         );
 
         $this->load->view('header');

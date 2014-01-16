@@ -4,8 +4,6 @@ Check pagination works
 
 ## Controllers
 
-Add $objtype_filter and $host_filter to VS_Controller. Maybe service_filter too? Or should all three collapse into name_filter?
-
 Build commands.php file. Is this file needed?
 
 Build reports.php file.
