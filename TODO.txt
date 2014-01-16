@@ -1,20 +1,8 @@
-Make "services per host" links work. Anchor image to the right of Host Name on /hosts and /services pages.
-
-Search results on all pages. Check ?name_filter= is working.
-
-Search results on hostgroups page.
-
-Search results on servicegroups page.
-
 Grid results on /servicegroups page.
-
-Check state_filters work
 
 Check pagination works
 
 ## Controllers
-
-Update $start and $limit to use VS_Controller $start_filter and $limit_filter. Break out common pagination functionality to helper.
 
 Add $objtype_filter and $host_filter to VS_Controller. Maybe service_filter too? Or should all three collapse into name_filter?
 
