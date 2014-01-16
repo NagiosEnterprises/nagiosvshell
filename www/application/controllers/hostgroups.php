@@ -60,7 +60,7 @@ class Hostgroups extends VS_Controller
         $hostgroup_data = hostgroups_and_servicegroups_data('hostgroups', $this->name_filter);
 
         $data = array(
-            'data' => $hostgroup_data,
+            'data'        => $hostgroup_data,
             'name_filter' => $this->name_filter,
         );
 

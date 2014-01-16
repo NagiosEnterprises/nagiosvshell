@@ -72,13 +72,13 @@ class Services extends VS_Controller
         $doPagination = ($pageCount * $this->limit_filter) < $resultsCount;
 
         $data = array(
-            'services' => $services,
-            'start' => $this->start_filter,
-            'limit' => $this->limit_filter,
+            'services'     => $services,
+            'start'        => $this->start_filter,
+            'limit'        => $this->limit_filter,
             'resultsCount' => $resultsCount,
-            'pageCount' => $pageCount,
+            'pageCount'    => $pageCount,
             'doPagination' => $doPagination,
-            'name_filter' => $this->name_filter,
+            'name_filter'  => $this->name_filter,
             'state_filter' => $this->state_filter,
         );
 

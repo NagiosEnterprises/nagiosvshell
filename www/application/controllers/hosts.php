@@ -74,14 +74,14 @@ class Hosts extends VS_Controller
         sort($hostnames);
 
         $data = array(
-            'hosts' => $hosts,
-            'hostnames' => $hostnames,
-            'start' => $this->start_filter,
-            'limit' => $this->limit_filter,
+            'hosts'        => $hosts,
+            'hostnames'    => $hostnames,
+            'start'        => $this->start_filter,
+            'limit'        => $this->limit_filter,
             'resultsCount' => $resultsCount,
-            'pageCount' => $pageCount,
+            'pageCount'    => $pageCount,
             'doPagination' => $doPagination,
-            'name_filter' => $this->name_filter,
+            'name_filter'  => $this->name_filter,
             'state_filter' => $this->state_filter,
         );
 

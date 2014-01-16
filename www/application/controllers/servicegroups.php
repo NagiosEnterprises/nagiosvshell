@@ -60,7 +60,7 @@ class Servicegroups extends VS_Controller
         $servicegroup_data = hostgroups_and_servicegroups_data('servicegroups', $this->name_filter);
 
         $data = array(
-            'data' => $servicegroup_data,
+            'data'        => $servicegroup_data,
             'name_filter' => $this->name_filter,
         );
 
