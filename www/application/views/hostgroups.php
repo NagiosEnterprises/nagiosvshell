@@ -56,7 +56,7 @@
     <div class="resultFilter">
         <form id="resultfilterform" action="" method="get">
             <label class="label" for="name_filter">Search Host Group Names:</label>
-            <input type="text" name="name_filter" value="<?php $name_filter; ?>" />
+            <input type="text" name="name_filter" value="<?php echo $name_filter; ?>" />
             <input type="submit" name="submitbutton" value="Filter" />
         </form>
     </div>
