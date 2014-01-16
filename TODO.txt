@@ -14,6 +14,10 @@ Check pagination works
 
 ## Controllers
 
+Update $start and $limit to use VS_Controller $start_filter and $limit_filter. Break out common functionality to helper.
+
+Add $objtype_filter and $host_filter to VS_Controller. Maybe service_filter too? Or should all three collapse into name_filter?
+
 Build commands.php file. Is this file needed?
 
 Build reports.php file.
