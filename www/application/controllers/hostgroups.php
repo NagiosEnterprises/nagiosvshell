@@ -57,11 +57,11 @@ class Hostgroups extends VS_Controller
 
     public function index()
     {
-        $hostgroup_data = $this->nagios_group->get_hostgroup_data();
+        $hostgroup_data = hostgroups_and_servicegroups_data('hostgroups', $this->name_filter);
 
         $data = array(
             'data' => $hostgroup_data,
-            'name_filter' => $this->input->get('name_filter'),
+            'name_filter' => $this->name_filter,
         );
 
         $this->load->view('header');
