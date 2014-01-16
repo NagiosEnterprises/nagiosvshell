@@ -50,12 +50,12 @@
 
 function hosts_and_services_data($type, $state_filter = NULL, $name_filter = NULL, $host_filter = NULL)
 {
-    $CI = &get_instance();
+    $ci = &get_instance();
 
-    $data = $CI->nagios_data->getProperty($type);
+    $data = $ci->nagios_data->getProperty($type);
 
     //add filter for user-level filtering
-    if (! $CI->nagios_user->is_admin()) {
+    if (! $ci->nagios_user->is_admin()) {
         $data = user_filtering($data, $type);
     }
 
@@ -181,11 +181,11 @@ function hostgroups_and_servicegroups_data($type, $name_filter = NULL)
 
 function object_data($objtype_filter, $name_filter)
 {
-    $CI = &get_instance();
+    $ci = &get_instance();
     $data = array();
 
     if (verify_object_data_filter($objtype_filter)) {
-        $data = $CI->nagios_data->getProperty($objtype_filter);
+        $data = $ci->nagios_data->getProperty($objtype_filter);
 
         if ($name_filter) {
             $name_data = get_by_name($name_filter, $data);
