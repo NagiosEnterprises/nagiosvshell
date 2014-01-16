@@ -53,7 +53,8 @@ class VS_Controller extends CI_Controller
 
     protected function process_start_filter()
     {
-        $this->start_filter = $this->input->get('start');
+        $start = $this->input->get('start');
+        $this->start_filter = intval($start);
     }
 }
 
