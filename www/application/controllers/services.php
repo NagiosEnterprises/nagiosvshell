@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Services extends CI_Controller
+class Services extends VS_Controller
 {
     // Nagios V-Shell
     // Copyright (c) 2010 Nagios Enterprises, LLC.
