@@ -63,14 +63,14 @@ class Details extends VS_Controller
 
     public function host()
     {
-        $hostname = $this->uri->segment(3);
+        $hostname = stripslashes($this->uri->segment(3));
         if (! $hostname) {
             header('location:/'.BASEURL);
             exit();
         }
 
         $is_authorized = ! $this->nagios_user->if_has_authKey('authorized_for_read_only');
-        $details = host_and_service_detail_data('host', $hostname);
+        $details = process_host_detail($hostname);
 
         $data = array(
             'is_authorized' => $is_authorized,
@@ -84,14 +84,14 @@ class Details extends VS_Controller
 
     public function service()
     {
-        $servicename = $this->uri->segment(3);
+        $servicename = stripslashes($this->uri->segment(3));
         if ($servicename === False) {
             header('location:/'.BASEURL);
             exit();
         }
 
         $is_authorized = ! $this->nagios_user->if_has_authKey('authorized_for_read_only');
-        $details = host_and_service_detail_data('service', $servicename);
+        $details = process_service_detail($servicename);
 
         $data = array(
             'is_authorized' => $is_authorized,
