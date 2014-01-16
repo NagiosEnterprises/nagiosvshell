@@ -58,37 +58,31 @@ class Hosts extends VS_Controller
     public function index()
     {
         $this->load->helper('fetch_icons_helper');
-
-        $start = $this->input->get('start');
-        $limit = $this->input->get('limit');
-
         $hosts = hosts_and_services_data(
             'hosts',
             $this->state_filter,
             $this->name_filter
         );
 
-        //get variables needed to display page
-        $limit = empty($limit) ? RESULTLIMIT : $limit;
-
-        $resultsCount = count($hosts);
         //if results are greater than number that the page can display, create page links
         //calculate number of pages
-        $pageCount = (($resultsCount / $limit) < 1) ? 1 : intval($resultsCount/$limit);
-        $doPagination = ($pageCount * $limit) < $resultsCount;
+        $resultsCount = count($hosts);
+        $pageCount = (($resultsCount / $this->limit_filter) < 1) ? 1 : intval($resultsCount/$this->limit_filter);
+        $doPagination = ($pageCount * $this->limit_filter) < $resultsCount;
+
         $hostnames = array_keys($hosts);
         sort($hostnames);
 
         $data = array(
             'hosts' => $hosts,
-            'start' => intval($start),
-            'limit' => $limit,
+            'hostnames' => $hostnames,
+            'start' => $this->start_filter,
+            'limit' => $this->limit_filter,
             'resultsCount' => $resultsCount,
             'pageCount' => $pageCount,
             'doPagination' => $doPagination,
             'name_filter' => $this->name_filter,
             'state_filter' => $this->state_filter,
-            'hostnames' => $hostnames,
         );
 
         $this->load->view('header');
