@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Hosts extends CI_Controller
+class Hosts extends VS_Controller
 {
     // Nagios V-Shell
     // Copyright (c) 2010 Nagios Enterprises, LLC.
@@ -58,11 +58,15 @@ class Hosts extends CI_Controller
     public function index()
     {
         $this->load->helper('fetch_icons_helper');
-        $hosts = $this->nagios_data->grab_details('host');
+
         $start = $this->input->get('start');
         $limit = $this->input->get('limit');
-        $name_filter = $this->input->get('name_filter');
-        $state_filter = $this->input->get('state_filter');
+
+        $hosts = hosts_and_services_data(
+            'hosts',
+            $this->state_filter,
+            $this->name_filter
+        );
 
         //get variables needed to display page
         $limit = empty($limit) ? RESULTLIMIT : $limit;
@@ -82,8 +86,8 @@ class Hosts extends CI_Controller
             'resultsCount' => $resultsCount,
             'pageCount' => $pageCount,
             'doPagination' => $doPagination,
-            'name_filter' => $name_filter,
-            'state_filter' => $state_filter,
+            'name_filter' => $this->name_filter,
+            'state_filter' => $this->state_filter,
             'hostnames' => $hostnames,
         );
 
