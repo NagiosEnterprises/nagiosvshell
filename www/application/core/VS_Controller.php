@@ -24,7 +24,7 @@ class VS_Controller extends CI_Controller
 
     protected function process_host_filter()
     {
-        $this->start_filter = $this->input->get('host_filter');
+        $this->host_filter = $this->input->get('host_filter');
     }
 
     protected function process_name_filter()
