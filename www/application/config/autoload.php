@@ -70,7 +70,6 @@ $autoload['helper'] = array(
 	'display_functions',
 	'process_details',
 	'filtering_functions',
-	'output_functions',
 	'status_functions',
 );
 

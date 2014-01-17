@@ -1,9 +1,5 @@
 No working backend data exporting (XML, JSON, etc)
 
-## Controllers
-
-Remove deprecated code in controllers/status. As a result remove orphaned helpers/output_functions_helper as well.
-
 ## Views
 
 Check views/xml.php file. Does not seem to be used. Move functions to helper file instead and deprecate functions. Also look into tac_xml output.
