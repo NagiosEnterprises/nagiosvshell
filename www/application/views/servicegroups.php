@@ -115,6 +115,7 @@
                             <th>'.gettext('Service').'</th>
                             <th>'.gettext('Status Information').'</th>
                         </tr>
+                        '.$grid_rows.'
                     </tbody>
                 </table>
             </div>
