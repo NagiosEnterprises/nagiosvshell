@@ -1,5 +1,3 @@
-Check pagination works
-
 ## Controllers
 
 Build commands.php file. Is this file needed?

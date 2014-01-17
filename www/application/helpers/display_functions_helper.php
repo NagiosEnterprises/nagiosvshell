@@ -282,22 +282,33 @@ function get_service_comments($host, $service)
  */
 function do_pagenumbers($pageCount, $start, $limit, $resultsCount, $type)
 {
-    $pagenums = "<div class='pagenumbers'>";
-    $begin = 0;
-    $cp_start = isset($_GET['start']) ? htmlentities($_GET['start']) : 0;
+    $ci = &get_instance();
 
-    parse_str($_SERVER['QUERY_STRING'], $query_vars);
+    $begin = 0;
+    $cp_start = intval($ci->input->get('start'));
+
+    $query_vars = $ci->input->get();
     unset($query_vars['start']);
-    $link_base = '/'.BASEURL.'/'. http_build_query($query_vars);
+
+    if (! empty($query_vars)) {
+        $query_string = '?'.http_build_query($query_vars);
+        $query_symbol = '&';
+    } else {
+        $query_string = '';
+        $query_symbol = '?';
+    }
+
+    $link_base = $ci->uri->uri_string().$query_string;
+    $pagenums = '<div class="pagenumbers">';
 
     // Build the pagination back arrow
     $back_arrow = NULL;
     $back_arrow_entities = '&laquo;';
     if ($cp_start > 0) {
-        $link = $link_base . '&start='.($cp_start-$limit);
-        $back_arrow = "<a href='$link' class='pagenumbers'>$back_arrow_entities</a>";
+        $link = $link_base.$query_symbol.'start='.($cp_start-$limit);
+        $back_arrow = '<a href="'.$link.'" class="pagenumbers">'.$back_arrow_entities.'</a>';
     } else {
-        $back_arrow = "<span class='deselect'>$back_arrow_entities</span>";
+        $back_arrow = '<span class="deselect">'.$back_arrow_entities.'</span>';
     }
 
     $pagenums .= $back_arrow;
@@ -306,15 +317,15 @@ function do_pagenumbers($pageCount, $start, $limit, $resultsCount, $type)
     for ($i = 0; $i <= $pageCount; $i++) {
 
         //if end is greater than total results, set end to be the resultCount
-        $link = $link_base . "&start=$begin";
-        $page = $i+1;
+        $link = $link_base.$query_symbol.'start='.$begin;
+        $page = $i + 1;
 
         //check if the link is the current page
         //if we're on current page, don't print a link
         if ($cp_start == $begin) {
-            $pagenums .= "<span class='deselect'> $page </span>";
+            $pagenums .= '<span class="deselect">'.$page.'</span>';
         } else {
-            $pagenums .= "<a class='pagenumbers' href='$link'> $page </a>";
+            $pagenums .= '<a class="pagenumbers" href="'.$link.'">'.$page.'</a>';
         }
 
         //submit a hidden post page number
@@ -325,10 +336,10 @@ function do_pagenumbers($pageCount, $start, $limit, $resultsCount, $type)
     $forward_arrow = NULL;
     $forward_arrow_entities = '&raquo;';
     if ($cp_start + $limit < $resultsCount) {
-        $link = $link_base . '&start='.($cp_start + $limit);
-        $forward_arrow = "<a href='$link' class='pagenumbers'>$forward_arrow_entities</a>";
+        $link = $link_base.$query_symbol.'start='.($cp_start + $limit);
+        $forward_arrow = '<a href="'.$link.'" class="pagenumbers">'.$forward_arrow_entities.'</a>';
     } else {
-        $forward_arrow = "<span class='deselect'>$forward_arrow_entities</span>";
+        $forward_arrow = '<span class="deselect">'.$forward_arrow_entities.'</span>';
     }
 
     $pagenums .= $forward_arrow;
