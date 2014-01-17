@@ -57,9 +57,8 @@ class Commands extends VS_Controller
 
     public function index()
     {
-        $this->load->view('header');
-        $this->load->view('hosts');
-        $this->load->view('footer');
+        header('location:/'.BASEURL);
+        exit();
     }
 }
 
