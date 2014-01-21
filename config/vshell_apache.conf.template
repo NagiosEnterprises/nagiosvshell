@@ -1,0 +1,24 @@
+Alias /<?php echo VSHELL_BASEURL; ?> "<?php echo TARGETDIR; ?>"
+
+ServerSignature Off
+ServerTokens Prod
+
+<Directory "<?php echo TARGETDIR; ?>">
+   Options None
+   AllowOverride None
+
+   Order allow,deny
+   Allow from all
+
+ # Nagios XI  
+ # AuthName "Nagios Monitor XI"
+ # AuthType Basic
+ # AuthUserFile <?php echo HTPASSWD_FILE; ?>
+ 
+ # Nagios Core
+   AuthName "Nagios Access"
+   AuthType Basic
+   AuthUserFile <?php echo HTPASSWD_FILE; ?>
+
+   Require valid-user
+</Directory>
