@@ -1,0 +1,19 @@
+No working backend data exporting (XML, JSON, etc)
+
+## Views
+
+Check views/xml.php file. Does not seem to be used. Move functions to helper file instead and deprecate functions. Also look into tac_xml output.
+
+## Other
+
+Add logo images
+
+Update location of vshell.conf in www/application/config/constants to be dynamic
+
+## 404 Page
+
+Change default CI 404 page
+
+## Extending functionality
+
+Implement name_filter on /configurations section
