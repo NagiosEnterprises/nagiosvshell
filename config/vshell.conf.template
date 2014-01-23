@@ -1,0 +1,42 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;                                                            ;;;;;;;;;;
+;;;;;;;;;;             Nagios V-Shell Configuration File              ;;;;;;;;;;
+;;;;;;;;;;                                                            ;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; The Apache URL path to V-Shell.
+; If you want to access V-Shell in the browser at http://<yourserver>/vshell/,
+; then set this to "vshell".
+BASEURL = "<?php echo VSHELL_BASEURL; ?>"
+
+; The Apache URL path to your Nagios Core installation
+; If you access Nagios by visiting http://<yourserver>/nagios/,
+; then set this to "nagios".
+COREURL = "<?php echo NAGIOS_COREURL; ?>"
+
+; Full filesystem path to the Nagios status file
+STATUSFILE = "<?php echo STATUSFILE; ?>"
+
+; Full filesystem path to the Nagios object cache file
+OBJECTSFILE = "<?php echo OBJECTSFILE; ?>"
+
+; Full filesystem path to the Nagios CGI permissions configuration file
+CGICFG = "<?php echo CGICFG; ?>"
+
+; Full filesystem path to the Nagios command pipe
+NAGCMD = "<?php echo NAGCMD; ?>"
+
+; Full filesystem path to the Nagios lock file (when Nagios is running)
+NAGLOCK = "/usr/local/nagios/var/nagios.lock"
+
+; The default number of maximum results to display in a table before paging
+RESULTLIMIT = <?php echo RESULTLIMIT; ?>
+
+; Language Set:  usually these options are located in the /usr/lib/locale directory 
+; currently only UTF-8 languages supported 
+LANG = "<?php echo LANG; ?>"
+
+; Max Time To Live for APC cached data.  If you're using APC caching, this setting
+; controls the length of time status data will be cached before reading fresh from
+; the status file 
+TTL = <?php echo TTL; ?>

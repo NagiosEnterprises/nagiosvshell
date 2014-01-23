@@ -56,8 +56,6 @@ function send_home() //redirects user to index page
 	header('Location: '.BASEURL);
 }
 
-
-
 // *OLD*
 // view=<hosts,services,hostgroups,servicegroups>
 // cmd=filter<hosts,services>,arg=<UP,DOWN,WARNING,UNREACHABLE,UNKNOWN>
@@ -158,15 +156,6 @@ function page_router()
 			$output = json_encode($data);
 		break;
 
-                case 'jsonp':
-                        if (isset($_GET['callback']) && is_valid_callback($_GET['callback'])) { $callback_name = $_GET['callback']; }
-                        if (isset($_GET['jsonp']) && is_valid_callback($_GET['jsonp']) ) { $callback_name = $_GET['jsonp']; }
-                        if (!isset($callback_name)) { $callback_name = 'callback'; }
-
-                        header('Content-type: application/json-p');
-                        $output = $callback_name . '(' . json_encode($data) . ');';
-                break;
-
 		case 'xml':
 			if($type!='backend')
 			{
@@ -233,22 +222,10 @@ function get_pagination_values()
 	return array($start, $limit);
 }
 
-function is_valid_callback($subject)
-{
-    $identifier_syntax
-      = '/^[$_\p{L}][$_\p{L}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\x{200C}\x{200D}]*+$/u';
 
-    $reserved_words = array('break', 'do', 'instanceof', 'typeof', 'case',
-      'else', 'new', 'var', 'catch', 'finally', 'return', 'void', 'continue', 
-      'for', 'switch', 'while', 'debugger', 'function', 'this', 'with', 
-      'default', 'if', 'throw', 'delete', 'in', 'try', 'class', 'enum', 
-      'extends', 'super', 'const', 'export', 'import', 'implements', 'let', 
-      'private', 'public', 'yield', 'interface', 'package', 'protected', 
-      'static', 'null', 'true', 'false');
 
-    return preg_match($identifier_syntax, $subject)
-        && ! in_array(mb_strtolower($subject, 'UTF-8'), $reserved_words);
-}
+
+
 
 
 ?>
