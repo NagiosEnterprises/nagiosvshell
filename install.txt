@@ -1,0 +1,5 @@
+The install.php script creates config files for Apache. If a custom file is used make sure it contains the following directives:
+
+	AllowOverride All
+
+This is required for .htaccess files used by CodeIgniter.
