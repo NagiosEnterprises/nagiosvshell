@@ -1,5 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
+
 class VS_Controller extends CI_Controller
 {
     protected $host_filter;
@@ -11,6 +13,7 @@ class VS_Controller extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+
         $this->process_result_filters();
         $this->process_pagination_filters();
     }

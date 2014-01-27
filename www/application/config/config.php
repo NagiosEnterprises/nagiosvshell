@@ -91,7 +91,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = FALSE;
+$config['enable_hooks'] = TRUE;
 
 
 /*
@@ -180,7 +180,7 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = LOG_LEVEL; # See index.php
+$config['log_threshold'] = 4; # See index.php
 
 /*
 |--------------------------------------------------------------------------
@@ -191,7 +191,7 @@ $config['log_threshold'] = LOG_LEVEL; # See index.php
 | application/logs/ folder. Use a full server path with trailing slash.
 |
 */
-$config['log_path'] = '';
+$config['log_path'] = '/tmp';
 
 /*
 |--------------------------------------------------------------------------
@@ -359,7 +359,7 @@ $config['proxy_ips'] = '';
 
 
 // where to find media files
- $config['site_url'] = 'http://localhost/vshell2'; 
+$config['site_url'] = 'http://localhost/vshell2'; 
 $config['media_url'] = $config['site_url'] .'/media';
 
 

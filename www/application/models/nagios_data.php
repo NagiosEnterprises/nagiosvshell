@@ -52,6 +52,42 @@
 
 class Nagios_data extends CI_Model
 {
+    //Object based 
+    protected $_HostCollection;
+    protected $_ServiceCollection;
+    protected $_HostgroupCollection;
+    protected $_ContactCollection;
+    protected $_ContactgroupCollection;
+
+    protected $_ServicegroupCollection;
+
+    protected $_TimeperiodCollection;
+    protected $_CommandCollection;
+    protected $_HostescalationCollection;
+    protected $_ServiceescalationCollection;
+    protected $_HostdependencyCollection;
+    protected $_ServicedependencyCollection;
+
+    // Status based collections
+    protected $_HostStatus;
+    protected $_ServiceStatus;
+    protected $_HostgroupStatus;
+    protected $_ServicegroupStatus;
+    protected $_ProgramStatus; 
+
+    //Various status collections 
+    protected $_CommentStatus;
+    protected $_InfoStatus;
+
+
+    protected $_DetailsCollection; // ?? What is this??
+    protected $_PermissionsCollection;
+
+    private $_map = array();
+
+
+
+
     protected $properties = array(
         'hosts_objs',
         'services_objs',
@@ -61,20 +97,28 @@ class Nagios_data extends CI_Model
         'contactgroups',
         'timeperiods',
         'commands',
+
+
+        'program',
+        'hostescalations',
+        'serviceescalations',
+        'hostdependencys',
+        'servicedependencys',
+
+
+        'hostgroups',
+        'servicegroups',
         'hosts',
         'services',
         'comments',
         'info',
         'details',
         'permissions',
-        'hostgroups',
-        'servicegroups',
-        'program',
-        'hostescalations',
-        'serviceescalations',
-        'hostdependencys',
-        'servicedependencys'
+
     );
+
+
+
 
     // A private constructor; prevents direct creation of object
     // TODO: add private keyword here?
@@ -82,6 +126,8 @@ class Nagios_data extends CI_Model
     {
         parent::__construct();
         //$this->load->model('nagios_user');
+        
+        $this->_map_collections();
 
         $objects_are_cached = false;
         $status_is_cached	= false;
@@ -220,6 +266,8 @@ class Nagios_data extends CI_Model
     private function raw_file_parse($objects_are_cached = false, $perms_are_cached=false, $apc_exists = false)
     {
         if (!$objects_are_cached) {
+
+ /*           
             //objects.cache data
             list(   $this->properties['hosts_objs'],
                     $this->properties['services_objs'],
@@ -233,6 +281,10 @@ class Nagios_data extends CI_Model
                     $this->properties['hostescalations'],
                     $this->properties['hostdependencys'],
                     $this->properties['servicedependencys']) = $this->parse_objects_file();
+
+ */
+            $this->parse_objects_file();
+
 
             if ($apc_exists) {
                $this->set_data_to_apc('objects');
@@ -388,7 +440,7 @@ class Nagios_data extends CI_Model
         $object_type = NULL;
         $host_name = '';
         $serviceID = 0;
-
+/*
         $objects = array(   'host' => array(),
                             'service' => array(),
                             'hostgroup' => array(),
@@ -403,6 +455,8 @@ class Nagios_data extends CI_Model
                             'servicedependency' => array(),
                         );
 
+
+
         $counters = array(  'host' => 0,
                             'service' => 0,
                             'hostgroup' => 0,
@@ -416,7 +470,7 @@ class Nagios_data extends CI_Model
                             'hostdepencency' => 0,
                             'servicedependency' => 0,
                         );
-
+*/
         //read through the file and read object definitions
         while ( !feof($file) ) {
             //Gets a line from file pointer.
@@ -428,14 +482,20 @@ class Nagios_data extends CI_Model
                     $in_block = false;
 
                     //add a service id
-                    if ($object_type ==' service') {
-                        $objects[$object_type][$counters[$object_type] ]['service_id'] = $serviceID++;
-                    }
+//                    if ($object_type ==' service') {
+//                        $objects[$object_type][$counters[$object_type] ]['service_id'] = $serviceID++;
+//                    }
 
                     //increment type counter
-                    if ($object_type != 'host') {
-                        $objects[$object_type][$counters[$object_type]++];
-                    }
+//                    if ($object_type != 'host') {
+//                        $objects[$object_type][$counters[$object_type]++];
+//                    }
+//TEST
+                   
+
+                    $Obj = NagiosObject::factory($object_type,$testArray);
+                    $this->_add($object_type,$Obj);
+
 
                     continue;
                 } else {
@@ -443,27 +503,34 @@ class Nagios_data extends CI_Model
                     @list($key, $value) = explode("\t", trim($line), 2);
 
                     //$objects['host'][0]['host_name'] = 'thename';
-                    if ($object_type=='host') {
-                        //index array by hostname
-                        if ($key == 'host_name') {
-                            $host_name = $value;
-                        }
-                        $objects[$object_type][$host_name][trim($key)] = trim($value);
+//                    if ($object_type=='host') {
+//                        //index array by hostname
+//                        if ($key == 'host_name') {
+//                            $host_name = $value;
+//                        }
+//                        $objects[$object_type][$host_name][trim($key)] = trim($value);
 
                     //create unique service ID
                     //} elseif ($object_type=='service') {
                         //$objects[$object_type][$counters[$object_type] ]['service_id'] = $serviceID;
 
-                    } else {
+  //                  } else {
                         //all other objects
-                        $objects[$object_type][$counters[$object_type] ][trim($key)] = trim($value);
-                    }
+  //                      $objects[$object_type][$counters[$object_type] ][trim($key)] = trim($value);
+  //                  }
+
+//TEST
+                    $testArray[$key] = $value;
+
                 }
             } else {
                 //outside of a block
                 if (preg_match('/^\s*define\s+(\w+)\s*{\s*$/', $line, $matches)) {
                     $object_type = $matches[1];
+
                     $in_block = true;
+
+                    $testArray = array();
                     continue;
                 }
             }
@@ -471,9 +538,11 @@ class Nagios_data extends CI_Model
 
         fclose($file);
 
-        //only do this for group and details page
-        // $object_collector['hostgroups'] = build_group_array($object_collector['hostgroups_objs'], 'host');
-        // $object_collector['servicegroups'] = build_group_array($object_collector['servicegroups_objs'], 'service');
+
+
+   //     die('DEATH2');
+
+/*
         return array(   $objects['host'],
                         $objects['service'],
                         $objects['hostgroup'],
@@ -487,6 +556,7 @@ class Nagios_data extends CI_Model
                         $objects['hostdepencency'],
                         $objects['servicedependency'],
                 );
+ */
     }
 
     /* TODO
@@ -753,6 +823,60 @@ class Nagios_data extends CI_Model
 
         return $membersArray;
     }
+
+
+
+    private function _map_collections() {
+
+        $this->_map = array(
+            'host' => &$this->_HostCollection,
+            'service' => &$this->_ServiceCollection,
+            'hostgroup' => &$this->_HostgroupCollection,
+            'servicegroup' => &$this->_ServicegroupCollection,
+            'timeperiod' => &$this->_TimeperiodCollection,
+            'command' => &$this->_CommandCollection,
+            'contact' => &$this->_ContactCollection,
+            'contactgroup' => &$this->_ContactgroupCollection,
+            'serviceescalation' => &$this->_ServiceescalationCollection,
+            'hostescalation' => &$this->_HostescalationCollection,
+            'hostdependency' => &$this->_HostdependencyCollection,
+            'servicedependency' => &$this->_ServicedependencyCollection,
+        );
+
+/** TEMPORARY MAP  */
+        
+        $this->properties['hosts_objs'] = &$this->_HostCollection;
+        $this->properties['services_objs'] = &$this->_ServiceCollection;
+        $this->properties['hostgroups_objs'] = &$this->_HostgroupCollection;
+       $this->properties['servicegroups_objs'] = &$this->_ServicegroupCollection;
+       $this->properties['contacts'] = &$this->_ContactCollection;
+       $this->properties[ 'contactgroups'] = &$this->_ContactgroupCollection;
+        $this->properties['timeperiods'] = &$this->_TimeperiodCollection;
+        $this->properties['commands'] = &$this->_CommandCollection;
+
+        $this->properties['hostescalations'] = &$this->_HostescalationCollection;
+        $this->properties['serviceescalations'] = &$this->_ServiceescalationCollection;
+        $this->properties['hostdependencys'] = &$this->_HostdependencyCollection;
+        $this->properties['servicedependencys'] = &$this->_ServicedependencyCollection;
+
+
+
+
+        foreach($this->_map as $type => &$Collection){
+            $Collection = NagiosCollection::factory($type);
+        }
+
+    }
+
+
+    private function _add($type,$Data){
+        $Collection = $this->_map[$type];
+        $Collection[$Data->id] = $Data; 
+    }
+
+    
+
+
 
 }
 

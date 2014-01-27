@@ -71,6 +71,7 @@ $autoload['helper'] = array(
 	'process_details',
 	'filtering_functions',
 	'status_functions',
+	'debug'
 );
 
 
@@ -116,14 +117,29 @@ $autoload['language'] = array();
 |
 */
 
+//require_once('/var/www/html/nagiosvshell/www/application/models/NagiosObject.php');
+//require_once('/var/www/html/nagiosvshell/www/application/models/Host.php');
+//require_once('/var/www/html/nagiosvshell/www/application/models/Service.php');
+
 $autoload['model'] = array(
+
+
 	'cache_or_disk',
 	'nagios_data',
 	'nagios_group',
 	'nagios_user',
 	'tac_data',
+
 );
 
+
+$autoload['factory'] = array(
+	'NagiosObject',
+	'Collection',
+	'NagiosCollection',	
+	'NagiosGroup',
+	'ObjectInterface',
+	);
 
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */

@@ -41,6 +41,11 @@ define('CGICFG', $conf_file['CGICFG']); //cfg file with permissions cfg
 define('RESULTLIMIT', $conf_file['RESULTLIMIT']); //limits the default number for maximum results displayed in a table 
 define('TTL', $conf_file['TTL']); 
 
+
+/* Custom Library Directories */
+
+define('FACTORY','libraries/factory/');
+
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes
