@@ -1,11 +1,8 @@
 <?php
 
-abstract class NagiosGroup extends NagiosObject
+class NagiosGroup extends NagiosObject
 {
 
-	public $name;
-
-	public $alias;
 
 	protected $memberstring = '';
 

@@ -121,7 +121,10 @@ class Nagios_group extends CI_Model
      */
     public function check_membership($hostname='', $servicename='', $servicegroup_name='')
     {
-        $hostgroups_objs = $this->nagios_data->getProperty('hostgroups_objs');
+        //$hostgroups_objs = $this->nagios_data->getProperty('hostgroups_objs');
+        
+        $HostgroupCollection = $this->nagios_data->get_collection('hostgroup');
+
         $servicegroups_objs = $this->nagios_data->getProperty('servicegroups_objs');
 
         $hostname = trim($hostname);
@@ -157,10 +160,21 @@ class Nagios_group extends CI_Model
         } elseif ($hostname!='' && $servicename=='') {
 
             $hostname_regex = preg_quote($hostname, '/');
-            foreach ($hostgroups_objs as $group) {
-                if (isset($group['members']) && preg_match("/$hostname_regex/", $group['members'])) {
+
+
+
+
+
+//array_dump($hostgroups_objs);
+//die();
+
+
+
+
+            foreach ($HostgroupCollection as $Group) {
+                if (!empty($Group->members) && preg_match("/$hostname_regex/", $Group->members)) {
                     //use alias as default display name, else use groupname
-                    $str = isset($group['alias']) ? $group['alias'] : $group['hostgroup_name'];
+                    $str = !empty($Group->alias) ? $Group->alias : $Group->get_name();
                     $memberships[] = $str;
                 }
             }

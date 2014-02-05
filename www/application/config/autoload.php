@@ -139,7 +139,11 @@ $autoload['factory'] = array(
 	'NagiosCollection',	
 	'NagiosGroup',
 	'ObjectInterface',
+	'objects/',
+	'collections/',
 	);
+
+
 
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */

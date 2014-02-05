@@ -57,6 +57,7 @@ class Status extends VS_Controller
 
     public function index()
     {
+
         $tac_data = $this->tac_data->get_tac_data();
         $username = $this->nagios_user->get_username();
 

@@ -61,7 +61,13 @@ function fetch_host_icons($hostname)
     $hostname = trim($hostname);
     $host = $ci->nagios_data->get_details_by('host', $hostname);
     $hosts_objs = $ci->nagios_data->getProperty('hosts_objs');
-    $host_obj = $hosts_objs[$hostname];
+
+    $Host = $ci->nagios_data->get_collection('host')->get_index_key('host_name',$hostname);
+    $HostStatus = $ci->nagios_data->get_collection('hoststatus')->get_index_key('host_name',$hostname);
+
+    array_dump($HostStatus);
+    die();
+
 
     $icons  = '<a href="/'.BASEURL.'/services?host_filter='.rawurlencode($hostname).'">';
     $icons .= '<img class="tableIcon" src="'.IMAGESURL.'/statusdetailmulti.png" height="12" widt="12" title="'.gettext('See All Services For This Host').'" alt="S" /></a>';

@@ -51,10 +51,18 @@ class VS_Loader extends CI_Loader
 
 			foreach($autoload['factory'] as $factory){
 
-				$file = APPPATH.FACTORY.$factory.'.php';
+				$file = APPPATH.FACTORY.$factory;
 
-				if(file_exists($file)){
-					include_once($file);
+				if(is_dir($file)){
+					$files = scandir($file);
+					foreach($files as $subfile){
+						if($subfile[0]!='.'){
+							include_once($file.'/'.$subfile);
+						}
+					}
+					
+				} elseif(file_exists($file.'.php') ) {
+					include_once($file.'.php');
 				} else {
 					show_error('Unable to locate the factory you have specified: '.$factory.' in location: '.$file);
 				}

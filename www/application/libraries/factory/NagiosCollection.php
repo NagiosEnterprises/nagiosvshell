@@ -3,7 +3,6 @@
 class NagiosCollection extends Collection
 {
 
-
 	protected $_type = null;
 
 	/**
@@ -17,12 +16,9 @@ class NagiosCollection extends Collection
 
 		$path = dirname(__FILE__).'/collections/'.$classname.'.php';
 
-		if(file_exists($path)){
-			include_once($path);
-		}
-
 		if(class_exists($classname)){
-			return new $classname();
+			$Object = new $classname();
+			return $Object;
 		} else {
 			throw new Exception('Class: '.$classname.' does not exist in path: '.$path.'');
 		}
@@ -31,6 +27,11 @@ class NagiosCollection extends Collection
 
 	public function get_type(){
 		return $this->_type; 
+	}
+
+
+	public function get_by_id($id){
+		return $this[$id];
 	}
 
 }

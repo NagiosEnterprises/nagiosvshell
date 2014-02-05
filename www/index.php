@@ -36,6 +36,8 @@
 	elseif( @$_SERVER['HTTP_HOST'] == 'cli' ){ $environment = 'commandline'; }
 	else{ $environment = 'live'; }
 	
+
+	$environment = 'development';
 	define('ENVIRONMENT', $environment); unset($environment);
 	
 /*

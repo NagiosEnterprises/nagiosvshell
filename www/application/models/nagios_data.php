@@ -69,18 +69,20 @@ class Nagios_data extends CI_Model
     protected $_ServicedependencyCollection;
 
     // Status based collections
-    protected $_HostStatus;
-    protected $_ServiceStatus;
-    protected $_HostgroupStatus;
-    protected $_ServicegroupStatus;
-    protected $_ProgramStatus; 
+    protected $_HoststatusCollection;
+    protected $_ServicestatusCollection;
+    protected $_HostgroupstatusCollection;
+    protected $_ServicegroupstatusCollection;
+
+    protected $_Programstatus; 
 
     //Various status collections 
-    protected $_CommentStatus;
-    protected $_InfoStatus;
+    protected $_HostcommentCollection;
+    protected $_ServicecommentCollection;
+    protected $_Info;
 
 
-    protected $_DetailsCollection; // ?? What is this??
+ //   protected $_DetailsCollection; // ?? What is this??
     protected $_PermissionsCollection;
 
     private $_map = array();
@@ -112,7 +114,7 @@ class Nagios_data extends CI_Model
         'services',
         'comments',
         'info',
-        'details',
+       // 'details',
         'permissions',
 
     );
@@ -135,7 +137,7 @@ class Nagios_data extends CI_Model
         $apc_exists = false;
 
         //if apc exists
-        if (function_exists('apc_fetch')) {
+        if (false || function_exists('apc_fetch')) {
             $apc_exists = true;
             if (isset($_GET['clearcache']) && htmlentities($_GET['clearcache'],ENT_QUOTES)=='true') {
                 apc_clear_cache('user');
@@ -440,37 +442,7 @@ class Nagios_data extends CI_Model
         $object_type = NULL;
         $host_name = '';
         $serviceID = 0;
-/*
-        $objects = array(   'host' => array(),
-                            'service' => array(),
-                            'hostgroup' => array(),
-                            'servicegroup' => array(),
-                            'timeperiod' => array(),
-                            'command' => array(),
-                            'contact' => array(),
-                            'contactgroup' => array(),
-                            'serviceescalation' => array(),
-                            'hostescalation' => array(),
-                            'hostdepencency' => array(),
-                            'servicedependency' => array(),
-                        );
 
-
-
-        $counters = array(  'host' => 0,
-                            'service' => 0,
-                            'hostgroup' => 0,
-                            'servicegroup' => 0,
-                            'timeperiod' => 0,
-                            'command' => 0,
-                            'contact' => 0,
-                            'contactgroup' => 0,
-                            'serviceescalation' => 0,
-                            'hostescalation' => 0,
-                            'hostdepencency' => 0,
-                            'servicedependency' => 0,
-                        );
-*/
         //read through the file and read object definitions
         while ( !feof($file) ) {
             //Gets a line from file pointer.
@@ -481,46 +453,16 @@ class Nagios_data extends CI_Model
                     //end of block
                     $in_block = false;
 
-                    //add a service id
-//                    if ($object_type ==' service') {
-//                        $objects[$object_type][$counters[$object_type] ]['service_id'] = $serviceID++;
-//                    }
-
-                    //increment type counter
-//                    if ($object_type != 'host') {
-//                        $objects[$object_type][$counters[$object_type]++];
-//                    }
-//TEST
-                   
-
-                    $Obj = NagiosObject::factory($object_type,$testArray);
+                    $Obj = NagiosObject::factory($object_type,$objectArray);
                     $this->_add($object_type,$Obj);
 
-
                     continue;
+
                 } else {
                     // Collect the key-value pairs for the definition
                     @list($key, $value) = explode("\t", trim($line), 2);
 
-                    //$objects['host'][0]['host_name'] = 'thename';
-//                    if ($object_type=='host') {
-//                        //index array by hostname
-//                        if ($key == 'host_name') {
-//                            $host_name = $value;
-//                        }
-//                        $objects[$object_type][$host_name][trim($key)] = trim($value);
-
-                    //create unique service ID
-                    //} elseif ($object_type=='service') {
-                        //$objects[$object_type][$counters[$object_type] ]['service_id'] = $serviceID;
-
-  //                  } else {
-                        //all other objects
-  //                      $objects[$object_type][$counters[$object_type] ][trim($key)] = trim($value);
-  //                  }
-
-//TEST
-                    $testArray[$key] = $value;
+                    $objectArray[$key] = $value;
 
                 }
             } else {
@@ -530,7 +472,7 @@ class Nagios_data extends CI_Model
 
                     $in_block = true;
 
-                    $testArray = array();
+                    $objectArray = array();
                     continue;
                 }
             }
@@ -538,25 +480,6 @@ class Nagios_data extends CI_Model
 
         fclose($file);
 
-
-
-   //     die('DEATH2');
-
-/*
-        return array(   $objects['host'],
-                        $objects['service'],
-                        $objects['hostgroup'],
-                        $objects['servicegroup'],
-                        $objects['timeperiod'],
-                        $objects['command'],
-                        $objects['contact'],
-                        $objects['contactgroup'],
-                        $objects['serviceescalation'],
-                        $objects['hostescalation'],
-                        $objects['hostdepencency'],
-                        $objects['servicedependency'],
-                );
- */
     }
 
     /* TODO
@@ -577,27 +500,30 @@ class Nagios_data extends CI_Model
 
         //switch constants
         define('OUTOFBLOCK',0);
-        define('HOSTDEF',1);
-        define('SERVICEDEF',2);
-        define('PROGRAM',3);
-        define('INFO',4);
-        define('HOSTCOMMENT',5);
-        define('SERVICECOMMENT',6);
+        define('HOSTDEF','hoststatus');
+        define('SERVICEDEF','servicestatus');
+        define('PROGRAM','programstatus');
+        define('INFO','info');
+        define('HOSTCOMMENT','hostcomment');
+        define('SERVICECOMMENT','servicecomment');
 
+/*
         $hoststatus = array();
         $servicestatus = array();
         $hostcomments = array();
         $servicecomments = array();
         $programstatus = array();
         $info = array();
-
+*/
         //counters for iteration through file
         $case = OUTOFBLOCK;
+
+ /*       
         $service_id=0;
         $s_comment_id = 0;
         $h_comment_id = 0;
         $hostkey = '';
-
+*/
         //keywords for string match
         $hoststring = 'hoststatus {';
         $servicestring = 'servicestatus {';
@@ -605,6 +531,8 @@ class Nagios_data extends CI_Model
         $servicecommentstring = 'servicecomment {';
         $programstring = 'programstatus {';
         $infostring = 'info {';
+
+        $buf = array();
 
         //begin parse
         //read through file and assign host and service status into separate arrays
@@ -618,6 +546,7 @@ class Nagios_data extends CI_Model
                 if (strpos($line, $hoststring) !== false) {
                     //enable grabbing of host variables
                     $case = HOSTDEF;
+                   // $Status = NagiosObject::factory('Hoststatus');
                     //unset($hostkey);
                     continue;
                 }
@@ -626,7 +555,8 @@ class Nagios_data extends CI_Model
                 if (strpos($line, $servicestring) !== false) {
                     //enable grabbing of service variables
                     $case = SERVICEDEF;
-                    $servicestatus[$service_id] = array();
+//                    $servicestatus[$service_id] = array();
+                   // $Status = NagiosObject::factory('Servicestatus');
                     continue;
                 }
 
@@ -634,6 +564,7 @@ class Nagios_data extends CI_Model
                 if (strpos($line, $hostcommentstring) !== false) {
                     //enable grabbing of host variables
                     $case = HOSTCOMMENT;
+                    //$Status = NagiosObject::factory('Hostcomment');
                     //unset($hostkey);
                     continue;
                 }
@@ -642,25 +573,32 @@ class Nagios_data extends CI_Model
                 if (strpos($line, $servicecommentstring) !== false) {
                     //enable grabbing of service variables
                     $case = SERVICECOMMENT;
-                    $s_comment_id++;
+//                    $s_comment_id++;
+                    //$Status = NagiosObject::factory('Servicecomment');
                     continue;
                 }
 
                 //program status
                 if (strpos($line,$programstring) !== false) {
                     $case = PROGRAM;
+                    //$Status = NagiosObject::factory('Programstatus');
                     continue;
                 }
 
                 //info
                 if (strpos($line,$infostring) !== false) {
                     $case = INFO;
+                    //$Status = NagiosObject::factory('Info');
                     continue;
                 }
 
             }
 
+
+            //End definition
             if (strpos($line, '}') !==false) {
+
+/*               
                 if ($case == SERVICEDEF) {
                     $service_id++;
                 }
@@ -670,6 +608,19 @@ class Nagios_data extends CI_Model
                 if ($case == HOSTCOMMENT) {
                    $h_comment_id++;
                 }
+*/        
+
+                if($case==INFO){
+                    $this->_Info = new Info($buf);
+                } elseif($case==PROGRAM){
+                    $this->_Programstatus = new Programstatus($buf);
+                }else {
+                    $Status = NagiosObject::factory($case,$buf);
+                    $this->_add($case,$Status);
+                     unset($Status);
+                }
+               
+
 
                 //turn off switches once a definition ends
                 $case = OUTOFBLOCK;
@@ -677,9 +628,12 @@ class Nagios_data extends CI_Model
                 continue;
             }
 
+
             //capture key / value pair
             list($key,$value) = get_key_value($line);
+            $buf[$key] = $value;
 
+/*
             //grab variables according to the enabled boolean switch
             switch ($case) {
                 case HOSTDEF:
@@ -720,11 +674,14 @@ class Nagios_data extends CI_Model
                     //switches are off, do nothing
                 break;
             }
-
+*/
         }
+
+
 
         fclose($file);
 
+/*
         return array(   $hoststatus,
                         $servicestatus,
                         $hostcomments,
@@ -732,6 +689,8 @@ class Nagios_data extends CI_Model
                         $programstatus,
                         $info,
             );
+
+*/            
     }
 
     //returns array of authorization => users[array]
@@ -841,6 +800,16 @@ class Nagios_data extends CI_Model
             'hostescalation' => &$this->_HostescalationCollection,
             'hostdependency' => &$this->_HostdependencyCollection,
             'servicedependency' => &$this->_ServicedependencyCollection,
+
+            'hoststatus' => &$this->_HoststatusCollection,
+            'servicestatus' => &$this->_ServicestatusCollection,
+            'hostgroupstatus' => &$this->_HostgroupstatusCollection,
+            'servicegroupstatus' => &$this->_ServicegroupstatusCollection,
+            'hostcomment' => &$this->_HostcommentCollection,
+            'servicecomment' => &$this->_ServicecommentCollection,
+           // 'programstatus' => &$this->_Programstatus,
+           // 'info'  => &$this->_Info,
+
         );
 
 /** TEMPORARY MAP  */
@@ -870,11 +839,24 @@ class Nagios_data extends CI_Model
 
 
     private function _add($type,$Data){
+
         $Collection = $this->_map[$type];
-        $Collection[$Data->id] = $Data; 
+       // $Collection[$Data->id] = $Data; 
+       $Collection->add($Data);
     }
 
-    
+    public function get_collection($type){
+
+        $collection = '_'.ucfirst($type).'Collection';
+
+        if(isset($this->_map[$type])){
+            return $this->_map[$type];
+        } elseif(isset($this->$collection)){
+            return $this->$collection;
+        } else {
+            throw new Exception(get_class($this).': Unable to retrieve collection of type: '.$type); 
+        }
+    }
 
 
 

@@ -3,12 +3,15 @@
 abstract class NagiosObject extends StdClass
 {
 
-	private $_type = null;
+	protected $_type = null;
 
 	protected static $_count;
 
 	public $id = null;
 
+	protected $_namefield;
+
+	public $name;
 
 
 	function __construct($properties = array(),$strict = false ) {
@@ -24,7 +27,9 @@ abstract class NagiosObject extends StdClass
 
 		} else {
 			foreach($properties as $key => $value) {
-				$this->$key = $value;
+				if(!empty($key)){
+					$this->$key = $value;
+				}	
 			}	
 		}
 
@@ -34,7 +39,12 @@ abstract class NagiosObject extends StdClass
 
 		//echo get_class($this)." ID: ".$this->id."<br />";
 
+		//set the name if we can
+		$this->_set_namefield(); 
 
+		if(!empty($properties[$this->get_namefield()])){
+			$this->name = $properties[$this->get_namefield()];
+		}	
 
 	}
 
@@ -66,10 +76,6 @@ abstract class NagiosObject extends StdClass
 
 		$path = dirname(__FILE__).'/objects/'.$classname.'.php';
 
-		if(!class_exists($classname) && file_exists($path)){
-			include_once($path);
-		}
-
 		if(!class_exists($classname)){
 			throw new Exception('Cannot create class: '.$classname.', class is not a valid nagios object');
 		}
@@ -83,11 +89,19 @@ abstract class NagiosObject extends StdClass
 	}
 
 
-	public function get_name(){
-		$namefield = $this->_type.'_name';
-		return $this->$namefield;
+	public function get_namefield(){
+		return $this->_namefield;
 	}
 
+
+	protected function _set_namefield(){
+		$this->_namefield = $this->_type.'_name';
+	}
+
+
+	public function get_type(){
+		return $this->_type;
+	}
 
 
 }
