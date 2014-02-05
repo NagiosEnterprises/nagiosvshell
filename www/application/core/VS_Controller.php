@@ -64,6 +64,41 @@ class VS_Controller extends CI_Controller
         $start = $this->input->get('start');
         $this->start_filter = intval($start);
     }
+
+    protected function output($data)
+    {
+        $format = strtolower($this->input->get('format'));
+
+        if( $format == 'xml' ){
+            $this->output_xml($data);
+        } else {
+            $this->output_json($data);
+        }
+    }
+
+    protected function output_xml($data)
+    {
+        header('Content-Type: text/xml');
+        $this->load->helper('array_to_xml');
+
+        $xml = new SimpleXMLElement("<?xml version=\"1.0\" encoding=\"UTF-8\"?><api_data></api_data>");
+        array_to_xml($data, $xml);
+        $output = $xml->asXML();
+
+        echo $output;
+    }
+
+    protected function output_json($data)
+    {
+        header('Content-Type: application/json');
+        $this->load->library('JSON');
+
+        $json = new JSON();
+        $output = $json->encode($data);
+
+        echo $output;
+    }
+
 }
 
 /* End of file vs_controller.php */
