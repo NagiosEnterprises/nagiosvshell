@@ -138,10 +138,11 @@ $autoload['factory'] = array(
 	'Collection',
 	'NagiosCollection',	
 	'NagiosGroup',
-	'ObjectInterface',
+    // TODO: Commented out, was throwing factory not found error
+	// 'ObjectInterface',
 	'objects/',
 	'collections/',
-	);
+);
 
 
 
