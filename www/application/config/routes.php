@@ -41,5 +41,16 @@
 $route['default_controller'] = "status";
 $route['404_override'] = '';
 
+
+$route['api'] = 'api';
+$route['api/hoststatus/(:any)'] = "api/hoststatus/$1";
+$route['api/servicestatus/(:any)'] = "api/servicestatus/$1";
+
+$route['api/host_by_id/(:num)'] = "api/host_by_id/$1";
+$route['api/service_by_id/(:num)'] = "api/service_by_id/$1";
+
+$route['api/object/(:any)'] = "api/object/$1";
+
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

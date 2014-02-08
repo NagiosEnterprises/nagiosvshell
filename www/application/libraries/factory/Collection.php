@@ -10,6 +10,8 @@ class Collection extends ArrayObject
 
     protected $_index = array();
 
+    protected $_type;
+
 
 
     function __construct($array = null){
@@ -43,17 +45,49 @@ class Collection extends ArrayObject
 
 
 
-    public function get_where($field,$value,$condition='==') {
+    /**
+     * Get all items from this collection where $field == $value
+     * @param  string $field object property
+     * @param  mixed  $value property value
+     * @return Collection
+     */
+    public function get_where($field,$value) {
+  		
+        $classname = get_class($this);
+        $Collection = new $classname();
 
-  		return;
+        foreach($this as $key => $Object){
+            if($Object->$field == $value){
+                $Collection->add($Object);
+            }
+        }
+
+        return $Collection;
 
     }
 
 
-    public function get_not_where(){
+    /**
+     * Get all items from this collection where $field != $value
+     * @param  string $field object property
+     * @param  mixed  $value property value
+     * @return Collection
+     */
+    public function get_not_where($field,$value) {
+        
+        $classname = get_class($this);
+        $Collection = new $classname();
 
-    	return;
+        foreach($this as $key => $Object){
+            if($Object->$field != $value){
+                $Collection->add($Object);
+            }
+        }
+
+        return $Collection;
     }
+    
+        
 
     public function get_where_callback($field,$value,$callback){
     	return;
@@ -69,7 +103,7 @@ class Collection extends ArrayObject
         $return = array();
         foreach( (array) $this as $row ) {
             if (is_object($row)) {
-                $return[] = $row->to_array();
+                $return[] = get_object_vars($row);
             } else {
                 $return[] = array($row);
             }
@@ -89,14 +123,16 @@ class Collection extends ArrayObject
         $this[$Object->id] = $Object;
 
         foreach($this->_index as $key => &$Collection ){
-            //$Collection[] = &$this[$Object->id];
+
             $this->_index[$key][$Object->$key][] = &$this[$Object->id];
+
         }
 
     }
 
 
     public function get_index($name){
+
         if(isset($this->_index[$name])){
             return $this->_index[$name];
         } else {
@@ -105,6 +141,7 @@ class Collection extends ArrayObject
     }
 
     public function get_index_key($name,$key){
+
         $Object =  $this->get_index($name);
 
         return new static($Object[$key]);

@@ -7,9 +7,6 @@
 class VS_Loader extends CI_Loader
 {
 
-
-	
-
 	/**
 	 * Initialize the Loader
 	 *

@@ -269,24 +269,7 @@ class Nagios_data extends CI_Model
     {
         if (!$objects_are_cached) {
 
- /*           
-            //objects.cache data
-            list(   $this->properties['hosts_objs'],
-                    $this->properties['services_objs'],
-                    $this->properties['hostgroups_objs'],
-                    $this->properties['servicegroups_objs'],
-                    $this->properties['timeperiods'],
-                    $this->properties['commands'],
-                    $this->properties['contacts'],
-                    $this->properties['contactgroups'],
-                    $this->properties['serviceescalations'],
-                    $this->properties['hostescalations'],
-                    $this->properties['hostdependencys'],
-                    $this->properties['servicedependencys']) = $this->parse_objects_file();
-
- */
             $this->parse_objects_file();
-
 
             if ($apc_exists) {
                $this->set_data_to_apc('objects');
@@ -295,12 +278,7 @@ class Nagios_data extends CI_Model
         }
 
         //status.dat data always gets parsed if this function is called
-        list(   $this->properties['hosts'],
-                $this->properties['services'],
-                $this->properties['hostcomments'],
-                $this->properties['servicecomments'],
-                $this->properties['program'],
-                $this->properties['info']) = $this->parse_status_file();
+        $this->parse_status_file();
 
         if ($apc_exists) {
             $this->set_data_to_apc('status');
@@ -318,6 +296,10 @@ class Nagios_data extends CI_Model
 
     private function use_apc_data()
     {
+
+        //TURN OFF APC DURING DEVELOPMENT
+        return FALSE;
+
         $use_apc_objects  = false;
         $use_apc_status = false;
         $use_apc_perms = false;
@@ -350,6 +332,10 @@ class Nagios_data extends CI_Model
 
     private function get_data_from_apc($type)
     {
+
+
+        die('APC IS TURND OFF DURING 2.x DEVELOPMENT');
+
         if ($type == 'objects') {
             //set object data from cache
             $this->properties['hosts_objs'] = apc_fetch('hosts_objs');
@@ -384,6 +370,11 @@ class Nagios_data extends CI_Model
 
     private function set_data_to_apc($type)
     {
+
+
+        return;
+
+
         if ($type == 'objects') {
             //set object data from cache
             apc_store('hosts_objs',$this->properties['hosts_objs']);
@@ -507,23 +498,9 @@ class Nagios_data extends CI_Model
         define('HOSTCOMMENT','hostcomment');
         define('SERVICECOMMENT','servicecomment');
 
-/*
-        $hoststatus = array();
-        $servicestatus = array();
-        $hostcomments = array();
-        $servicecomments = array();
-        $programstatus = array();
-        $info = array();
-*/
         //counters for iteration through file
         $case = OUTOFBLOCK;
 
- /*       
-        $service_id=0;
-        $s_comment_id = 0;
-        $h_comment_id = 0;
-        $hostkey = '';
-*/
         //keywords for string match
         $hoststring = 'hoststatus {';
         $servicestring = 'servicestatus {';
@@ -542,53 +519,39 @@ class Nagios_data extends CI_Model
             // NEW REVISION
             if ($case == OUTOFBLOCK) {
 
-                //host
+                //hoststatus
                 if (strpos($line, $hoststring) !== false) {
-                    //enable grabbing of host variables
                     $case = HOSTDEF;
-                   // $Status = NagiosObject::factory('Hoststatus');
-                    //unset($hostkey);
                     continue;
                 }
 
-                //service
+                //servicestatus
                 if (strpos($line, $servicestring) !== false) {
-                    //enable grabbing of service variables
                     $case = SERVICEDEF;
-//                    $servicestatus[$service_id] = array();
-                   // $Status = NagiosObject::factory('Servicestatus');
                     continue;
                 }
 
                 //hostcomment
                 if (strpos($line, $hostcommentstring) !== false) {
-                    //enable grabbing of host variables
                     $case = HOSTCOMMENT;
-                    //$Status = NagiosObject::factory('Hostcomment');
-                    //unset($hostkey);
                     continue;
                 }
 
-                //service
+                //servicecomment
                 if (strpos($line, $servicecommentstring) !== false) {
-                    //enable grabbing of service variables
                     $case = SERVICECOMMENT;
-//                    $s_comment_id++;
-                    //$Status = NagiosObject::factory('Servicecomment');
                     continue;
                 }
 
                 //program status
                 if (strpos($line,$programstring) !== false) {
                     $case = PROGRAM;
-                    //$Status = NagiosObject::factory('Programstatus');
                     continue;
                 }
 
                 //info
                 if (strpos($line,$infostring) !== false) {
                     $case = INFO;
-                    //$Status = NagiosObject::factory('Info');
                     continue;
                 }
 
@@ -597,23 +560,16 @@ class Nagios_data extends CI_Model
 
             //End definition
             if (strpos($line, '}') !==false) {
-
-/*               
-                if ($case == SERVICEDEF) {
-                    $service_id++;
-                }
-                if ($case == SERVICECOMMENT) {
-                   $s_comment_id++;
-                }
-                if ($case == HOSTCOMMENT) {
-                   $h_comment_id++;
-                }
-*/        
-
+    
+                //Only one info, doesn't need a collection
                 if($case==INFO){
                     $this->_Info = new Info($buf);
+
+                //Only one programstatus, doesn't need a collection     
                 } elseif($case==PROGRAM){
                     $this->_Programstatus = new Programstatus($buf);
+
+                //objectstatus collection or comment collection     
                 }else {
                     $Status = NagiosObject::factory($case,$buf);
                     $this->_add($case,$Status);
@@ -621,9 +577,11 @@ class Nagios_data extends CI_Model
                 }
                
 
-
                 //turn off switches once a definition ends
                 $case = OUTOFBLOCK;
+
+                //clear the buffer
+                $buf = array();
 
                 continue;
             }
@@ -633,64 +591,10 @@ class Nagios_data extends CI_Model
             list($key,$value) = get_key_value($line);
             $buf[$key] = $value;
 
-/*
-            //grab variables according to the enabled boolean switch
-            switch ($case) {
-                case HOSTDEF:
-                    //do something
-                    if ($key=='host_name' && !isset($hoststatus[$value])) {
-                        $hostkey = $value;
-                        $hoststatus[$hostkey] = array();
-                    }
-                    $hoststatus[$hostkey][$key]= $value;
-                break;
-
-                case SERVICEDEF:
-                    $servicestatus[$service_id][$key]= $value;
-                    $servicestatus[$service_id]['service_id']= $service_id;
-                break;
-
-                case HOSTCOMMENT:
-                    if(!isset($hostcomments[$h_comment_id]))
-                        $hostcomments[$h_comment_id] = array();
-
-                    $hostcomments[$h_comment_id][$key]= $value;
-                break;
-
-                case SERVICECOMMENT:
-                    $servicecomments[$s_comment_id][$key]= $value;
-                break;
-
-                case INFO:
-                    $info[$key] = $value;
-                break;
-
-                case PROGRAM:
-                    $programstatus[$key] = $value;
-                break;
-
-                case OUTOFBLOCK:
-                default:
-                    //switches are off, do nothing
-                break;
-            }
-*/
         }
 
-
-
         fclose($file);
-
-/*
-        return array(   $hoststatus,
-                        $servicestatus,
-                        $hostcomments,
-                        $servicecomments,
-                        $programstatus,
-                        $info,
-            );
-
-*/            
+          
     }
 
     //returns array of authorization => users[array]
@@ -770,9 +674,7 @@ class Nagios_data extends CI_Model
                         $host = $lineitems[$i];
                         $service = $lineitems[$i+1];
                         $group_members[$host][] = $service;
-                        /* (
-                            'host_name' => $host,
-                            'service_description' => $service); */
+
                     }
                 }
 
@@ -817,9 +719,9 @@ class Nagios_data extends CI_Model
         $this->properties['hosts_objs'] = &$this->_HostCollection;
         $this->properties['services_objs'] = &$this->_ServiceCollection;
         $this->properties['hostgroups_objs'] = &$this->_HostgroupCollection;
-       $this->properties['servicegroups_objs'] = &$this->_ServicegroupCollection;
-       $this->properties['contacts'] = &$this->_ContactCollection;
-       $this->properties[ 'contactgroups'] = &$this->_ContactgroupCollection;
+        $this->properties['servicegroups_objs'] = &$this->_ServicegroupCollection;
+        $this->properties['contacts'] = &$this->_ContactCollection;
+        $this->properties[ 'contactgroups'] = &$this->_ContactgroupCollection;
         $this->properties['timeperiods'] = &$this->_TimeperiodCollection;
         $this->properties['commands'] = &$this->_CommandCollection;
 
@@ -828,12 +730,14 @@ class Nagios_data extends CI_Model
         $this->properties['hostdependencys'] = &$this->_HostdependencyCollection;
         $this->properties['servicedependencys'] = &$this->_ServicedependencyCollection;
 
-
-
-
+        //Factory load classes 
         foreach($this->_map as $type => &$Collection){
             $Collection = NagiosCollection::factory($type);
         }
+
+        //Non-factory classes 
+        $this->_map['programstatus'] = &$this->_Programstatus;
+        $this->_map['info'] = &$this->_Info;
 
     }
 
@@ -841,6 +745,7 @@ class Nagios_data extends CI_Model
     private function _add($type,$Data){
 
         $Collection = $this->_map[$type];
+
        // $Collection[$Data->id] = $Data; 
        $Collection->add($Data);
     }

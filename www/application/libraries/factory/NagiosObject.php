@@ -54,18 +54,11 @@ abstract class NagiosObject extends StdClass
 	 */
 	public function to_array() {
 
-		$properties = array();
-
-		foreach(get_class_vars(get_class($this)) as $prop => $value ){
-			$properties[$prop] = $value; 
-		}	
-
-		return $properties; 
+		return get_object_vars($this);
 	}
 
 	/**
 	 * Returns new NagiosObject based on the object type 
-	 * Handles autoloading of the object 
 	 * @param  string $objectType valid Nagios Object type
 	 * @param  array $properties
 	 * @return NagiosObject	NagiosObject of type $objectType 

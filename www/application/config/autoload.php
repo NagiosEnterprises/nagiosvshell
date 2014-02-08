@@ -123,7 +123,6 @@ $autoload['language'] = array();
 
 $autoload['model'] = array(
 
-
 	'cache_or_disk',
 	'nagios_data',
 	'nagios_group',
@@ -132,14 +131,21 @@ $autoload['model'] = array(
 
 );
 
-
+/*
+| -------------------------------------------------------------------
+|  Factory Auto-load Models
+| -------------------------------------------------------------------
+| CodeIgnitor doesn't have a built-in method to support the factory methodoloy.
+| These load custom Nagios classes that are created by factory.
+| See APPPATH/libaries/class_name and VS_Loader.php
+| 
+|
+*/
 $autoload['factory'] = array(
 	'NagiosObject',
 	'Collection',
 	'NagiosCollection',	
 	'NagiosGroup',
-    // TODO: Commented out, was throwing factory not found error
-	// 'ObjectInterface',
 	'objects/',
 	'collections/',
 );
