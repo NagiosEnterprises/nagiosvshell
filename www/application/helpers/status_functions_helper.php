@@ -61,7 +61,7 @@
  *
  * used for tactical overview tables
  */
-function get_state_of($type, $array = NULL)
+function get_state_of($type, $array )
 {
     //create host or service arrays by status
     $ci =& get_instance();
@@ -76,9 +76,9 @@ function get_state_of($type, $array = NULL)
             'PENDING'  => 0
         );
 
-        if (is_null($array)) {
-            $array = $ci->nagios_data->getProperty('services');
-        }
+        //if (is_null($array)) {
+       //     $array = $ci->nagios_data->getProperty('services');
+       // }
 
     } elseif ($type == 'hosts') {
 
@@ -90,18 +90,19 @@ function get_state_of($type, $array = NULL)
             'PENDING'     => 0
         );
 
-        if (is_null($array)) {
-            $array = $ci->nagios_data->getProperty('hosts');
-        }
+     //   if (is_null($array)) {
+     //       $array = $ci->nagios_data->getProperty('hosts');
+     //   }
 
     } else {
         // XXX handle better
-        die("Unknown type for this function");
+        throw new Exception("Unknown type: ".$type." for function get_state_of".debug_backtrace());
     }
 
     foreach ($array as $a) {
+
         if ($type == 'services') {
-            //process_service_status_keys($a);
+            
             if ($ci->nagios_user->is_authorized_for_service($a['host_name'], $a['service_description'])) {
                 $state_counts[return_service_state($a['current_state'])]++;
             }

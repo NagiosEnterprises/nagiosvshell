@@ -16,8 +16,10 @@ class API extends VS_Controller
     public function index()
     {
 
-        echo get_class($this->nagios_data);
-        echo 'hello world';
+        $Data = $this->tac_data->get_tac_data();
+
+        $this->output($Data);
+
     }
 
 

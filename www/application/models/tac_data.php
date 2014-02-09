@@ -68,20 +68,22 @@ class Tac_data extends CI_Model
         $ci =& get_instance();
 
         $now      = time();
-        $info     = $ci->nagios_data->getProperty('info');
-        $program  = $ci->nagios_data->getProperty('program');
+        $info     = $ci->nagios_data->get_collection('info')->to_array();
+
+
+        $program  = $ci->nagios_data->get_collection('programstatus')->to_array();
         //$program  = $program[0];
 
-        $services = $ci->nagios_data->grab_details('service');
-        $hosts    = $ci->nagios_data->grab_details('host');
+        $services = $ci->nagios_data->get_collection('servicestatus')->to_array();
+        $hosts    = $ci->nagios_data->get_collection('hoststatus')->to_array();
 
         //$h_states = $ci->nagios_data->getProperty('host');
         $tac_data = array(); //main array with all of the counter data for this function
 
         //default to xml
         //prepare data for consolidated array
-        $hoststates    = get_state_of('hosts');
-        $servicestates = get_state_of('services');
+        $hoststates    = get_state_of('hosts',$hosts);
+        $servicestates = get_state_of('services',$services);
 
         $lcc = $now - (settype($info['last_command_check'], 'integer'));
 
@@ -290,7 +292,8 @@ class Tac_data extends CI_Model
             }
 
             //xml necessary for Nagios Fusion
-            $current_host = $hosts[$s['host_name']];
+        //    $current_host = $hosts[$s['host_name']];
+            $current_host = $s['host_name'];    
 
             //pending enabled
             if ($s['last_check'] == 0 && $s['active_checks_enabled'] == 1) {

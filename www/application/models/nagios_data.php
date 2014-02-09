@@ -79,6 +79,7 @@ class Nagios_data extends CI_Model
     //Various status collections 
     protected $_HostcommentCollection;
     protected $_ServicecommentCollection;
+    protected $_ContactstatusCollection;
     protected $_Info;
 
 
@@ -371,7 +372,7 @@ class Nagios_data extends CI_Model
     private function set_data_to_apc($type)
     {
 
-
+        //TURN OFF APC DURING 2.X DEVELOPMENT. NOT READY TO DEBUG CACHING STUFF 
         return;
 
 
@@ -497,6 +498,7 @@ class Nagios_data extends CI_Model
         define('INFO','info');
         define('HOSTCOMMENT','hostcomment');
         define('SERVICECOMMENT','servicecomment');
+        define('CONTACT', 'contactstatus');
 
         //counters for iteration through file
         $case = OUTOFBLOCK;
@@ -508,6 +510,7 @@ class Nagios_data extends CI_Model
         $servicecommentstring = 'servicecomment {';
         $programstring = 'programstatus {';
         $infostring = 'info {';
+        $contactstring = 'contactstatus {';
 
         $buf = array();
 
@@ -515,6 +518,11 @@ class Nagios_data extends CI_Model
         //read through file and assign host and service status into separate arrays
         while (!feof($file)) {
             $line = fgets($file); //Gets a line from file pointer.
+
+            //skip comments
+            if($line[0]=='#'){
+                continue;
+            }
 
             // NEW REVISION
             if ($case == OUTOFBLOCK) {
@@ -542,6 +550,12 @@ class Nagios_data extends CI_Model
                     $case = SERVICECOMMENT;
                     continue;
                 }
+
+                //contactstatus
+                if (strpos($line, $contactstring) !== false) {
+                    $case = CONTACT;
+                    continue;
+                }                
 
                 //program status
                 if (strpos($line,$programstring) !== false) {
@@ -590,7 +604,7 @@ class Nagios_data extends CI_Model
             //capture key / value pair
             list($key,$value) = get_key_value($line);
             $buf[$key] = $value;
-
+ 
         }
 
         fclose($file);
@@ -709,6 +723,7 @@ class Nagios_data extends CI_Model
             'servicegroupstatus' => &$this->_ServicegroupstatusCollection,
             'hostcomment' => &$this->_HostcommentCollection,
             'servicecomment' => &$this->_ServicecommentCollection,
+            'contactstatus' => &$this->_ContactstatusCollection,
            // 'programstatus' => &$this->_Programstatus,
            // 'info'  => &$this->_Info,
 
