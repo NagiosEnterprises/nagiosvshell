@@ -59,11 +59,19 @@ class Hosts extends VS_Controller
     public function index()
     {
         $this->load->helper('fetch_icons_helper');
+
+        /*
         $hosts = hosts_and_services_data(
             'hosts',
             $this->state_filter,
             $this->name_filter
         );
+        */
+
+        $hosts = $this->nagios_data->get_collection('hoststatus');
+
+       // array_dump($hosts);
+       // die();
 
         //if results are greater than number that the page can display, create page links
         //calculate number of pages
@@ -71,7 +79,7 @@ class Hosts extends VS_Controller
         $pageCount = (($resultsCount / $this->limit_filter) < 1) ? 1 : intval($resultsCount/$this->limit_filter);
         $doPagination = ($pageCount * $this->limit_filter) < $resultsCount;
 
-        $hostnames = array_keys($hosts);
+        $hostnames = array_keys($hosts->get_index('host_name'));
         sort($hostnames);
 
         $data = array(

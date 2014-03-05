@@ -48,6 +48,14 @@
 // NEGLIGENCE OR OTHERWISE) OR OTHER ACTION, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
+    //build page links based on user's permission level
+    $ci = &get_instance();
+
+    //generate links based on permissions
+    $base = '/'.BASEURL;
+
+
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -56,39 +64,120 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+<!--
     <meta http-equiv="cache-control" content="max-age=0" />
     <meta http-equiv="cache-control" content="no-cache" />
     <meta http-equiv="expires" content="0" />
     <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
-
+-->
     <title>Nagios V-Shell2</title>
 
-    <link rel="stylesheet" href="<?php echo STATICURL; ?>/css/style.css">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
-    <script src="<?php echo STATICURL; ?>/js/jquery-1.4.4.min.js"></script>
-    <script src="<?php echo STATICURL; ?>/js/header.inc.js"></script>
+    <!-- <link rel="stylesheet" href="<?php echo STATICURL; ?>/css/style.css"> -->
+
+   <!-- <link rel="stylesheet" type="text/css" href="<?php echo STATICURL; ?>/bootstrap/css/bootstrap.min.css" /> -->
+
+ <!--    <script src="<?php echo STATICURL; ?>/js/jquery-1.4.4.min.js"></script>
+    <script src="<?php echo STATICURL; ?>/js/header.inc.js"></script> -->
+
+    <!-- use CDN's for now -->
+    <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script> -->
+
+    <script type="text/javascript" src="<?=STATICURL?>/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
 
 </head>
 <body>
-
-<header>
-
-    <div id="logoDiv">
-        <a href="/<?php echo BASEURL; ?>"><img src="<?php echo IMAGESURL; ?>/vshell.png"/></a>
+    <!--
+    <div class="container">
+            <a class="navbar-brand" href="/<?=BASEURL?>"><img src="<?=IMAGESURL?>/vshell.png"/></a>
+            <a class="label" href="<?=COREURL?>" target="_blank" title="<?=gettext('Access Nagios Core')?>"><?=gettext('Access Nagios Core')?></a>
     </div>
+-->
+<nav class="container">
+    <div class="navbar navbar-inverse" role="navigation">
+        <div class="container-fluid">
 
-    <div class="corelink">
-        <a class="label" href="<?php echo COREURL; ?>" target="_blank" title="<?php echo gettext('Access Nagios Core');?>"><?php echo gettext('Access Nagios Core'); ?></a>
-    </div>
+            <ul class="nav navbar-nav">
 
-    <nav>
-        <div class="topnav">
-            <?php echo build_nav_links(); ?>
+                <!-- default tactical overview link -->
+                <li><a href="<?=$base?>" class="navbar-brand">Nagios V-Shell</a></li>
+                <li><a href="<?=$base?>/hosts"  rel="internal"><?=gettext('Hosts')?></a></li>
+                <li><a href="<?=$base?>/services"  rel="internal"><?=gettext('Services')?></a></li>
+                <li><a href="<?=$base?>/hostgroups"  rel="internal"><?=gettext('Hostgroups')?></a></li>
+                <li><a href="<?=$base?>/servicegroups"  rel="internal"><?=gettext('Servicegroups')?></a></li>
+
+<?php
+    //Object Views
+    if ($ci->nagios_user->if_has_authKey('authorized_for_configuration_information')) {
+        //assuming full admin
+?>
+                <!-- Config Dropdown -->
+                <li class="dropdown">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?=gettext('Configurations')?></a>
+
+                    <ul class="dropdown-menu">
+                        <li><a href="<?=$base?>/configurations/hosts_objs"><?=gettext('Hosts')?></a></li>
+                        <li><a href="<?=$base?>/configurations/services_objs"><?=gettext('Services')?></a></li>
+                        <li><a href="<?=$base?>/configurations/hostgroups_objs"><?=gettext('Hostgroups')?></a></li>
+                        <li><a href="<?=$base?>/configurations/servicegroups_objs"><?=gettext('Servicegroups')?></a></li>
+                        <li><a href="<?=$base?>/configurations/timeperiods"><?=gettext('Timeperiods')?></a></li>
+                        <li><a href="<?=$base?>/configurations/contacts"><?=gettext('Contacts')?></a></li>
+                        <li><a href="<?=$base?>/configurations/contactgroups"><?=gettext('Contactgroups')?></a></li>
+<?php
+        if ($ci->nagios_user->is_admin()) {
+?>            
+                        <li><a href="<?=$base?>/configurations/commands" ><?=gettext('Commands')?></a></li>
+<?php
+        }
+?>
+                    </ul>
+                </li>
+<?php
+
+    }
+
+    //Nagios Core System links dropdown menu
+    if ($ci->nagios_user->if_has_authKey('authorized_for_system_commands')) {
+
+?>
+                 <li >
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?=gettext('Commands')?></a>
+
+                    <ul class="dropdown-menu">
+                        <li><a  target="_blank" href="<?=CORECGI?>extinfo.cgi?type=3"><?=gettext('Comments')?></a></li>
+                        <li><a  target="_blank" href="<?=CORECGI?>extinfo.cgi?type=6"><?=gettext('Downtime')?></a></li>
+                        <li><a  target="_blank" href="<?=CORECGI?>extinfo.cgi?type=0"><?=gettext('Process Info')?></a></li>
+                        <li><a  target="_blank" href="<?=CORECGI?>extinfo.cgi?type=4"><?=gettext('Performance Info')?></a></li>
+                        <li><a  target="_blank" href="<?=CORECGI?>extinfo.cgi?type=7"><?=gettext('Scheduling Queue')?></a></li>
+                    </ul>
+                </li>
+<?php        
+    }
+
+    //Nagios Core Reports.  Leaving authorization up to Core for running reports
+?>
+                <li >
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?=gettext('Reports')?></a>
+                    <ul class="dropdown-menu">
+                        <li><a  target="_blank" href="<?=CORECGI?>avail.cgi"><?=gettext('Availability')?></a></li>
+                        <li><a  target="_blank" href="<?=CORECGI?>trends.cgi"><?=gettext('Trends')?></a></li>
+                        <li><a  target="_blank" href="<?=CORECGI?>history.cgi?host=all"><?=gettext('Alert History')?></a></li>
+                        <li><a  target="_blank" href="<?=CORECGI?>summary.cgi"><?=gettext('Alert Summary')?></a></li>
+                        <li><a  target="_blank" href="<?=CORECGI?>histogram.cgi"><?=gettext('Alert Histogram')?></a></li>
+                        <li><a  target="_blank" href="<?=CORECGI?>notifications.cgi?contact=all"><?=gettext('Notifications')?></a></li>
+                        <li><a  target="_blank" href="<?=CORECGI?>showlog.cgi"><?=gettext('Event Log')?></a></li>
+
+                     </ul>
+
+                </li>
+
+            </ul>
         </div>
-    </nav>
-
-</header>
+    </div>
+</nav>
 
 <section class="main">

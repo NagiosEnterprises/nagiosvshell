@@ -50,26 +50,31 @@
 
 ?>
 
-    <?php echo hosts_table(); ?>
+    <?php 
+ //   echo hosts_table(); 
+    ?>
 
     <div class="tableOptsWrapper">
 
-        <?php echo $doPagination ? do_pagenumbers($pageCount, $start, $limit, $resultsCount, 'hosts') : ''; ?>
+        <?php 
 
-        <?php
+
+         //    echo $doPagination ? do_pagenumbers($pageCount, $start, $limit, $resultsCount, 'hosts') : ''; 
+
+       
 
             //creates notes for total results as well as form for setting page limits
-            echo do_result_notes($start, $limit, $resultsCount, 'hosts');
+        //    echo do_result_notes($start, $limit, $resultsCount, 'hosts');
 
             //moved result filter to display_functions.php and made into function
-            echo result_filter($name_filter, 'host');
+        //    echo result_filter($name_filter, 'host');
 
         ?>
 
     </div>
 
-    <div class="statusTable">
-        <table class="statusTable">
+    <div class="statusTable container">
+        <table class="statusTable table-striped table table-condensed table-hover">
             <thead>
                 <tr>
                     <th><?php echo gettext('Host Name'); ?></th>
@@ -91,22 +96,36 @@
                         }
 
                         //skip undefined indexes of hosts array
-                        if ( ! isset($hosts[$hostnames[$i]]) ) {
+                        if ( ! isset($hosts[$i]) ) {
                             continue;
                         }
 
-                        $host = $hosts[$hostnames[$i]];
+                        //$host = $hosts[$hostnames[$i]];
+                ?>
 
+
+                
+                        <tr>
+                            <td><?=$hosts[$i]->host_name?></td>
+                            <td>stuff</td>
+                            <td>stuff</td>
+                            <td>stuff</td>
+                            <td>stuff</td>
+                            <td>stuff</td>
+                        </tr>    
+
+<?php
                         //process remaining variables for display here
-                        process_host_status_keys($host);
+                  //      process_host_status_keys($host);
 
                         // CSS style class based on status
-                        $tr = get_color_code($host);
-                        $url = htmlentities('/'.BASEURL.'/details/host/'.$host['host_name']);
+                  //      $tr = get_color_code($host);
+                  //      $url = htmlentities('/'.BASEURL.'/details/host/'.$host['host_name']);
 
                         //add function to fetch_icons
-                        $icons = fetch_host_icons($host['host_name']); //returns all icons in one string
+                   //     $icons = fetch_host_icons($host['host_name']); //returns all icons in one string
 
+                  /*      
                         echo '<tr>
                                 <td><a href="'.$url.'">'.$host['host_name'].'</a>'.$icons.'</td>
                                 <td class="'.$tr.'">'.$host['current_state'].'</td>
@@ -115,6 +134,8 @@
                                 <td>'.$host['last_check'].'</td>
                                 <td>'.$host['plugin_output'].'</td>
                             </tr>';
+
+                   */         
                     }
 
                 ?>

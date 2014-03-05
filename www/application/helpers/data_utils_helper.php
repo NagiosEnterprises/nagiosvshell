@@ -118,9 +118,10 @@ function get_key_value($line)
 // function process_host_status_keys($rawdata)
 function process_host_status_keys(&$data)
 {
-    static $hostindex = 1;
+    //static $hostindex = 1;
 
-    $data['hostID'] = 'Host'.$hostindex++;
+   // $data['hostID'] = 'Host'.$hostindex++;
+
     $host_states = array( 0 => 'UP', 1 => 'DOWN', 2 => 'UNREACHABLE', 3 => 'UNKNOWN' );
 
     //added conditions for pending state -MG
@@ -146,9 +147,9 @@ function process_host_status_keys(&$data)
  */
 function process_service_status_keys(&$data)
 {
-    static $serviceindex = 0;
+  //  static $serviceindex = 0;
 
-    $data['serviceID'] = 'service'.$serviceindex++;
+  //  $data['serviceID'] = 'service'.$serviceindex++;
     $service_states = array(
         0 => 'OK',
         1 => 'WARNING',
