@@ -50,30 +50,22 @@
 
 ?>
 
-    <?php 
- //   echo hosts_table(); 
-    ?>
+
+<script type="text/javascript" src="<?=STATICURL?>/js/modules/hoststatus.js"></script>
+
+<div ng-app="hoststatus_summary" nc-controller="HostSummaryCtrl" ng-init="getHostSummary()">
+
+</div>    
+
+
+<div ng-app="hoststatus" ng-controller="HoststatusCtrl" ng-init="getHoststatus()">
 
     <div class="tableOptsWrapper">
-
-        <?php 
-
-
-         //    echo $doPagination ? do_pagenumbers($pageCount, $start, $limit, $resultsCount, 'hosts') : ''; 
-
-       
-
-            //creates notes for total results as well as form for setting page limits
-        //    echo do_result_notes($start, $limit, $resultsCount, 'hosts');
-
-            //moved result filter to display_functions.php and made into function
-        //    echo result_filter($name_filter, 'host');
-
-        ?>
 
     </div>
 
     <div class="statusTable container">
+
         <table class="statusTable table-striped table table-condensed table-hover">
             <thead>
                 <tr>
@@ -86,62 +78,18 @@
                 </tr>
             </thead>
             <tbody>
-
-                <?php
-
-                    for ( $i = $start; $i <= ($start + $limit); $i++) {
-
-                        if ($i >= $resultsCount) {
-                            break;
-                        }
-
-                        //skip undefined indexes of hosts array
-                        if ( ! isset($hosts[$i]) ) {
-                            continue;
-                        }
-
-                        //$host = $hosts[$hostnames[$i]];
-                ?>
-
-
-                
-                        <tr>
-                            <td><?=$hosts[$i]->host_name?></td>
-                            <td>stuff</td>
-                            <td>stuff</td>
-                            <td>stuff</td>
-                            <td>stuff</td>
-                            <td>stuff</td>
-                        </tr>    
-
-<?php
-                        //process remaining variables for display here
-                  //      process_host_status_keys($host);
-
-                        // CSS style class based on status
-                  //      $tr = get_color_code($host);
-                  //      $url = htmlentities('/'.BASEURL.'/details/host/'.$host['host_name']);
-
-                        //add function to fetch_icons
-                   //     $icons = fetch_host_icons($host['host_name']); //returns all icons in one string
-
-                  /*      
-                        echo '<tr>
-                                <td><a href="'.$url.'">'.$host['host_name'].'</a>'.$icons.'</td>
-                                <td class="'.$tr.'">'.$host['current_state'].'</td>
-                                <td>'.$host['duration'].'</td>
-                                <td>'.$host['attempt'].'</td>
-                                <td>'.$host['last_check'].'</td>
-                                <td>'.$host['plugin_output'].'</td>
-                            </tr>';
-
-                   */         
-                    }
-
-                ?>
+   
+                <tr ng-repeat="host in hoststatus">
+                    <td>{{host.host_name}}</td>
+                    <td>{{host.current_state}}</td>
+                    <td>{{host.last_state_change}}</td>
+                    <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
+                    <td>{{host.last_check}}</td>
+                    <td>{{host.plugin_output}}</td>
+                </tr>    
 
             </tbody>
         </table>
     </div>
+</div>    
 
-    <?php echo $doPagination ? do_pagenumbers($pageCount, $start, $limit, $resultsCount, 'hosts') : '';

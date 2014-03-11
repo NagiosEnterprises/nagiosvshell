@@ -73,21 +73,17 @@
 -->
     <title>Nagios V-Shell2</title>
 
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-
     <!-- <link rel="stylesheet" href="<?php echo STATICURL; ?>/css/style.css"> -->
 
-   <!-- <link rel="stylesheet" type="text/css" href="<?php echo STATICURL; ?>/bootstrap/css/bootstrap.min.css" /> -->
+   <link rel="stylesheet" type="text/css" href="<?php echo STATICURL; ?>/bootstrap/css/bootstrap.min.css" />
 
- <!--    <script src="<?php echo STATICURL; ?>/js/jquery-1.4.4.min.js"></script>
-    <script src="<?php echo STATICURL; ?>/js/header.inc.js"></script> -->
+    <script src="<?php echo STATICURL; ?>/js/jquery-1.11.0.min.js"></script>
+    <script src="<?php echo STATICURL; ?>/js/angular.min.js"></script>
 
     <!-- use CDN's for now -->
     <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script> -->
 
     <script type="text/javascript" src="<?=STATICURL?>/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-
 
 </head>
 <body>
