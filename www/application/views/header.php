@@ -80,10 +80,7 @@
     <script src="<?php echo STATICURL; ?>/js/jquery-1.11.0.min.js"></script>
     <script src="<?php echo STATICURL; ?>/js/angular.min.js"></script>
 
-    <!-- use CDN's for now -->
-    <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script> -->
-
-    <script type="text/javascript" src="<?=STATICURL?>/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="<?=STATICURL?>/bootstrap/js/bootstrap.min.js"></script> 
 
 </head>
 <body>

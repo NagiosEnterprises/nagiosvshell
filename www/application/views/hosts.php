@@ -53,8 +53,9 @@
 
 <script type="text/javascript" src="<?=STATICURL?>/js/modules/hoststatus.js"></script>
 
+<!--
 <div ng-app="hoststatus_summary" nc-controller="HostSummaryCtrl" ng-init="getHostSummary()">
-
+-->
 </div>    
 
 
