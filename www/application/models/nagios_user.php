@@ -144,7 +144,12 @@ class Nagios_user extends CI_Model
             $this->username = $username;
         } elseif (isset($_SERVER['REMOTE_USER'])) {
             // HTTP BASIC AUTHENTICATION through Nagios Core or XI
+            // When using PHP as mod_php or mod_fcgid
             $this->username = $_SERVER['REMOTE_USER'];
+        } elseif (isset($_SERVER['REDIRECT_REMOTE_USER'])) {
+            // HTTP BASIC AUTHENTICATION through Nagios Core or XI
+            // When using PHP as CGI (including mod_fastcgi)
+            $this->username = $_SERVER['REDIRECT_REMOTE_USER'];
         } elseif (isset($_SERVER['PHP_AUTH_USER'])) {
             //digest authentication
             $this->username = $_SERVER['PHP_AUTH_USER'];
