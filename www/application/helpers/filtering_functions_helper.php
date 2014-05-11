@@ -64,9 +64,11 @@ function user_filtering($data, $type)
 
     //rebuild array for auth services
     if ($type == 'services') {
-        foreach ($data as $d) {
-            if ($ci->nagios_user->is_authorized_for_service($d['host_name'], $d['service_description'])) {
-                $new_data[] = $d;
+        if (! empty($data)){
+            foreach ($data as $d) {
+                if ($ci->nagios_user->is_authorized_for_service($d['host_name'], $d['service_description'])) {
+                    $new_data[] = $d;
+                }
             }
         }
     }
