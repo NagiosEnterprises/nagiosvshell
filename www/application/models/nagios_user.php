@@ -252,7 +252,7 @@ class Nagios_user extends CI_Model
     *	@TODO: move to protected method -> this will replace previous global auths in future versions
     *	@return null changes cgi.cfg booleans for current NagiosUser
     */
-    public function setAuthKey($keyname,$value)
+    public function setAuthKey($keyname, $value)
     {
         if (isset($this->authKeys[$keyname])) {
             $this->authKeys[$keyname] = $value;
@@ -271,7 +271,7 @@ class Nagios_user extends CI_Model
         }
 
         //user level filtering
-        if (isset($this->authHosts[$hostname]) && $this->authHosts[$hostname]['all_services']==true ) {
+        if (isset($this->authHosts[$hostname]) && $this->authHosts[$hostname]['all_services'] == true ) {
             return true;
         }
 
@@ -283,7 +283,7 @@ class Nagios_user extends CI_Model
     *	tests if user can view service
     *	@returns boolean
     */
-    public function is_authorized_for_service($hostname,$service)
+    public function is_authorized_for_service($hostname, $service)
     {
         //can user see everything?
         if ($this->admin == true || $this->sees_all == true) {
@@ -291,7 +291,7 @@ class Nagios_user extends CI_Model
         }
 
         //user level filtering
-        if (isset($this->authHosts[$hostname]) && (in_array($service,$this->authHosts[$hostname]['services']) || $this->authHosts[$hostname]['all_services'] == true) ) {
+        if (isset($this->authHosts[$hostname]) && (in_array($service, $this->authHosts[$hostname]['services']) || $this->authHosts[$hostname]['all_services'] == true) ) {
             return true;
         }
 
@@ -402,7 +402,7 @@ class Nagios_user extends CI_Model
                 $cgmems = explode(',', $service->contact_groups);
                 foreach ($cgmems as $cg) {
                     //user is a contact for service
-                    if (in_array($cg,$this->cg_memberships)) {
+                    if (in_array($cg, $this->cg_memberships)) {
                         if (! isset($this->authHosts[$key])) {
                             //if this is set somewhere else, the all_services boolean should already be set
                             $this->authHosts[$key] = array('host_name' => $key, 'services' =>array(), 'all_services' => false );
@@ -436,14 +436,14 @@ class Nagios_user extends CI_Model
         foreach ($host_escs as $he) {
 
             //check for authorized host first, skip ahead if it
-            if (isset($this->authHosts[$he['host_name']]) && $this->authHosts[$he['host_name']]['all_services']==false) {
+            if (isset($this->authHosts[$he['host_name']]) && $this->authHosts[$he['host_name']]['all_services'] == false) {
                 continue;
             }
 
             //check if user is a contact for escalation
-            if (in_array($this->username,explode(',',$he['contacts'])) ) {
+            if (in_array($this->username, explode(',', $he['contacts'])) ) {
                 //add host if not already there, or if it's there but not all services are authorized
-                if (!isset($this->authHosts[$he['host_name']]) || (isset($this->authHosts[$he['host_name']]) && $this->authHosts[$he['host_name']]['all_services']==false) ) {
+                if (!isset($this->authHosts[$he['host_name']]) || (isset($this->authHosts[$he['host_name']]) && $this->authHosts[$he['host_name']]['all_services'] == false) ) {
                     //don't overwrite existing arrays
                     $this->authHosts[$he['host_name']] = array('host_name' => $he['host_name'], 'services' => array(), 'all_services' => true);
                 }
@@ -461,7 +461,7 @@ class Nagios_user extends CI_Model
                 if (! empty($matches)) {
 
                     // push host list into authHosts array
-                    if (!isset($this->authHosts[$he['host_name']]) || (isset($this->authHosts[$he['host_name']]) && $this->authHosts[$he['host_name']]['all_services']==false) ) {
+                    if (!isset($this->authHosts[$he['host_name']]) || (isset($this->authHosts[$he['host_name']]) && $this->authHosts[$he['host_name']]['all_services'] == false) ) {
 
                         //don't overwrite existing arrays
                         $this->authHosts[$he['host_name']] = array('host_name' => $he['host_name'], 'services' => array(), 'all_services' => true );
@@ -492,7 +492,7 @@ class Nagios_user extends CI_Model
 
             //check if user is a contact for escalation
             //if user is in list of contacts
-            if (isset($se['contacts']) && in_array($this->username, explode(',',$se['contacts'])) ) {
+            if (isset($se['contacts']) && in_array($this->username, explode(',', $se['contacts'])) ) {
 
                 //check to see if host key exists in the array
                 if (! isset($this->authHosts[$se['host_name']])) {
@@ -513,7 +513,7 @@ class Nagios_user extends CI_Model
             if (isset($se['contact_groups'])) {
 
                 //compare arrays
-                $matches = array_intersect(explode(',',$se['contact_groups']),$this->cg_memberships);
+                $matches = array_intersect(explode(',', $se['contact_groups']), $this->cg_memberships);
 
                 if (! empty($matches)) {
 
@@ -521,7 +521,7 @@ class Nagios_user extends CI_Model
                     if (! isset($this->authHosts[$se['host_name']]) ) {
 
                         //don't overwrite existing arrays
-                        $this->authHosts[$se['host_name']] = array('host_name' => $se['host_name'], 'services' => array($se['service_description']),'all_services'=>false );
+                        $this->authHosts[$se['host_name']] = array('host_name' => $se['host_name'], 'services' => array($se['service_description']), 'all_services'=>false );
                     } else {
 
                         //if it exists, push services onto array stack
