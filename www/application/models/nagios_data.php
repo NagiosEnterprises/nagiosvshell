@@ -575,14 +575,14 @@ class Nagios_data extends CI_Model
 
 
             //End definition
-            if (strpos($line, '}') !==false) {
+            if (strpos($line, '}') !== false) {
     
                 //Only one info, doesn't need a collection
-                if($case==INFO){
+                if ($case == INFO){
                     $this->_Info = new Info($buf);
 
                 //Only one programstatus, doesn't need a collection     
-                } elseif($case==PROGRAM){
+                } elseif ($case == PROGRAM){
                     $this->_Programstatus = new Programstatus($buf);
 
                 //objectstatus collection or comment collection     
@@ -592,7 +592,6 @@ class Nagios_data extends CI_Model
                      unset($Status);
                 }
                
-
                 //turn off switches once a definition ends
                 $case = OUTOFBLOCK;
 
