@@ -328,7 +328,7 @@ class Nagios_user extends CI_Model
 
         //find relevant contact groups for user
         foreach ($contactgroups as $cg) {
-            if (in_array($this->username,explode(',',$cg['members'])) ) {
+            if (in_array($this->username, explode(',', $cg->members)) ) {
                 //add contactgroup to array if user is a member of it
                 $this->cg_memberships[] = $cg['contactgroup_name'];
             }
@@ -338,9 +338,9 @@ class Nagios_user extends CI_Model
         foreach ($hosts as $host) {
 
             //check is user is a direct contact
-            $key = $host['host_name'];
+            $key = $host->host_name;
 
-            if (isset($host['contacts']) && in_array($this->username, explode(',',$host['contacts'])) ) {
+            if (property_exists($host, 'contacts') && in_array($this->username, explode(',', $host->contacts)) ) {
                 $this->authHosts[$key] = array('host_name' => $key, 'all_services' => true, 'services' => array());
 
                 //skip to next host
@@ -348,14 +348,14 @@ class Nagios_user extends CI_Model
             }
 
             //if host has contact groups
-            if (isset($host['contact_groups'])) {
+            if (property_exists($host, 'contact_groups')) {
 
                 //members to array
-                $cgmems = explode(',',$host['contact_groups']);
+                $cgmems = explode(',', $host->contact_groups);
 
                 foreach ($cgmems as $cg) {
                     //check if contact group is in user's list of memberships
-                    if (in_array($cg,$this->cg_memberships)) {
+                    if (in_array($cg, $this->cg_memberships)) {
                         $this->authHosts[$key] = array('host_name' => $key, 'services' => array(), 'all_services' => true );
                         break;
                     }
@@ -375,7 +375,7 @@ class Nagios_user extends CI_Model
         $services = $ci->nagios_data->getProperty('services_objs');
 
         foreach ($services as $service) {
-            $key = $service['host_name'];
+            $key = $service->host_name;
             //check for authorized host first, if all services are authorized skip ahead
             if (isset($this->authHosts[$key]) && $this->authHosts[$key]['all_services'] == true) {
                 continue;
@@ -383,14 +383,14 @@ class Nagios_user extends CI_Model
 
             //check for authorization at the service level
             //if user is a contact
-            if (isset($service['contacts']) && in_array($this->username, explode(',', $service['contacts'])) ) {
+            if (property_exists($service, 'contacts') && in_array($this->username, explode(',', $service->contacts)) ) {
                 if (! isset($this->authHosts[$key])) {
                     //if this is set somewhere else, the all_services boolean should already be set
-                    $this->authHosts[$key] = array('host_name' => $key, 'services' =>array($service['service_description']), 'all_services' => false );
+                    $this->authHosts[$key] = array('host_name' => $key, 'services' =>array($service->service_description), 'all_services' => false );
                 } else {
                     //only add service if it's not already there
-                    if (!in_array($service['service_description'], $this->authHosts[$key]['services']) && $this->authHosts[$key]['all_services'] == false) {
-                        $this->authHosts[$key]['services'][] = $service['service_description'];
+                    if (!in_array($service->service_description, $this->authHosts[$key]['services']) && $this->authHosts[$key]['all_services'] == false) {
+                        $this->authHosts[$key]['services'][] = $service->service_description;
                     }
                 }
 
@@ -398,8 +398,8 @@ class Nagios_user extends CI_Model
             }
 
             //check against contactgroups
-            if (isset($service['contact_groups']) ) {
-                $cgmems = explode(',', $service['contact_groups']);
+            if (property_exists($service, 'contact_groups') ) {
+                $cgmems = explode(',', $service->contact_groups);
                 foreach ($cgmems as $cg) {
                     //user is a contact for service
                     if (in_array($cg,$this->cg_memberships)) {
@@ -408,8 +408,8 @@ class Nagios_user extends CI_Model
                             $this->authHosts[$key] = array('host_name' => $key, 'services' =>array(), 'all_services' => false );
                         } else {
                             //add service if it's not already in the array
-                            if (! in_array($service['service_description'], $this->authHosts[$key]['services']) && $this->authHosts[$key]['all_services'] == false) {
-                                $this->authHosts[$key]['services'][] = $service['service_description'];
+                            if (! in_array($service->service_description, $this->authHosts[$key]['services']) && $this->authHosts[$key]['all_services'] == false) {
+                                $this->authHosts[$key]['services'][] = $service->service_description;
                             }
                         }
 
