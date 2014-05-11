@@ -378,7 +378,7 @@ class Nagios_user extends CI_Model
         foreach ($services as $service) {
             $key = $service->host_name;
             //check for authorized host first, if all services are authorized skip ahead
-            if (isset($this->authHosts[$key]) && $this->authHosts[$key]['all_services'] == true) {
+            if (! empty($this->authHosts) && isset($this->authHosts[$key]) && $this->authHosts[$key]['all_services'] == true) {
                 continue;
             }
 
