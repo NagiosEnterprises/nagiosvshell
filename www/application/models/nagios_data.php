@@ -672,9 +672,9 @@ class Nagios_data extends CI_Model
         $index = $type.'group_name';
 
         foreach ($objectarray as $object) {
-            $group = $object[$index];
-            if (isset($object['members'])) {
-                $members = $object['members'];
+            $group = $object->{$index};
+            if (property_exists($object, 'members')) {
+                $members = $object->members;
                 $lineitems = explode(',', trim($members));
 
                 //array_walk($lineitems, create_function('$v', '$v = trim($v);'));  //XXX BAD to use create_function
