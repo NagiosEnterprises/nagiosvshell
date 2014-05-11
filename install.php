@@ -12,6 +12,8 @@
 //
 // Custom configuration options should be added to install-config.php
 
+date_default_timezone_set('UTC');
+
 include(dirname(__FILE__).'/config.php');
 
 $errors = 0;
