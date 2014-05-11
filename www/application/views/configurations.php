@@ -80,14 +80,14 @@
         //change variables based on type of object being viewed
         switch ($objtype_filter) {
             case 'hosts_objs':
-                $name = $a['host_name'];
+                $name = $a->host_name;
                 $link = htmlentities('/'.BASEURL.'/details/host/'.urlencode($name));
                 $title = gettext('Host').': <a href="'.$link.'" title="Host Details">'.$name.'</a>';
             break;
 
             case 'services_objs':
-                $name = $a['service_description'];
-                $host = $a['host_name'];
+                $name = $a->service_description;
+                $host = $a->host_name;
                 $hlink = htmlentities('/'.BASEURL.'/details/host/'.urlencode($host));
                 $link = htmlentities('/'.BASEURL.'/details/service/'.$service_count);
                 $title = gettext('Host').': <a href="'.$hlink.'" title="Host Details">'.$host.'</a>'.
@@ -96,32 +96,32 @@
             break;
 
             case 'commands':
-                $name = $a['command_name'];
+                $name = $a->command_name;
                 $title = gettext('Command').": $name";
             break;
 
             case 'hostgroups_objs':
-                $name = $a['hostgroup_name'];
+                $name = $a->hostgroup_name;
                 $title = gettext('Group Name').": $name";
             break;
 
             case 'servicegroups_objs':
-                $name = $a['servicegroup_name'];
+                $name = $a->servicegroup_name;
                 $title = gettext('Group Name').": $name";
             break;
 
             case 'timeperiods':
-                $name = $a['timeperiod_name'];
+                $name = $a->timeperiod_name;
                 $title = gettext('Timeperiod').": $name";
             break;
 
             case 'contacts':
-                $name = $a['contact_name'];
+                $name = $a->contact_name;
                 $title = gettext('Contact').": $name";
             break;
 
             case 'contactgroups':
-                $name = $a['contactgroup_name'];
+                $name = $a->contactgroup_name;
                 $title = gettext('Contact Group').": $name";
             break;
 
