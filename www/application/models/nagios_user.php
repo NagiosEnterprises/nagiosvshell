@@ -327,10 +327,11 @@ class Nagios_user extends CI_Model
         $contactgroups = $ci->nagios_data->getProperty('contactgroups');
 
         //find relevant contact groups for user
+        $this->cg_memberships = array();
         foreach ($contactgroups as $cg) {
             if (in_array($this->username, explode(',', $cg->members)) ) {
                 //add contactgroup to array if user is a member of it
-                $this->cg_memberships[] = $cg['contactgroup_name'];
+                $this->cg_memberships[] = $cg->contactgroup_name;
             }
         }
 
