@@ -186,11 +186,13 @@ class Nagios_data extends CI_Model
         //build hostgroup data
         if ($var == 'hostgroups') {
             $this->properties['hostgroups'] = $this->build_group_array($this->properties['hostgroups_objs'], 'host');
-            foreach ($this->properties['services'] as $service) {
-                if (!isset($this->properties['hosts'][$service['host_name']]['services'])) {
-                    $this->properties['hosts'][$service['host_name']]['services'] = array();
+            if (isset($this->properties['services'])) {
+                foreach ($this->properties['services'] as $service) {
+                    if (!isset($this->properties['hosts'][$service['host_name']]['services'])) {
+                        $this->properties['hosts'][$service['host_name']]['services'] = array();
+                    }
+                    $this->properties['hosts'][$service['host_name']]['services'][] = $service;
                 }
-                $this->properties['hosts'][$service['host_name']]['services'][] = $service;
             }
         }
 
