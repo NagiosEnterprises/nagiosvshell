@@ -93,6 +93,21 @@
 
         <section id="main" class="clearfix">
 
+            <header class="clearfix">
+                <a class="nav-button" id="nav-button-open" href="#">Open Navigation</a>
+                <div class="search-container">
+                    <form id="quicksearch" action="#" method="get">
+                        <input class="submit" type="submit" value=""/></input>
+                        <input class="input" type="text" value="" placeholder="Quick Search"></input>
+                    </form>
+                </div>
+                <div class="info-container">
+                    <span class="logged-in-as">Logged in as Status</span><br/>
+                    <span class="last-update">Fri May 2 14:30:34 EDT 2014</span>
+                </div>
+            </header>
+
+
         </section>
 
     </section>
