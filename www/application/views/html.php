@@ -125,6 +125,47 @@
                 </div>
             </section>
 
+            <script type="text/javascript" src="<?php echo STATICURL; ?>/js/modules/hoststatus.js"></script>
+
+            <div id="content" class="clearfix" ng-app="hoststatus" ng-controller="HoststatusCtrl" ng-init="getHoststatus()">
+
+                <h1>Host Status Details For All Host Groups</h1>
+
+                <div class="table-container full-width">
+
+                    <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation=".footable-pagination" data-filter="#footable-filter">
+                        <thead>
+                            <tr>
+                                <th><?php echo gettext('Host Name'); ?></th>
+                                <th><?php echo gettext('Status'); ?></th>
+                                <th data-hide="phone"><?php echo gettext('Duration'); ?></th>
+                                <th data-hide="phone"><?php echo gettext('Attempt'); ?></th>
+                                <th data-hide="phone"><?php echo gettext('Last Check'); ?></th>
+                                <th data-hide="phone"><?php echo gettext('Status Information'); ?></th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    <div class="footable-pagination pagination"></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <tr ng-repeat="host in hoststatus" footable>
+                                <td>{{host.host_name}}</td>
+                                <td>{{host.current_state}}</td>
+                                <td>{{host.last_state_change}}</td>
+                                <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
+                                <td>{{host.last_check}}</td>
+                                <td>{{host.plugin_output}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+    
+                </div>
+
+            </div>
 
         </section>
 
