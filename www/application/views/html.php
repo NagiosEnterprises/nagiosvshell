@@ -107,6 +107,24 @@
                 </div>
             </header>
 
+            <section id="status" class="clearfix">
+                <div id="hosts-status">
+                    Hosts
+                    <span class="circled active hosts-up">0 Up</span>
+                    <span class="circled active hosts-down">0 Down</span>
+                    <span class="circled active hosts-unreachable">0 Unreachable</span>
+                    <span class="circled active hosts-pending">0 Pending</span>
+                </div>
+                <div id="services-status">
+                    Services
+                    <span class="circled active services-ok">0 OK</span>
+                    <span class="circled active services-warning">0 Warning</span>
+                    <span class="circled active services-unknown">0 Unknown</span>
+                    <span class="circled active services-critical">0 Critical</span>
+                    <span class="circled active services-pending">0 Pending</span>
+                </div>
+            </section>
+
 
         </section>
 
