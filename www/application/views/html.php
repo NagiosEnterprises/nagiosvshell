@@ -87,6 +87,7 @@
 
             <div id="sidebar-footer">
                 <a href="#">Feedback</a>
+                <a href="#">Theme Optionsk</a>
             </div>
 
         </section>
