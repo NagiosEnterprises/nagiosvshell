@@ -34,6 +34,15 @@
 
         <section id="sidebar">
 
+            <div class="logo-container">
+                <a class="logo" href="#">Nagios <span class="emphasis">V-Shell</span></a>
+                <a class="nav-button" id="nav-button-close" href="#">Close Navigation</a>
+            </div>
+
+            <div id="sidebar-footer">
+                <a href="#">Feedback</a>
+            </div>
+
         </section>
 
         <section id="main" class="clearfix">
