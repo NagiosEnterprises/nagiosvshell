@@ -1,4 +1,22 @@
+# HTML Template
+
+Add cookie for opened / closed navigation menu to save last state (helpful for page refreshes)
+
+Add cookie per-table on how many to view.
+
+Change show table values to 10 25 ALL for small tables. Remove table search functionality.
+
+Update nav HTML to use dynamic example.com/vshell2 path using the constant set in the /etc/vshell2 config file.
+
+## Future
+
+Add status favicon?
+
+- Add instruction to add nagios group to apache user? On CentOS 6.5 the /var/log/nagios dir went from 0755 to 0750 when the object.cache file updated. The cache file is readable, but not reachable due to directory permissions.
+
 No working backend data exporting (XML, JSON, etc)
+
+# General pages
 
 ## Views
 
