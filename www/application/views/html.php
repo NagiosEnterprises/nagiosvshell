@@ -133,6 +133,17 @@
 
                 <div class="table-container full-width">
 
+                    <div class="table-options">
+                        <form action="" class="filter-form" method="post">
+                            <div class="filter-icon"></div>
+                            <input id="footable-filter" type="text" placeholder="Filter Table"/>
+                        </form>
+                        <div class="show-container">
+                            Show <a class="active" href="#">25</a> <a href="#">100</a> <a href="#">All</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
                     <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation=".footable-pagination" data-filter="#footable-filter">
                         <thead>
                             <tr>
