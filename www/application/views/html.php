@@ -28,3 +28,19 @@
     <script src="<?php echo STATICURL; ?>/js/main.js"></script>
 
 </head>
+<body class="theme-dark sidebar-open">
+
+    <section id="page">
+
+        <section id="sidebar">
+
+        </section>
+
+        <section id="main" class="clearfix">
+
+        </section>
+
+    </section>
+
+</body>
+</html>
