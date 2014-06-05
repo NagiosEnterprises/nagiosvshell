@@ -292,7 +292,7 @@ class Tac_data extends CI_Model
             }
 
             //xml necessary for Nagios Fusion
-        //    $current_host = $hosts[$s['host_name']];
+            //$current_host = $hosts[$s['host_name']];
             $current_host = $s['host_name'];    
 
             //pending enabled
@@ -339,7 +339,7 @@ class Tac_data extends CI_Model
                         $tac_data[$serviceClass.'Scheduled']++;
                     }
 
-                    if ($current_host['current_state'] > 0) {
+                    if ($s['host_current_state'] > 0) {
                         $tac_data[$serviceClass.'HostProblem']++;
                     }
                 break;

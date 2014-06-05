@@ -13,4 +13,6 @@ class Servicestatus extends NagiosObject
 		'current_state' => array(),
 		);
 
+
+
 }

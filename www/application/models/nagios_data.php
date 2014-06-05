@@ -511,6 +511,9 @@ class Nagios_data extends CI_Model
         $programstring = 'programstatus {';
         $infostring = 'info {';
         $contactstring = 'contactstatus {';
+        $currenthost = '';
+
+        $HostStatus = null;
 
         $buf = array();
 
@@ -583,8 +586,28 @@ class Nagios_data extends CI_Model
                 } elseif($case==PROGRAM){
                     $this->_Programstatus = new Programstatus($buf);
 
-                //objectstatus collection or comment collection     
-                }else {
+                //service status is special because we want to cram host status into it as well     
+                }elseif($case==SERVICEDEF){
+                    $Status = NagiosObject::factory($case,$buf);
+
+                    if($Status->host_name) {
+                        $Hoststatus = $this->_HoststatusCollection->get_index_key('host_name',$Status->host_name)->first();
+
+                        if($Hoststatus instanceof Hoststatus){
+                            $Status->host_id = $Hoststatus->id;
+                            $Status->host_current_state = $Hoststatus->current_state;
+                            $Status->host_scheduled_downtime_depth = $Hoststatus->scheduled_downtime_depth;
+                            $Status->host_is_flapping = $Hoststatus->is_flapping;
+                            $Status->host_problem_has_been_acknowledged = $Hoststatus->problem_has_been_acknowledged;
+
+                        }
+                    } 
+
+                    $this->_add($case,$Status);
+                     unset($Status);
+
+                //objectstatus collection or comment collection      
+                } else {
                     $Status = NagiosObject::factory($case,$buf);
                     $this->_add($case,$Status);
                      unset($Status);
