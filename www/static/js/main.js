@@ -69,5 +69,5 @@
 
     $(document).ready(function(){
         nav.bind();
-        layout.bind();
+        // layout.bind();
     });
