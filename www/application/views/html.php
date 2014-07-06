@@ -138,8 +138,8 @@
                             <div class="filter-icon"></div>
                             <input id="footable-filter" type="text" placeholder="Filter Table"/>
                         </form>
-                        <div class="show-container">
-                            Show <a class="active" href="#">25</a> <a href="#">100</a> <a href="#">All</a>
+                        <div class="pagesize-container">
+                            Show <a class="active pagesize" href="#">25</a> <a href="#">100</a> <a href="#">All</a>
                         </div>
                         <div class="clearfix"></div>
                     </div>

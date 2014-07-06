@@ -689,7 +689,7 @@ body.theme-blue {
                     outline: none;
                 }
 
-        .show-container {
+        .pagesize-container {
             color: #a1a1a1;
             display: block;
             float: right;
@@ -700,19 +700,18 @@ body.theme-blue {
             text-align: right;
         }
 
-            .show-container a {
+            .pagesize-container a {
                 background: #eee;
                 color: #a1a1a1;
-                /* padding: 0px 8px; */
                 margin: 0px 5px;
                 text-decoration: none;
             }
 
-                .show-container a:first-child {
+                .pagesize-container a:first-child {
                     margin: 0px 0px 0px 8px;
                 }
 
-                .show-container a.active {
+                .pagesize-container a.active {
                     border-bottom: 1px solid #a1a1a1;
                 }
 
