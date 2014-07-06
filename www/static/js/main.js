@@ -1,37 +1,3 @@
-// Layout
-
-    var layout = {};
-
-    layout.update_column_heights = function(){
-        var main = $('#main'),
-            sidebar = $('#sidebar'),
-            browser = $(window),
-            heights = {};
-
-        main.css('height', 'auto');
-        sidebar.css('height', 'auto');
-
-        heights.main = main.height();
-        heights.sidebar = sidebar.height();
-        heights.browser = browser.height();
-
-        if ( heights.browser > heights.main && heights.browser > heights.sidebar ) {
-            sidebar.css('min-height', heights.browser + 'px');
-            main.css('height', heights.browser + 'px');
-        } else if ( heights.main > heights.sidebar ) {
-            sidebar.css('min-height', heights.main + 'px');
-        } else {
-            main.css('min-height', heights.sidebar + 'px');
-        }
-    }
-
-    layout.bind = function(){
-        $(window).on('resize', function(){ layout.update_column_heights(); });
-        $(window).trigger('resize');
-        setTimeout(function(){ $(window).trigger('resize'); }, 1000);
-    }
-
-
 // Nav
 
     nav = {};
@@ -69,5 +35,4 @@
 
     $(document).ready(function(){
         nav.bind();
-        // layout.bind();
     });
