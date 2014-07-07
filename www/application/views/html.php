@@ -163,7 +163,7 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                            <tr ng-repeat="host in hoststatus" footable_data>
+                            <tr ng-repeat="host in hoststatus" footabledata>
                                 <td>{{host.host_name}}</td>
                                 <td>{{host.current_state}}</td>
                                 <td>{{host.last_state_change}}</td>
