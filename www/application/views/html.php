@@ -136,15 +136,15 @@
                     <div class="table-options">
                         <form action="" class="filter-form" method="post">
                             <div class="filter-icon"></div>
-                            <input id="footable-filter" type="text" placeholder="Filter Table"/>
+                            <input id="footable-filter-1" class="footable-filter" type="text" placeholder="Filter Table"/>
                         </form>
                         <div class="pagesize-container">
-                            Show <a class="active" href="#" data-page-size="25">25</a> <a href="#" data-page-size="100">100</a> <a href="#" data-page-size="50000">All</a>
+                            Show <a class="active" href="#" data-page-size="25">25</a> <a href="#" data-page-size="1">1</a> <a href="#" data-page-size="100">100</a> <a href="#" data-page-size="50000">All</a>
                         </div>
                         <div class="clearfix"></div>
                     </div>
 
-                    <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation=".footable-pagination" data-filter="#footable-filter">
+                    <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation="#footable-pagination-1" data-filter="#footable-filter-1">
                         <thead>
                             <tr>
                                 <th><?php echo gettext('Host Name'); ?></th>
@@ -158,7 +158,7 @@
                         <tfoot>
                             <tr>
                                 <td colspan="6">
-                                    <div class="footable-pagination pagination"></div>
+                                    <div class="footable-pagination pagination" id="footable-pagination-1"></div>
                                 </td>
                             </tr>
                         </tfoot>
@@ -173,7 +173,52 @@
                             </tr>
                         </tbody>
                     </table>
-    
+
+                </div>
+
+                <div class="table-container full-width">
+
+                    <div class="table-options">
+                        <form action="" class="filter-form" method="post">
+                            <div class="filter-icon"></div>
+                            <input id="footable-filter-2" class="footable-filter" type="text" placeholder="Filter Table"/>
+                        </form>
+                        <div class="pagesize-container">
+                            Show <a class="active" href="#" data-page-size="25">25</a> <a href="#" data-page-size="1">1</a> <a href="#" data-page-size="100">100</a> <a href="#" data-page-size="50000">All</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation="#footable-pagination-2" data-filter="#footable-filter-2">
+                        <thead>
+                            <tr>
+                                <th><?php echo gettext('Host Name'); ?></th>
+                                <th><?php echo gettext('Status'); ?></th>
+                                <th data-hide="phone"><?php echo gettext('Duration'); ?></th>
+                                <th data-hide="phone"><?php echo gettext('Attempt'); ?></th>
+                                <th data-hide="phone"><?php echo gettext('Last Check'); ?></th>
+                                <th data-hide="phone"><?php echo gettext('Status Information'); ?></th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    <div class="footable-pagination pagination" id="footable-pagination-2"></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <tr ng-repeat="host in hoststatus" footabledata>
+                                <td>{{host.host_name}}</td>
+                                <td>{{host.current_state}}</td>
+                                <td>{{host.last_state_change}}</td>
+                                <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
+                                <td>{{host.last_check}}</td>
+                                <td>{{host.plugin_output}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
                 </div>
 
             </div>
