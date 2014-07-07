@@ -777,14 +777,13 @@ body.theme-blue {
                 font-weight: 600;
                 height: 20px;
                 line-height: 19px;
+                margin: 0px 2px;
                 text-align: center;
                 text-decoration: none;
-                width: 20px;
             }
 
-                .pagination .active {
-                    background: #eee;
-                    border-radius: 6px;
+                .pagination .active a {
+                    border-bottom: 1px solid #a1a1a1;
                 }
 
                 .pagination .footable-page-arrow {
