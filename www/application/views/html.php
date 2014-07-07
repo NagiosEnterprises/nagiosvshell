@@ -139,7 +139,7 @@
                             <input id="footable-filter" type="text" placeholder="Filter Table"/>
                         </form>
                         <div class="pagesize-container">
-                            Show <a class="active pagesize" href="#">25</a> <a href="#">100</a> <a href="#">All</a>
+                            Show <a class="active" href="#" data-page-size="25">25</a> <a href="#" data-page-size="100">100</a> <a href="#" data-page-size="50000">All</a>
                         </div>
                         <div class="clearfix"></div>
                     </div>

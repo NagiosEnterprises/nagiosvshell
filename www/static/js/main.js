@@ -1,3 +1,28 @@
+// Footable
+
+    var tables = {};
+
+    tables.pagesize = {};
+
+    tables.pagesize.bind = function(){
+        $('.pagesize-container a').on('click', function(e){
+            var pagesize = $(this).data('page-size'),
+                options = $(this).siblings('a'),
+                table = $(this).parents('.table-container').find('.footable');
+
+            $(this).addClass('active');
+            options.removeClass('active');
+
+            table
+                .data('page-size', pagesize)
+                .data('footable')
+                .redraw();
+
+            e.preventDefault();
+        });
+    }
+
+
 // Nav
 
     nav = {};
@@ -35,4 +60,5 @@
 
     $(document).ready(function(){
         nav.bind();
+        tables.pagesize.bind();
     });
