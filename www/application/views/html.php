@@ -86,7 +86,7 @@
             </nav>
 
             <div id="sidebar-footer">
-                <a href="#" id="theme-options">Theme Options</a>
+                <a href="#" id="display-options">Display Options</a>
             </div>
 
         </section>
