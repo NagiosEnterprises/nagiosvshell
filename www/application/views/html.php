@@ -125,6 +125,7 @@
                 </div>
             </section>
 
+            <script type="text/javascript" src="<?php echo STATICURL; ?>/js/modules/filters.js"></script>
             <script type="text/javascript" src="<?php echo STATICURL; ?>/js/modules/hoststatus.js"></script>
 
             <div id="content" class="clearfix" ng-app="hoststatus" ng-controller="HoststatusCtrl" ng-init="getHoststatus()">
