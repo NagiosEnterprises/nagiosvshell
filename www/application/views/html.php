@@ -164,9 +164,9 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                            <tr ng-repeat="host in hoststatus" footabledata>
+                            <tr ng-repeat="host in hoststatus" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                                 <td>{{host.host_name}}</td>
-                                <td>{{host.current_state}}</td>
+                                <td class="status">{{ host.current_state | hoststate }}</td>
                                 <td>{{host.last_state_change}}</td>
                                 <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
                                 <td>{{host.last_check}}</td>
@@ -213,9 +213,9 @@
                                 </tr>
                             </tfoot>
                             <tbody>
-                                <tr ng-repeat="host in hoststatus" footabledata>
+                                <tr ng-repeat="host in hoststatus" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                                     <td>{{host.host_name}}</td>
-                                    <td>{{host.current_state}}</td>
+                                    <td class="status">{{ host.current_state | hoststate }}</td>
                                     <td>{{host.last_state_change}}</td>
                                     <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
                                     <td>{{host.last_check}}</td>
@@ -260,9 +260,9 @@
                                 </tr>
                             </tfoot>
                             <tbody>
-                                <tr ng-repeat="host in hoststatus" footabledata>
+                                <tr ng-repeat="host in hoststatus" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                                     <td>{{host.host_name}}</td>
-                                    <td>{{host.current_state}}</td>
+                                    <td class="status">{{ host.current_state | hoststate }}</td>
                                     <td>{{host.last_state_change}}</td>
                                     <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
                                     <td>{{host.last_check}}</td>
@@ -307,9 +307,9 @@
                                 </tr>
                             </tfoot>
                             <tbody>
-                                <tr ng-repeat="host in hoststatus" footabledata>
+                                <tr ng-repeat="host in hoststatus" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                                     <td>{{host.host_name}}</td>
-                                    <td>{{host.current_state}}</td>
+                                    <td class="status">{{ host.current_state | hoststate }}</td>
                                     <td>{{host.last_state_change}}</td>
                                     <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
                                     <td>{{host.last_check}}</td>
@@ -360,9 +360,9 @@
                                 </tr>
                             </tfoot>
                             <tbody>
-                                <tr ng-repeat="host in hoststatus" footabledata>
+                                <tr ng-repeat="host in hoststatus" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                                     <td>{{host.host_name}}</td>
-                                    <td>{{host.current_state}}</td>
+                                    <td class="status">{{ host.current_state | hoststate }}</td>
                                     <td>{{host.last_state_change}}</td>
                                     <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
                                     <td>{{host.last_check}}</td>
