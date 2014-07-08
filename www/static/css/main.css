@@ -642,15 +642,24 @@ body.theme-blue {
 
 }
 
+.table-container.partial-width {
+    float: left;
+    padding: 0px 0px 0px 40px;
+    width: 33%;
+}
+
 .table-container.full-width {
     width: 100%;
 }
 
     .table-container .table-options {
         margin: 15px 0px 5px 0px;
-        padding: 0px 40px;
         width: 100%;
     }
+
+        .table-container.full-width .table-options {
+            padding: 0px 40px;
+        }
 
         .filter-form {
             display: block;
@@ -740,13 +749,13 @@ body.theme-blue {
         padding: 4px 10px;
     }
 
-        .table-container th:first-child,
-        .table-container td:first-child {
+        .table-container.full-width th:first-child,
+        .table-container.full-width td:first-child {
             padding-left: 40px;
         }
 
-        .table-container th:last-child,
-        .table-container td:last-child {
+        .table-container.full-width th:last-child,
+        .table-container.full-width td:last-child {
             padding-right: 40px;
         }
 

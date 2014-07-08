@@ -129,9 +129,9 @@
 
             <div id="content" class="clearfix" ng-app="hoststatus" ng-controller="HoststatusCtrl" ng-init="getHoststatus()">
 
-                <h1>Host Status Details For All Host Groups</h1>
-
                 <div class="table-container full-width">
+
+                    <h1>Host Status Details For All Host Groups</h1>
 
                     <div class="table-options">
                         <form action="" class="filter-form" method="post">
@@ -139,7 +139,7 @@
                             <input id="footable-filter-1" class="footable-filter" type="text" placeholder="Filter Table"/>
                         </form>
                         <div class="pagesize-container">
-                            Show <a class="active" href="#" data-page-size="25">25</a> <a href="#" data-page-size="1">1</a> <a href="#" data-page-size="100">100</a> <a href="#" data-page-size="50000">All</a>
+                            Show <a class="active" href="#" data-page-size="25">25</a> <a href="#" data-page-size="100">100</a> <a href="#" data-page-size="50000">All</a>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -176,48 +176,203 @@
 
                 </div>
 
-                <div class="table-container full-width">
+                <div class="table-row-container">
 
-                    <div class="table-options">
-                        <form action="" class="filter-form" method="post">
-                            <div class="filter-icon"></div>
-                            <input id="footable-filter-2" class="footable-filter" type="text" placeholder="Filter Table"/>
-                        </form>
-                        <div class="pagesize-container">
-                            Show <a class="active" href="#" data-page-size="25">25</a> <a href="#" data-page-size="1">1</a> <a href="#" data-page-size="100">100</a> <a href="#" data-page-size="50000">All</a>
+                    <div class="table-container partial-width">
+
+                        <h3>Host Status Details For All Host Groups</h3>
+
+                        <div class="table-options">
+                            <form action="" class="filter-form" method="post">
+                                <div class="filter-icon"></div>
+                                <input id="footable-filter-2" class="footable-filter" type="text" placeholder="Filter Table"/>
+                            </form>
+                            <div class="pagesize-container">
+                                Show <a class="active" href="#" data-page-size="10">10</a> <a href="#" data-page-size="50">50</a> <a href="#" data-page-size="50000">All</a>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="clearfix"></div>
+
+                        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="10" data-page-navigation="#footable-pagination-2" data-filter="#footable-filter-2">
+                            <thead>
+                                <tr>
+                                    <th><?php echo gettext('Host Name'); ?></th>
+                                    <th><?php echo gettext('Status'); ?></th>
+                                    <th data-hide="phone,tablet"><?php echo gettext('Duration'); ?></th>
+                                    <th data-hide="phone,tablet"><?php echo gettext('Attempt'); ?></th>
+                                    <th data-hide="phone,tablet"><?php echo gettext('Last Check'); ?></th>
+                                    <th data-hide="phone,tablet"><?php echo gettext('Status Information'); ?></th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="footable-pagination pagination" id="footable-pagination-2"></div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <tr ng-repeat="host in hoststatus" footabledata>
+                                    <td>{{host.host_name}}</td>
+                                    <td>{{host.current_state}}</td>
+                                    <td>{{host.last_state_change}}</td>
+                                    <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
+                                    <td>{{host.last_check}}</td>
+                                    <td>{{host.plugin_output}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
                     </div>
 
-                    <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation="#footable-pagination-2" data-filter="#footable-filter-2">
-                        <thead>
-                            <tr>
-                                <th><?php echo gettext('Host Name'); ?></th>
-                                <th><?php echo gettext('Status'); ?></th>
-                                <th data-hide="phone"><?php echo gettext('Duration'); ?></th>
-                                <th data-hide="phone"><?php echo gettext('Attempt'); ?></th>
-                                <th data-hide="phone"><?php echo gettext('Last Check'); ?></th>
-                                <th data-hide="phone"><?php echo gettext('Status Information'); ?></th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <td colspan="6">
-                                    <div class="footable-pagination pagination" id="footable-pagination-2"></div>
-                                </td>
-                            </tr>
-                        </tfoot>
-                        <tbody>
-                            <tr ng-repeat="host in hoststatus" footabledata>
-                                <td>{{host.host_name}}</td>
-                                <td>{{host.current_state}}</td>
-                                <td>{{host.last_state_change}}</td>
-                                <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
-                                <td>{{host.last_check}}</td>
-                                <td>{{host.plugin_output}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-container partial-width">
+
+                        <h3>Host Status Details For All Host Groups</h3>
+
+                        <div class="table-options">
+                            <form action="" class="filter-form" method="post">
+                                <div class="filter-icon"></div>
+                                <input id="footable-filter-3" class="footable-filter" type="text" placeholder="Filter Table"/>
+                            </form>
+                            <div class="pagesize-container">
+                                Show <a class="active" href="#" data-page-size="10">10</a> <a href="#" data-page-size="50">50</a> <a href="#" data-page-size="50000">All</a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="10" data-page-navigation="#footable-pagination-3" data-filter="#footable-filter-3">
+                            <thead>
+                                <tr>
+                                    <th><?php echo gettext('Host Name'); ?></th>
+                                    <th><?php echo gettext('Status'); ?></th>
+                                    <th data-hide="phone,tablet"><?php echo gettext('Duration'); ?></th>
+                                    <th data-hide="phone,tablet"><?php echo gettext('Attempt'); ?></th>
+                                    <th data-hide="phone,tablet"><?php echo gettext('Last Check'); ?></th>
+                                    <th data-hide="phone,tablet"><?php echo gettext('Status Information'); ?></th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="footable-pagination pagination" id="footable-pagination-3"></div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <tr ng-repeat="host in hoststatus" footabledata>
+                                    <td>{{host.host_name}}</td>
+                                    <td>{{host.current_state}}</td>
+                                    <td>{{host.last_state_change}}</td>
+                                    <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
+                                    <td>{{host.last_check}}</td>
+                                    <td>{{host.plugin_output}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="table-container partial-width">
+
+                        <h3>Host Status Details For All Host Groups</h3>
+
+                        <div class="table-options">
+                            <form action="" class="filter-form" method="post">
+                                <div class="filter-icon"></div>
+                                <input id="footable-filter-4" class="footable-filter" type="text" placeholder="Filter Table"/>
+                            </form>
+                            <div class="pagesize-container">
+                                Show <a class="active" href="#" data-page-size="10">10</a> <a href="#" data-page-size="50">50</a> <a href="#" data-page-size="50000">All</a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="10" data-page-navigation="#footable-pagination-4" data-filter="#footable-filter-4">
+                            <thead>
+                                <tr>
+                                    <th><?php echo gettext('Host Name'); ?></th>
+                                    <th><?php echo gettext('Status'); ?></th>
+                                    <th data-hide="phone,tablet"><?php echo gettext('Duration'); ?></th>
+                                    <th data-hide="phone,tablet"><?php echo gettext('Attempt'); ?></th>
+                                    <th data-hide="phone,tablet"><?php echo gettext('Last Check'); ?></th>
+                                    <th data-hide="phone,tablet"><?php echo gettext('Status Information'); ?></th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="footable-pagination pagination" id="footable-pagination-4"></div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <tr ng-repeat="host in hoststatus" footabledata>
+                                    <td>{{host.host_name}}</td>
+                                    <td>{{host.current_state}}</td>
+                                    <td>{{host.last_state_change}}</td>
+                                    <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
+                                    <td>{{host.last_check}}</td>
+                                    <td>{{host.plugin_output}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                </div>
+
+                <div class="table-row-container">
+
+                    <div class="table-container partial-width">
+
+                        <h3>Host Status Details For All Host Groups</h3>
+
+                        <div class="table-options">
+                            <form action="" class="filter-form" method="post">
+                                <div class="filter-icon"></div>
+                                <input id="footable-filter-5" class="footable-filter" type="text" placeholder="Filter Table"/>
+                            </form>
+                            <div class="pagesize-container">
+                                Show <a class="active" href="#" data-page-size="10">10</a> <a href="#" data-page-size="50">50</a> <a href="#" data-page-size="50000">All</a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="10" data-page-navigation="#footable-pagination-5" data-filter="#footable-filter-5">
+                            <thead>
+                                <tr>
+                                    <th><?php echo gettext('Host Name'); ?></th>
+                                    <th><?php echo gettext('Status'); ?></th>
+                                    <th data-hide="phone,tablet"><?php echo gettext('Duration'); ?></th>
+                                    <th data-hide="phone,tablet"><?php echo gettext('Attempt'); ?></th>
+                                    <th data-hide="phone,tablet"><?php echo gettext('Last Check'); ?></th>
+                                    <th data-hide="phone,tablet"><?php echo gettext('Status Information'); ?></th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="footable-pagination pagination" id="footable-pagination-5"></div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <tr ng-repeat="host in hoststatus" footabledata>
+                                    <td>{{host.host_name}}</td>
+                                    <td>{{host.current_state}}</td>
+                                    <td>{{host.last_state_change}}</td>
+                                    <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
+                                    <td>{{host.last_check}}</td>
+                                    <td>{{host.plugin_output}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="clearfix"></div>
 
                 </div>
 
