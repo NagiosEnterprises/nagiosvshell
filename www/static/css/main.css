@@ -309,7 +309,7 @@ body {
         overflow: hidden;
         position: absolute;
         top: 0px;
-        width: 280px;
+        width: 260px;
         z-index: 10;
     }
 
@@ -375,7 +375,7 @@ body {
     }
 
         body.sidebar-open #main {
-            left: 280px;
+            left: 260px;
         }
 
         body.sidebar-closed #main {
