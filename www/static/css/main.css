@@ -403,7 +403,11 @@ body {
 
         #status {
             background: #fff;
+            color: #403f3f;
+            font-size: 14px;
+            font-weight: 600;
             min-height: 80px;
+            padding: 0px 40px;
             width: 100%;
         }
 
