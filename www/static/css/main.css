@@ -313,14 +313,25 @@ body {
         z-index: 10;
     }
 
-        #sidebar .logo-container {
+        body.sidebar-open #sidebar {
+            display: block;
+        }
+
+        body.sidebar-closed #sidebar {
+            display: none;
+        }
+
+        .logo-container {
             background: #212121;
             height: 80px;
-            margin: 0px 80px 0px 0px;
+            margin: 0px 0px 0px 0px;
             padding: 0px 0px 0px 20px;
             position: relative;
-            width: 100%;
         }
+
+            #sidebar .logo-container {
+                width: 100%;
+            }
 
             .logo {
                 background: url('../images/logo-shell.png') 0px 10px no-repeat;
@@ -341,10 +352,15 @@ body {
                     color: #fff;
                 }
 
-            #nav-button-close {
+            .nav-button {
+                background: #212121 url('../images/icon-nav.png') center center no-repeat;
+                display: block;
+                height: 80px;
                 position: absolute;
                 right: 0px;
+                text-indent: -5000px;
                 top: 0px;
+                width: 80px;
             }
 
     #main {
@@ -372,6 +388,19 @@ body {
             width: 100%;
         }
 
+            header .logo-container {
+                float: left;
+            }
+
+            body.sidebar-open header .logo-container {
+                display: none;
+            }
+
+            body.sidebar-closed header .logo-container {
+                display: block;
+                width: 260px;
+            }
+
         #status {
             background: #fff;
             min-height: 80px;
@@ -385,14 +414,6 @@ body {
 
 /* Common elements
  * ============================================================================ */
-
-.nav-button {
-    background: #212121 url('../images/icon-nav.png') center center no-repeat;
-    display: block;
-    height: 80px;
-    text-indent: -5000px;
-    width: 80px;
-}
 
 h1, h2, h3, h4, h5 {
     font-weight: 400;
@@ -518,10 +539,6 @@ body.theme-blue {
 
 /* Header
  * ============================================================================ */
-
-#nav-button-open {
-    float: left;
-}
 
 .search-container {
     float: left;
