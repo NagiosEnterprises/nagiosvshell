@@ -94,7 +94,10 @@
         <section id="main" class="clearfix">
 
             <header class="clearfix">
-                <a class="nav-button" id="nav-button-open" href="#">Open Navigation</a>
+                <div class="logo-container">
+                    <a class="logo" href="#">Nagios <span class="emphasis">V-Shell</span></a>
+                    <a class="nav-button" id="nav-button-open" href="#">Open Navigation</a>
+                </div>
                 <div class="search-container">
                     <form id="quicksearch" action="#" method="get">
                         <input class="submit" type="submit" value=""/></input>
