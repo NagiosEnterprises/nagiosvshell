@@ -113,21 +113,21 @@
 
             <script type="text/javascript" src="<?php echo STATICURL; ?>/js/modules/status.js"></script>
 
-            <section id="status" class="clearfix">
+            <section id="status" class="clearfix" ng-app="status" ng-controller="StatusCtrl" ng-init="getStatus()">
                 <div id="hosts-status">
                     Hosts
-                    <span class="status-block active hosts-up">0 Up</span>
-                    <span class="status-block active hosts-down">0 Down</span>
-                    <span class="status-block active hosts-unreachable">0 Unreachable</span>
-                    <span class="status-block active hosts-pending">0 Pending</span>
+                    <span class="status-block hosts-up {{ status.hostsUpTotal | is_active }}">{{ status.hostsUpTotal }} Up</span>
+                    <span class="status-block hosts-down {{ status.hostsDownTotal | is_active }}">{{ status.hostsDownTotal }} Down</span>
+                    <span class="status-block hosts-unreachable {{ status.hostsUnreachableTotal | is_active }}">{{ status.hostsUnreachableTotal }} Unreachable</span>
+                    <span class="status-block hosts-pending {{ status.hostsPendingTotal | is_active }}">{{ status.hostsPendingTotal }} Pending</span>
                 </div>
                 <div id="services-status">
                     Services
-                    <span class="status-block active services-ok">0 OK</span>
-                    <span class="status-block active services-warning">0 Warning</span>
-                    <span class="status-block active services-unknown">0 Unknown</span>
-                    <span class="status-block active services-critical">0 Critical</span>
-                    <span class="status-block active services-pending">0 Pending</span>
+                    <span class="status-block services-ok {{ status.servicesOkTotal | is_active }}">{{ status.servicesOkTotal }} OK</span>
+                    <span class="status-block services-warning {{ status.servicesWarningTotal | is_active }}">{{ status.servicesWarningTotal }} Warning</span>
+                    <span class="status-block services-unknown {{ status.servicesUnknownTotal | is_active }}">{{ status.servicesUnknownTotal }} Unknown</span>
+                    <span class="status-block services-critical {{ status.servicesCriticalTotal | is_active }}">{{ status.servicesCriticalTotal }} Critical</span>
+                    <span class="status-block services-pending {{ status.servicesPendingTotal | is_active }}">{{ status.servicesPendingTotal }} Pending</span>
                 </div>
             </section>
 

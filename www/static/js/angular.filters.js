@@ -32,3 +32,10 @@ angular.module('stateFilters', [])
             return lookup[input];
         };
     })
+
+    .filter('is_active', function() {
+        return function(input) {
+            as_int = parseInt(input, 10);
+            return as_int > 0 ? 'active' : '';
+        };
+    })
