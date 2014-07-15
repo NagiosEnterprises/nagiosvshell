@@ -111,6 +111,8 @@
                 </div>
             </header>
 
+            <script type="text/javascript" src="<?php echo STATICURL; ?>/js/modules/status.js"></script>
+
             <section id="status" class="clearfix">
                 <div id="hosts-status">
                     Hosts
