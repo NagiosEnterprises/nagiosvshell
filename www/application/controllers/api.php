@@ -38,7 +38,7 @@ class API extends VS_Controller
             $Data = $Data->get_index_key('host_name',$host_name);
         }
 
-        $this->output($Data->to_array());
+        $this->output($Data);
 
     }
 
@@ -48,8 +48,8 @@ class API extends VS_Controller
      * @param  int $id host $id property
      */
     public function host_by_id($id){
-        $Data = $this->nagios_data->get_collection('hoststatus');
-        $this->output($Data[$id]->to_array());
+        $Hosts = $this->nagios_data->get_collection('hoststatus');
+        $this->output($Hosts[$id]);
     }
 
 
@@ -74,7 +74,7 @@ class API extends VS_Controller
 
         }
 
-        $this->output($Data->to_array());
+        $this->output($Data);
     }
 
 
@@ -84,8 +84,8 @@ class API extends VS_Controller
      * @param  int $id property
      */
     public function service_by_id($id) {
-        $Data = $this->nagios_data->get_collection('servicestatus');
-        $this->output($Data[$id]->to_array());
+        $Services = $this->nagios_data->get_collection('servicestatus');
+        $this->output($Services[$id]);
     }
 
 
@@ -93,8 +93,8 @@ class API extends VS_Controller
      * Retrieve program status
      */
     public function programstatus(){
-        $Data = $this->nagios_data->get_collection('programstatus');
-        $this->output($Data->to_array());
+        $Program = $this->nagios_data->get_collection('programstatus');
+        $this->output($Program);
     }
 
     /**
@@ -102,8 +102,8 @@ class API extends VS_Controller
      * @return [type] [description]
      */
     public function info(){
-        $Data = $this->nagios_data->get_collection('info');
-        $this->output($Data->to_array());
+        $Info = $this->nagios_data->get_collection('info');
+        $this->output($Info);
     }
 
 
@@ -113,13 +113,27 @@ class API extends VS_Controller
      * @param  string $name object's name field
      */
     public function object($type,$name='') {
-        $Data = $this->nagios_data->get_collection($type);
+        $Object = $this->nagios_data->get_collection($type);
 
-        $this->output($Data->to_array());
+        $this->output($Object);
     }
 
 
+    public function hostgroupstatus($hostgroup_name = ''){
 
+        $HostgroupStatus = new HostStatusCollection();
+        $Hostgroups = $this->nagios_data->get_collection('hostgroup');
+
+        foreach($Hostgroups as $Hostgroup){
+            $Hostgroup->hydrate();
+            $HostgroupStatus[] = $Hostgroup; 
+
+        }
+
+        $this->output($HostgroupStatus);
+
+
+    }
 
 
 

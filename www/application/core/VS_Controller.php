@@ -91,12 +91,23 @@ class VS_Controller extends CI_Controller
     protected function output_json($data)
     {
         header('Content-Type: application/json');
-        $this->load->library('JSON');
 
-        $json = new JSON();
-        $output = $json->encode($data);
+        if(function_exists('json_encode')){
+            echo json_encode($data);
+        } else {
+            $this->load->library('JSON');
 
-        echo $output;
+            $json = new JSON();
+
+            if(!is_array($data) && method_exists($data, 'to_array')){
+                $data = $data->to_array();
+            }
+
+            $output = $json->encode($data);
+            echo $output;
+        }
+
+        
     }
 
 }
