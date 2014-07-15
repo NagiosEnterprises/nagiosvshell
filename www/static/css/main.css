@@ -310,7 +310,7 @@ body {
         overflow: hidden;
         position: absolute;
         top: 0px;
-        width: 260px;
+        width: 280px;
         z-index: 10;
     }
 
@@ -326,7 +326,7 @@ body {
             background: #212121;
             height: 80px;
             margin: 0px 0px 0px 0px;
-            padding: 0px 0px 0px 20px;
+            padding: 0px 0px 0px 40px;
             position: relative;
         }
 
@@ -376,7 +376,7 @@ body {
     }
 
         body.sidebar-open #main {
-            left: 260px;
+            left: 280px;
         }
 
         body.sidebar-closed #main {
@@ -391,7 +391,7 @@ body {
 
             header .logo-container {
                 float: left;
-                width: 260px;
+                width: 280px;
             }
 
             body.sidebar-open header .logo-container {
@@ -476,7 +476,7 @@ nav {
             }
 
     nav li {
-        padding: 0px 10px 0px 20px;
+        padding: 0px 20px 0px 40px;
     }
 
         nav ul ul li {
@@ -491,8 +491,8 @@ nav {
     }
 
         nav ul ul {
-            padding: 0px 0px 0px 20px;
             font-weight: 400;
+            padding: 0px 0px 0px 20px;
         }
 
 #sidebar-footer {
@@ -554,7 +554,7 @@ body.theme-blue {
 .search-container {
     float: left;
     padding: 0px 0px 0px 20px;
-    width: 260px;
+    width: 280px;
 }
 
     #quicksearch {

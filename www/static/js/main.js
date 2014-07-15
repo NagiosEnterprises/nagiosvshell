@@ -126,7 +126,7 @@
     }
 
     nav.load = function(){
-        var mobile_breakpoint = '480',
+        var mobile_breakpoint = '580',
             is_mobile, was_open;
 
         is_mobile = $(window).width() < mobile_breakpoint ? true : false;
