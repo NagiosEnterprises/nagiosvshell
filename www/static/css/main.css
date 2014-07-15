@@ -415,6 +415,12 @@ body {
 
         }
 
+        footer {
+            display: none;
+            min-height: 80px;
+            width: 100%;
+        }
+
 
 /* Common elements
  * ============================================================================ */
@@ -546,12 +552,13 @@ body.theme-blue {
 
 .search-container {
     float: left;
-    width: 240px;
+    padding: 0px 0px 0px 20px;
+    width: 260px;
 }
 
     #quicksearch {
         height: 36px;
-        margin: 22px 0px 0px 20px;
+        margin: 22px 0px;
         padding: 0px;
         position: relative;
         width: 100%;
@@ -589,7 +596,6 @@ body.theme-blue {
             }
 
 .info-container {
-    color: #e6e6e6;
     float: right;
     font-size: 11px;
     line-height: 17px;
@@ -597,11 +603,22 @@ body.theme-blue {
     padding: 0px 0px 22px 0px;
     text-align: right;
     text-transform: uppercase;
-    width: 300px;
 }
 
     .info-container .logged-in-as {
         font-weight: 700;
+    }
+
+    header .info-container {
+        color: #e6e6e6;
+        overflow: hidden;
+        width: 250px;
+    }
+
+    footer .info-container {
+        color: #666;
+        margin-right: 40px;
+        width: 100%;
     }
 
 

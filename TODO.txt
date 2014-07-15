@@ -1,10 +1,6 @@
 # HTML Template
 
-Add cookie for opened / closed navigation menu to save last state (helpful for page refreshes)
-
-Add cookie per-table on how many to view.
-
-Change show table values to 10 25 ALL for small tables. Remove table search functionality.
+Add logged-in info and last updated to both header and footer (hidden until mobile)
 
 Update nav HTML to use dynamic example.com/vshell2 path using the constant set in the /etc/vshell2 config file.
 

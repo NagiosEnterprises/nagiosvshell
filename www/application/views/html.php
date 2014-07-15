@@ -382,6 +382,13 @@
 
             </div>
 
+            <footer class="clearfix">
+                <div class="info-container">
+                    <span class="logged-in-as">Logged in as Status</span><br/>
+                    <span class="last-update">Fri May 2 14:30:34 EDT 2014</span>
+                </div>
+            </section>
+
         </section>
 
     </section>
