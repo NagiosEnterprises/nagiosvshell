@@ -102,7 +102,7 @@
                 </div>
                 <div class="search-container">
                     <form id="quicksearch" action="#" method="get">
-                        <input class="input" type="text" value="" placeholder="Quick Search"></input>
+                        <input class="input" type="text" value="" placeholder="Quick Search" tabindex=1></input>
                     </form>
                 </div>
                 <div class="info-container">
