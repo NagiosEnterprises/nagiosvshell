@@ -15,11 +15,8 @@ class API extends VS_Controller
      */
     public function index()
     {
-
         $Data = $this->tac_data->get_tac_data();
-
         $this->output($Data);
-
     }
 
 
@@ -78,7 +75,6 @@ class API extends VS_Controller
     }
 
 
-
     /**
      * Retrieve a single service by $id property
      * @param  int $id property
@@ -96,6 +92,7 @@ class API extends VS_Controller
         $Program = $this->nagios_data->get_collection('programstatus');
         $this->output($Program);
     }
+
 
     /**
      * Retrieve info status
