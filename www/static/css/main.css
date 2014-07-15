@@ -894,3 +894,86 @@ body.theme-blue {
         .table-container tr.state-acknowledged td.status {
             background-color: #f0d6ff;
         }
+
+
+/* Responsive
+ * ============================================================================ */
+
+@media only screen and (max-width: 1036px) {
+
+    body.sidebar-open .table-container.partial-width {
+        padding: 0px 40px 0px 40px;
+        width: 100%;
+    }
+
+}
+
+@media only screen and (max-width: 839px) {
+
+    body.sidebar-open .status-block {
+        display: none;
+    }
+
+    body.sidebar-open .status-block.active {
+        display: inline-block;
+    }
+
+    body.sidebar-open .hosts-status {
+        padding-right: 20px;
+    }
+
+    header .info-container {
+        display: none;
+    }
+
+    footer {
+        display: block;
+    }
+
+}
+
+@media only screen and (max-width: 767px) {
+
+    .table-container.partial-width {
+        padding: 0px 40px 0px 40px;
+        width: 100%;
+    }
+
+}
+
+@media only screen and (max-width: 579px) {
+
+    .status-block {
+        display: none;
+    }
+
+    .status-block.active {
+        display: inline-block;
+    }
+
+    body.sidebar-open .hosts-status {
+        padding-right: 20px;
+    }
+
+    #sidebar {
+        width: 100%;
+    }
+
+    nav {
+        width: 100%;
+    }
+
+    body.sidebar-open #main {
+        left: 100%;
+    }
+
+    header .logo-container {
+        width: 100%;
+    }
+
+    .search-container {
+        padding: 0px 20px;
+        width: 100%;
+    }
+
+}
