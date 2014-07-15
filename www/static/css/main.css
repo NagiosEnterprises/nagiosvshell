@@ -412,6 +412,21 @@ body {
             width: 100%;
         }
 
+        #messages {
+            font-size: 13px;
+            padding: 0px 40px;
+            width: 100%;
+        }
+
+            #messages .message.error {
+                background: #fce8ea;
+                border: 2px solid #e9a3aa;
+                color: #620c15;
+                margin: 20px 0px 0px 0px;
+                padding: 20px 20px;
+                width: 100%;
+            }
+
         #content {
 
         }

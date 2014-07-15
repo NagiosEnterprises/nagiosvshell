@@ -21,6 +21,7 @@
 
     <script src="<?php echo STATICURL; ?>/js/jquery-1.11.0.min.js"></script>
     <script src="<?php echo STATICURL; ?>/js/angular.min.js"></script>
+    <script src="<?php echo STATICURL; ?>/js/angular.filters.js"></script>
     <script src="<?php echo STATICURL; ?>/js/jquery.cookie.js"></script>
     <script src="<?php echo STATICURL; ?>/js/typeahead.bundle.min.js"></script>
     <script src="<?php echo STATICURL; ?>/js/underscore-min.js"></script>
@@ -128,7 +129,8 @@
                 </div>
             </section>
 
-            <script type="text/javascript" src="<?php echo STATICURL; ?>/js/modules/filters.js"></script>
+            <section id="messages" class="clearfix"></section>
+
             <script type="text/javascript" src="<?php echo STATICURL; ?>/js/modules/hoststatus.js"></script>
 
             <div id="content" class="clearfix" ng-app="hoststatus" ng-controller="HoststatusCtrl" ng-init="getHoststatus()">
