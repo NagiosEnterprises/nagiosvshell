@@ -262,6 +262,7 @@ body {
 }
 
 body {
+    color: #282828;
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
     font-size: 16px;
     line-height: 24px;
@@ -564,8 +565,12 @@ body.theme-blue {
         width: 100%;
     }
 
+        #quicksearch .twitter-typeahead {
+            width: 100%;
+        }
+
         #quicksearch input {
-            background: #646464;
+            background: #646464 url('../images/icon-search.png') 10px 7px no-repeat;
             border: none;
             color: #eaeaea;
             display: block;
@@ -574,25 +579,31 @@ body.theme-blue {
             font-weight: 400;
             line-height: 36px;
             margin: 0px;
-            padding: 0px;
+            padding: 0px 0px 0px 40px;
+            width: 100%;
         }
 
             #quicksearch input:focus {
                 outline: none;
             }
 
-            #quicksearch .submit {
-                background: #646464 url('../images/icon-search.png') center center no-repeat;
-                left: 0px;
-                position: absolute;
-                text-indent: -5000px;
-                top: 0px;
-                width: 40px;
+        .twitter-typeahead .tt-dropdown-menu {
+            background: #fff;
+            font-size: 13px;
+            line-height: 20px;
+            padding: 0px 10px;
+            max-height: 240px;
+            overflow-y: auto;
+            width: 100%;
+        }
+
+            .twitter-typeahead .tt-dropdown-menu strong {
+                color: #4580a8;
+                font-weight: 700;
             }
 
-            #quicksearch .input {
-                padding: 0px 0px 0px 40px;
-                width: 100%;
+            .twitter-typeahead .empty-message {
+                padding: 10px 0px;
             }
 
 .info-container {
@@ -772,7 +783,6 @@ body.theme-blue {
     }
 
     .table-container td {
-        color: #202020;
         padding: 4px 10px;
     }
 

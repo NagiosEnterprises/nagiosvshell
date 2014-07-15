@@ -22,6 +22,7 @@
     <script src="<?php echo STATICURL; ?>/js/jquery-1.11.0.min.js"></script>
     <script src="<?php echo STATICURL; ?>/js/angular.min.js"></script>
     <script src="<?php echo STATICURL; ?>/js/jquery.cookie.js"></script>
+    <script src="<?php echo STATICURL; ?>/js/typeahead.bundle.min.js"></script>
     <script src="<?php echo STATICURL; ?>/js/underscore-min.js"></script>
     <script src="<?php echo STATICURL; ?>/js/moment.min.js"></script>
     <script src="<?php echo STATICURL; ?>/js/footable.all.min.js"></script>
@@ -100,7 +101,6 @@
                 </div>
                 <div class="search-container">
                     <form id="quicksearch" action="#" method="get">
-                        <input class="submit" type="submit" value=""/></input>
                         <input class="input" type="text" value="" placeholder="Quick Search"></input>
                     </form>
                 </div>
