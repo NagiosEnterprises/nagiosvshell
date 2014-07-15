@@ -390,6 +390,7 @@ body {
 
             header .logo-container {
                 float: left;
+                width: 260px;
             }
 
             body.sidebar-open header .logo-container {
@@ -398,7 +399,6 @@ body {
 
             body.sidebar-closed header .logo-container {
                 display: block;
-                width: 260px;
             }
 
         #status {
