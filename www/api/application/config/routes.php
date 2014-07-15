@@ -38,23 +38,21 @@
 |
 */
 
-$route['default_controller'] = "status";
+$route['default_controller'] = 'api';
 $route['404_override'] = '';
 
+$route['status'] = 'api';
 
-$route['api'] = 'api';
-$route['api/status'] = 'api';
+$route['hoststatus/(:any)'] = "api/hoststatus/$1";
+$route['servicestatus/(:any)'] = "api/servicestatus/$1";
 
-$route['api/hoststatus/(:any)'] = "api/hoststatus/$1";
-$route['api/servicestatus/(:any)'] = "api/servicestatus/$1";
+$route['host_by_id/(:num)'] = "api/host_by_id/$1";
+$route['service_by_id/(:num)'] = "api/service_by_id/$1";
 
-$route['api/host_by_id/(:num)'] = "api/host_by_id/$1";
-$route['api/service_by_id/(:num)'] = "api/service_by_id/$1";
+$route['object/(:any)'] = "api/object/$1";
 
-$route['api/object/(:any)'] = "api/object/$1";
-
-$route['api/nagiosstatus'] = "api/programstatus";
-$route['api/nagiosinfo'] = "api/info";
+$route['nagiosstatus'] = "api/programstatus";
+$route['nagiosinfo'] = "api/info";
 
 
 /* End of file routes.php */
