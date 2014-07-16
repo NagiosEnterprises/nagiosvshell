@@ -44,7 +44,10 @@ $route['404_override'] = '';
 $route['status'] = 'api';
 
 $route['hoststatus/(:any)'] = "api/hoststatus/$1";
+$route['hoststatus*'] = "api/hoststatus";
+
 $route['servicestatus/(:any)'] = "api/servicestatus/$1";
+$route['servicestatus*'] = "api/servicestatus";
 
 $route['host_by_id/(:num)'] = "api/host_by_id/$1";
 $route['service_by_id/(:num)'] = "api/service_by_id/$1";
