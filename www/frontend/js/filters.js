@@ -37,7 +37,7 @@ angular.module('vshell2.filters', [])
 
     .filter('is_active', function() {
         return function(input) {
-            as_int = parseInt(input, 10);
+            var as_int = parseInt(input, 10);
             return as_int > 0 ? 'active' : '';
         };
     })
