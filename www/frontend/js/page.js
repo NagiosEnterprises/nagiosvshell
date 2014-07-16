@@ -103,7 +103,7 @@
     tables.pagesize = {};
 
     tables.pagesize.bind = function(){
-        $('.pagesize-container a').on('click', function(e){
+        $('body').on('click', '.pagesize-container a', function(e){
             var pagesize = $(this).data('page-size'),
                 options = $(this).siblings('a'),
                 table = $(this).parents('.table-container').find('.footable');
@@ -171,15 +171,12 @@
         }
 
         var bind = function(){
-            var button_open = $(button_open_name),
-                button_close = $(button_close_name);
-
-            button_open.on('click', function(){
+            $('body').on('click', button_open_name, function(){
                 set_cookie('open');
                 open();
             });
 
-            button_close.on('click', function(){
+            $('body').on('click', button_close_name, function(){
                 set_cookie('close');
                 close();
             });
