@@ -794,11 +794,17 @@ body.theme-blue {
         border-bottom: 1px solid #f2f2f2;
         color: #333;
         font-weight: 600;
+        overflow: hidden;
         padding: 4px 10px;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
     }
 
     .table-container td {
+        overflow: hidden;
         padding: 4px 10px;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
     }
 
         .table-container.full-width th:first-child,
