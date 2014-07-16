@@ -108,6 +108,8 @@
                 options = $(this).siblings('a'),
                 table = $(this).parents('.table-container').find('.footable');
 
+            e.preventDefault();
+
             $(this).addClass('active');
             options.removeClass('active');
 
@@ -115,8 +117,6 @@
                 .data('page-size', pagesize)
                 .data('footable')
                 .redraw();
-
-            e.preventDefault();
         });
     }
 
@@ -171,12 +171,14 @@
         }
 
         var bind = function(){
-            $('body').on('click', button_open_name, function(){
+            $('body').on('click', button_open_name, function(e){
+                e.preventDefault();
                 set_cookie('open');
                 open();
             });
 
-            $('body').on('click', button_close_name, function(){
+            $('body').on('click', button_close_name, function(e){
+                e.preventDefault();
                 set_cookie('close');
                 close();
             });
