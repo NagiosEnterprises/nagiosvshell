@@ -2,19 +2,25 @@
 
 angular.module('vshell2.directives', [])
 
-    .directive('footable', function(){
-        // Code below is from Daniel Stucki. For more information see his
-        // excellent StackOverflow answer:
+    .directive('footabledata', function(){
+        // Fix footable initiation to happen after AngularJS finishes loading
+        // asynchronous API data.
+        //
+        // See Daniel Stucki's excellent StackOverflow answer:
         // http://stackoverflow.com/a/21057869/657661
+        //
+        // Also see footable API docs:
+        // http://fooplugins.com/footable/demos/api.htm#docs
 
         return function(scope, element) {
-            var footableObject;
+            var footableTable = $(element).parents('table'),
+                footableObject;
 
-            if (scope.$last && ! $('.footable').hasClass('footable-loaded')) {
-                $('.footable').footable();
+            if (scope.$last && ! footableTable.hasClass('footable-loaded')) {
+                footableTable.footable();
             };
 
-            footableObject = $('.footable').data('footable');
+            footableObject = footableTable.data('footable');
 
             if (footableObject !== undefined) {
                 footableObject.appendRow($(element));
