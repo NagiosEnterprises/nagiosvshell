@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="vshell2" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="vshell2" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="vshell2" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="vshell2" class="no-js"> <!--<![endif]-->
 <html>
 <head>
 
@@ -18,16 +22,6 @@
 
     <link rel="stylesheet" type="text/css" href="frontend/css/main.css" />
     <link rel="stylesheet" type="text/css" href="frontend/css/footable.core.min.css" />
-
-    <script src="frontend/js/jquery-1.11.0.min.js"></script>
-    <script src="frontend/js/angular.min.js"></script>
-    <script src="frontend/js/angular.filters.js"></script>
-    <script src="frontend/js/jquery.cookie.js"></script>
-    <script src="frontend/js/typeahead.bundle.min.js"></script>
-    <script src="frontend/js/underscore-min.js"></script>
-    <script src="frontend/js/moment.min.js"></script>
-    <script src="frontend/js/footable.all.min.js"></script>
-    <script src="frontend/js/main.js"></script>
 
 </head>
 <body class="theme-dark sidebar-open">
@@ -93,7 +87,7 @@
 
         </section>
 
-        <section id="main" class="clearfix">
+        <section id="main" class="clearfix" ng-view>
 
             <header class="clearfix">
                 <div class="logo-container">
@@ -111,9 +105,7 @@
                 </div>
             </header>
 
-            <script type="text/javascript" src="frontend/js/modules/status.js"></script>
-
-            <section id="status" class="clearfix" ng-app="status" ng-controller="StatusCtrl" ng-init="getStatus()">
+            <section id="status" class="clearfix" ng-controller="StatusCtrl" ng-init="getStatus()">
                 <div id="hosts-status">
                     Hosts
                     <span class="status-block hosts-up {{ status.hostsUpTotal | is_active }}">{{ status.hostsUpTotal }} Up</span>
@@ -131,11 +123,13 @@
                 </div>
             </section>
 
+            <!--[if lt IE 7]>
+                <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+
             <section id="messages" class="clearfix"></section>
 
-            <script type="text/javascript" src="frontend/js/modules/hoststatus.js"></script>
-
-            <div id="content" class="clearfix" ng-app="hoststatus" ng-controller="HoststatusCtrl" ng-init="getHoststatus()">
+            <div id="content" class="clearfix" ng-controller="HoststatusCtrl" ng-init="getHoststatus()">
 
                 <div class="table-container full-width">
 
@@ -396,6 +390,23 @@
         </section>
 
     </section>
+
+    <script src="frontend/js/lib/jquery-1.11.0.min.js"></script>
+    <script src="frontend/js/lib/angular-1.2.14.min.js"></script>
+
+    <script src="frontend/js/lib/jquery.cookie.js"></script>
+    <script src="frontend/js/lib/typeahead.bundle.min.js"></script>
+    <script src="frontend/js/lib/underscore-min.js"></script>
+    <script src="frontend/js/lib/moment.min.js"></script>
+    <script src="frontend/js/lib/footable.all.min.js"></script>
+
+    <script src="frontend/js/page.js"></script>
+
+    <script src="frontend/js/app.js"></script>
+    <script src="frontend/js/services.js"></script>
+    <script src="frontend/js/controllers.js"></script>
+    <script src="frontend/js/filters.js"></script>
+    <script src="frontend/js/directives.js"></script>
 
 </body>
 </html>
