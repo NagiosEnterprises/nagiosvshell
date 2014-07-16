@@ -1,10 +1,21 @@
-<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+<?php
+    
+    $error = array(
+        'type' => 'error',
+        'message' => 'An internal error has occured while processing the request.'
+    );
 
-<h4>A PHP Error was encountered</h4>
+    header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+    header('Content-Type: application/json');
 
-<p>Severity: <?php echo $severity; ?></p>
-<p>Message:  <?php echo $message; ?></p>
-<p>Filename: <?php echo $filepath; ?></p>
-<p>Line Number: <?php echo $line; ?></p>
+    if(function_exists('json_encode')){
+        echo json_encode($error);
+    } else {
+        $CI = &get_instance();
+        $CI->load->library('JSON');
+        $json = new JSON();
+        $output = $json->encode($error);
+        echo $output;
+    }
 
-</div>
+/* End of file error_php.php */
