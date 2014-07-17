@@ -77,6 +77,6 @@ angular.module('vshell2.filters', [])
                     '7': 'Acknowledged'
                 };
 
-            return lookup[input];
+            return lookup[input] || 'Undefined';
         };
     })
