@@ -520,7 +520,7 @@ nav {
     z-index: 100;
 }
 
-    #display-options {
+    #options {
         color: #fff;
         background: url('../images/icon-gear.png') left center no-repeat;
         display: inline-block;
@@ -534,31 +534,31 @@ nav {
         text-transform: uppercase;
     }
 
-        #display-options:hover {
+        #options:hover {
             opacity: 1;
         }
 
-body.theme-dark {
+body.colorscheme-dark {
     background: #232323;
 }
 
-    body.theme-dark nav ul.local {
+    body.colorscheme-dark nav ul.local {
         background: #2a2a2c;
     }
 
-    body.theme-dark #sidebar-footer {
+    body.colorscheme-dark #sidebar-footer {
         background: #1d1d1d;
     }
 
-body.theme-blue {
+body.colorscheme-blue {
     background: #70a4b4;
 }
 
-    body.theme-blue nav ul.local {
+    body.colorscheme-blue nav ul.local {
         background: #85becf;
     }
 
-    body.theme-blue #sidebar-footer {
+    body.colorscheme-blue #sidebar-footer {
         background: #5f94a4;
     }
 
@@ -693,6 +693,17 @@ body.theme-blue {
 
 /* Content
  * ============================================================================ */
+
+.text {
+    margin: 0px 40px 40px 40px;
+    width: 100%;
+}
+
+    .colorscheme-choice {
+        color: #4580a8;
+        display: inline-block;
+        text-decoration: none;
+    }
 
 .table-container {
 

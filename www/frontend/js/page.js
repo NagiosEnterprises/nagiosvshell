@@ -188,6 +188,57 @@
             init: function(){
                 load();
                 bind();
+            },
+            open: function(){
+                open();
+            }
+        }
+
+    })(jQuery);
+
+
+// Colorscheme
+
+    var colorscheme = (function($){
+
+        var cookie_name = 'vshell2_colorscheme',
+            buttons = '.colorscheme-choice',
+            default_scheme = 'colorscheme-dark';
+
+        var click = function(){
+            var color = get_cookie() || default_scheme;
+            $('body')
+                .removeClass('colorscheme-dark')
+                .removeClass('colorscheme-blue')
+                .addClass(color);
+        }
+
+        var get_cookie = function(){
+            return $.cookie(cookie_name);
+        }
+
+        var set_cookie = function(value){
+            $.cookie(cookie_name, value, { expires: 365, path: '/' });
+        }
+
+        var load = function(){
+            click();
+        }
+
+        var bind = function(nav){
+            $('body').on('click', buttons, function(e){
+                var color = $(this).attr("title");
+                e.preventDefault();
+                set_cookie(color);
+                nav.open();
+                click();
+            });
+        }
+
+        return {
+            init: function(){
+                bind(nav);
+                load();
             }
         }
 
@@ -199,5 +250,6 @@
     $(document).ready(function(){
         nav.init();
         quicksearch.init();
+        colorscheme.init(nav);
         tables.pagesize.bind();
     });
