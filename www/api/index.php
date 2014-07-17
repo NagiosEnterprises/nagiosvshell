@@ -19,26 +19,7 @@
  *
  */
 	
-	//Set HTTP_HOST if not already defined
-	//	Once CI is loaded, can check for command line specifically by:
-	//	- Checking if STDIN (standard in) is defined.
-	//	- Using the wrapper function in the CI input library,
-	//	  $this->input->is_cli_request();
-	//	  This just checks if STDIN is defined.
-	
-	if( ! isset($_SERVER['HTTP_HOST']) ){
-		if( defined('STDIN') ){ $_SERVER['HTTP_HOST'] = 'cli'; } //command-line
-		else{ $_SERVER['HTTP_HOST'] = ''; }
-	}
-	
-	//Determine environment
-	if( strpos(@$_SERVER['HTTP_HOST'], 'localhost') !== False ){ $environment = 'development'; }
-	elseif( @$_SERVER['HTTP_HOST'] == 'cli' ){ $environment = 'commandline'; }
-	else{ $environment = 'live'; }
-	
-
-	$environment = 'development';
-	define('ENVIRONMENT', $environment); unset($environment);
+define('ENVIRONMENT', 'live');
 	
 /*
  *---------------------------------------------------------------
@@ -61,7 +42,7 @@ if (defined('ENVIRONMENT')) {
 		break;
 		case 'live':
 			error_reporting(0);
-			define('LOG_LEVEL', 0);
+			define('LOG_LEVEL', 1);
 		break;
 		default:
 			exit('The application environment is not set correctly.');

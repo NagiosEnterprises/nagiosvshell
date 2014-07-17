@@ -44,6 +44,15 @@ if($code > 0)
 	$errorstring .= "ERROR: Failed to copy files to ".TARGETDIR." directory \n$output\n";
 }
 
+// Change file ownership
+echo "Updating file permissions...\n";
+$output = system('/bin/chown -R '.escapeshellarg(APACHEUSER).':'.escapeshellarg(APACHEGROUP).' '.escapeshellarg(TARGETDIR), $code);
+if($code > 0)
+{
+	$errors++;
+	$errorstring .= "ERROR: Failed to update file permissions to ".APACHEUSER.":".APACHEGROUP." at ".TARGETDIR." directory \n$output\n";
+}
+
 // Create apache conf file for project
 echo "Copying apache configuration file...\n";
 $apache_conf_file = escapeshellarg(APACHECONFDIR).'/'.escapeshellarg(APACHECONFFILE);
