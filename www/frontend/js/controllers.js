@@ -38,9 +38,9 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('HoststatusCtrl', ['$scope', '$http', function ($scope, $http) {
+    .controller('HostStatusCtrl', ['$scope', '$http', function ($scope, $http) {
 
-        $scope.getHoststatus = function () {
+        $scope.getHostStatus = function () {
 
             $scope.hoststatus = [];
 

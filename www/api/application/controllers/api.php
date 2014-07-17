@@ -129,11 +129,7 @@ class API extends VS_Controller
 
         $this->output($HostgroupStatus);
 
-
     }
-
-
-
 
 }
 

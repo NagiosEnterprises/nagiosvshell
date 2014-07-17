@@ -1,15 +1,16 @@
 'use strict';
 
 angular.module('vshell2', [
-  // 'ngRoute',
+  'ngRoute',
   'vshell2.filters',
   'vshell2.services',
   'vshell2.directives',
   'vshell2.controllers'
 ])
 
-    // .config(['$routeProvider', function($routeProvider) {
-    //     $routeProvider.when('/view1', {templateUrl: 'partials/partial1.html', controller: 'MyCtrl1'});
-    //     $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: 'MyCtrl2'});
-    //     $routeProvider.otherwise({redirectTo: '/view1'});
-    // }])
+    .config(['$routeProvider', function($routeProvider) {
+        $routeProvider.when('/overview', {templateUrl: 'frontend/partials/overview.html'});
+        $routeProvider.when('/hosts', {templateUrl: 'frontend/partials/hosts.html'});
+        $routeProvider.when('/hostgroups', {templateUrl: 'frontend/partials/hostgroups.html'});
+        $routeProvider.otherwise({redirectTo: '/overview'});
+    }])
