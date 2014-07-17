@@ -16,7 +16,7 @@ angular.module('vshell2.filters', [])
                 seconds_per_minute = 60,
                 seconds_per_hour = 3600,
                 seconds_per_day = 86400,
-                segments = new Array(),
+                retval = '',
                 remaining_duration, days, hours, minutes, seconds;
 
             remaining_duration = Math.round ( ( now.getTime() / 1000 )  - ( beginning.getTime() / 1000) );

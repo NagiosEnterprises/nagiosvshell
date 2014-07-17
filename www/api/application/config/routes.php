@@ -52,6 +52,9 @@ $route['servicestatus*'] = "api/servicestatus";
 $route['hostgroupstatus/(:any)'] = "api/hostgroupstatus/$1";
 $route['hostgroupstatus*'] = "api/hostgroupstatus";
 
+$route['servicegroupstatus/(:any)'] = "api/servicegroupstatus/$1";
+$route['servicegroupstatus*'] = "api/servicegroupstatus";
+
 $route['host_by_id/(:num)'] = "api/host_by_id/$1";
 $route['service_by_id/(:num)'] = "api/service_by_id/$1";
 

@@ -130,6 +130,20 @@ class API extends VS_Controller
 
     }
 
+    public function servicegroupstatus($servicegroup_name = ''){
+
+        $ServicegroupStatus = new ServiceStatusCollection();
+        $Servicegroups = $this->nagios_data->get_collection('servicegroup');
+
+        foreach($Servicegroups as $Servicegroup){
+            $Servicegroup->hydrate();
+            $ServicegroupStatus[] = $Servicegroup; 
+        }
+
+        $this->output($ServicegroupStatus);
+
+    }
+
 }
 
 /* End of file api.php */

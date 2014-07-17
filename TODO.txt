@@ -4,6 +4,8 @@ Add logged-in info and last updated to both header and footer (hidden until mobi
 
 Update nav HTML to use dynamic example.com/vshell2 path using the constant set in the /etc/vshell2 config file.
 
+Add help / contact / issues section to display options page
+
 ## Future
 
 Add status favicon?
