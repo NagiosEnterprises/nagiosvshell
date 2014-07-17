@@ -124,7 +124,6 @@ class API extends VS_Controller
         foreach($Hostgroups as $Hostgroup){
             $Hostgroup->hydrate();
             $HostgroupStatus[] = $Hostgroup; 
-
         }
 
         $this->output($HostgroupStatus);

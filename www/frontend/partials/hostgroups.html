@@ -8,250 +8,52 @@
 
 <div id="content" class="clearfix" ng-controller="HostgroupStatusCtrl" ng-init="getHostgroupStatus()">
 
-    <div class="table-container full-width">
+    <h1>Hostgroup Status Details for All Groups</h1>
 
-        <h1>Host Status Details For All Host Groups</h1>
+    <div ng-repeat="hostgroup in hostgroupstatus" class="table-container partial-width">
+
+        <h3>{{ hostgroup.alias }}</h3>
 
         <div class="table-options">
             <form action="" class="filter-form" method="post">
                 <div class="filter-icon"></div>
-                <input id="footable-filter-1" class="footable-filter" type="text" placeholder="Filter Table"/>
+                <input id="footable-filter-{{ $index }}" class="footable-filter" type="text" placeholder="Filter Table"/>
             </form>
             <div class="pagesize-container">
-                Show <a class="active" href="#" data-page-size="25">25</a> <a href="#" data-page-size="100">100</a> <a href="#" data-page-size="50000">All</a>
+                Show <a class="active" href="#" data-page-size="10">10</a> <a href="#" data-page-size="50">50</a> <a href="#" data-page-size="50000">All</a>
             </div>
             <div class="clearfix"></div>
         </div>
 
-        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation="#footable-pagination-1" data-filter="#footable-filter-1">
+        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="10" data-page-navigation="#footable-pagination-{{ $index }}" data-filter="#footable-filter-{{ $index }}">
             <thead>
                 <tr>
                     <th>Host Name</th>
                     <th>Status</th>
-                    <th data-hide="phone">Duration</th>
-                    <th data-hide="phone">Attempt</th>
-                    <th data-hide="phone">Last Check</th>
-                    <th data-hide="phone">Status Information</th>
+                    <th data-hide="all">Last Check</th>
+                    <th data-hide="all">Attempt</th>
+                    <th data-hide="all">Duration</th>
+                    <th data-hide="all">Status Information</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
                     <td colspan="6">
-                        <div class="footable-pagination pagination" id="footable-pagination-1"></div>
+                        <div class="footable-pagination pagination" id="footable-pagination-{{ $index }}"></div>
                     </td>
                 </tr>
             </tfoot>
             <tbody>
-                <tr ng-repeat="host in hoststatus" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
-                    <td>{{host.host_name}}</td>
+                <tr ng-repeat="host in hostgroup.HostStatusCollection" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
+                    <td>{{ host.host_name }}</td>
                     <td class="status">{{ host.current_state | hoststate }}</td>
-                    <td>{{host.last_state_change}}</td>
-                    <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
-                    <td>{{host.last_check}}</td>
-                    <td>{{host.plugin_output}}</td>
+                    <td>{{ host.last_check * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
+                    <td>{{ host.current_attempt }}/{{ host.max_attempts }}</td>
+                    <td>{{ host.last_state_change | ago }}</td>
+                    <td>{{ host.plugin_output }}</td>
                 </tr>
             </tbody>
         </table>
-
-    </div>
-
-    <div class="table-row-container">
-
-        <div class="table-container partial-width">
-
-            <h3>Host Status Details For All Host Groups</h3>
-
-            <div class="table-options">
-                <form action="" class="filter-form" method="post">
-                    <div class="filter-icon"></div>
-                    <input id="footable-filter-2" class="footable-filter" type="text" placeholder="Filter Table"/>
-                </form>
-                <div class="pagesize-container">
-                    Show <a class="active" href="#" data-page-size="10">10</a> <a href="#" data-page-size="50">50</a> <a href="#" data-page-size="50000">All</a>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-
-            <table cellspacing="0" cellpadding="0" class="footable" data-page-size="10" data-page-navigation="#footable-pagination-2" data-filter="#footable-filter-2">
-                <thead>
-                    <tr>
-                        <th>Host Name</th>
-                        <th>Status</th>
-                        <th data-hide="phone">Duration</th>
-                        <th data-hide="phone">Attempt</th>
-                        <th data-hide="phone">Last Check</th>
-                        <th data-hide="phone">Status Information</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <td colspan="6">
-                            <div class="footable-pagination pagination" id="footable-pagination-2"></div>
-                        </td>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    <tr ng-repeat="host in hoststatus" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
-                        <td>{{host.host_name}}</td>
-                        <td class="status">{{ host.current_state | hoststate }}</td>
-                        <td>{{host.last_state_change}}</td>
-                        <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
-                        <td>{{host.last_check}}</td>
-                        <td>{{host.plugin_output}}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-
-        <div class="table-container partial-width">
-
-            <h3>Host Status Details For All Host Groups</h3>
-
-            <div class="table-options">
-                <form action="" class="filter-form" method="post">
-                    <div class="filter-icon"></div>
-                    <input id="footable-filter-3" class="footable-filter" type="text" placeholder="Filter Table"/>
-                </form>
-                <div class="pagesize-container">
-                    Show <a class="active" href="#" data-page-size="10">10</a> <a href="#" data-page-size="50">50</a> <a href="#" data-page-size="50000">All</a>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-
-            <table cellspacing="0" cellpadding="0" class="footable" data-page-size="10" data-page-navigation="#footable-pagination-3" data-filter="#footable-filter-3">
-                <thead>
-                    <tr>
-                        <th>Host Name</th>
-                        <th>Status</th>
-                        <th data-hide="phone">Duration</th>
-                        <th data-hide="phone">Attempt</th>
-                        <th data-hide="phone">Last Check</th>
-                        <th data-hide="phone">Status Information</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <td colspan="6">
-                            <div class="footable-pagination pagination" id="footable-pagination-3"></div>
-                        </td>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    <tr ng-repeat="host in hoststatus" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
-                        <td>{{host.host_name}}</td>
-                        <td class="status">{{ host.current_state | hoststate }}</td>
-                        <td>{{host.last_state_change}}</td>
-                        <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
-                        <td>{{host.last_check}}</td>
-                        <td>{{host.plugin_output}}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-
-        <div class="table-container partial-width">
-
-            <h3>Host Status Details For All Host Groups</h3>
-
-            <div class="table-options">
-                <form action="" class="filter-form" method="post">
-                    <div class="filter-icon"></div>
-                    <input id="footable-filter-4" class="footable-filter" type="text" placeholder="Filter Table"/>
-                </form>
-                <div class="pagesize-container">
-                    Show <a class="active" href="#" data-page-size="10">10</a> <a href="#" data-page-size="50">50</a> <a href="#" data-page-size="50000">All</a>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-
-            <table cellspacing="0" cellpadding="0" class="footable" data-page-size="10" data-page-navigation="#footable-pagination-4" data-filter="#footable-filter-4">
-                <thead>
-                    <tr>
-                        <th>Host Name</th>
-                        <th>Status</th>
-                        <th data-hide="phone">Duration</th>
-                        <th data-hide="phone">Attempt</th>
-                        <th data-hide="phone">Last Check</th>
-                        <th data-hide="phone">Status Information</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <td colspan="6">
-                            <div class="footable-pagination pagination" id="footable-pagination-4"></div>
-                        </td>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    <tr ng-repeat="host in hoststatus" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
-                        <td>{{host.host_name}}</td>
-                        <td class="status">{{ host.current_state | hoststate }}</td>
-                        <td>{{host.last_state_change}}</td>
-                        <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
-                        <td>{{host.last_check}}</td>
-                        <td>{{host.plugin_output}}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-
-        <div class="clearfix"></div>
-
-    </div>
-
-    <div class="table-row-container">
-
-        <div class="table-container partial-width">
-
-            <h3>Host Status Details For All Host Groups</h3>
-
-            <div class="table-options">
-                <form action="" class="filter-form" method="post">
-                    <div class="filter-icon"></div>
-                    <input id="footable-filter-5" class="footable-filter" type="text" placeholder="Filter Table"/>
-                </form>
-                <div class="pagesize-container">
-                    Show <a class="active" href="#" data-page-size="10">10</a> <a href="#" data-page-size="50">50</a> <a href="#" data-page-size="50000">All</a>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-
-            <table cellspacing="0" cellpadding="0" class="footable" data-page-size="10" data-page-navigation="#footable-pagination-5" data-filter="#footable-filter-5">
-                <thead>
-                    <tr>
-                        <th>Host Name</th>
-                        <th>Status</th>
-                        <th data-hide="phone">Duration</th>
-                        <th data-hide="phone">Attempt</th>
-                        <th data-hide="phone">Last Check</th>
-                        <th data-hide="phone">Status Information</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <td colspan="6">
-                            <div class="footable-pagination pagination" id="footable-pagination-5"></div>
-                        </td>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    <tr ng-repeat="host in hoststatus" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
-                        <td>{{host.host_name}}</td>
-                        <td class="status">{{ host.current_state | hoststate }}</td>
-                        <td>{{host.last_state_change}}</td>
-                        <td>{{host.current_attempt}} / {{host.max_attempts}}</td>
-                        <td>{{host.last_check}}</td>
-                        <td>{{host.plugin_output}}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-
-        <div class="clearfix"></div>
 
     </div>
 
