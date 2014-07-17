@@ -11,7 +11,7 @@
 
     <h1>Host Details for {{ host.host_name }}</h1>
 
-    <div class="details">
+    <div class="details table-container">
 
         <table cellspacing="0" cellpadding="0">
             <tbody>
@@ -76,7 +76,7 @@
 
     </div>
 
-    <div class="attributes">
+    <div class="attributes table-container">
 
         <h3>Attributes</h3>
 
@@ -84,24 +84,24 @@
             <legend>Service Attributes</legend>
             <table cellpadding="0" cellspacing="0">
                 <tbody>
-                    <tr>
-                        <td>Active Checks: {{ host.active_checks_enabled }}</td>
+                    <tr class="{{ host.active_checks_enabled | is_enabled }}">
+                        <td>Active Checks: {{ host.active_checks_enabled | is_enabled | capitalize }}</td>
                         <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'active_checks' }}">Toggle</a></td>
                     </tr>
-                    <tr>
-                        <td>Passive Checks: {{ host.passive_checks_enabled }}</td>
+                    <tr class="{{ host.passive_checks_enabled | is_enabled }}">
+                        <td>Passive Checks: {{ host.passive_checks_enabled | is_enabled | capitalize }}</td>
                         <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'passive_checks' }}">Toggle</a></td>
                     </tr>
-                    <tr>
-                        <td>Obsession: {{ host.obsess_over_host }}</td>
+                    <tr class="{{ host.obsess_over_host | is_enabled }}">
+                        <td>Obsession: {{ host.obsess_over_host | is_enabled | capitalize }}</td>
                         <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'obsession' }}">Toggle</a></td>
                     </tr>
-                    <tr>
-                        <td>Notifications: {{ host.notifications_enabled }}</td>
+                    <tr class="{{ host.notifications_enabled | is_enabled }}">
+                        <td>Notifications: {{ host.notifications_enabled | is_enabled | capitalize }}</td>
                         <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'notifications' }}">Toggle</a></td>
                     </tr>
-                    <tr>
-                        <td>Flap Detection: {{ host.flap_detection_enabled }}</td>
+                    <tr class="{{ host.flap_detection_enabled | is_enabled }}">
+                        <td>Flap Detection: {{ host.flap_detection_enabled | is_enabled | capitalize }}</td>
                         <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'flap_detection' }}">Toggle</a></td>
                     </tr>
                 </tbody>
@@ -111,7 +111,7 @@
 
     </div>
 
-    <div class="commands">
+    <div class="commands table-container">
 
         <h3>Commands</h3>
 
@@ -154,7 +154,7 @@
 
     </div>
 
-    <div class="comments">
+    <div class="comments table-container">
 
         <h3>Host Comments Placeholder</h3>
 

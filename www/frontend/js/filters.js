@@ -2,10 +2,25 @@
 
 angular.module('vshell2.filters', [])
 
+    .filter('capitalize', function() {
+        return function(input) {
+            var first = input.substring(0,1).toUpperCase(),
+                rest = input.substring(1);
+            return first + rest;
+        }
+    })
+
     .filter('is_active', function() {
         return function(input) {
             var as_int = parseInt(input, 10);
-            return as_int > 0 ? 'active' : '';
+            return as_int > 0 ? 'active' : 'inactive';
+        };
+    })
+
+    .filter('is_enabled', function() {
+        return function(input) {
+            var as_int = parseInt(input, 10);
+            return as_int > 0 ? 'enabled' : 'disabled';
         };
     })
 

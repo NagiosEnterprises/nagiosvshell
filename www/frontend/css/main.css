@@ -873,6 +873,7 @@ body.colorscheme-blue {
 
     }
 
+        .table-container tr.enabled td,
         .table-container tr.state-ok td.status,
         .table-container tr.state-up td.status {
             background-color: #e9ffd6;
@@ -883,6 +884,7 @@ body.colorscheme-blue {
         background-color: #fce8ea;
     }
 
+        .table-container tr.disabled td,
         .table-container tr.state-critical td.status,
         .table-container tr.state-down td.status {
             background-color: #ffccd1;
