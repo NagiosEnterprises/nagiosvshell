@@ -80,34 +80,32 @@
 
         <h3>Attributes</h3>
 
-        <fieldset class="attributes">
-            <legend>Service Attributes</legend>
-            <table cellpadding="0" cellspacing="0">
-                <tbody>
-                    <tr class="{{ host.active_checks_enabled | is_enabled }}">
-                        <td>Active Checks: {{ host.active_checks_enabled | is_enabled | capitalize }}</td>
-                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'active_checks' }}">Toggle</a></td>
-                    </tr>
-                    <tr class="{{ host.passive_checks_enabled | is_enabled }}">
-                        <td>Passive Checks: {{ host.passive_checks_enabled | is_enabled | capitalize }}</td>
-                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'passive_checks' }}">Toggle</a></td>
-                    </tr>
-                    <tr class="{{ host.obsess_over_host | is_enabled }}">
-                        <td>Obsession: {{ host.obsess_over_host | is_enabled | capitalize }}</td>
-                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'obsession' }}">Toggle</a></td>
-                    </tr>
-                    <tr class="{{ host.notifications_enabled | is_enabled }}">
-                        <td>Notifications: {{ host.notifications_enabled | is_enabled | capitalize }}</td>
-                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'notifications' }}">Toggle</a></td>
-                    </tr>
-                    <tr class="{{ host.flap_detection_enabled | is_enabled }}">
-                        <td>Flap Detection: {{ host.flap_detection_enabled | is_enabled | capitalize }}</td>
-                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'flap_detection' }}">Toggle</a></td>
-                    </tr>
-                </tbody>
-            </table>
-            <p class="note">Commands will not appear until after page reload</p>
-        </fieldset>
+        <table cellpadding="0" cellspacing="0">
+            <tbody>
+                <tr class="{{ host.active_checks_enabled | is_enabled }}">
+                    <td>Active Checks: {{ host.active_checks_enabled | is_enabled | capitalize }}</td>
+                    <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'active_checks' }}">Toggle</a></td>
+                </tr>
+                <tr class="{{ host.passive_checks_enabled | is_enabled }}">
+                    <td>Passive Checks: {{ host.passive_checks_enabled | is_enabled | capitalize }}</td>
+                    <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'passive_checks' }}">Toggle</a></td>
+                </tr>
+                <tr class="{{ host.obsess_over_host | is_enabled }}">
+                    <td>Obsession: {{ host.obsess_over_host | is_enabled | capitalize }}</td>
+                    <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'obsession' }}">Toggle</a></td>
+                </tr>
+                <tr class="{{ host.notifications_enabled | is_enabled }}">
+                    <td>Notifications: {{ host.notifications_enabled | is_enabled | capitalize }}</td>
+                    <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'notifications' }}">Toggle</a></td>
+                </tr>
+                <tr class="{{ host.flap_detection_enabled | is_enabled }}">
+                    <td>Flap Detection: {{ host.flap_detection_enabled | is_enabled | capitalize }}</td>
+                    <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'flap_detection' }}">Toggle</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="note">Commands will not appear until after page reload</p>
 
     </div>
 
@@ -115,42 +113,31 @@
 
         <h3>Commands</h3>
 
-        <fieldset class="corecommands">
-            <legend>Core Commands</legend>
-            <table>
-                <tbody>
-                    <tr>
-                        <td><a href="<?php echo $details['MapHost']; ?>" title="<?php echo gettext('Map Host'); ?>"><img src="<?php echo IMAGESURL; ?>/statusmapballoon.png" class="iconLink" height="12" width="12" alt="Map" /></a></td>
-                        <td><?php echo gettext('Locate host on map'); ?></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?php echo $details['CmdCustomNotification']; ?>" title="<?php echo gettext('Send Custom Notification'); ?>"><img src="<?php echo IMAGESURL; ?>/notification.gif" class="iconLink" height="12" width="12" alt="Notification" /></a></td>
-                        <td><?php echo gettext('Send custom notification'); ?></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?php echo $details['CmdScheduleDowntime']; ?>" title="<?php echo gettext('Schedule Downtime'); ?>"><img src="<?php echo IMAGESURL; ?>/downtime.png" class="iconLink" height="12" width="12" alt="Downtime" /></a></td>
-                        <td><?php echo gettext('Schedule downtime'); ?></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?php echo $details['CmdScheduleDowntimeAll']; ?>" title="<?php echo gettext('Schedule Recursive Downtime'); ?>"><img src="<?php echo IMAGESURL; ?>/downtime.png" class="iconLink" height="12" width="12" alt="Downtime" /></a></td>
-                        <td><?php echo gettext('Schedule downtime for this host and all services'); ?></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?php echo $details['CmdScheduleChecks']; ?>" title="<?php echo gettext('Schedule Check'); ?>"><img src="<?php echo IMAGESURL; ?>/schedulecheck.png" class="iconLink" height="12" width="12" alt="Schedule" /></a></td>
-                        <td><?php echo gettext('Schedule a check for all services of this host'); ?></td>
-                    </tr>
-                    <tr>
-                        <td><a href="<?php echo $details['CmdAcknowledge']; ?>" title="<?php echo $details['AckTitle']; ?>"><img src="<?php echo IMAGESURL; ?>/ack.png" class="iconLink" height="12" width="12" alt="Acknowledge" /></a></td>
-                        <td><?php echo $details['AckTitle']; ?></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <a class="label" href="<?php echo $details['CoreLink']; ?>" title="<?php echo gettext('See This Host In Nagios Core'); ?>"><?php echo gettext('See This Host In Nagios Core'); ?></a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </fieldset>
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'map_host' }}">Locate host on map</a></td>
+                </tr>
+                <tr>
+                    <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'custom_notification' }}">Send custom notification</a></td>
+                </tr>
+                <tr>
+                    <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'schedule_downtime' }}">Schedule downtime</a></td>
+                </tr>
+                <tr>
+                    <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'schedule_downtime_for_all' }}">Schedule downtime for this host and all services</a></td>
+                </tr>
+                <tr>
+                    <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'schedule_check_for_all' }}">Schedule a check for all services of this host</a></td>
+                </tr>
+                <tr>
+                    <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'acknowledge_problem' }}">Acknowledge Problem</a></td>
+                </tr>
+                <tr>
+                    <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'host_in_nagios_core' }}">See This Host In Nagios Core</a></td>
+                </tr>
+            </tbody>
+        </table>
 
     </div>
 

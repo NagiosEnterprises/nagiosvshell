@@ -82,11 +82,18 @@ angular.module('vshell2.filters', [])
     .filter('hostcommand', function() {
         return function(host, type) {
             var commands = {
+                    'acknowledge_problem': '/nagios/cgi-bin/cmd.cgi?cmd_typ=33&host=',
                     'active_checks': '/nagios/cgi-bin/cmd.cgi?cmd_typ=48&host=',
-                    'passive_checks': '/nagios/cgi-bin/cmd.cgi?cmd_typ=39&host=',
-                    'obsession': '/nagios/cgi-bin/cmd.cgi?cmd_typ=102&host=',
+                    'custom_notification': '/nagios/cgi-bin/cmd.cgi?cmd_typ=159&host=',
+                    'flap_detection': '/nagios/cgi-bin/cmd.cgi?cmd_typ=58&host=',
+                    'map_host': '/nagios/cgi-bin/statusmap.cgi?host=',
                     'notifications': '/nagios/cgi-bin/cmd.cgi?cmd_typ=25&host=',
-                    'flap_detection': '/nagios/cgi-bin/cmd.cgi?cmd_typ=58&host='
+                    'obsession': '/nagios/cgi-bin/cmd.cgi?cmd_typ=102&host=',
+                    'passive_checks': '/nagios/cgi-bin/cmd.cgi?cmd_typ=39&host=',
+                    'schedule_check_for_all': '/nagios/cgi-bin/cmd.cgi?cmd_typ=17&host=',
+                    'schedule_downtime': '/nagios/cgi-bin/cmd.cgi?cmd_typ=55&host=',
+                    'schedule_downtime_for_all': '/nagios/cgi-bin/cmd.cgi?cmd_typ=86&host=',
+                    'host_in_nagios_core': '/nagios/cgi-bin/extinfo.cgi?type=1&host=',
                 };
 
             return commands[type] + host || '#';
