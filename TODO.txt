@@ -12,6 +12,7 @@ Host Detail page:
     - Check Type filter
     - Last Notification filter
     - State Type filter
+    - Load comments
 
 ## Future
 
