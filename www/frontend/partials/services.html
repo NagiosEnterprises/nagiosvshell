@@ -1,0 +1,62 @@
+<div ng-include="'frontend/partials/_header.html'"></div>
+
+<div ng-include="'frontend/partials/_status.html'"></div>
+
+<div ng-include="'frontend/partials/_browser.html'"></div>
+
+<div ng-include="'frontend/partials/_messages.html'"></div>
+
+<div id="content" class="clearfix" ng-controller="ServiceStatusCtrl" ng-init="getServiceStatus()">
+
+    <div class="table-container full-width">
+
+        <h1>Service Status Details For All Hosts</h1>
+
+        <div class="table-options">
+            <form action="" class="filter-form" method="post">
+                <div class="filter-icon"></div>
+                <input id="footable-filter-1" class="footable-filter" type="text" placeholder="Filter Table"/>
+            </form>
+            <div class="pagesize-container">
+                Show <a class="active" href="#" data-page-size="25">25</a> <a href="#" data-page-size="100">100</a> <a href="#" data-page-size="50000">All</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation="#footable-pagination-1" data-filter="#footable-filter-1">
+            <thead>
+                <tr>
+                    <th>Host</th>
+                    <th>Service</th>
+                    <th>Status</th>
+                    <th data-hide="phone">Last Check</th>
+                    <th data-hide="phone">Duration</th>
+                    <th data-hide="phone">Attempts</th>
+                    <th data-hide="phone">Status Information</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="7">
+                        <div class="footable-pagination pagination" id="footable-pagination-1"></div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr ng-repeat="service in servicestatus" class="state-{{ service.current_state | servicestate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
+                    <td>{{ service.host_name }}</td>
+                    <td>{{ service.service_description }}</td>
+                    <td class="status">{{ service.current_state | servicestate }}</td>
+                    <td>{{ service.last_check * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
+                    <td>{{ service.last_state_change | ago }}</td>
+                    <td>{{ service.current_attempt }} / {{ service.max_attempts }}</td>
+                    <td>{{ service.plugin_output }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div ng-include="'frontend/partials/_footer.html'"></div>

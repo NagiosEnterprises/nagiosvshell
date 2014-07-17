@@ -1,0 +1,179 @@
+
+<div ng-include="'frontend/partials/_header.html'"></div>
+
+<div ng-include="'frontend/partials/_status.html'"></div>
+
+<div ng-include="'frontend/partials/_browser.html'"></div>
+
+<div ng-include="'frontend/partials/_messages.html'"></div>
+
+<div id="content" class="clearfix" ng-controller="HostDetailsCtrl" ng-init="getHostDetails()">
+
+    <h1>Host Details for {{ host.host_name }}</h1>
+
+    <div class="details">
+
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td>Current State</td>
+                    <td>{{ host.current_state | hoststate }}</td>
+                </tr>
+                <tr>
+                    <td>Status Information</td>
+                    <td>{{ host.plugin_output }}</td>
+                </tr>
+                <tr>
+                    <td>Duration</td>
+                    <td>{{ host.last_state_change | ago }}</td>
+                </tr>
+                <tr>
+                    <td>State Type</td>
+                    <td>{{ host.state_type }}</td>
+                </tr>
+                <tr>
+                    <td>Current Check</td>
+                    <td>{{ host.current_attempt }} of {{ host.max_attempts }}</td>
+                </tr>
+                <tr>
+                    <td>Last Check</td>
+                    <td>{{ host.last_check * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
+                </tr>
+                <tr>
+                    <td>Next Check</td>
+                    <td>{{ host.next_check * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
+                </tr>
+                <tr>
+                    <td>Last State Change</td>
+                    <td>{{ host.last_state_change * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
+                </tr>
+                <tr>
+                    <td>Last Notification</td>
+                    <td>{{ host.last_notification }}</td>
+                </tr>
+                <tr>
+                    <td>Check Type</td>
+                    <td>{{ host.check_type }}</td>
+                </tr>
+                <tr>
+                    <td>Check Latency</td>
+                    <td>{{ host.check_latency }}</td>
+                </tr>
+                <tr>
+                    <td>Execution Time</td>
+                    <td>{{ host.check_execution_time }}</td>
+                </tr>
+                <tr>
+                    <td>State Change</td>
+                    <td>{{ host.percent_state_change }}%</td>
+                </tr>
+                <tr>
+                    <td>Performance Data</td>
+                    <td>{{ host.performance_data }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="attributes">
+
+        <h3>Attributes</h3>
+
+        <fieldset class="attributes">
+            <legend>Service Attributes</legend>
+            <table cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td>Active Checks: {{ host.active_checks_enabled }}</td>
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'active_checks' }}">Toggle</a></td>
+                    </tr>
+                    <tr>
+                        <td>Passive Checks: {{ host.passive_checks_enabled }}</td>
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'passive_checks' }}">Toggle</a></td>
+                    </tr>
+                    <tr>
+                        <td>Obsession: {{ host.obsess_over_host }}</td>
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'obsession' }}">Toggle</a></td>
+                    </tr>
+                    <tr>
+                        <td>Notifications: {{ host.notifications_enabled }}</td>
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'notifications' }}">Toggle</a></td>
+                    </tr>
+                    <tr>
+                        <td>Flap Detection: {{ host.flap_detection_enabled }}</td>
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'flap_detection' }}">Toggle</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="note">Commands will not appear until after page reload</p>
+        </fieldset>
+
+    </div>
+
+    <div class="commands">
+
+        <h3>Commands</h3>
+
+        <fieldset class="corecommands">
+            <legend>Core Commands</legend>
+            <table>
+                <tbody>
+                    <tr>
+                        <td><a href="<?php echo $details['MapHost']; ?>" title="<?php echo gettext('Map Host'); ?>"><img src="<?php echo IMAGESURL; ?>/statusmapballoon.png" class="iconLink" height="12" width="12" alt="Map" /></a></td>
+                        <td><?php echo gettext('Locate host on map'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><a href="<?php echo $details['CmdCustomNotification']; ?>" title="<?php echo gettext('Send Custom Notification'); ?>"><img src="<?php echo IMAGESURL; ?>/notification.gif" class="iconLink" height="12" width="12" alt="Notification" /></a></td>
+                        <td><?php echo gettext('Send custom notification'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><a href="<?php echo $details['CmdScheduleDowntime']; ?>" title="<?php echo gettext('Schedule Downtime'); ?>"><img src="<?php echo IMAGESURL; ?>/downtime.png" class="iconLink" height="12" width="12" alt="Downtime" /></a></td>
+                        <td><?php echo gettext('Schedule downtime'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><a href="<?php echo $details['CmdScheduleDowntimeAll']; ?>" title="<?php echo gettext('Schedule Recursive Downtime'); ?>"><img src="<?php echo IMAGESURL; ?>/downtime.png" class="iconLink" height="12" width="12" alt="Downtime" /></a></td>
+                        <td><?php echo gettext('Schedule downtime for this host and all services'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><a href="<?php echo $details['CmdScheduleChecks']; ?>" title="<?php echo gettext('Schedule Check'); ?>"><img src="<?php echo IMAGESURL; ?>/schedulecheck.png" class="iconLink" height="12" width="12" alt="Schedule" /></a></td>
+                        <td><?php echo gettext('Schedule a check for all services of this host'); ?></td>
+                    </tr>
+                    <tr>
+                        <td><a href="<?php echo $details['CmdAcknowledge']; ?>" title="<?php echo $details['AckTitle']; ?>"><img src="<?php echo IMAGESURL; ?>/ack.png" class="iconLink" height="12" width="12" alt="Acknowledge" /></a></td>
+                        <td><?php echo $details['AckTitle']; ?></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <a class="label" href="<?php echo $details['CoreLink']; ?>" title="<?php echo gettext('See This Host In Nagios Core'); ?>"><?php echo gettext('See This Host In Nagios Core'); ?></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+
+    </div>
+
+    <div class="comments">
+
+        <h3>Host Comments Placeholder</h3>
+
+        <table cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th>Author</th>
+                    <th>Entry Time</th>
+                    <th>Comment</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div ng-include="'frontend/partials/_footer.html'"></div>

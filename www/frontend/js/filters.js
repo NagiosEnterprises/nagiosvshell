@@ -60,7 +60,21 @@ angular.module('vshell2.filters', [])
                     '6': 'Acknowledged'
                 };
 
-            return lookup[input];
+            return lookup[input] || 'Undefined';
+        };
+    })
+
+    .filter('hostcommand', function() {
+        return function(host, type) {
+            var commands = {
+                    'active_checks': '/nagios/cgi-bin/cmd.cgi?cmd_typ=48&host=',
+                    'passive_checks': '/nagios/cgi-bin/cmd.cgi?cmd_typ=39&host=',
+                    'obsession': '/nagios/cgi-bin/cmd.cgi?cmd_typ=102&host=',
+                    'notifications': '/nagios/cgi-bin/cmd.cgi?cmd_typ=25&host=',
+                    'flap_detection': '/nagios/cgi-bin/cmd.cgi?cmd_typ=58&host='
+                };
+
+            return commands[type] + host || '#';
         };
     })
 

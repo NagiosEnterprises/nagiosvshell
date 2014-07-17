@@ -38,6 +38,24 @@ angular.module('vshell2.controllers', [])
 
     }])
 
+    .controller('HostDetailsCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+
+        $scope.getHostDetails = function () {
+
+            $scope.host = [];
+
+            $http({ method: 'GET', url: '/vshell2/api/hoststatus/' + $routeParams.host })
+                .success(function(data, status, headers, config) {
+                    $scope.host = data[0];
+                }).
+                error(function(data, status, headers, config) {
+                    messages.error('failed to load Host Detail information from the VShell2 API');
+                });
+
+        };
+
+    }])
+
     .controller('HostStatusCtrl', ['$scope', '$http', function ($scope, $http) {
 
         $scope.getHostStatus = function () {
