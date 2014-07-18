@@ -734,6 +734,7 @@ body.colorscheme-blue {
             height: 20px;
             line-height: 20px;
             margin: 0px 0px 5px 0px;
+            max-width: 35%;
             padding: 0px;
             position: relative;
             width: 160px;
@@ -772,8 +773,9 @@ body.colorscheme-blue {
             font-size: 13px;
             font-weight: 600;
             margin: 0px 0px 5px 0px;
-            max-width: 160px;
+            max-width: 64%;
             text-align: right;
+            width: 200px;
         }
 
             .pagesize-container a {
