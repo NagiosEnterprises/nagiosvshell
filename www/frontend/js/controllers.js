@@ -20,9 +20,27 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('HostDetailsCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+    .controller('HostStatusCtrl', ['$scope', '$http', function ($scope, $http) {
 
-        $scope.getHostDetails = function () {
+        $scope.getHostStatus = function () {
+
+            $scope.hoststatus = [];
+
+            $http({ method: 'GET', url: '/vshell2/api/hoststatus' })
+                .success(function(data, status, headers, config) {
+                    $scope.hoststatus = data;
+                }).
+                error(function(data, status, headers, config) {
+                    messages.error('failed to load Host Status information from the VShell2 API');
+                });
+
+        };
+
+    }])
+
+    .controller('HostStatusDetailsCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+
+        $scope.getHostStatusDetails = function () {
 
             $scope.host = [];
 
@@ -41,23 +59,6 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('HostStatusCtrl', ['$scope', '$http', function ($scope, $http) {
-
-        $scope.getHostStatus = function () {
-
-            $scope.hoststatus = [];
-
-            $http({ method: 'GET', url: '/vshell2/api/hoststatus' })
-                .success(function(data, status, headers, config) {
-                    $scope.hoststatus = data;
-                }).
-                error(function(data, status, headers, config) {
-                    messages.error('failed to load Host Status information from the VShell2 API');
-                });
-
-        };
-
-    }])
 
     .controller('HostgroupStatusCtrl', ['$scope', '$http', function ($scope, $http) {
 
