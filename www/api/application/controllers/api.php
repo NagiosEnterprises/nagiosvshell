@@ -23,11 +23,11 @@ class API extends VS_Controller
     /**
      * Fetch status of a certain type
      *
-     * @param  string $type 
+     * @param  string $type
      * @param  string $host_name
      */
     public function hoststatus($host_name='') {
-        
+
         $Data = $this->nagios_data->get_collection('hoststatus');
 
         //fetch by host name
@@ -66,7 +66,7 @@ class API extends VS_Controller
                  $Data = $Data->get_index_key('host_name',$host_name);
             } else {
                 $Data = $Data->get_index_key('host_name',$host_name)->get_where('service_description',$service);
-            }    
+            }
 
         }
 
@@ -104,7 +104,7 @@ class API extends VS_Controller
 
 
     /**
-     * Retrieve object data, either the collection or a single record 
+     * Retrieve object data, either the collection or a single record
      * @param  string $type Object type
      * @param  string $name object's name field
      */
@@ -121,8 +121,15 @@ class API extends VS_Controller
         $Hostgroups = $this->nagios_data->get_collection('hostgroup');
 
         foreach($Hostgroups as $Hostgroup){
-            $Hostgroup->hydrate();
-            $HostgroupStatus[] = $Hostgroup; 
+            if( $hostgroup_name != '' ) {
+                if( $Hostgroup->hostgroup_name == $hostgroup_name ){
+                    $Hostgroup->hydrate();
+                    $HostgroupStatus[] = $Hostgroup;
+                }
+            }else{
+                $Hostgroup->hydrate();
+                $HostgroupStatus[] = $Hostgroup;
+            }
         }
 
         $this->output($HostgroupStatus);
@@ -135,8 +142,15 @@ class API extends VS_Controller
         $Servicegroups = $this->nagios_data->get_collection('servicegroup');
 
         foreach($Servicegroups as $Servicegroup){
-            $Servicegroup->hydrate();
-            $ServicegroupStatus[] = $Servicegroup; 
+            if( $servicegroup_name != '' ) {
+                if( $Servicegroup->servicegroup_name == $servicegroup_name ){
+                    $Servicegroup->hydrate();
+                    $ServicegroupStatus[] = $Servicegroup;
+                }
+            }else{
+                $Servicegroup->hydrate();
+                $ServicegroupStatus[] = $Servicegroup;
+            }
         }
 
         $this->output($ServicegroupStatus);

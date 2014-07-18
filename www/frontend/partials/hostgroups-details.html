@@ -1,0 +1,55 @@
+<div ng-include="'frontend/partials/_header.html'"></div>
+
+<div ng-include="'frontend/partials/_status.html'"></div>
+
+<div ng-include="'frontend/partials/_browser.html'"></div>
+
+<div ng-include="'frontend/partials/_messages.html'"></div>
+
+<div id="content" class="clearfix" ng-controller="HostgroupStatusDetailsCtrl" ng-init="getHostgroupStatusDetails()">
+
+    <div class="table-container full-width">
+
+        <h1>Hostgroup Status Details for {{ hostgroup.alias }}</h1>
+
+        <div class="table-options">
+            <form action="" class="filter-form" method="post">
+                <div class="filter-icon"></div>
+                <input id="footable-filter-1" class="footable-filter" type="text" placeholder="Filter Table"/>
+            </form>
+            <div class="pagesize-container">
+                Show <a class="active" ng-href="#" data-page-size="25">25</a> <a ng-href="#" data-page-size="100">100</a> <a ng-href="#" data-page-size="50000">All</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation="#footable-pagination-1" data-filter="#footable-filter-1">
+            <thead>
+                <tr>
+                    <th>Host</th>
+                    <th>Host Status</th>
+                    <th>Services</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <div class="footable-pagination pagination" id="footable-pagination-1"></div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr ng-repeat="host in hostgroup.HostStatusCollection" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
+                    <td>{{ host.host_name }}</td>
+                    <td class="status">{{ host.current_state | hoststate }}</td>
+                    <td><span ng-repeat="service in host.ServiceStatusCollection" class="service-list-item state-{{ service.current_state | servicestate | lowercase }}">{{ service.service_description }}</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div ng-include="'frontend/partials/_footer.html'"></div>
+

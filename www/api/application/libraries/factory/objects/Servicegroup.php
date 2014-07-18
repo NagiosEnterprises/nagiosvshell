@@ -33,7 +33,6 @@ class Servicegroup extends NagiosGroup
      * @return [type] [description]
      */
     public function hydrate(){
-
         $this->ServiceStatusCollection = new ServiceStatusCollection();
         $CI = get_instance();
         $AllServicestatus= $CI->nagios_data->get_collection('servicestatus');

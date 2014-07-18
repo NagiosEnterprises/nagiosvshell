@@ -14,7 +14,7 @@ angular.module('vshell2', [
         $routeProvider.when('/hosts/:host', {templateUrl: 'frontend/partials/hostdetails.html'});
         $routeProvider.when('/hostgroups', {templateUrl: 'frontend/partials/hostgroups-summary.html'});
         $routeProvider.when('/hostgroups/grid', {templateUrl: 'frontend/partials/hostgroups-grid.html'});
-        // $routeProvider.when('/hostgroups/:group', {templateUrl: 'frontend/partials/hostgroups-details.html'});
+        $routeProvider.when('/hostgroups/:group', {templateUrl: 'frontend/partials/hostgroups-details.html'});
         $routeProvider.when('/services', {templateUrl: 'frontend/partials/services.html'});
         $routeProvider.when('/services/on-host/:host', {templateUrl: 'frontend/partials/hostservices.html'});
         $routeProvider.when('/services/:service', {templateUrl: 'frontend/partials/servicedetails.html'});

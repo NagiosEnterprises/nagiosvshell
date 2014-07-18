@@ -59,7 +59,6 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-
     .controller('HostgroupStatusCtrl', ['$scope', '$http', function ($scope, $http) {
 
         $scope.getHostgroupStatus = function () {
@@ -69,6 +68,27 @@ angular.module('vshell2.controllers', [])
             $http({ method: 'GET', url: '/vshell2/api/hostgroupstatus' })
                 .success(function(data, status, headers, config) {
                     $scope.hostgroupstatus = data;
+                }).
+                error(function(data, status, headers, config) {
+                    messages.error('failed to load Host Group Status information from the VShell2 API');
+                });
+
+        };
+
+    }])
+
+    .controller('HostgroupStatusDetailsCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+
+        $scope.getHostgroupStatusDetails = function () {
+
+            $scope.hostgroup = [];
+
+            $http({ method: 'GET', url: '/vshell2/api/hostgroupstatus/' + $routeParams.group })
+                .success(function(data, status, headers, config) {
+                    if( data[0] ){
+                        data = data[0];
+                    }
+                    $scope.hostgroup = data;
                 }).
                 error(function(data, status, headers, config) {
                     messages.error('failed to load Host Group Status information from the VShell2 API');

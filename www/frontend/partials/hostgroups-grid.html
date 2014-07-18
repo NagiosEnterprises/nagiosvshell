@@ -12,7 +12,7 @@
 
     <div ng-repeat="hostgroup in hostgroupstatus" class="table-container partial-width">
 
-        <h3>{{ hostgroup.alias }}</h3>
+        <h3><a ng-href="#/hostgroups/{{ hostgroup.hostgroup_name }}">{{ hostgroup.alias }}</a></h3>
 
         <div class="table-options">
             <form action="" class="filter-form" method="post">
@@ -29,7 +29,8 @@
             <thead>
                 <tr>
                     <th>Host</th>
-                    <th>Status</th>
+                    <th>Host Status</th>
+                    <th>Services Status</th>
                     <th data-hide="all">Last Check</th>
                     <th data-hide="all">Attempt</th>
                     <th data-hide="all">Duration</th>
@@ -38,7 +39,7 @@
             </thead>
             <tfoot>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="3">
                         <div class="footable-pagination pagination" id="footable-pagination-{{ $index }}"></div>
                     </td>
                 </tr>
@@ -47,6 +48,7 @@
                 <tr ng-repeat="host in hostgroup.HostStatusCollection" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                     <td>{{ host.host_name }}</td>
                     <td class="status">{{ host.current_state | hoststate }}</td>
+                    <td><span ng-repeat="service in host.ServiceStatusCollection" class="service-list-item state-{{ service.current_state | servicestate | lowercase }}">{{ service.service_description }}</span></td>
                     <td>{{ host.last_check * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
                     <td>{{ host.current_attempt }}/{{ host.max_attempts }}</td>
                     <td>{{ host.last_state_change | ago }}</td>
