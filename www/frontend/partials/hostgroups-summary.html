@@ -47,7 +47,13 @@
                         <span class="status-block hosts-unreachable {{ hostgroup.hostsUnreachable | is_active }}">{{ hostgroup.hostsUnreachable }} Unreachable</span>
                         <span class="status-block hosts-pending {{ hostgroup.hosts | is_active }}">{{ hostgroup.hostsPending }} Pending</span>
                     </td>
-                    <td>&nbsp;</td>
+                    <td>
+                        <span class="status-block services-ok {{ hostgroup.servicesOK | is_active }}">{{ hostgroup.servicesOK }} OK</span>
+                        <span class="status-block services-warning {{ hostgroup.servicesWarning | is_active }}">{{ hostgroup.servicesWarning }} Warning</span>
+                        <span class="status-block services-unknown {{ hostgroup.servicesUnknown | is_active }}">{{ hostgroup.servicesUnknown }} Unknown</span>
+                        <span class="status-block services-critical {{ hostgroup.servicesCritical | is_active }}">{{ hostgroup.servicesCritical }} Critical</span>
+                        <span class="status-block services-pending {{ hostgroup.servicesPending | is_active }}">{{ hostgroup.servicesPending }} Pending</span>
+                    </td>
                 </tr>
             </tbody>
         </table>

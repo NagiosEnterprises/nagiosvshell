@@ -9,8 +9,8 @@ class Servicegroup extends NagiosGroup
     const SERVICEUNKNOWN = 3;
     const SERVICEPENDING = 4;
     const SERVICEPROBLEMS = 5;
-    const SERVICEUNHANDLED = 5;
-    const SERVICEACKNOWLEDGED = 5;
+    const SERVICEUNHANDLED = 6;
+    const SERVICEACKNOWLEDGED = 7;
 
     protected $_type = 'servicegroup';
 
@@ -67,7 +67,6 @@ class Servicegroup extends NagiosGroup
         } else {
             $this->servicesCritical++;
         }
-
     }
 
 }

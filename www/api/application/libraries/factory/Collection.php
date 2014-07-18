@@ -144,7 +144,9 @@ class Collection extends ArrayObject
 
         $Object =  $this->get_index($name);
 
-        return new static($Object[$key]);
+        if( isset($Object[$key]) ){
+            return new static($Object[$key]);
+        }
     }
 
 
