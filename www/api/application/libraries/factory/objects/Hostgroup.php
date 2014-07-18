@@ -7,7 +7,6 @@ class Hostgroup extends NagiosGroup
 	const HOSTDOWN = 1;
 	const HOSTUNREACHABLE = 2;
 
-
 	protected $_type = 'hostgroup';
 
 	protected static $_count;

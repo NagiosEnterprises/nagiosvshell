@@ -8,51 +8,45 @@
 
 <div id="content" class="clearfix" ng-controller="ServicegroupStatusCtrl" ng-init="getServicegroupStatus()">
 
-    <h1>Servicegroup Status Details for All Groups</h1>
+    <div class="table-container full-width">
 
-    <div ng-repeat="servicegroup in servicegroupstatus" class="table-container partial-width">
-
-        <h3>{{ servicegroup.alias }}</h3>
+        <h1>Servicegroup Status Details for All Groups</h1>
 
         <div class="table-options">
             <form action="" class="filter-form" method="post">
                 <div class="filter-icon"></div>
-                <input id="footable-filter-{{ $index }}" class="footable-filter" type="text" placeholder="Filter Table"/>
+                <input id="footable-filter-1" class="footable-filter" type="text" placeholder="Filter Table"/>
             </form>
             <div class="pagesize-container">
-                Show <a class="active" ng-href="#" data-page-size="10">10</a> <a ng-href="#" data-page-size="50">50</a> <a ng-href="#" data-page-size="50000">All</a>
+                Show <a class="active" ng-href="#" data-page-size="25">25</a> <a ng-href="#" data-page-size="100">100</a> <a ng-href="#" data-page-size="50000">All</a>
             </div>
             <div class="clearfix"></div>
         </div>
 
-        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="10" data-page-navigation="#footable-pagination-{{ $index }}" data-filter="#footable-filter-{{ $index }}">
+        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation="#footable-pagination-1" data-filter="#footable-filter-1">
             <thead>
                 <tr>
-                    <th>Host</th>
-                    <th>Service</th>
-                    <th>Status</th>
-                    <th data-hide="all">Last Check</th>
-                    <th data-hide="all">Attempt</th>
-                    <th data-hide="all">Duration</th>
-                    <th data-hide="all">Status Information</th>
+                    <th>Servicegroup</th>
+                    <th>Services Status</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <td colspan="3">
-                        <div class="footable-pagination pagination" id="footable-pagination-{{ $index }}"></div>
+                    <td colspan="5">
+                        <div class="footable-pagination pagination" id="footable-pagination-1"></div>
                     </td>
                 </tr>
             </tfoot>
             <tbody>
-                <tr ng-repeat="service in servicegroup.ServiceStatusCollection" class="state-{{ service.current_state | servicestate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
-                    <td>{{ service.host_name }}</td>
-                    <td>{{ service.service_description }}</td>
-                    <td class="status">{{ service.current_state | servicestate }}</td>
-                    <td>{{ service.last_check * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
-                    <td>{{ service.current_attempt }}/{{ service.max_attempts }}</td>
-                    <td>{{ service.last_state_change | ago }}</td>
-                    <td>{{ service.plugin_output }}</td>
+                <tr ng-repeat="servicegroup in servicegroupstatus" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
+                    <td>{{ servicegroup.alias }}</td>
+                    <td>
+                        <span class="status-block services-ok {{ servicegroup.servicesOK | is_active }}">{{ servicegroup.servicesOK }} OK</span>
+                        <span class="status-block services-warning {{ servicegroup.servicesWarning | is_active }}">{{ servicegroup.servicesWarning }} Warning</span>
+                        <span class="status-block services-unknown {{ servicegroup.servicesUnknown | is_active }}">{{ servicegroup.servicesUnknown }} Unknown</span>
+                        <span class="status-block services-critical {{ servicegroup.servicesCritical | is_active }}">{{ servicegroup.servicesCritical }} Critical</span>
+                        <span class="status-block services-pending {{ servicegroup.servicesPending | is_active }}">{{ servicegroup.servicesPending }} Pending</span>
+                    </td>
                 </tr>
             </tbody>
         </table>

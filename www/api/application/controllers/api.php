@@ -65,7 +65,6 @@ class API extends VS_Controller
             if(empty($service)){
                  $Data = $Data->get_index_key('host_name',$host_name);
             } else {
-
                 $Data = $Data->get_index_key('host_name',$host_name)->get_where('service_description',$service);
             }    
 

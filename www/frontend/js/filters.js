@@ -10,6 +10,16 @@ angular.module('vshell2.filters', [])
         }
     })
 
+    .filter('objectToArray', function() {
+        return function(obj) {
+            var i, arr = []; 
+            for(i in obj){
+                arr.push(obj[i]);
+            }
+            return arr;
+        }
+    })
+
     .filter('is_active', function() {
         return function(input) {
             var as_int = parseInt(input, 10);
