@@ -1,0 +1,59 @@
+<div ng-include="'frontend/partials/_header.html'"></div>
+
+<div ng-include="'frontend/partials/_status.html'"></div>
+
+<div ng-include="'frontend/partials/_browser.html'"></div>
+
+<div ng-include="'frontend/partials/_messages.html'"></div>
+
+<div id="content" class="clearfix" ng-controller="HostgroupStatusCtrl" ng-init="getHostgroupStatus()">
+
+    <div class="table-container full-width">
+
+        <h1>Hostgroup Status Details for All Groups</h1>
+
+        <div class="table-options">
+            <form action="" class="filter-form" method="post">
+                <div class="filter-icon"></div>
+                <input id="footable-filter-1" class="footable-filter" type="text" placeholder="Filter Table"/>
+            </form>
+            <div class="pagesize-container">
+                Show <a class="active" ng-href="#" data-page-size="25">25</a> <a ng-href="#" data-page-size="100">100</a> <a ng-href="#" data-page-size="50000">All</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation="#footable-pagination-1" data-filter="#footable-filter-1">
+            <thead>
+                <tr>
+                    <th>Hostgroup</th>
+                    <th>Hosts Status</th>
+                    <th>Services Status</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <div class="footable-pagination pagination" id="footable-pagination-1"></div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr ng-repeat="hostgroup in hostgroupstatus" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
+                    <td>{{ hostgroup.alias }}</td>
+                    <td>
+                        <span class="status-block hosts-up {{ hostgroup.hostsUp | is_active }}">{{ hostgroup.hostsUp }} Up</span>
+                        <span class="status-block hosts-down {{ hostgroup.hostsDown | is_active }}">{{ hostgroup.hostsDown }} Down</span>
+                        <span class="status-block hosts-unreachable {{ hostgroup.hostsUnreachable | is_active }}">{{ hostgroup.hostsUnreachable }} Unreachable</span>
+                        <span class="status-block hosts-pending {{ hostgroup.hosts | is_active }}">{{ hostgroup.hostsPending }} Pending</span>
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div ng-include="'frontend/partials/_footer.html'"></div>

@@ -670,7 +670,10 @@ body.colorscheme-blue {
     padding: 28px 60px 0px 0px;
 }
 
-    .hosts-up { margin: 0px 0px 0px 10px; }
+    #hosts-status .heading {
+        display: inline-block;
+        margin: 0px 10px 0px 0px;
+    }
 
     .active.hosts-up { background: #8dcd54; }
     .active.hosts-down { background: #d24555; }
@@ -682,7 +685,10 @@ body.colorscheme-blue {
     padding: 28px 0px 27px 0px;
 }
 
-    .services-ok { margin: 0px 0px 0px 10px; }
+    #services-status .heading {
+        display: inline-block;
+        margin: 0px 10px 0px 0px;
+    }
 
     .active.services-ok { background: #8dcd54; }
     .active.services-warning { background: #ffc833; }

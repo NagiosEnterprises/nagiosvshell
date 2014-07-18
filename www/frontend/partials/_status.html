@@ -1,13 +1,13 @@
 <section id="status" class="clearfix" ng-controller="StatusCtrl" ng-init="getStatus()">
     <div id="hosts-status">
-        Hosts
+        <span class="heading">Hosts</span>
         <span class="status-block hosts-up {{ status.hostsUpTotal | is_active }}">{{ status.hostsUpTotal }} Up</span>
         <span class="status-block hosts-down {{ status.hostsDownTotal | is_active }}">{{ status.hostsDownTotal }} Down</span>
         <span class="status-block hosts-unreachable {{ status.hostsUnreachableTotal | is_active }}">{{ status.hostsUnreachableTotal }} Unreachable</span>
-        <span class="status-block hosts-pending {{ status.hostsPendingTotal | is_active }}">{{ status.hostsPendingTotal }} Pending</span>
+        <span class="status-block hosts-pending {{ status.hostsPending | is_active }}">{{ status.hostsPending }} Pending</span>
     </div>
     <div id="services-status">
-        Services
+        <span class="heading">Services</span>
         <span class="status-block services-ok {{ status.servicesOkTotal | is_active }}">{{ status.servicesOkTotal }} OK</span>
         <span class="status-block services-warning {{ status.servicesWarningTotal | is_active }}">{{ status.servicesWarningTotal }} Warning</span>
         <span class="status-block services-unknown {{ status.servicesUnknownTotal | is_active }}">{{ status.servicesUnknownTotal }} Unknown</span>
