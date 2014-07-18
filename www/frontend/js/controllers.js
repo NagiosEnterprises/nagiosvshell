@@ -153,3 +153,24 @@ angular.module('vshell2.controllers', [])
         };
 
     }])
+
+    .controller('ServicegroupStatusDetailsCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+
+        $scope.getServicegroupStatusDetails = function () {
+
+            $scope.servicegroup = [];
+
+            $http({ method: 'GET', url: '/vshell2/api/servicegroupstatus/' + $routeParams.group })
+                .success(function(data, status, headers, config) {
+                    if( data[0] ){
+                        data = data[0];
+                    }
+                    $scope.servicegroup = data;
+                }).
+                error(function(data, status, headers, config) {
+                    messages.error('failed to load Service Group Status information from the VShell2 API');
+                });
+
+        };
+
+    }])
