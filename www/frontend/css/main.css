@@ -724,6 +724,10 @@ body.colorscheme-blue {
     width: 33%;
 }
 
+    .table-container.partial-width:nth-child(3n+2){
+        clear: left;
+    }
+
 .table-container.full-width {
     width: 100%;
 }
