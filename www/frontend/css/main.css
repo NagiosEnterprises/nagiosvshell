@@ -652,9 +652,8 @@ body.colorscheme-blue {
  * ============================================================================ */
 
 .status-block {
-    background: #c2c3c4;
     border-radius: 2px;
-    color: #fff;
+    color: #aaa;
     display: inline-block;
     font-size: 11px;
     font-weight: 700;
@@ -664,6 +663,10 @@ body.colorscheme-blue {
     text-transform: uppercase;
     text-decoration: none;
 }
+
+    .status-block.active {
+        color: #fff;
+    }
 
 #hosts-status {
     float: left;
