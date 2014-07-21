@@ -41,7 +41,7 @@
                 <tr>
                     <td colspan="3">
                         <div class="results-count">{{ hostgroup.HostStatusCollection | size }} Result{{ (hostgroup.HostStatusCollection | size) > 0 ? 's' : '' }}</div>
-                        <div class="footable-pagination pagination" id="footable-pagination-{{ $index }}"></div>
+                        <div class="footable-pagination pagination hide-if-no-paging" id="footable-pagination-{{ $index }}"></div>
                     </td>
                 </tr>
             </tfoot>
