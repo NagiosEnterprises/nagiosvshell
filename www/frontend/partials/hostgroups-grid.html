@@ -12,7 +12,7 @@
 
     <div ng-repeat="hostgroup in hostgroupstatus" class="table-container partial-width">
 
-        <h3><a ng-href="#/hostgroups/{{ hostgroup.hostgroup_name }}">{{ hostgroup.alias }}</a></h3>
+        <h3><a class="state-{{ hostgroup | groupstate }}" ng-href="#/hostgroups/{{ hostgroup.hostgroup_name }}">{{ hostgroup.alias }}</a></h3>
 
         <div class="table-options">
             <form action="" class="filter-form" method="post">

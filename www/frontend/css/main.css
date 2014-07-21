@@ -703,6 +703,33 @@ body.colorscheme-blue {
 /* Content
  * ============================================================================ */
 
+h1 a, h2 a, h3 a, h4 a, h5 a {
+    color: #282828;
+    text-decoration: none;
+}
+
+    h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover {
+        text-decoration: underline;
+    }
+
+    h3 a.state-ok { color: #8dcd54; }
+    h3 a.state-warning { color: #ffc833; }
+    h3 a.state-unknown { color: #ff9333; }
+    h3 a.state-critical { color: #d24555; }
+    h3 a.state-pending { color: #858585; }
+
+.service-list-item {
+    display: inline-block;
+    font-weight: 600;
+    margin: 0px 4px 0px 0px;
+}
+
+    .service-list-item.state-ok { font-weight: 400; }
+    .service-list-item.state-warning { color: #ffc833; }
+    .service-list-item.state-unknown { color: #ff9333; }
+    .service-list-item.state-critical { color: #d24555; }
+    .service-list-item.state-pending { color: #858585; }
+
 .text {
     margin: 0px 40px 40px 40px;
     width: 100%;
