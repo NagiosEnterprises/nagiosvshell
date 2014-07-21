@@ -132,3 +132,20 @@ angular.module('vshell2.filters', [])
             return lookup[input] || 'Undefined';
         };
     })
+
+    .filter('groupstate', function() {
+        return function(input) {
+            if( input.hostsDown > 0 || input.servicesCritical > 0 ){
+                return 'critical';
+            } else if( input.hostsUnreachable > 0 || input.servicesUnknown > 0 ){
+                return 'unknown';
+            } else if( input.servicesWarning > 0 ){
+               return 'warning';
+            } else if( input.hostsPending > 0 || input.servicesPending > 0 ){
+               return 'pending';
+            } else if( input.hostsUp > 0 || input.servicesOk > 0 ){
+               return 'ok';
+            }
+            return 'undefined';
+        };
+    })
