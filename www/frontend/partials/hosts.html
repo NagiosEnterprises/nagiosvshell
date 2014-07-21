@@ -36,6 +36,7 @@
             <tfoot>
                 <tr>
                     <td colspan="5">
+                        <div class="results-count">{{ hoststatus | size }} Result{{ (hoststatus | size) > 0 ? 's' : '' }}</div>
                         <div class="footable-pagination pagination" id="footable-pagination-1"></div>
                     </td>
                 </tr>
