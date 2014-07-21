@@ -908,7 +908,7 @@ body.colorscheme-blue {
 
     .table-container tr.state-ok td,
     .table-container tr.state-up td {
-
+        font-weight: 400;
     }
 
         .table-container tr.enabled td,
@@ -919,7 +919,7 @@ body.colorscheme-blue {
 
     .table-container tr.state-critical td,
     .table-container tr.state-down td {
-        background-color: #fce8ea;
+
     }
 
         .table-container tr.disabled td,
@@ -930,7 +930,7 @@ body.colorscheme-blue {
 
     .table-container tr.state-unknown td,
     .table-container tr.state-unreachable td {
-        background-color: #fcece1;
+
     }
 
         .table-container tr.state-unknown td.status,
@@ -941,7 +941,7 @@ body.colorscheme-blue {
     .table-container tr.state-problems td,
     .table-container tr.state-unhandled td,
     .table-container tr.state-warning td {
-        background-color: #fcf5e1;
+
     }
 
         .table-container tr.state-problems td.status,
@@ -951,7 +951,6 @@ body.colorscheme-blue {
         }
 
     .table-container tr.state-pending td {
-        background-color: #e2e2e2;
         color: #666;
     }
 
