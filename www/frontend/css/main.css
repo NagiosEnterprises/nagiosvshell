@@ -856,32 +856,55 @@ body.colorscheme-blue {
         background: #eee;
     }
 
-        .pagination ul {
-            list-style: none;
-            margin: 0px 0px 0px -4px;
-            padding: 0px;
+        .table-container tfoot td {
+            padding-left: 0px;
+            padding-right: 0px;
         }
 
-            .pagination li,
-            .pagination a {
-                color: #999;
-                display: inline-block;
-                font-size: 14px;
-                font-weight: 600;
-                height: 20px;
-                line-height: 19px;
-                margin: 0px 2px;
-                text-align: center;
-                text-decoration: none;
+        .results-count {
+            color: #a1a1a1;
+            float: left;
+            font-size: 13px;
+            font-weight: 600;
+            width: 30%;
+        }
+
+        .pagination {
+            float: right;
+            text-align: right;
+            width: 70%;
+        }
+
+            .pagination ul {
+                list-style: none;
+                margin: 0px 0px 0px -4px;
+                padding: 0px;
             }
 
-                .pagination .active a {
-                    border-bottom: 1px solid #a1a1a1;
+                .pagination li,
+                .pagination a {
+                    color: #999;
+                    display: inline-block;
+                    font-size: 14px;
+                    font-weight: 600;
+                    height: 20px;
+                    line-height: 19px;
+                    margin: 0px 2px;
+                    text-align: center;
+                    text-decoration: none;
                 }
 
-                .pagination .footable-page-arrow {
-                    font-size: 20px;
-                }
+                    .pagination .active a {
+                        border-bottom: 1px solid #a1a1a1;
+                    }
+
+                    .pagination .footable-page-arrow {
+                        font-size: 20px;
+                    }
+
+    .table-container tr td.status {
+        font-weight: 600;
+    }
 
     .table-container tr.state-ok td,
     .table-container tr.state-up td {
