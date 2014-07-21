@@ -10,6 +10,12 @@ angular.module('vshell2.filters', [])
         }
     })
 
+    .filter('size', function() {
+        return function(input) {
+            return _.size(input);
+        };
+    })
+
     .filter('objectToArray', function() {
         return function(obj) {
             var i, arr = []; 
