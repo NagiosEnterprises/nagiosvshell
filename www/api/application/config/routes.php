@@ -43,6 +43,8 @@ $route['404_override'] = '';
 
 $route['status'] = 'api';
 
+$route['quicksearch'] = 'api/quicksearch';
+
 $route['hoststatus/(:any)'] = "api/hoststatus/$1";
 $route['hoststatus*'] = "api/hoststatus";
 

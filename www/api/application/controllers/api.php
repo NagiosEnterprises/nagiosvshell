@@ -19,6 +19,47 @@ class API extends VS_Controller
         $this->output($Data);
     }
 
+    /**
+     * Fetch object names
+     */
+    public function quicksearch()
+    {
+    
+        $Data = array();
+
+        $hosts = $this->nagios_data->get_collection('hoststatus');
+        $services = $this->nagios_data->get_collection('servicestatus');
+        $hostgroups = $this->nagios_data->get_collection('hostgroup');
+        $servicegroups = $this->nagios_data->get_collection('servicegroup');
+
+        foreach($hosts as $host){
+            $Data[] = $this->quicksearch_item('host', $host->host_name, $host->host_name);
+        }
+
+        foreach($services as $service){
+            $Data[] = $this->quicksearch_item('service', $service->service_description.' on '.$service->host_name, $service->host_name.'/'.$service->id);
+        }
+
+        foreach($hostgroups as $hostgroup){
+            $Data[] = $this->quicksearch_item('hostgroup', $hostgroup->alias, $hostgroup->hostgroup_name);
+        }
+
+        foreach($servicegroups as $servicegroup){
+            $Data[] = $this->quicksearch_item('servicegroup', $servicegroup->alias, $servicegroup->servicegroup_name);
+        }
+
+        $this->output($Data);
+
+    }
+
+    private function quicksearch_item($type, $name, $uri)
+    {
+        return array(
+            'type' => $type,
+            'name' => $name,
+            'uri' => $uri
+        );
+    }
 
     /**
      * Fetch status of a certain type
