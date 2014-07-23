@@ -13,7 +13,7 @@ angular.module('vshell2.controllers', [])
                     $scope.status = data;
                 }).
                 error(function(data, status, headers, config) {
-                    messages.error('failed to load Status information from the VShell2 API');
+                    messages.error('failed to load Status information from the V-Shell2 API');
                 });
 
         };
@@ -31,7 +31,7 @@ angular.module('vshell2.controllers', [])
                     $scope.hoststatus = data;
                 }).
                 error(function(data, status, headers, config) {
-                    messages.error('failed to load Host Status information from the VShell2 API');
+                    messages.error('failed to load Host Status information from the V-Shell2 API');
                 });
 
         };
@@ -52,7 +52,7 @@ angular.module('vshell2.controllers', [])
                     $scope.host = data;
                 }).
                 error(function(data, status, headers, config) {
-                    messages.error('failed to load Host Detail information from the VShell2 API');
+                    messages.error('failed to load Host Detail information from the V-Shell2 API');
                 });
 
         };
@@ -70,7 +70,7 @@ angular.module('vshell2.controllers', [])
                     $scope.hostgroupstatus = data;
                 }).
                 error(function(data, status, headers, config) {
-                    messages.error('failed to load Host Group Status information from the VShell2 API');
+                    messages.error('failed to load Host Group Status information from the V-Shell2 API');
                 });
 
         };
@@ -91,7 +91,7 @@ angular.module('vshell2.controllers', [])
                     $scope.hostgroup = data;
                 }).
                 error(function(data, status, headers, config) {
-                    messages.error('failed to load Host Group Status information from the VShell2 API');
+                    messages.error('failed to load Host Group Status information from the V-Shell2 API');
                 });
 
         };
@@ -111,7 +111,7 @@ angular.module('vshell2.controllers', [])
                     $scope.servicestatus = data;
                 }).
                 error(function(data, status, headers, config) {
-                    messages.error('failed to load Service Host Status information from the VShell2 API');
+                    messages.error('failed to load Service Host Status information from the V-Shell2 API');
                 });
 
         };
@@ -129,7 +129,7 @@ angular.module('vshell2.controllers', [])
                     $scope.servicestatus = data;
                 }).
                 error(function(data, status, headers, config) {
-                    messages.error('failed to load Service Status information from the VShell2 API');
+                    messages.error('failed to load Service Status information from the V-Shell2 API');
                 });
 
         };
@@ -150,7 +150,7 @@ angular.module('vshell2.controllers', [])
                     $scope.service = data;
                 }).
                 error(function(data, status, headers, config) {
-                    messages.error('failed to load Service Detail information from the VShell2 API');
+                    messages.error('failed to load Service Detail information from the V-Shell2 API');
                 });
 
         };
@@ -168,7 +168,7 @@ angular.module('vshell2.controllers', [])
                     $scope.servicegroupstatus = data;
                 }).
                 error(function(data, status, headers, config) {
-                    messages.error('failed to load Service Group Status information from the VShell2 API');
+                    messages.error('failed to load Service Group Status information from the V-Shell2 API');
                 });
 
         };
@@ -189,7 +189,7 @@ angular.module('vshell2.controllers', [])
                     $scope.servicegroup = data;
                 }).
                 error(function(data, status, headers, config) {
-                    messages.error('failed to load Service Group Status information from the VShell2 API');
+                    messages.error('failed to load Service Group Status information from the V-Shell2 API');
                 });
 
         };

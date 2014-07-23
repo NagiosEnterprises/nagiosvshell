@@ -12,7 +12,8 @@ angular.module('vshell2.filters', [])
 
     .filter('size', function() {
         return function(input) {
-            return _.size(input);
+            var type = typeof input;
+            return type == "object" ? _.size(input) : 0;
         };
     })
 
