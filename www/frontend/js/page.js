@@ -130,7 +130,7 @@
     var nav = (function($){
 
         var cookie_name = 'vshell2_nav',
-            mobile_breakpoint = 580,
+            mobile_breakpoint = 768,
             button_open_name = '#nav-button-open',
             button_close_name = '#nav-button-close';
 
@@ -159,7 +159,8 @@
         }
 
         var was_open = function(){
-            return get_cookie() === 'open';
+            var cookie = get_cookie();
+            return cookie === 'open' || cookie == undefined;
         }
 
         var load = function(){
@@ -175,6 +176,10 @@
         }
 
         var bind = function(){
+            $('body').on('click', 'nav', function(e){
+                load();
+            });
+
             $('body').on('click', button_open_name, function(e){
                 e.preventDefault();
                 set_cookie('open');
