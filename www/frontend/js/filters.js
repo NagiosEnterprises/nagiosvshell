@@ -34,6 +34,17 @@ angular.module('vshell2.filters', [])
         }
     })
 
+    .filter('uri', function() {
+        // Decouples type (hosts) from URI path (/hosts)
+        return function(input) {
+            if( input == 'host' ){ return 'hosts'; }
+            if( input == 'service' ){ return 'services'; }
+            if( input == 'hostgroup' ){ return 'hostgroups'; }
+            if( input == 'servicegroup' ){ return 'servicegroups'; }
+            return 'overview';
+        };
+    })
+
     .filter('is_active', function() {
         return function(input) {
             var as_int = parseInt(input, 10);

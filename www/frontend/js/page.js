@@ -28,18 +28,28 @@
 
     var quicksearch = (function($){
 
-        var test_data = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-            'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-            'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-            'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-            'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-            'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-            'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-            'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-            'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-        ];
+        var templates = {};
 
-        var init = function(){
+            templates.empty = [
+                '<div class="empty-message">',
+                'No quicksearch matches found',
+                '</div>'
+            ].join('\n');
+
+            templates.suggestion = function(data){
+                return [
+                    '<div class="quicksearch-item">',
+                        '<span class="type">' + data.type + '</span>',
+                        '<span class="value">' + data.name + '</span>',
+                    '</div>'
+                ].join('\n');
+            }
+
+        var get_path = function(type, uri){
+            return '/hosts/' + uri;
+        }
+
+        var init = function(data, callback){
 
             $('#quicksearch .input').typeahead({
                 hint: true,
@@ -48,37 +58,31 @@
             },
             {
                 name: 'quicksearch',
-                displayKey: 'value',
-                source: matcher(test_data),
+                displayKey: 'name',
+                source: matcher(data),
                 templates: {
-                    empty: [
-                        '<div class="empty-message">',
-                        'No quicksearch matches found',
-                        '</div>'
-                    ].join('\n')
+                    empty: templates.empty,
+                    suggestion: templates.suggestion
                 }
+            });
+
+            $('#quicksearch .input').on('typeahead:selected', function(e, item){
+                callback(e, item);
             });
 
         }
 
-        var matcher = function(strs){
+        var matcher = function(items){
 
             return function(q, cb) {
-                var matches, substrRegex;
+                var matches = [],
+                    re = new RegExp(q, 'i');
 
-                // an array that will be populated with substring matches
-                matches = [];
+                $.each(items, function(i, item) {
+                    var value = item.name;
 
-                // regex used to determine if a string contains the substring `q`
-                substrRegex = new RegExp(q, 'i');
-
-                // iterate through the pool of strings and for any string that
-                // contains the substring `q`, add it to the `matches` array
-                $.each(strs, function(i, str) {
-                    if (substrRegex.test(str)) {
-                        // the typeahead jQuery plugin expects suggestions to a
-                        // JavaScript object, refer to typeahead docs for more info
-                        matches.push({ value: str });
+                    if (re.test(value)) {
+                        matches.push(item);
                     }
                 });
 
@@ -88,8 +92,8 @@
         }
 
         return {
-            init: function(){
-                init();
+            init: function(data, callback){
+                init(data, callback);
             }
         }
 
@@ -249,7 +253,6 @@
 
     $(document).ready(function(){
         nav.init();
-        quicksearch.init();
         colorscheme.init(nav);
         tables.pagesize.bind();
     });

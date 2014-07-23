@@ -14,6 +14,8 @@ Host Detail page:
 Service Detail page:
     - Everything!
 
+Add 'use strict' to page.js
+
 ## Future
 
 Add language support

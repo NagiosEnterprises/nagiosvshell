@@ -2,6 +2,29 @@
 
 angular.module('vshell2.controllers', [])
 
+    .controller('QuicksearchCtrl', ['$scope', '$http', '$location', '$filter', function ($scope, $http, $location, $filter) {
+
+        var callback = function(e, item){
+            var base = $filter('uri')(item.type),
+                path = base + '/' + item.uri;
+            $location.path(path);
+            $scope.$apply();
+        }
+
+        $scope.getQuicksearchData = function () {
+
+            $http({ method: 'GET', url: '/vshell2/api/quicksearch' })
+                .success(function(data, status, headers, config) {
+                    quicksearch.init(data, callback);
+                }).
+                error(function(data, status, headers, config) {
+                    messages.error('failed to load Quicksearch data from the V-Shell2 API');
+                });
+
+        };
+
+    }])
+
     .controller('StatusCtrl', ['$scope', '$http', function ($scope, $http) {
 
         $scope.getStatus = function () {
