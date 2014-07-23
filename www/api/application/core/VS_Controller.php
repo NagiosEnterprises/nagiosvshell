@@ -92,7 +92,9 @@ class VS_Controller extends CI_Controller
     {
         header('Content-Type: application/json');
 
-        if(function_exists('json_encode')){
+        if( empty($data) ){
+            echo '{}';
+        } elseif (function_exists('json_encode')){
             echo json_encode($data);
         } else {
             $this->load->library('JSON');
@@ -106,7 +108,6 @@ class VS_Controller extends CI_Controller
             $output = $json->encode($data);
             echo $output;
         }
-
         
     }
 
