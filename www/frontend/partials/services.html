@@ -38,7 +38,7 @@
             <tfoot>
                 <tr>
                     <td colspan="7">
-                        <div class="results-count">{{ servicestatus | size }} Result{{ (servicestatus | size) > 0 ? 's' : '' }}</div>
+                        <div class="results-count">{{ servicestatus | size }} Result{{ servicestatus | plural }}</div>
                         <div class="footable-pagination pagination" id="footable-pagination-1"></div>
                     </td>
                 </tr>

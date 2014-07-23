@@ -17,11 +17,18 @@ angular.module('vshell2.filters', [])
         };
     })
 
+    .filter('plural', function() {
+        return function(input) {
+            var size = _.size(input);
+            return size == 1 ? '' : 's';
+        };
+    })
+
     .filter('object_to_array', function() {
-        return function(obj) {
+        return function(input) {
             var i, arr = []; 
-            for(i in obj){
-                arr.push(obj[i]);
+            for(i in input){
+                arr.push(input[i]);
             }
             return arr;
         }
