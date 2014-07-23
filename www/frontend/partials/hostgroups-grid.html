@@ -46,6 +46,9 @@
                 </tr>
             </tfoot>
             <tbody>
+                <tr ng-if="(hostgroup.HostStatusCollection | size) == 0">
+                    <td colspan="7">No hosts associated with hostgroup</td>
+                </tr>
                 <tr ng-repeat="host in hostgroup.HostStatusCollection" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                     <td><a href="#/hosts/{{ host.host_name }}">{{ host.host_name }}</a></td>
                     <td class="status">{{ host.current_state | hoststate }}</td>

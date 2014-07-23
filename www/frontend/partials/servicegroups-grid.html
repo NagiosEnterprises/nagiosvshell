@@ -46,6 +46,9 @@
                 </tr>
             </tfoot>
             <tbody>
+                <tr ng-if="(servicegroup.ServiceStatusCollection | size) == 0">
+                    <td colspan="7">No services are defined</td>
+                </tr>
                 <tr ng-repeat="service in servicegroup.ServiceStatusCollection | object_to_array | orderBy:'host_name'" class="state-{{ service.current_state | servicestate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                     <td><a href="#/hosts/{{ service.host_name }}">{{ service.host_name }}</a></td>
                     <td><a href="#/services/{{ service.host_name }}/{{ service.id }}">{{ service.service_description }}</a></td>
