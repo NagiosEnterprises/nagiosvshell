@@ -55,17 +55,17 @@ class API extends VS_Controller
      * @param  string $host_name host name filter
      * @param  string $service   service description (requires host name)
      */
-    public function servicestatus($host_name='',$service=''){
+    public function servicestatus($host_name='',$service_id=''){
 
         $Data = $this->nagios_data->get_collection('servicestatus');
 
         //fetch by host name
         if(!empty($host_name)){
 
-            if(empty($service)){
-                 $Data = $Data->get_index_key('host_name',$host_name);
+            if(empty($service_id)){
+                $Data = $Data->get_index_key('host_name',$host_name);
             } else {
-                $Data = $Data->get_index_key('host_name',$host_name)->get_where('service_description',$service);
+                $Data = $Data->get_index_key('host_name',$host_name)->get_where('id',$service_id);
             }
 
         }

@@ -1,7 +1,5 @@
 # HTML Template
 
-Add some kind of general status marker to each table (colored circle next to name?)
-
 Update nav HTML to use dynamic example.com/vshell2 path using the constant set in the /etc/vshell2 config file.
 
 Update app to use dynamic example.com/nagios URL location.
@@ -11,10 +9,10 @@ Add help / contact / issues section to display options page
 Flap detection icon on host and service tables
 
 Host Detail page:
-    - Check Type filter
-    - Last Notification filter
-    - State Type filter
     - Load comments
+
+Service Detail page:
+    - Everything!
 
 ## Future
 
