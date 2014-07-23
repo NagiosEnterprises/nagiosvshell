@@ -712,15 +712,40 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
         text-decoration: underline;
     }
 
-    h3 a.state-warning { color: #ffc833; }
-    h3 a.state-unknown { color: #ff9333; }
-    h3 a.state-critical { color: #d24555; }
-    h3 a.state-pending { color: #858585; }
+    h1 .state-down, h3 .state-down { color: #d24555; }
+    h1 .state-unreachable, h3 .state-unreachable { color: #ff9333; }
+    h1 .state-pending, h3 .state-pending { color: #858585; }
+
+    h1 .state-warning, h3 .state-warning { color: #ffc833; }
+    h1 .state-unknown, h3 .state-unknown { color: #ff9333; }
+    h1 .state-critical, h3 .state-critical { color: #d24555; }
+    h1 .state-pending, h3 .state-pending { color: #858585; }
+
+#content p {
+    margin: 1em 40px;
+}
+
+    #content p.subheading {
+        margin: -15px 40px 15px 40px;
+    }
+
+    #content p a {
+        color: #4580a8;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        #content p a:hover {
+            text-decoration: underline;
+        }
 
 .service-list-item {
+    color: #282828;
     display: inline-block;
     font-weight: 600;
     margin: 0px 4px 0px 0px;
+    text-decoration: none;
 }
 
     .service-list-item.state-ok { font-weight: 400; }
@@ -751,13 +776,33 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
     width: 33%;
 }
 
+    .table-container.partial-width.two-thirds {
+        width: 66%;
+    }
+
     .table-container.partial-width:nth-child(3n+2){
         clear: left;
     }
 
+        .table-container.partial-width tr td:nth-child(3) {
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .table-container.partial-width.two-thirds tr td:last-child {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
 .table-container.full-width {
     width: 100%;
 }
+
+    .table-container.full-width h3 {
+        margin-left: 40px;
+    }
 
     .table-container .table-options {
         margin: 15px 0px 15px 0px;
@@ -887,6 +932,15 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
             padding-right: 40px;
         }
 
+        .table-container td a {
+            color: #282828;
+            text-decoration: none;
+        }
+
+            .table-container td a:hover {
+                text-decoration: underline;
+            }
+
     .footable-sort-indicator {
         display: none !important;
     }
@@ -1015,7 +1069,8 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
 
 @media only screen and (max-width: 1036px) {
 
-    body.sidebar-open .table-container.partial-width {
+    body.sidebar-open .table-container.partial-width,
+    body.sidebar-open .table-container.partial-width.two-thirds {
         padding: 0px 40px 0px 40px;
         width: 100%;
     }
@@ -1048,7 +1103,8 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
 
 @media only screen and (max-width: 767px) {
 
-    .table-container.partial-width {
+    .table-container.partial-width,
+    .table-container.partial-width.two-thirds {
         padding: 0px 40px 0px 40px;
         width: 100%;
     }

@@ -41,7 +41,7 @@
             </tfoot>
             <tbody>
                 <tr ng-repeat="hostgroup in hostgroupstatus" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
-                    <td>{{ hostgroup.alias }}</td>
+                    <td><a href="#/hostgroups/{{ hostgroup.hostgroup_name }}">{{ hostgroup.alias }}</a></td>
                     <td>
                         <span class="status-block hosts-up {{ hostgroup.hostsUp | is_active }}">{{ hostgroup.hostsUp }} Up</span>
                         <span class="status-block hosts-down {{ hostgroup.hostsDown | is_active }}">{{ hostgroup.hostsDown }} Down</span>

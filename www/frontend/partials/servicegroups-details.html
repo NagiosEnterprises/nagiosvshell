@@ -44,7 +44,7 @@
                 </tr>
             </tfoot>
             <tbody>
-                <tr ng-repeat="service in servicegroup.ServiceStatusCollection | objectToArray | orderBy:'host_name'" class="state-{{ service.current_state | servicestate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
+                <tr ng-repeat="service in servicegroup.ServiceStatusCollection | object_to_array | orderBy:'host_name'" class="state-{{ service.current_state | servicestate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                     <td>{{ service.host_name }}</td>
                     <td>{{ service.service_description }}</td>
                     <td class="status">{{ service.current_state | servicestate }}</td>

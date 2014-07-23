@@ -136,6 +136,27 @@ angular.module('vshell2.controllers', [])
 
     }])
 
+    .controller('ServiceStatusDetailsCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+
+        $scope.getServiceStatusDetails = function () {
+
+            $scope.service = [];
+
+            $http({ method: 'GET', url: '/vshell2/api/servicestatus/' + $routeParams.host + '/' + $routeParams.service })
+                .success(function(data, status, headers, config) {
+                    if( data[$routeParams.service] ){
+                        data = data[$routeParams.service];
+                    }
+                    $scope.service = data;
+                }).
+                error(function(data, status, headers, config) {
+                    messages.error('failed to load Service Detail information from the VShell2 API');
+                });
+
+        };
+
+    }])
+
     .controller('ServicegroupStatusCtrl', ['$scope', '$http', function ($scope, $http) {
 
         $scope.getServicegroupStatus = function () {

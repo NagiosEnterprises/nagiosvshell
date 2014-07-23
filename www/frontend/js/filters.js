@@ -16,7 +16,7 @@ angular.module('vshell2.filters', [])
         };
     })
 
-    .filter('objectToArray', function() {
+    .filter('object_to_array', function() {
         return function(obj) {
             var i, arr = []; 
             for(i in obj){
@@ -37,6 +37,30 @@ angular.module('vshell2.filters', [])
         return function(input) {
             var as_int = parseInt(input, 10);
             return as_int > 0 ? 'enabled' : 'disabled';
+        };
+    })
+
+    .filter('check_type', function() {
+        return function(input) {
+            var as_int = parseInt(input, 10);
+
+            if( as_int > 1 ) {
+                return 'Unknown';
+            }
+
+            return as_int === 0 ? 'Active' : 'Passive';
+        };
+    })
+
+    .filter('state_type', function() {
+        return function(input) {
+            var as_int = parseInt(input, 10);
+
+            if( as_int > 1 ) {
+                return 'Unknown';
+            }
+
+            return as_int === 0 ? 'Soft' : 'Hard';
         };
     })
 
