@@ -10,7 +10,7 @@
 
     <h1>Service Details for <span class="state-{{ service.current_state | servicestate | lowercase }}">{{ service.service_description }}</span></h1>
 
-    <p class="subheading"><a href="#/host/{{ service.host_name }}">Host {{ service.host_name }}</a></p>
+    <p class="subheading"><a href="#/{{ 'host' | uri }}/{{ service.host_name }}">Host {{ service.host_name }}</a></p>
 
     <div class="details table-container partial-width two-thirds">
 
