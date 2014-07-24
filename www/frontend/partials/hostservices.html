@@ -45,7 +45,7 @@
             </tfoot>
             <tbody>
                 <tr ng-if="(servicestatus | size) == 0">
-                    <td colspan="7">No services associated with <a href="#/hosts/{{ host_name }}">{{ host_name }}</a></td>
+                    <td colspan="7">{{ is_loading ? 'Loading...' : 'No services associated with host' }}</td>
                 </tr>
                 <tr ng-repeat="service in servicestatus" class="state-{{ service.current_state | servicestate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                     <td>{{ service.host_name }}</td>

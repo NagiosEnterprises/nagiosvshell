@@ -47,13 +47,16 @@ angular.module('vshell2.controllers', [])
 
         $scope.getHostStatus = function () {
 
+            $scope.is_loading = true;
             $scope.hoststatus = [];
 
             $http({ method: 'GET', url: '/vshell2/api/hoststatus' })
                 .success(function(data, status, headers, config) {
+                    $scope.is_loading = false;
                     $scope.hoststatus = data;
                 }).
                 error(function(data, status, headers, config) {
+                    $scope.is_loading = false;
                     messages.error('failed to load Host Status information from the V-Shell2 API');
                 });
 
@@ -86,13 +89,16 @@ angular.module('vshell2.controllers', [])
 
         $scope.getHostgroupStatus = function () {
 
+            $scope.is_loading = true;
             $scope.hostgroupstatus = [];
 
             $http({ method: 'GET', url: '/vshell2/api/hostgroupstatus' })
                 .success(function(data, status, headers, config) {
+                    $scope.is_loading = false;
                     $scope.hostgroupstatus = data;
                 }).
                 error(function(data, status, headers, config) {
+                    $scope.is_loading = false;
                     messages.error('failed to load Host Group Status information from the V-Shell2 API');
                 });
 
@@ -104,6 +110,7 @@ angular.module('vshell2.controllers', [])
 
         $scope.getHostgroupStatusDetails = function () {
 
+            $scope.is_loading = true;
             $scope.hostgroup = [];
 
             $http({ method: 'GET', url: '/vshell2/api/hostgroupstatus/' + $routeParams.group })
@@ -111,9 +118,11 @@ angular.module('vshell2.controllers', [])
                     if( data[0] ){
                         data = data[0];
                     }
+                    $scope.is_loading = false;
                     $scope.hostgroup = data;
                 }).
                 error(function(data, status, headers, config) {
+                    $scope.is_loading = false;
                     messages.error('failed to load Host Group Status information from the V-Shell2 API');
                 });
 
@@ -127,13 +136,16 @@ angular.module('vshell2.controllers', [])
 
             $scope.host_name = $routeParams.host;
 
+            $scope.is_loading = true;
             $scope.servicestatus = [];
 
             $http({ method: 'GET', url: '/vshell2/api/servicestatus/' + $routeParams.host })
                 .success(function(data, status, headers, config) {
+                    $scope.is_loading = false;
                     $scope.servicestatus = data;
                 }).
                 error(function(data, status, headers, config) {
+                    $scope.is_loading = false;
                     messages.error('failed to load Service Host Status information from the V-Shell2 API');
                 });
 
@@ -145,13 +157,16 @@ angular.module('vshell2.controllers', [])
 
         $scope.getServiceStatus = function () {
 
+            $scope.is_loading = true;
             $scope.servicestatus = [];
 
             $http({ method: 'GET', url: '/vshell2/api/servicestatus' })
                 .success(function(data, status, headers, config) {
+                    $scope.is_loading = false;
                     $scope.servicestatus = data;
                 }).
                 error(function(data, status, headers, config) {
+                    $scope.is_loading = false;
                     messages.error('failed to load Service Status information from the V-Shell2 API');
                 });
 
@@ -184,13 +199,16 @@ angular.module('vshell2.controllers', [])
 
         $scope.getServicegroupStatus = function () {
 
+            $scope.is_loading = true;
             $scope.servicegroupstatus = [];
 
             $http({ method: 'GET', url: '/vshell2/api/servicegroupstatus' })
                 .success(function(data, status, headers, config) {
+                    $scope.is_loading = false;
                     $scope.servicegroupstatus = data;
                 }).
                 error(function(data, status, headers, config) {
+                    $scope.is_loading = false;
                     messages.error('failed to load Service Group Status information from the V-Shell2 API');
                 });
 
@@ -202,6 +220,7 @@ angular.module('vshell2.controllers', [])
 
         $scope.getServicegroupStatusDetails = function () {
 
+            $scope.is_loading = true;
             $scope.servicegroup = [];
 
             $http({ method: 'GET', url: '/vshell2/api/servicegroupstatus/' + $routeParams.group })
@@ -209,9 +228,11 @@ angular.module('vshell2.controllers', [])
                     if( data[0] ){
                         data = data[0];
                     }
+                    $scope.is_loading = false;
                     $scope.servicegroup = data;
                 }).
                 error(function(data, status, headers, config) {
+                    $scope.is_loading = false;
                     messages.error('failed to load Service Group Status information from the V-Shell2 API');
                 });
 

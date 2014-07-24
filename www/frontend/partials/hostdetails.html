@@ -19,6 +19,10 @@
 
         <table cellspacing="0" cellpadding="0">
             <tbody>
+                <tr>
+                    <td>Host Name</td>
+                    <td>{{ host.host_name }}</td>
+                </tr>
                 <tr class="state-{{ host.current_state | hoststate | lowercase }} footable-odd">
                     <td>Current State</td>
                     <td class="status">{{ host.current_state | hoststate }}</td>

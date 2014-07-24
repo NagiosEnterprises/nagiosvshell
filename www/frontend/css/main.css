@@ -816,6 +816,7 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
         }
 
 .table-container.full-width {
+    clear: both;
     width: 100%;
 }
 

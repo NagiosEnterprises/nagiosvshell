@@ -44,6 +44,9 @@
                 </tr>
             </tfoot>
             <tbody>
+                <tr ng-if="(servicegroup.ServiceStatusCollection | size) == 0">
+                    <td colspan="5">{{ is_loading ? 'Loading...' : 'No servicegroup members are defined' }}</td>
+                </tr>
                 <tr ng-repeat="service in servicegroup.ServiceStatusCollection | object_to_array | orderBy:'host_name'" class="state-{{ service.current_state | servicestate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                     <td>{{ service.host_name }}</td>
                     <td>{{ service.service_description }}</td>

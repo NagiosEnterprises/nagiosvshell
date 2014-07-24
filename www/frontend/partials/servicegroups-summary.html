@@ -40,7 +40,7 @@
             </tfoot>
             <tbody>
                 <tr ng-if="(servicegroupstatus | size) == 0">
-                    <td colspan="2">No servicegroups are defined</td>
+                    <td colspan="2">{{ is_loading ? 'Loading...' : 'No servicegroups are defined' }}</td>
                 </tr>
                 <tr ng-repeat="servicegroup in servicegroupstatus" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                     <td><a href="#/servicegroups/{{ servicegroup.servicegroup_name }}">{{ servicegroup.alias }}</a></td>

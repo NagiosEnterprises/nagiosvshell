@@ -41,7 +41,7 @@
             </tfoot>
             <tbody>
                 <tr ng-if="(hostgroupstatus | size) == 0">
-                    <td colspan="5">No hostsgroups are defined</td>
+                    <td colspan="3">{{ is_loading ? 'Loading...' : 'No hostsgroups are defined' }}</td>
                 </tr>
                 <tr ng-repeat="hostgroup in hostgroupstatus" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                     <td><a href="#/hostgroups/{{ hostgroup.hostgroup_name }}">{{ hostgroup.alias }}</a></td>

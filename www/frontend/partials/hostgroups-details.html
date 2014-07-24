@@ -40,6 +40,9 @@
                 </tr>
             </tfoot>
             <tbody>
+                <tr ng-if="(hostgroup.HostStatusCollection | size) == 0">
+                    <td colspan="5">{{ is_loading ? 'Loading...' : 'No hostgroup members are defined' }}</td>
+                </tr>
                 <tr ng-repeat="host in hostgroup.HostStatusCollection" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                     <td>{{ host.host_name }}</td>
                     <td class="status">{{ host.current_state | hoststate }}</td>
