@@ -670,53 +670,53 @@ body.colorscheme-blue {
 /* Status
  * ============================================================================ */
 
-.status-block {
-    border-radius: 2px;
-    color: #aaa;
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 700;
-    height: 24px;
-    line-height: 24px;
-    padding: 0px 8px;
-    text-transform: uppercase;
+#status a {
     text-decoration: none;
 }
-
-    .status-block.active {
-        color: #fff;
-    }
 
 #hosts-status {
     float: left;
     padding: 28px 60px 0px 0px;
 }
 
-    #hosts-status .heading {
-        display: inline-block;
-        margin: 0px 10px 0px 0px;
-    }
-
-    .active.hosts-up { background: #8dcd54; }
-    .active.hosts-down { background: #d24555; }
-    .active.hosts-unreachable { background: #ff9333; }
-    .active.hosts-pending { background: #858585; }
-
 #services-status {
     float: left;
     padding: 28px 0px 27px 0px;
 }
 
-    #services-status .heading {
+    #status .heading {
+        color: #282828;
         display: inline-block;
         margin: 0px 10px 0px 0px;
     }
 
-    .active.services-ok { background: #8dcd54; }
-    .active.services-warning { background: #ffc833; }
-    .active.services-unknown { background: #ff9333; }
-    .active.services-critical { background: #d24555; }
-    .active.services-pending { background: #858585; }
+    .status-block {
+        border-radius: 2px;
+        color: #aaa;
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 700;
+        height: 24px;
+        line-height: 24px;
+        padding: 0px 8px;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+
+        .status-block.active {
+            color: #fff;
+        }
+
+        .active.hosts-up { background: #8dcd54; }
+        .active.hosts-down { background: #d24555; }
+        .active.hosts-unreachable { background: #ff9333; }
+        .active.hosts-pending { background: #858585; }
+
+        .active.services-ok { background: #8dcd54; }
+        .active.services-warning { background: #ffc833; }
+        .active.services-unknown { background: #ff9333; }
+        .active.services-critical { background: #d24555; }
+        .active.services-pending { background: #858585; }
 
 
 /* Content

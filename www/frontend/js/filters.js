@@ -5,7 +5,7 @@ angular.module('vshell2.filters', [])
     .filter('capitalize', function() {
         return function(input) {
             var first = input.substring(0,1).toUpperCase(),
-                rest = input.substring(1);
+                rest = input.substring(1).toLowerCase();
             return first + rest;
         }
     })
@@ -26,7 +26,7 @@ angular.module('vshell2.filters', [])
 
     .filter('object_to_array', function() {
         return function(input) {
-            var i, arr = []; 
+            var i, arr = [];
             for(i in input){
                 arr.push(input[i]);
             }
@@ -101,7 +101,7 @@ angular.module('vshell2.filters', [])
             minutes = Math.round( remaining_duration / seconds_per_minute );
             remaining_duration -= minutes * seconds_per_minute;
             seconds = remaining_duration;
-            
+
             if (days > 0) {
                 retval += days+'d ';
             }
@@ -123,7 +123,7 @@ angular.module('vshell2.filters', [])
     })
 
     .filter('hoststate', function() {
-        return function(input) {
+        return function(input, reverse) {
             var lookup = {
                     '0': 'Up',
                     '1': 'Down',
@@ -133,6 +133,10 @@ angular.module('vshell2.filters', [])
                     '5': 'Unhandled',
                     '6': 'Acknowledged'
                 };
+
+            if( reverse ){
+                lookup = _.invert(lookup);
+            }
 
             return lookup[input] || 'Undefined';
         };
@@ -160,7 +164,7 @@ angular.module('vshell2.filters', [])
     })
 
     .filter('servicestate', function() {
-        return function(input) {
+        return function(input, reverse) {
             var lookup = {
                     '0': 'Ok',
                     '1': 'Warning',
@@ -171,6 +175,10 @@ angular.module('vshell2.filters', [])
                     '6': 'Unhandled',
                     '7': 'Acknowledged'
                 };
+
+            if( reverse ){
+                lookup = _.invert(lookup);
+            }
 
             return lookup[input] || 'Undefined';
         };
@@ -210,3 +218,50 @@ angular.module('vshell2.filters', [])
             return 'undefined';
         };
     })
+
+    .filter('property', function() {
+        // Filter on Deep Object Property
+        // By: Anton Kropp
+        // See: http://onoffswitch.net/filter-deep-object-properties-angularjs/
+        // Dependencies: underscore.js
+
+        function parseString(input){
+            return input.split(".");
+        };
+
+        function getValue(element, propertyArray){
+            var value = element;
+
+            _.forEach(propertyArray, function(property){
+                value = value[property];
+            });
+
+            return value;
+        };
+
+        return function (input, propertyString, target){
+            var properties = parseString(propertyString);
+
+            return _.filter(input, function(item){
+                return getValue(item, properties) == target;
+            });
+        };
+    })
+
+    .filter('by_state', function(capitalizeFilter, hoststateFilter, servicestateFilter, propertyFilter) {
+        // Filter table results by each objects current_state value
+        return function(input, type, filter) {
+            var state = filter,
+                state_capitalized, state_id_lookup, state_id;
+
+            if( state ){
+                state_capitalized = capitalizeFilter(state);
+                state_id_lookup = (type == 'host') ? hoststateFilter : servicestateFilter;
+                state_id = state_id_lookup(state_capitalized, 'reverse-lookup');
+                input = propertyFilter(input, 'current_state', state_id);
+            }
+
+            return input;
+        };
+    })
+

@@ -43,15 +43,17 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('HostStatusCtrl', ['$scope', '$http', function ($scope, $http) {
+    .controller('HostStatusCtrl', ['$scope', '$http', '$routeParams', '$filter', function ($scope, $http, $routeParams, $filter) {
 
         $scope.getHostStatus = function () {
 
             $scope.is_loading = true;
             $scope.hoststatus = [];
+            $scope.statefilter = $routeParams.state || '';
 
             $http({ method: 'GET', url: '/vshell2/api/hoststatus' })
                 .success(function(data, status, headers, config) {
+                    data = $filter('by_state')(data, 'host', $scope.statefilter);
                     $scope.is_loading = false;
                     $scope.hoststatus = data;
                 }).
@@ -153,15 +155,17 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('ServiceStatusCtrl', ['$scope', '$http', function ($scope, $http) {
+    .controller('ServiceStatusCtrl', ['$scope', '$http', '$routeParams', '$filter', function ($scope, $http, $routeParams, $filter) {
 
         $scope.getServiceStatus = function () {
 
             $scope.is_loading = true;
             $scope.servicestatus = [];
+            $scope.statefilter = $routeParams.state;
 
             $http({ method: 'GET', url: '/vshell2/api/servicestatus' })
                 .success(function(data, status, headers, config) {
+                    data = $filter('by_state')(data, 'service', $scope.statefilter);
                     $scope.is_loading = false;
                     $scope.servicestatus = data;
                 }).

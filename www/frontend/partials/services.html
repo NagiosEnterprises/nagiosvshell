@@ -12,6 +12,8 @@
 
         <h1>Service Status Details For All Hosts</h1>
 
+        <p class="subheading" ng-if="statefilter">Filtered by State <span class="state-{{ statefilter }}">{{ statefilter | capitalize }}</span></p>
+
         <div class="table-options">
             <form action="" class="filter-form" method="post">
                 <div class="filter-icon"></div>

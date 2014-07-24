@@ -12,6 +12,8 @@
 
         <h1>Host Status Details For All Host Groups</h1>
 
+        <p class="subheading" ng-if="statefilter">Filtered by State {{ statefilter | capitalize }}</p>
+
         <div class="table-options">
             <form action="" class="filter-form" method="post">
                 <div class="filter-icon"></div>
