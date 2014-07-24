@@ -15,7 +15,7 @@
         <div class="table-options">
             <form action="" class="filter-form" method="post">
                 <div class="filter-icon"></div>
-                <input id="footable-filter-1" class="footable-filter" type="text" placeholder="Filter Table"/>
+                <input id="footable-filter" class="footable-filter" type="text" placeholder="Filter Table"/>
             </form>
             <div class="pagesize-container">
                 Show <a class="active" ng-href="#" data-page-size="25">25</a> <a ng-href="#" data-page-size="100">100</a> <a ng-href="#" data-page-size="50000">All</a>
@@ -23,7 +23,7 @@
             <div class="clearfix"></div>
         </div>
 
-        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation="#footable-pagination-1" data-filter="#footable-filter-1">
+        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation="#footable-pagination" data-filter="#footable-filter">
             <thead>
                 <tr>
                     <th>Host</th>
@@ -39,7 +39,7 @@
                 <tr>
                     <td colspan="7">
                         <div class="results-count">{{ servicestatus | size }} Result{{ servicestatus | plural }}</div>
-                        <div class="footable-pagination pagination" id="footable-pagination-1"></div>
+                        <div class="footable-pagination pagination" id="footable-pagination"></div>
                     </td>
                 </tr>
             </tfoot>
