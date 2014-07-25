@@ -760,12 +760,16 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
         }
 
 .status-item {
-    color: #999;
+    color: #aaa;
     display: inline-block;
-    font-weight: 700;
+    font-weight: 600;
     margin: 0px 4px 0px 0px;
     text-decoration: none;
 }
+
+    .status-item.active {
+        font-weight: 700;
+    }
 
     .status-item.active.services-ok { color: #8dcd54; }
     .status-item.active.services-warning { color: #ffc833; }
@@ -777,6 +781,29 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
     .status-item.active.hosts-down { color: #d24555; }
     .status-item.active.hosts-unreachable { color: #ff9333; }
     .status-item.active.hosts-pending { color: #858585; }
+
+.status-summary {
+    color: #aaa;
+    display: inline-block;
+    font-weight: 600;
+    margin: 0px 4px 0px 0px;
+    text-decoration: none;
+}
+
+    .status-summary.active {
+        font-weight: 700;
+    }
+
+    .status-summary.active.services-ok { color: #8dcd54; }
+    .status-summary.active.services-warning { color: #ffc833; }
+    .status-summary.active.services-unknown { color: #ff9333; }
+    .status-summary.active.services-critical { color: #d24555; }
+    .status-summary.active.services-pending { color: #858585; }
+
+    .status-summary.active.hosts-up { color: #8dcd54; }
+    .status-summary.active.hosts-down { color: #d24555; }
+    .status-summary.active.hosts-unreachable { color: #ff9333; }
+    .status-summary.active.hosts-pending { color: #858585; }
 
 .text {
     margin: 0px 40px 40px 40px;
@@ -1168,6 +1195,14 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
     }
 
     .status-block.active {
+        display: inline-block;
+    }
+
+    .status-summary {
+        display: none;
+    }
+
+    .status-summary.active {
         display: inline-block;
     }
 
