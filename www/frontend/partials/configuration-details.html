@@ -1,0 +1,178 @@
+<div ng-include="'frontend/partials/_header.html'"></div>
+
+<div ng-include="'frontend/partials/_status.html'"></div>
+
+<div ng-include="'frontend/partials/_browser.html'"></div>
+
+<div ng-include="'frontend/partials/_messages.html'"></div>
+
+<div id="content" class="clearfix" ng-controller="ConfigurationDetailsCtrl" ng-init="getConfigurationDetails()">
+
+    <h1>Configuration Details for {{ configuration.name | capitalize }}</h1>
+
+    <p class="subheading"><a href="#/{{ 'service' | uri }}/on-host/{{ host.host_name }}">See All Services For This Host</a></p>
+
+    <div class="details table-container partial-width two-thirds">
+
+        <h3>Details</h3>
+
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td>Host Name</td>
+                    <td>{{ host.host_name }}</td>
+                </tr>
+                <tr class="state-{{ host.current_state | hoststate | lowercase }} footable-odd">
+                    <td>Current State</td>
+                    <td class="status">{{ host.current_state | hoststate }}</td>
+                </tr>
+                <tr class="footable-even">
+                    <td>Status Information</td>
+                    <td>{{ host.plugin_output }}</td>
+                </tr>
+                <tr class="footable-odd">
+                    <td>Duration</td>
+                    <td>{{ host.last_state_change | ago }}</td>
+                </tr>
+                <tr class="footable-even">
+                    <td>State Type</td>
+                    <td>{{ host.state_type | state_type }}</td>
+                </tr>
+                <tr class="footable-odd">
+                    <td>Current Check</td>
+                    <td>{{ host.current_attempt }} of {{ host.max_attempts }}</td>
+                </tr>
+                <tr class="footable-even">
+                    <td>Last Check</td>
+                    <td>{{ host.last_check * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
+                </tr>
+                <tr class="footable-odd">
+                    <td>Next Check</td>
+                    <td>{{ host.next_check * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
+                </tr>
+                <tr class="footable-even">
+                    <td>Last State Change</td>
+                    <td>{{ host.last_state_change * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
+                </tr>
+                <tr class="footable-odd">
+                    <td>Last Notification</td>
+                    <td>{{ host.last_notification > 0 ? (host.last_notification  * 1000 | date: 'yyyy-MM-dd H:mm:ss') : 'Never' }}</td>
+                </tr>
+                <tr class="footable-even">
+                    <td>Check Type</td>
+                    <td>{{ host.check_type | check_type }}</td>
+                </tr>
+                <tr class="footable-odd">
+                    <td>Check Latency</td>
+                    <td>{{ host.check_latency }}</td>
+                </tr>
+                <tr class="footable-even">
+                    <td>Execution Time</td>
+                    <td>{{ host.check_execution_time }}</td>
+                </tr>
+                <tr class="footable-odd">
+                    <td>State Change</td>
+                    <td>{{ host.percent_state_change }}%</td>
+                </tr>
+                <tr class="footable-even">
+                    <td>Performance Data</td>
+                    <td>{{ host.performance_data }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="table-container partial-width">
+
+        <div class="attributes">
+
+            <h3>Attributes</h3>
+
+            <table cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr class="{{ host.active_checks_enabled | is_enabled }}">
+                        <td>Active Checks: {{ host.active_checks_enabled | is_enabled | capitalize }}</td>
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'active_checks' }}">Toggle</a></td>
+                    </tr>
+                    <tr class="{{ host.passive_checks_enabled | is_enabled }}">
+                        <td>Passive Checks: {{ host.passive_checks_enabled | is_enabled | capitalize }}</td>
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'passive_checks' }}">Toggle</a></td>
+                    </tr>
+                    <tr class="{{ host.obsess_over_host | is_enabled }}">
+                        <td>Obsession: {{ host.obsess_over_host | is_enabled | capitalize }}</td>
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'obsession' }}">Toggle</a></td>
+                    </tr>
+                    <tr class="{{ host.notifications_enabled | is_enabled }}">
+                        <td>Notifications: {{ host.notifications_enabled | is_enabled | capitalize }}</td>
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'notifications' }}">Toggle</a></td>
+                    </tr>
+                    <tr class="{{ host.flap_detection_enabled | is_enabled }}">
+                        <td>Flap Detection: {{ host.flap_detection_enabled | is_enabled | capitalize }}</td>
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'flap_detection' }}">Toggle</a></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><small>Commands will not appear until after page reload</small></td>
+                    </t>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="commands">
+
+            <h3>Commands</h3>
+
+            <table cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr class="footable-odd">
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'map_host' }}">Locate host on map</a></td>
+                    </tr>
+                    <tr class="footable-even">
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'custom_notification' }}">Send custom notification</a></td>
+                    </tr>
+                    <tr class="footable-odd">
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'schedule_downtime' }}">Schedule downtime</a></td>
+                    </tr>
+                    <tr class="footable-even">
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'schedule_downtime_for_all' }}">Schedule downtime for this host and all services</a></td>
+                    </tr>
+                    <tr class="footable-odd">
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'schedule_check_for_all' }}">Schedule a check for all services of this host</a></td>
+                    </tr>
+                    <tr class="footable-even">
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'acknowledge_problem' }}">Acknowledge Problem</a></td>
+                    </tr>
+                    <tr class="footable-odd">
+                        <td><a target="nagios" ng-href="{{ host.host_name | hostcommand: 'host_in_nagios_core' }}">See This Host In Nagios Core</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="table-container full-width">
+
+        <h3>Comments</h3>
+
+        <table cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th>Author</th>
+                    <th>Entry Time</th>
+                    <th>Comment</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div ng-include="'frontend/partials/_footer.html'"></div>

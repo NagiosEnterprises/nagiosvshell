@@ -1,0 +1,61 @@
+<div ng-include="'frontend/partials/_header.html'"></div>
+
+<div ng-include="'frontend/partials/_status.html'"></div>
+
+<div ng-include="'frontend/partials/_browser.html'"></div>
+
+<div ng-include="'frontend/partials/_messages.html'"></div>
+
+<div id="content" class="clearfix" ng-controller="ConfigurationsCtrl" ng-init="getConfigurations()">
+
+    <h1>Configurations</h1>
+
+    <div ng-repeat="configuration in configurations" class="table-container partial-width">
+
+        <h3><a href="#/{{ 'configuration' | uri }}/{{ configuration.name }}">{{ configuration.name | capitalize }}</a></h3>
+
+        <div class="table-options">
+            <form action="" class="filter-form" method="post">
+                <div class="filter-icon"></div>
+                <input id="footable-filter-{{ $index }}" class="footable-filter" type="text" placeholder="Filter Table"/>
+            </form>
+            <div class="pagesize-container">
+                Show <a class="active" ng-href="#" data-page-size="5">5</a> <a ng-href="#" data-page-size="50">50</a> <a ng-href="#" data-page-size="50000">All</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="5" data-page-navigation="#footable-pagination-{{ $index }}" data-filter="#footable-filter-{{ $index }}">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="3">
+                        <div class="results-count">{{ configuration.items | size }} Result{{ configuration.items | plural }}</div>
+                        <div class="footable-pagination pagination hide-if-no-paging" id="footable-pagination-{{ $index }}"></div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr ng-if="(configuration.items | size) == 0">
+                    <td>{{ is_loading ? 'Loading...' : 'No configuration items' }}</td>
+                </tr>
+                <tr ng-repeat="item in configuration.items" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
+                    <td>
+                        <a href="#/{{ 'configuration' | uri }}/services/{{ item[( configuration.name | configuration_display_key )] }}">
+                            <span ng-if="configuration.name == 'services'">{{ item.host_name }} ({{ item.service_description }})</span>
+                            <span ng-if="configuration.name != 'services'">{{ item[( configuration.name | configuration_display_key )] }}</span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div ng-include="'frontend/partials/_footer.html'"></div>

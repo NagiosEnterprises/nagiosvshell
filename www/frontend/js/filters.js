@@ -41,6 +41,7 @@ angular.module('vshell2.filters', [])
             if( input == 'service' ){ return 'services'; }
             if( input == 'hostgroup' ){ return 'hostgroups'; }
             if( input == 'servicegroup' ){ return 'servicegroups'; }
+            if( input == 'configuration' ){ return 'configurations'; }
             return 'overview';
         };
     })
