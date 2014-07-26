@@ -198,6 +198,45 @@ class API extends VS_Controller
 
     }
 
+    public function configurations($type = '')
+    {
+        $configurations = array();
+
+        $key_lookup = array(
+            'hosts'         => 'hosts_objs',
+            'services'      => 'services_objs',
+            'hostgroups'    => 'hostgroups_objs',
+            'servicegroups' => 'servicegroups_objs',
+            'timeperiods'   => 'timeperiods',
+            'contacts'      => 'contacts',
+            'contactgroups' => 'contactgroups',
+            'commands'      => 'commands'
+        );
+
+        $keys = array();
+
+        if( $type != '' ){
+            if( isset($key_lookup[$type]) ){
+                $keys[$type] = $key_lookup[$type];
+            }
+        }else{
+            $keys = $key_lookup;
+        }
+
+        foreach($keys as $name => $objtype){
+
+            $data = object_data($objtype);
+
+            $configurations[$name] = array(
+                'items'   => $data,
+                'name'    => $name,
+                'objtype' => $objtype,
+            );
+        }
+
+        $this->output($configurations);
+    }
+
 }
 
 /* End of file api.php */

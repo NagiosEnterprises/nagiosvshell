@@ -171,7 +171,7 @@ function hostgroups_and_servicegroups_data($type, $name_filter = NULL)
     return $data;
 }
 
-function object_data($objtype_filter, $name_filter)
+function object_data($objtype_filter, $name_filter = '')
 {
     $ci = &get_instance();
     $data = array();

@@ -243,3 +243,24 @@ angular.module('vshell2.controllers', [])
         };
 
     }])
+
+    .controller('ConfigurationsCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+
+        $scope.getConfigurations = function () {
+
+            $scope.is_loading = true;
+            $scope.configurations = [];
+
+            $http({ method: 'GET', url: '/vshell2/api/configurations/'})
+                .success(function(data, status, headers, config) {
+                    $scope.is_loading = false;
+                    $scope.configurations = data;
+                }).
+                error(function(data, status, headers, config) {
+                    $scope.is_loading = false;
+                    messages.error('failed to load Configuration information from the V-Shell2 API');
+                });
+
+        };
+
+    }])

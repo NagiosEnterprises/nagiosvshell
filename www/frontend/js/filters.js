@@ -248,6 +248,40 @@ angular.module('vshell2.filters', [])
         };
     })
 
+    .filter('configuration_anchor_key', function() {
+        return function(input) {
+            var lookup = {
+                'commands': 'command_name',
+                'contactgroups': 'contactgroup_name',
+                'contacts': 'contact_name',
+                'hostgroups': 'hostgroup_name',
+                'hosts': 'host_name',
+                'servicegroups': 'servicegroup_name',
+                'services': 'id',
+                'timeperiods': 'name'
+            };
+
+            return lookup[input] || 'undefined';
+        };
+    })
+
+    .filter('configuration_display_key', function() {
+        return function(input) {
+            var lookup = {
+                'commands': 'name',
+                'contactgroups': 'alias',
+                'contacts': 'alias',
+                'hostgroups': 'alias',
+                'hosts': 'host_name',
+                'servicegroups': 'alias',
+                'services': 'service_description',
+                'timeperiods': 'alias'
+            };
+
+            return lookup[input] || 'undefined';
+        };
+    })
+
     .filter('by_state', function(capitalizeFilter, hoststateFilter, servicestateFilter, propertyFilter) {
         // Filter table results by each objects current_state value
         return function(input, type, filter) {
@@ -264,4 +298,3 @@ angular.module('vshell2.filters', [])
             return input;
         };
     })
-
