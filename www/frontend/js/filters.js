@@ -4,8 +4,10 @@ angular.module('vshell2.filters', [])
 
     .filter('capitalize', function() {
         return function(input) {
-            var first = input.substring(0,1).toUpperCase(),
-                rest = input.substring(1).toLowerCase();
+            var first, rest;
+            if( ! input ){ return ''; }
+            first = input.substring(0,1).toUpperCase(),
+            rest = input.substring(1).toLowerCase();
             return first + rest;
         }
     })

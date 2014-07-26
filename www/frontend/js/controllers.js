@@ -244,21 +244,53 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('ConfigurationsCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+    .controller('ConfigurationsCtrl', ['$scope', '$http', '$routeParams', '$filter', function ($scope, $http, $routeParams, $filter) {
 
         $scope.getConfigurations = function () {
 
             $scope.is_loading = true;
             $scope.configurations = [];
 
-            $http({ method: 'GET', url: '/vshell2/api/configurations/'})
+            var type = $routeParams.type || '';
+
+            $http({ method: 'GET', url: '/vshell2/api/configurations/' + type})
                 .success(function(data, status, headers, config) {
                     $scope.is_loading = false;
+                    if( type ){ data = data[type] || {} };
                     $scope.configurations = data;
                 }).
                 error(function(data, status, headers, config) {
                     $scope.is_loading = false;
                     messages.error('failed to load Configuration information from the V-Shell2 API');
+                });
+
+        };
+
+    }])
+
+    .controller('ConfigurationDetailsCtrl', ['$scope', '$http', '$routeParams', '$filter', function ($scope, $http, $routeParams, $filter) {
+
+        $scope.getConfigurationDetails = function () {
+
+            $scope.is_loading = true;
+            $scope.configuration_type = $routeParams.type;
+            $scope.configuration_name = $routeParams.name;
+            $scope.configuration = [];
+
+            var type = $scope.configuration_type,
+                name = $scope.configuration_name,
+                name_key = $filter('configuration_anchor_key')(type);
+
+            $http({ method: 'GET', url: '/vshell2/api/configurations/' + type})
+                .success(function(data, status, headers, config) {
+                    $scope.is_loading = false;
+                    data = data[type]['items'];
+                    data = $filter('property')(data, name_key, name)[0];
+                    $scope.configuration = data;
+                }).
+                error(function(data, status, headers, config) {
+                    $scope.is_loading = false;
+                    messages.error('failed to load Configuration detail information from the V-Shell2 API');
                 });
 
         };

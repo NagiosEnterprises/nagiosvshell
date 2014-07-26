@@ -45,7 +45,7 @@
                 </tr>
                 <tr ng-repeat="item in configuration.items" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                     <td>
-                        <a href="#/{{ 'configuration' | uri }}/services/{{ item[( configuration.name | configuration_display_key )] }}">
+                        <a href="#/{{ 'configuration' | uri }}/{{ configuration.name }}/{{ item[( configuration.name | configuration_anchor_key )] }}">
                             <span ng-if="configuration.name == 'services'">{{ item.host_name }} ({{ item.service_description }})</span>
                             <span ng-if="configuration.name != 'services'">{{ item[( configuration.name | configuration_display_key )] }}</span>
                         </a>

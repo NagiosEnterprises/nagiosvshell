@@ -25,7 +25,7 @@ angular.module('vshell2', [
         $routeProvider.when('/servicegroups/:group', {templateUrl: 'frontend/partials/servicegroups-details.html'});
         $routeProvider.when('/configurations', {templateUrl: 'frontend/partials/configurations-grid.html'});
         $routeProvider.when('/configurations/:type', {templateUrl: 'frontend/partials/configurations.html'});
-        // $routeProvider.when('/configurations/:type/:name', {templateUrl: 'frontend/partials/configuration-details.html'});
+        $routeProvider.when('/configurations/:type/:name', {templateUrl: 'frontend/partials/configuration-details.html'});
         $routeProvider.when('/options', {templateUrl: 'frontend/partials/options.html'});
         $routeProvider.otherwise({redirectTo: '/overview'});
     }])
