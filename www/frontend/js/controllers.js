@@ -2,7 +2,7 @@
 
 angular.module('vshell2.controllers', [])
 
-    .controller('QuicksearchCtrl', ['$scope', '$http', '$location', '$filter', function ($scope, $http, $location, $filter) {
+    .controller('QuicksearchCtrl', ['$scope', '$http', '$location', '$filter', 'vshell_uri', function ($scope, $http, $location, $filter, vshell_uri) {
 
         var callback = function(e, item){
             var base = $filter('uri')(item.type),
@@ -13,7 +13,7 @@ angular.module('vshell2.controllers', [])
 
         $scope.getQuicksearchData = function () {
 
-            $http({ method: 'GET', url: '/vshell2/api/quicksearch' })
+            $http({ method: 'GET', url: vshell_uri + 'api/quicksearch' })
                 .success(function(data, status, headers, config) {
                     quicksearch.init(data, callback);
                 }).
@@ -25,13 +25,13 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('StatusCtrl', ['$scope', '$http', function ($scope, $http) {
+    .controller('StatusCtrl', ['$scope', '$http', 'vshell_uri', function ($scope, $http, vshell_uri) {
 
         $scope.getStatus = function () {
 
             $scope.status = [];
 
-            $http({ method: 'GET', url: '/vshell2/api/status' })
+            $http({ method: 'GET', url: vshell_uri + 'api/status' })
                 .success(function(data, status, headers, config) {
                     $scope.status = data;
                 }).
@@ -43,7 +43,7 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('HostStatusCtrl', ['$scope', '$http', '$routeParams', '$filter', function ($scope, $http, $routeParams, $filter) {
+    .controller('HostStatusCtrl', ['$scope', '$http', '$routeParams', '$filter', 'vshell_uri', function ($scope, $http, $routeParams, $filter, vshell_uri) {
 
         $scope.getHostStatus = function () {
 
@@ -51,7 +51,7 @@ angular.module('vshell2.controllers', [])
             $scope.hoststatus = [];
             $scope.statefilter = $routeParams.state || '';
 
-            $http({ method: 'GET', url: '/vshell2/api/hoststatus' })
+            $http({ method: 'GET', url: vshell_uri + 'api/hoststatus' })
                 .success(function(data, status, headers, config) {
                     data = $filter('by_state')(data, 'host', $scope.statefilter);
                     $scope.is_loading = false;
@@ -66,13 +66,13 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('HostStatusDetailsCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+    .controller('HostStatusDetailsCtrl', ['$scope', '$http', '$routeParams', 'vshell_uri', function ($scope, $http, $routeParams, vshell_uri) {
 
         $scope.getHostStatusDetails = function () {
 
             $scope.host = [];
 
-            $http({ method: 'GET', url: '/vshell2/api/hoststatus/' + $routeParams.host })
+            $http({ method: 'GET', url: vshell_uri + 'api/hoststatus/' + $routeParams.host })
                 .success(function(data, status, headers, config) {
                     if( data[0] ){
                         data = data[0];
@@ -87,14 +87,14 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('HostgroupStatusCtrl', ['$scope', '$http', function ($scope, $http) {
+    .controller('HostgroupStatusCtrl', ['$scope', '$http', 'vshell_uri', function ($scope, $http, vshell_uri) {
 
         $scope.getHostgroupStatus = function () {
 
             $scope.is_loading = true;
             $scope.hostgroupstatus = [];
 
-            $http({ method: 'GET', url: '/vshell2/api/hostgroupstatus' })
+            $http({ method: 'GET', url: vshell_uri + 'api/hostgroupstatus' })
                 .success(function(data, status, headers, config) {
                     $scope.is_loading = false;
                     $scope.hostgroupstatus = data;
@@ -108,14 +108,14 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('HostgroupStatusDetailsCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+    .controller('HostgroupStatusDetailsCtrl', ['$scope', '$http', '$routeParams', 'vshell_uri', function ($scope, $http, $routeParams, vshell_uri) {
 
         $scope.getHostgroupStatusDetails = function () {
 
             $scope.is_loading = true;
             $scope.hostgroup = [];
 
-            $http({ method: 'GET', url: '/vshell2/api/hostgroupstatus/' + $routeParams.group })
+            $http({ method: 'GET', url: vshell_uri + 'api/hostgroupstatus/' + $routeParams.group })
                 .success(function(data, status, headers, config) {
                     if( data[0] ){
                         data = data[0];
@@ -132,7 +132,7 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('ServiceHostStatusCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+    .controller('ServiceHostStatusCtrl', ['$scope', '$http', '$routeParams', 'vshell_uri', function ($scope, $http, $routeParams, vshell_uri) {
 
         $scope.getServiceHostStatus = function () {
 
@@ -141,7 +141,7 @@ angular.module('vshell2.controllers', [])
             $scope.is_loading = true;
             $scope.servicestatus = [];
 
-            $http({ method: 'GET', url: '/vshell2/api/servicestatus/' + $routeParams.host })
+            $http({ method: 'GET', url: vshell_uri + 'api/servicestatus/' + $routeParams.host })
                 .success(function(data, status, headers, config) {
                     $scope.is_loading = false;
                     $scope.servicestatus = data;
@@ -155,7 +155,7 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('ServiceStatusCtrl', ['$scope', '$http', '$routeParams', '$filter', function ($scope, $http, $routeParams, $filter) {
+    .controller('ServiceStatusCtrl', ['$scope', '$http', '$routeParams', '$filter', 'vshell_uri', function ($scope, $http, $routeParams, $filter, vshell_uri) {
 
         $scope.getServiceStatus = function () {
 
@@ -163,7 +163,7 @@ angular.module('vshell2.controllers', [])
             $scope.servicestatus = [];
             $scope.statefilter = $routeParams.state;
 
-            $http({ method: 'GET', url: '/vshell2/api/servicestatus' })
+            $http({ method: 'GET', url: vshell_uri + 'api/servicestatus' })
                 .success(function(data, status, headers, config) {
                     data = $filter('by_state')(data, 'service', $scope.statefilter);
                     $scope.is_loading = false;
@@ -178,13 +178,13 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('ServiceStatusDetailsCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+    .controller('ServiceStatusDetailsCtrl', ['$scope', '$http', '$routeParams', 'vshell_uri', function ($scope, $http, $routeParams, vshell_uri) {
 
         $scope.getServiceStatusDetails = function () {
 
             $scope.service = [];
 
-            $http({ method: 'GET', url: '/vshell2/api/servicestatus/' + $routeParams.host + '/' + $routeParams.service })
+            $http({ method: 'GET', url: vshell_uri + 'api/servicestatus/' + $routeParams.host + '/' + $routeParams.service })
                 .success(function(data, status, headers, config) {
                     if( data[$routeParams.service] ){
                         data = data[$routeParams.service];
@@ -199,14 +199,14 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('ServicegroupStatusCtrl', ['$scope', '$http', function ($scope, $http) {
+    .controller('ServicegroupStatusCtrl', ['$scope', '$http', 'vshell_uri', function ($scope, $http, vshell_uri) {
 
         $scope.getServicegroupStatus = function () {
 
             $scope.is_loading = true;
             $scope.servicegroupstatus = [];
 
-            $http({ method: 'GET', url: '/vshell2/api/servicegroupstatus' })
+            $http({ method: 'GET', url: vshell_uri + 'api/servicegroupstatus' })
                 .success(function(data, status, headers, config) {
                     $scope.is_loading = false;
                     $scope.servicegroupstatus = data;
@@ -220,14 +220,14 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('ServicegroupStatusDetailsCtrl', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+    .controller('ServicegroupStatusDetailsCtrl', ['$scope', '$http', '$routeParams', 'vshell_uri', function ($scope, $http, $routeParams, vshell_uri) {
 
         $scope.getServicegroupStatusDetails = function () {
 
             $scope.is_loading = true;
             $scope.servicegroup = [];
 
-            $http({ method: 'GET', url: '/vshell2/api/servicegroupstatus/' + $routeParams.group })
+            $http({ method: 'GET', url: vshell_uri + 'api/servicegroupstatus/' + $routeParams.group })
                 .success(function(data, status, headers, config) {
                     if( data[0] ){
                         data = data[0];
@@ -244,7 +244,7 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('ConfigurationsCtrl', ['$scope', '$http', '$routeParams', '$filter', function ($scope, $http, $routeParams, $filter) {
+    .controller('ConfigurationsCtrl', ['$scope', '$http', '$routeParams', '$filter', 'vshell_uri', function ($scope, $http, $routeParams, $filter, vshell_uri) {
 
         $scope.getConfigurations = function () {
 
@@ -253,7 +253,7 @@ angular.module('vshell2.controllers', [])
 
             var type = $routeParams.type || '';
 
-            $http({ method: 'GET', url: '/vshell2/api/configurations/' + type})
+            $http({ method: 'GET', url: vshell_uri + 'api/configurations/' + type})
                 .success(function(data, status, headers, config) {
                     $scope.is_loading = false;
                     if( type ){ data = data[type] || {} };
@@ -268,7 +268,7 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('ConfigurationDetailsCtrl', ['$scope', '$http', '$routeParams', '$filter', function ($scope, $http, $routeParams, $filter) {
+    .controller('ConfigurationDetailsCtrl', ['$scope', '$http', '$routeParams', '$filter', 'vshell_uri', function ($scope, $http, $routeParams, $filter, vshell_uri) {
 
         $scope.getConfigurationDetails = function () {
 
@@ -281,7 +281,7 @@ angular.module('vshell2.controllers', [])
                 name = $scope.configuration_name,
                 name_key = $filter('configuration_anchor_key')(type);
 
-            $http({ method: 'GET', url: '/vshell2/api/configurations/' + type})
+            $http({ method: 'GET', url: vshell_uri + 'api/configurations/' + type})
                 .success(function(data, status, headers, config) {
                     $scope.is_loading = false;
                     data = data[type]['items'];
