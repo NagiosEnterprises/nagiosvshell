@@ -25,6 +25,24 @@ angular.module('vshell2.controllers', [])
 
     }])
 
+    .controller('NavCtrl', ['$scope', '$http', 'vshell_uri', function ($scope, $http, vshell_uri) {
+
+        $scope.getNav = function () {
+
+            $scope.nav = [];
+
+            $http({ method: 'GET', url: vshell_uri + 'api/vshellconfig' })
+                .success(function(data, status, headers, config) {
+                    $scope.nav = data;
+                }).
+                error(function(data, status, headers, config) {
+                    messages.error('failed to load VShell config information from the V-Shell2 API');
+                });
+
+        };
+
+    }])
+
     .controller('StatusCtrl', ['$scope', '$http', 'vshell_uri', function ($scope, $http, vshell_uri) {
 
         $scope.getStatus = function () {

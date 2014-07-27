@@ -69,6 +69,8 @@ $route['object/(:any)'] = "api/object/$1";
 $route['nagiosstatus'] = "api/programstatus";
 $route['nagiosinfo'] = "api/info";
 
+$route['vshellconfig'] = "api/vshellconfig";
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

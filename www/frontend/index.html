@@ -29,7 +29,7 @@
                 <a class="nav-button" id="nav-button-close" href="">Close Navigation</a>
             </div>
 
-            <nav>
+            <nav ng-controller="NavCtrl" ng-init="getNav()">
                 <ul class="local">
                     <li><a ng-href="#/overview">Tactical Overview</a></li>
                     <li><a ng-href="#/hosts">Hosts</a></li>
@@ -54,23 +54,23 @@
                     <li>
                         <a href="">Commands<span class="icon external"></span></a>
                         <ul>
-                            <li><a target="nagios" href="/nagios/cgi-bin/extinfo.cgi?type=3">Comments</a></li>
-                            <li><a target="nagios" href="/nagios/cgi-bin/extinfo.cgi?type=6">Downtime</a></li>
-                            <li><a target="nagios" href="/nagios/cgi-bin/extinfo.cgi?type=0">Process Info</a></li>
-                            <li><a target="nagios" href="/nagios/cgi-bin/extinfo.cgi?type=4">Performance Info</a></li>
-                            <li><a target="nagios" href="/nagios/cgi-bin/extinfo.cgi?type=7">Scheduling Queue</a></li>
+                            <li><a target="nagios" ng-href="{{ nav.coreurl }}/cgi-bin/extinfo.cgi?type=3">Comments</a></li>
+                            <li><a target="nagios" ng-href="{{ nav.coreurl }}/cgi-bin/extinfo.cgi?type=6">Downtime</a></li>
+                            <li><a target="nagios" ng-href="{{ nav.coreurl }}/cgi-bin/extinfo.cgi?type=0">Process Info</a></li>
+                            <li><a target="nagios" ng-href="{{ nav.coreurl }}/cgi-bin/extinfo.cgi?type=4">Performance Info</a></li>
+                            <li><a target="nagios" ng-href="{{ nav.coreurl }}/cgi-bin/extinfo.cgi?type=7">Scheduling Queue</a></li>
                         </ul>
                     </li>
                     <li>
                         <a href="">Reports<span class="icon external"></span></a>
                         <ul>
-                            <li><a target="nagios" href="/nagios/cgi-bin/avail.cgi">Availability</a></li>
-                            <li><a target="nagios" href="/nagios/cgi-bin/trends.cgi">Trends</a></li>
-                            <li><a target="nagios" href="/nagios/cgi-bin/history.cgi?host=all">Alert History</a></li>
-                            <li><a target="nagios" href="/nagios/cgi-bin/summary.cgi">Alert Summary</a></li>
-                            <li><a target="nagios" href="/nagios/cgi-bin/histogram.cgi">Alert Histogram</a></li>
-                            <li><a target="nagios" href="/nagios/cgi-bin/notifications.cgi?contact=all">Notifications</a></li>
-                            <li><a target="nagios" href="/nagios/cgi-bin/showlog.cgi">Event Log</a></li>
+                            <li><a target="nagios" ng-href="{{ nav.coreurl }}/cgi-bin/avail.cgi">Availability</a></li>
+                            <li><a target="nagios" ng-href="{{ nav.coreurl }}/cgi-bin/trends.cgi">Trends</a></li>
+                            <li><a target="nagios" ng-href="{{ nav.coreurl }}/cgi-bin/history.cgi?host=all">Alert History</a></li>
+                            <li><a target="nagios" ng-href="{{ nav.coreurl }}/cgi-bin/summary.cgi">Alert Summary</a></li>
+                            <li><a target="nagios" ng-href="{{ nav.coreurl }}/cgi-bin/histogram.cgi">Alert Histogram</a></li>
+                            <li><a target="nagios" ng-href="{{ nav.coreurl }}/cgi-bin/notifications.cgi?contact=all">Notifications</a></li>
+                            <li><a target="nagios" ng-href="{{ nav.coreurl }}/cgi-bin/showlog.cgi">Event Log</a></li>
                         </ul>
                     </li>
                 </ul>

@@ -237,6 +237,21 @@ class API extends VS_Controller
         $this->output($configurations);
     }
 
+    function vshellconfig() {
+        $config = array(
+            'baseurl'     => BASEURL,
+            'cgicfg'      => CGICFG,
+            'coreurl'     => COREURL,
+            'lang'        => LANG,
+            'objectsfile' => OBJECTSFILE,
+            'resultlimit' => RESULTLIMIT,
+            'statusfile'  => STATUSFILE,
+            'ttl'         => TTL
+        );
+
+        $this->output($config);
+    }
+
 }
 
 /* End of file api.php */
