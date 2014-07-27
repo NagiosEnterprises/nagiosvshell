@@ -1,9 +1,5 @@
 # HTML Template
 
-Update nav HTML to use dynamic example.com/vshell2 path using the constant set in the /etc/vshell2 config file.
-
-Update app to use dynamic example.com/nagios URL location.
-
 Add help / contact / issues section to display options page
 
 Flap detection icon on host and service tables
@@ -12,9 +8,7 @@ Host Detail page:
     - Load comments
 
 Service Detail page:
-    - Everything!
-
-Add 'use strict' to page.js
+    - Load comments
 
 ## Future
 
@@ -23,7 +17,3 @@ Add language support
 Add status favicon?
 
 - Add instruction to add nagios group to apache user? On CentOS 6.5 the /var/log/nagios dir went from 0755 to 0750 when the object.cache file updated. The cache file is readable, but not reachable due to directory permissions.
-
-# General
-
-Update location of vshell.conf in www/application/config/constants to be dynamic

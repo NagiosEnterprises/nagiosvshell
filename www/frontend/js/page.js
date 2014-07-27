@@ -1,6 +1,8 @@
 // Messages
 
     var messages = (function($){
+        
+        'use strict';
 
         var add = function(type, text){
             var container = $('#messages'),
@@ -27,6 +29,8 @@
 // Quicksearch
 
     var quicksearch = (function($){
+
+        'use strict';
 
         var templates = {};
 
@@ -129,6 +133,8 @@
 
     var nav = (function($){
 
+        'use strict';
+
         var cookie_name = 'vshell2_nav',
             mobile_breakpoint = 768,
             button_open_name = '#nav-button-open',
@@ -209,6 +215,8 @@
 // Colorscheme
 
     var colorscheme = (function($){
+
+        'use strict';
 
         var cookie_name = 'vshell2_colorscheme',
             buttons = '.colorscheme-choice',
