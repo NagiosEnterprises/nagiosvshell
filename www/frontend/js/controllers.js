@@ -183,8 +183,8 @@ angular.module('vshell2.controllers', [])
 
             $http({ method: 'GET', url: vshell_uri + 'api/servicestatus' })
                 .success(function(data, status, headers, config) {
-                    data = $filter('by_state')(data, 'service', $scope.statefilter);
                     $scope.is_loading = false;
+                    data = $filter('by_state')(data, 'service', $scope.statefilter);
                     $scope.servicestatus = data;
                 }).
                 error(function(data, status, headers, config) {
