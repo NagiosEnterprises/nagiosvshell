@@ -61,8 +61,8 @@ $route['servicegroupstatus*'] = "api/servicegroupstatus";
 $route['configurations/(:any)'] = "api/configurations/$1";
 $route['configurations'] = "api/configurations";
 
-$route['host_by_id/(:num)'] = "api/host_by_id/$1";
-$route['service_by_id/(:num)'] = "api/service_by_id/$1";
+$route['comments/(:any)'] = "api/comments/$1";
+$route['comments'] = "api/comments";
 
 $route['object/(:any)'] = "api/object/$1";
 

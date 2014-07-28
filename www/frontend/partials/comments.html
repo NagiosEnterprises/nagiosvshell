@@ -1,0 +1,65 @@
+<div ng-include="'frontend/partials/_header.html'"></div>
+
+<div ng-include="'frontend/partials/_status.html'"></div>
+
+<div ng-include="'frontend/partials/_browser.html'"></div>
+
+<div ng-include="'frontend/partials/_messages.html'"></div>
+
+<div id="content" class="clearfix" ng-controller="CommentsCtrl" ng-init="getComments()">
+
+    <h1>Comments for All Hosts and All Services</h1>
+
+    <div class="details table-container full-width">
+
+        <div class="table-options">
+            <form action="" class="filter-form" method="post">
+                <div class="filter-icon"></div>
+                <input id="footable-filter" class="footable-filter" type="text" placeholder="Filter Table"/>
+            </form>
+            <div class="pagesize-container">
+                Show <a class="active" ng-href="#" data-page-size="25">25</a> <a ng-href="#" data-page-size="100">100</a> <a ng-href="#" data-page-size="50000">All</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation="#footable-pagination" data-limit-navigation="5" data-filter="#footable-filter">
+            <thead>
+                <tr>
+                    <th>Host</th>
+                    <th>Service</th>
+                    <th data-hide="phone">Author</th>
+                    <th data-hide="phone">Entry Time</th>
+                    <th data-hide="phone">Time Since</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div class="results-count">{{ comments | size }} Result{{ comments | plural }}</div>
+                        <div class="footable-pagination pagination" id="footable-pagination"></div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr ng-if="(comments | size) == 0">
+                    <td colspan="6">{{ is_loading ? 'Loading...' : 'No comments created' }}</td>
+                </tr>
+                <tr ng-repeat="comment in comments | orderBy: 'entry_time': true" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
+                    <td host-entry item="comment"></td>
+                    <td service-entry item="comment"></td>
+                    <td>{{ comment.author }}</td>
+                    <td>{{ comment.entry_time * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
+                    <td>{{ comment.entry_time | ago }}</td>
+                    <td>{{ comment.comment_data }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div ng-include="'frontend/partials/_footer.html'"></div>
+

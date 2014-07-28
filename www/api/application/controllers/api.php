@@ -33,34 +33,35 @@ class API extends VS_Controller
         $hostgroups = $this->nagios_data->get_collection('hostgroup');
         $servicegroups = $this->nagios_data->get_collection('servicegroup');
 
+        function quicksearch_item($type, $name, $uri)
+        {
+            return array(
+                'type' => $type,
+                'name' => $name,
+                'uri' => $uri
+            );
+        }
+
         foreach($hosts as $host){
-            $Data[] = $this->quicksearch_item('host', $host->host_name, $host->host_name);
+            $Data[] = quicksearch_item('host', $host->host_name, $host->host_name);
         }
 
         foreach($services as $service){
-            $Data[] = $this->quicksearch_item('service', $service->service_description.' on '.$service->host_name, $service->host_name.'/'.$service->id);
+            $Data[] = quicksearch_item('service', $service->service_description.' on '.$service->host_name, $service->host_name.'/'.$service->id);
         }
 
         foreach($hostgroups as $hostgroup){
-            $Data[] = $this->quicksearch_item('hostgroup', $hostgroup->alias, $hostgroup->hostgroup_name);
+            $Data[] = quicksearch_item('hostgroup', $hostgroup->alias, $hostgroup->hostgroup_name);
         }
 
         foreach($servicegroups as $servicegroup){
-            $Data[] = $this->quicksearch_item('servicegroup', $servicegroup->alias, $servicegroup->servicegroup_name);
+            $Data[] = quicksearch_item('servicegroup', $servicegroup->alias, $servicegroup->servicegroup_name);
         }
 
         $this->output($Data);
 
     }
 
-    private function quicksearch_item($type, $name, $uri)
-    {
-        return array(
-            'type' => $type,
-            'name' => $name,
-            'uri' => $uri
-        );
-    }
 
     /**
      * Fetch status of a certain type
@@ -83,16 +84,6 @@ class API extends VS_Controller
 
         $this->output($Data);
 
-    }
-
-
-    /**
-     * Retrieves a host by numeric ID
-     * @param  int $id host $id property
-     */
-    public function host_by_id($id){
-        $Hosts = $this->nagios_data->get_collection('hoststatus');
-        $this->output($Hosts[$id]);
     }
 
 
@@ -122,16 +113,6 @@ class API extends VS_Controller
         }
 
         $this->output($Data);
-    }
-
-
-    /**
-     * Retrieve a single service by $id property
-     * @param  int $id property
-     */
-    public function service_by_id($id) {
-        $Services = $this->nagios_data->get_collection('servicestatus');
-        $this->output($Services[$id]);
     }
 
 
@@ -247,6 +228,46 @@ class API extends VS_Controller
         $this->output($configurations);
     }
 
+    /**
+     * Fetch all comments or only those of a certain type.
+     * Returns a flat array of comment objects.
+     *
+     * @param  string $type
+     */
+    public function comments($type='') {
+
+        function flatten($array){
+            $flattened = array();
+            foreach($array as $comments){
+                $flattened[] = $comments[0];
+            }
+            return $flattened;
+        }
+
+        function merge($first, $second){
+            $first = flatten($first);
+            $second = flatten($second);
+            return array_merge($first, $second);
+        }
+
+        if( $type == '' ){
+            $host_comments = $this->nagios_data->get_collection('hostcomment')->get_index('host_name');
+            $service_comments = $this->nagios_data->get_collection('servicecomment')->get_index('host_name');
+            $comments = merge($host_comments, $service_comments);
+        } else {
+            $specific_comments = $this->nagios_data->get_collection($type);
+            $comments = flatten($specific_comments);
+        }
+
+        $this->output($comments);
+    }
+
+
+    /**
+     * Fetch /etc/vshell2.conf file values, as parsed by CodeIgniter
+     *
+     * @param  string $type
+     */
     function vshellconfig() {
         $config = array(
             'baseurl'     => BASEURL,

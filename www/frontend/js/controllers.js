@@ -314,3 +314,24 @@ angular.module('vshell2.controllers', [])
         };
 
     }])
+
+    .controller('CommentsCtrl', ['$scope', '$http', 'vshell_uri', function ($scope, $http, vshell_uri) {
+
+        $scope.getComments = function () {
+
+            $scope.is_loading = true;
+            $scope.comments = [];
+
+            $http({ method: 'GET', url: vshell_uri + 'api/comments' })
+                .success(function(data, status, headers, config) {
+                    $scope.is_loading = false;
+                    $scope.comments = data;
+                }).
+                error(function(data, status, headers, config) {
+                    $scope.is_loading = false;
+                    messages.error('failed to load Comments information from the V-Shell2 API');
+                });
+
+        };
+
+    }])

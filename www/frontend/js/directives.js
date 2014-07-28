@@ -64,7 +64,7 @@ angular.module('vshell2.directives', [])
                 item: '='
             },
             link: function (scope, element, attrs) {
-                console.log(scope.item);
+
             },
             templateUrl: 'frontend/partials/directives/service-entry.html',
         };
