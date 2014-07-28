@@ -201,6 +201,8 @@ angular.module('vshell2.filters', [])
                 'passive_checks': '/nagios/cgi-bin/cmd.cgi?cmd_typ=40&host=' + host + '&service=' + service,
                 'schedule_check': '/nagios/cgi-bin/cmd.cgi?cmd_typ=7&host=' + host + '&service=' + service,
                 'schedule_downtime': '/nagios/cgi-bin/cmd.cgi?cmd_typ=56&host=' + host + '&service=' + service,
+                'comment_add': '/nagios/cgi-bin/cmd.cgi?cmd_typ=3&host=' + host + '&service=' + service,
+                'comment_delete': '/nagios/cgi-bin/cmd.cgi?cmd_typ=4&com_id=' + host,
             };
 
             return commands[type] || '#';
@@ -262,7 +264,7 @@ angular.module('vshell2.filters', [])
                 'hostgroups': 'hostgroup_name',
                 'hosts': 'host_name',
                 'servicegroups': 'servicegroup_name',
-                'services': 'id',
+                'services': 'service_description',
                 'timeperiods': 'name'
             };
 

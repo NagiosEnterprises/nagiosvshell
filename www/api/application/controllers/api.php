@@ -74,7 +74,11 @@ class API extends VS_Controller
 
         //fetch by host name
         if(!empty($host_name)){
-            $Data = $Data->get_index_key('host_name',$host_name);
+            $Data = $Data->get_index_key('host_name',$host_name)->first();
+            //add comments
+            $all_comments = $this->nagios_data->get_collection('hostcomment');
+            $host_comments = $all_comments->get_index_key('host_name',$host_name);
+            $Data->hostcomments = $host_comments ? $host_comments : array();
         }
 
         $this->output($Data);
@@ -97,17 +101,22 @@ class API extends VS_Controller
      * @param  string $host_name host name filter
      * @param  string $service   service description (requires host name)
      */
-    public function servicestatus($host_name='',$service_id=''){
+    public function servicestatus($host_name='',$service_description=''){
+        $service_description = urldecode($service_description);
 
         $Data = $this->nagios_data->get_collection('servicestatus');
 
         //fetch by host name
         if(!empty($host_name)){
 
-            if(empty($service_id)){
+            if(empty($service_description)){
                 $Data = $Data->get_index_key('host_name',$host_name);
             } else {
-                $Data = $Data->get_index_key('host_name',$host_name)->get_where('id',$service_id);
+                $Data = $Data->get_index_key('host_name',$host_name)->get_where('service_description',$service_description)->first();
+                //add comments
+                $all_comments = $this->nagios_data->get_collection('servicecomment');
+                $service_comments = $all_comments->get_where('service_description',$service_description);
+                $Data->servicecomments = $service_comments ? $service_comments : array();
             }
 
         }

@@ -154,7 +154,7 @@
 
     </div>
 
-    <div class="table-container full-width">
+    <div class="table-container partial-width full">
 
         <h3>Comments</h3>
 
@@ -167,8 +167,21 @@
                     <th>Actions</th>
                 </tr>
             </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="4"><a target="nagios" class="add-comment" href="{{ host.host_name | hostcommand: 'comment_add' }}">Add Comment</a></td>
+                </tr>
+            </tfoot>
             <tbody>
-
+                <tr ng-if="(host.hostcomments | size) == 0">
+                    <td colspan="4">{{ is_loading ? 'Loading...' : 'No comments for host' }}</td>
+                </tr>
+                <tr ng-repeat="comment in host.hostcomments" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'">
+                    <td>{{ comment.author }}</td>
+                    <td>{{ comment.entry_time * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
+                    <td>{{ comment.comment_data }}</td>
+                    <td><a target="nagios" ng-href="{{ comment.comment_id | hostcommand: 'comment_delete' }}">Delete Comment</a></td>
+                </tr>
             </tbody>
         </table>
 
