@@ -1002,18 +1002,20 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
             background: url('../images/icon-acknowledged.png') center center no-repeat;
             display: inline-block;
             float: right;
+            margin: 0px 0px 0px 3px;
             min-height: 16px;
             min-width: 16px;
             opacity: 0.5;
         }
 
-        .table-container .icon-acknowledged {
-            background: url('../images/icon-acknowledged.png') center center no-repeat;
+        .table-container .icon-flapping {
+            background: url('../images/icon-flapping.png') center center no-repeat;
             display: inline-block;
             float: right;
+            margin: 0px 0px 0px 3px;
             min-height: 16px;
             min-width: 16px;
-            opacity: 0.5;
+            opacity: 0.6;
         }
 
     .footable-sort-indicator {

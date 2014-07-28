@@ -1,0 +1,7 @@
+<td>
+    <a href="#/services/{{ item.host_name }}/{{ item.service_description }}">
+        {{ item.service_description }}
+        <span ng-if="item.problem_has_been_acknowledged" class="icon-acknowledged" title="Acknowledged"></span>
+        <span ng-if="item.is_flapping" class="icon-flapping" title="Flapping"></span>
+    </a>
+</td>
