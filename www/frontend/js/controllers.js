@@ -71,8 +71,8 @@ angular.module('vshell2.controllers', [])
 
             $http({ method: 'GET', url: vshell_uri + 'api/hoststatus' })
                 .success(function(data, status, headers, config) {
-                    data = $filter('by_state')(data, 'host', $scope.statefilter);
                     $scope.is_loading = false;
+                    data = $filter('by_state')(data, 'host', $scope.statefilter);
                     $scope.hoststatus = data;
                 }).
                 error(function(data, status, headers, config) {

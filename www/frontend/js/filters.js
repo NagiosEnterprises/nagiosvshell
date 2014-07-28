@@ -146,7 +146,7 @@ angular.module('vshell2.filters', [])
     })
 
     .filter('hostcommand', function() {
-        return function(host, type) {
+        return function(input, type) {
             var commands = {
                 'acknowledge_problem': '/nagios/cgi-bin/cmd.cgi?cmd_typ=33&host=',
                 'active_checks': '/nagios/cgi-bin/cmd.cgi?cmd_typ=48&host=',
@@ -160,9 +160,11 @@ angular.module('vshell2.filters', [])
                 'schedule_downtime': '/nagios/cgi-bin/cmd.cgi?cmd_typ=55&host=',
                 'schedule_downtime_for_all': '/nagios/cgi-bin/cmd.cgi?cmd_typ=86&host=',
                 'host_in_nagios_core': '/nagios/cgi-bin/extinfo.cgi?type=1&host=',
+                'comment_add': '/nagios/cgi-bin/cmd.cgi?cmd_typ=1&host=',
+                'comment_delete': '/nagios/cgi-bin/cmd.cgi?cmd_typ=2&com_id=',
             };
 
-            return commands[type] + host || '#';
+            return commands[type] + input || '#';
         };
     })
 

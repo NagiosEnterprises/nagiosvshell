@@ -749,8 +749,8 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
     }
 
     #content p a {
-        color: #4580a8;
-        font-size: 13px;
+        color: #666;
+        font-size: 14px;
         font-weight: 600;
         text-decoration: none;
     }
@@ -829,6 +829,11 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
 
     .table-container.partial-width.two-thirds {
         width: 66%;
+    }
+
+    .table-container.partial-width.full {
+        padding-right: 40px;
+        width: 100%;
     }
 
     .table-container.partial-width:nth-child(3n+2){
@@ -1051,6 +1056,16 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
                     .pagination .footable-page-arrow {
                         font-size: 18px;
                     }
+
+        .add-comment {
+            color: #666;
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 19px;
+            margin: 0px 0px 0px 10px;
+            text-decoration: none;
+        }
 
     .table-container tr td.status {
         font-weight: 600;
