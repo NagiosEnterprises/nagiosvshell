@@ -1,0 +1,59 @@
+<div ng-include="'frontend/partials/_header.html'"></div>
+
+<div ng-include="'frontend/partials/_status.html'"></div>
+
+<div ng-include="'frontend/partials/_browser.html'"></div>
+
+<div ng-include="'frontend/partials/_messages.html'"></div>
+
+<div id="content" class="clearfix" ng-controller="ConfigurationDetailsCtrl" ng-init="getConfigurationDetails()">
+
+    <h1>Configuration Details for {{ configuration.name | capitalize }}</h1>
+
+    <h1 ng-if="configuration_type == 'services'">{{ configuration.host_name }} ({{ configuration.service_description }})</h1>
+    <h1 ng-if="configuration_type != 'services'">{{ configuration[( configuration_name | configuration_display_key )] }}</h1>
+
+    <div class="details table-container full-width">
+
+        <div class="table-options">
+            <form action="" class="filter-form" method="post">
+                <div class="filter-icon"></div>
+                <input id="footable-filter" class="footable-filter" type="text" placeholder="Filter Table"/>
+            </form>
+            <div class="pagesize-container">
+                Show <a class="active" ng-href="#" data-page-size="25">25</a> <a ng-href="#" data-page-size="100">100</a> <a ng-href="#" data-page-size="50000">All</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation="#footable-pagination" data-limit-navigation="5" data-filter="#footable-filter">
+            <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="2">
+                        <div class="results-count">{{ configuration | size }} Result{{ configuration | plural }}</div>
+                        <div class="footable-pagination pagination" id="footable-pagination"></div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr ng-if="(configuration | size) == 0">
+                    <td colspan="2">{{ is_loading ? 'Loading...' : 'No configuration details are defined' }}</td>
+                </tr>
+                <tr ng-repeat="(key, value) in configuration" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div ng-include="'frontend/partials/_footer.html'"></div>
