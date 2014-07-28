@@ -998,6 +998,24 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
                 text-decoration: underline;
             }
 
+        .table-container .icon-acknowledged {
+            background: url('../images/icon-acknowledged.png') center center no-repeat;
+            display: inline-block;
+            float: right;
+            min-height: 16px;
+            min-width: 16px;
+            opacity: 0.5;
+        }
+
+        .table-container .icon-acknowledged {
+            background: url('../images/icon-acknowledged.png') center center no-repeat;
+            display: inline-block;
+            float: right;
+            min-height: 16px;
+            min-width: 16px;
+            opacity: 0.5;
+        }
+
     .footable-sort-indicator {
         display: none !important;
     }

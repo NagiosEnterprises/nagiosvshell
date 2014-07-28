@@ -1,6 +1,6 @@
 <footer class="clearfix">
-    <div class="info-container">
-        <span class="logged-in-as">Logged in as Status</span><br/>
-        <span class="last-update">Fri May 2 14:30:34 EDT 2014</span>
+    <div class="info-container" ng-controller="StatusCtrl" ng-init="getStatus()">
+        <span class="logged-in-as">Logged in as {{ status.username ? status.username : '...' }}</span><br/>
+        <span class="last-update">{{ status.last_command_check ? (status.last_command_check * 1000 | date: 'EEE, MMM d, y H:mm:ss') : 'Updating...' }}</span>
     </div>
 </footer>
