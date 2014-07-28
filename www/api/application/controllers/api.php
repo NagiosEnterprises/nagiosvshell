@@ -16,6 +16,7 @@ class API extends VS_Controller
     public function index()
     {
         $Data = $this->tac_data->get_tac_data();
+        $Data['username'] = $this->nagios_user->get_username();
         $this->output($Data);
     }
 
