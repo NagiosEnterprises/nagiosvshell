@@ -211,6 +211,10 @@ angular.module('vshell2.filters', [])
 
     .filter('groupstate', function() {
         return function(input) {
+            if( ! input ) {
+                return 'undefined';
+            }
+
             if( input.hostsDown > 0 || input.servicesCritical > 0 ){
                 return 'critical';
             } else if( input.hostsUnreachable > 0 || input.servicesUnknown > 0 ){

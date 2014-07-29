@@ -5,26 +5,28 @@ angular.module('vshell2.controllers', [])
     .controller('QuicksearchCtrl', ['$scope', '$location', '$filter', 'async', function ($scope, $location, $filter, async) {
 
         var callback = function(data, status, headers, config){
-            var quicksearch_callback = function(e, item){
-                var base = $filter('uri')(item.type),
-                    path = base + '/' + item.uri;
-                $location.path(path);
-                $scope.$apply();
+                var quicksearch_callback = function(e, item){
+                    var base = $filter('uri')(item.type),
+                        path = base + '/' + item.uri;
+                    $location.path(path);
+                    $scope.$apply();
+                }
+
+                quicksearch.init(data, quicksearch_callback);
+
+                return data;
             }
 
-            quicksearch.init(data, quicksearch_callback);
-
-            return data;
-        }
-
         $scope.getQuicksearchData = function () {
+
             var options = {
                 name: 'quicksearch',
                 url: 'quicksearch',
                 callback: callback
-            }
+            };
 
             async.api($scope, options);
+
         };
 
     }])
@@ -32,12 +34,14 @@ angular.module('vshell2.controllers', [])
     .controller('NavCtrl', ['$scope', 'async', function ($scope, async) {
 
         $scope.getNav = function () {
+
             var options = {
                 name: 'nav',
                 url: 'vshellconfig',
-            }
+            };
 
             async.api($scope, options);
+
         };
 
     }])
@@ -45,12 +49,14 @@ angular.module('vshell2.controllers', [])
     .controller('OverviewCtrl', ['$scope', 'async', function ($scope, async) {
     
         $scope.getOverview = function () {
+
             var options = {
                 name: 'overview',
                 url: 'overview',
-            }
+            };
 
             async.api($scope, options);
+
         }
 
     }])
@@ -58,12 +64,14 @@ angular.module('vshell2.controllers', [])
     .controller('StatusCtrl', ['$scope', 'async', function ($scope, async) {
 
         $scope.getStatus = function () {
+
             var options = {
                 name: 'status',
                 url: 'status',
-            }
+            };
 
             async.api($scope, options);
+
         };
 
     }])
@@ -71,269 +79,226 @@ angular.module('vshell2.controllers', [])
     .controller('HostStatusCtrl', ['$scope', '$routeParams', '$filter', 'async', function ($scope, $routeParams, $filter, async) {
 
         var callback = function(data, status, headers, config){
-            var filter = $routeParams.state || '';
-            return $filter('by_state')(data, 'host', filter);
-        }
+                var filter = $routeParams.state || '';
+                return $filter('by_state')(data, 'host', filter);
+            }
 
         $scope.getHostStatus = function () {
+
             var options = {
                 name: 'hoststatus',
                 url: 'hoststatus',
                 callback: callback,
-            }
+            };
 
             async.api($scope, options);
+
         };
 
     }])
 
-    .controller('HostStatusDetailsCtrl', ['$scope', '$http', '$routeParams', 'vshell_uri', function ($scope, $http, $routeParams, vshell_uri) {
+    .controller('HostStatusDetailsCtrl', ['$scope', '$routeParams', 'async', function ($scope, $routeParams, async) {
 
         $scope.getHostStatusDetails = function () {
 
-            $scope.host = [];
+            var options = {
+                name: 'host',
+                url: 'hoststatus/' + $routeParams.host,
+            };
 
-            $http({ method: 'GET', url: vshell_uri + 'api/hoststatus/' + $routeParams.host })
-                .success(function(data, status, headers, config) {
-                    if( data[0] ){
-                        data = data[0];
-                    }
-                    $scope.host = data;
-                }).
-                error(function(data, status, headers, config) {
-                    messages.error('failed to load Host Detail information from the V-Shell2 API');
-                });
+            async.api($scope, options);
 
         };
 
     }])
 
-    .controller('HostgroupStatusCtrl', ['$scope', '$http', 'vshell_uri', function ($scope, $http, vshell_uri) {
+    .controller('HostgroupStatusCtrl', ['$scope', 'async', function ($scope, async) {
 
         $scope.getHostgroupStatus = function () {
 
-            $scope.is_loading = true;
-            $scope.hostgroupstatus = [];
+            var options = {
+                name: 'hostgroupstatus',
+                url: 'hostgroupstatus',
+            };
 
-            $http({ method: 'GET', url: vshell_uri + 'api/hostgroupstatus' })
-                .success(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    $scope.hostgroupstatus = data;
-                }).
-                error(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    messages.error('failed to load Host Group Status information from the V-Shell2 API');
-                });
+            async.api($scope, options);
 
         };
 
     }])
 
-    .controller('HostgroupStatusDetailsCtrl', ['$scope', '$http', '$routeParams', 'vshell_uri', function ($scope, $http, $routeParams, vshell_uri) {
+    .controller('HostgroupStatusDetailsCtrl', ['$scope', '$routeParams', 'async', function ($scope, $routeParams, async) {
+
+        var callback = function(data, status, headers, config){
+                return (data && data[0]) ? data[0] : data; 
+            }
 
         $scope.getHostgroupStatusDetails = function () {
 
-            $scope.is_loading = true;
-            $scope.hostgroup = [];
+            var options = {
+                name: 'hostgroup',
+                url: 'hostgroupstatus/' + $routeParams.group,
+                callback: callback,
+            };
 
-            $http({ method: 'GET', url: vshell_uri + 'api/hostgroupstatus/' + $routeParams.group })
-                .success(function(data, status, headers, config) {
-                    if( data[0] ){
-                        data = data[0];
-                    }
-                    $scope.is_loading = false;
-                    $scope.hostgroup = data;
-                }).
-                error(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    messages.error('failed to load Host Group Status information from the V-Shell2 API');
-                });
+            async.api($scope, options);
 
         };
 
     }])
 
-    .controller('ServiceHostStatusCtrl', ['$scope', '$http', '$routeParams', 'vshell_uri', function ($scope, $http, $routeParams, vshell_uri) {
+    .controller('ServiceHostStatusCtrl', ['$scope', '$routeParams', 'async', function ($scope, $routeParams, async) {
 
         $scope.getServiceHostStatus = function () {
 
+            var options = {
+                    name: 'servicestatus',
+                    url: 'servicestatus/' + $routeParams.host,
+                };
+
             $scope.host_name = $routeParams.host;
 
-            $scope.is_loading = true;
-            $scope.servicestatus = [];
-
-            $http({ method: 'GET', url: vshell_uri + 'api/servicestatus/' + $routeParams.host })
-                .success(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    $scope.servicestatus = data;
-                }).
-                error(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    messages.error('failed to load Service Host Status information from the V-Shell2 API');
-                });
+            async.api($scope, options);
 
         };
 
     }])
 
-    .controller('ServiceStatusCtrl', ['$scope', '$http', '$routeParams', '$filter', 'vshell_uri', function ($scope, $http, $routeParams, $filter, vshell_uri) {
+    .controller('ServiceStatusCtrl', ['$scope', '$routeParams', '$filter', 'async', function ($scope, $routeParams, $filter, async) {
+
+        var callback = function(data, status, headers, config){
+                return $filter('by_state')(data, 'service', $routeParams.state);
+            }
 
         $scope.getServiceStatus = function () {
 
-            $scope.is_loading = true;
-            $scope.servicestatus = [];
-            $scope.statefilter = $routeParams.state;
+            var options = {
+                    name: 'servicestatus',
+                    url: 'servicestatus',
+                    callback: callback,
+                };
 
-            $http({ method: 'GET', url: vshell_uri + 'api/servicestatus' })
-                .success(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    data = $filter('by_state')(data, 'service', $scope.statefilter);
-                    $scope.servicestatus = data;
-                }).
-                error(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    messages.error('failed to load Service Status information from the V-Shell2 API');
-                });
+            async.api($scope, options);
 
         };
 
     }])
 
-    .controller('ServiceStatusDetailsCtrl', ['$scope', '$http', '$routeParams', 'vshell_uri', function ($scope, $http, $routeParams, vshell_uri) {
+    .controller('ServiceStatusDetailsCtrl', ['$scope', '$routeParams', 'async', function ($scope, $routeParams, async) {
 
         $scope.getServiceStatusDetails = function () {
 
-            $scope.service = [];
+            var options = {
+                    name: 'service',
+                    url: 'servicestatus/' + $routeParams.host + '/' + $routeParams.service,
+                };
 
-            $http({ method: 'GET', url: vshell_uri + 'api/servicestatus/' + $routeParams.host + '/' + $routeParams.service })
-                .success(function(data, status, headers, config) {
-                    if( data[$routeParams.service] ){
-                        data = data[$routeParams.service];
-                    }
-                    $scope.service = data;
-                }).
-                error(function(data, status, headers, config) {
-                    messages.error('failed to load Service Detail information from the V-Shell2 API');
-                });
+            async.api($scope, options);
 
         };
 
     }])
 
-    .controller('ServicegroupStatusCtrl', ['$scope', '$http', 'vshell_uri', function ($scope, $http, vshell_uri) {
+    .controller('ServicegroupStatusCtrl', ['$scope', 'async', function ($scope, async) {
 
         $scope.getServicegroupStatus = function () {
 
-            $scope.is_loading = true;
-            $scope.servicegroupstatus = [];
+            var options = {
+                    name: 'servicegroupstatus',
+                    url: 'servicegroupstatus',
+                };
 
-            $http({ method: 'GET', url: vshell_uri + 'api/servicegroupstatus' })
-                .success(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    $scope.servicegroupstatus = data;
-                }).
-                error(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    messages.error('failed to load Service Group Status information from the V-Shell2 API');
-                });
+            async.api($scope, options);
 
         };
 
     }])
 
-    .controller('ServicegroupStatusDetailsCtrl', ['$scope', '$http', '$routeParams', 'vshell_uri', function ($scope, $http, $routeParams, vshell_uri) {
+    .controller('ServicegroupStatusDetailsCtrl', ['$scope', '$routeParams', 'async', function ($scope, $routeParams, async) {
+
+        var callback = function(data, status, headers, config){
+                return (data && data[0]) ? data[0] : data; 
+            }
 
         $scope.getServicegroupStatusDetails = function () {
 
-            $scope.is_loading = true;
-            $scope.servicegroup = [];
+            var options = {
+                    name: 'servicegroup',
+                    url: 'servicegroupstatus/' + $routeParams.group,
+                    callback: callback,
+                };
 
-            $http({ method: 'GET', url: vshell_uri + 'api/servicegroupstatus/' + $routeParams.group })
-                .success(function(data, status, headers, config) {
-                    if( data[0] ){
-                        data = data[0];
-                    }
-                    $scope.is_loading = false;
-                    $scope.servicegroup = data;
-                }).
-                error(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    messages.error('failed to load Service Group Status information from the V-Shell2 API');
-                });
+            async.api($scope, options);
 
         };
 
     }])
 
-    .controller('ConfigurationsCtrl', ['$scope', '$http', '$routeParams', '$filter', 'vshell_uri', function ($scope, $http, $routeParams, $filter, vshell_uri) {
+    .controller('ConfigurationsCtrl', ['$scope', '$routeParams', 'async', function ($scope, $routeParams, async) {
+
+        var type = $routeParams.type || '', 
+            callback = function(data, status, headers, config){
+                if( type ){
+                    data = data[type] || {};
+                }
+                return data; 
+            }
 
         $scope.getConfigurations = function () {
 
-            $scope.is_loading = true;
-            $scope.configurations = [];
+            var options = {
+                    name: 'configurations',
+                    url: 'configurations/' + type,
+                    callback: callback,
+                };
 
-            var type = $routeParams.type || '';
-
-            $http({ method: 'GET', url: vshell_uri + 'api/configurations/' + type})
-                .success(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    if( type ){ data = data[type] || {} };
-                    $scope.configurations = data;
-                }).
-                error(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    messages.error('failed to load Configuration information from the V-Shell2 API');
-                });
+            async.api($scope, options);
 
         };
 
     }])
 
-    .controller('ConfigurationDetailsCtrl', ['$scope', '$http', '$routeParams', '$filter', 'vshell_uri', function ($scope, $http, $routeParams, $filter, vshell_uri) {
+    .controller('ConfigurationDetailsCtrl', ['$scope', '$routeParams', '$filter', 'async', function ($scope, $routeParams, $filter, async) {
+
+        var type = ($routeParams.type || ''), 
+            name = $routeParams.name,
+            name_key = $filter('configuration_anchor_key')(type),
+            callback = function(data, status, headers, config){
+                if( ! data || ! data[type] ){
+                    return data;
+                }
+                data = data[type]['items'];
+                data = $filter('property')(data, name_key, name)[0];
+                return data; 
+            }
 
         $scope.getConfigurationDetails = function () {
 
-            $scope.is_loading = true;
             $scope.configuration_type = $routeParams.type;
             $scope.configuration_name = $routeParams.name;
-            $scope.configuration = [];
 
-            var type = $scope.configuration_type,
-                name = $scope.configuration_name,
-                name_key = $filter('configuration_anchor_key')(type);
+            var options = {
+                    name: 'configuration',
+                    url: 'configurations/' + type,
+                    callback: callback,
+                };
 
-            $http({ method: 'GET', url: vshell_uri + 'api/configurations/' + type})
-                .success(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    data = data[type]['items'];
-                    data = $filter('property')(data, name_key, name)[0];
-                    $scope.configuration = data;
-                }).
-                error(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    messages.error('failed to load Configuration detail information from the V-Shell2 API');
-                });
+            async.api($scope, options);
 
         };
 
     }])
 
-    .controller('CommentsCtrl', ['$scope', '$http', 'vshell_uri', function ($scope, $http, vshell_uri) {
+    .controller('CommentsCtrl', ['$scope', 'async', function ($scope, async) {
 
         $scope.getComments = function () {
 
-            $scope.is_loading = true;
-            $scope.comments = [];
+            var options = {
+                    name: 'comments',
+                    url: 'comments',
+                };
 
-            $http({ method: 'GET', url: vshell_uri + 'api/comments' })
-                .success(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    $scope.comments = data;
-                }).
-                error(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    messages.error('failed to load Comments information from the V-Shell2 API');
-                });
+            async.api($scope, options);
 
         };
 
