@@ -32,22 +32,32 @@
 
         'use strict';
 
+        var version = 0;
+
         var templates = {};
 
-            templates.empty = [
-                '<div class="empty-message">',
-                'No quicksearch matches found',
+        templates.empty = [
+            '<div class="empty-message">',
+            'No quicksearch matches found',
+            '</div>'
+        ].join('\n');
+
+        templates.suggestion = function(data){
+            return [
+                '<div class="quicksearch-item">',
+                    '<span class="type">' + data.type + '</span>',
+                    '<span class="value">' + data.name + '</span>',
                 '</div>'
             ].join('\n');
+        }
 
-            templates.suggestion = function(data){
-                return [
-                    '<div class="quicksearch-item">',
-                        '<span class="type">' + data.type + '</span>',
-                        '<span class="value">' + data.name + '</span>',
-                    '</div>'
-                ].join('\n');
-            }
+        var get_name = function(){
+            // Quicksearch uses localStorage and uses the name as a key.
+            // Incrementing name prevents stale cache data when quicksearch's
+            // data is updated.
+            version = version + 1;
+            return 'quicksearch' + version;
+        }
 
         var get_path = function(type, uri){
             return '/hosts/' + uri;
@@ -55,22 +65,29 @@
 
         var init = function(data, callback){
 
-            $('#quicksearch .input').typeahead({
-                hint: true,
-                highlight: true,
-                minLength: 1
-            },
-            {
-                name: 'quicksearch',
-                displayKey: 'name',
-                source: matcher(data),
-                templates: {
-                    empty: templates.empty,
-                    suggestion: templates.suggestion
-                }
-            });
+            var input = $('#quicksearch .input'),
+                name = get_name();
 
-            $('#quicksearch .input').on('typeahead:selected', function(e, item){
+            input.typeahead('destroy');
+
+            input.typeahead(
+                {
+                    hint: true,
+                    highlight: true,
+                    minLength: 1
+                },
+                {
+                    name: name,
+                    displayKey: 'name',
+                    source: matcher(data),
+                    templates: {
+                        empty: templates.empty,
+                        suggestion: templates.suggestion
+                    }
+                }
+            );
+
+            input.on('typeahead:selected', function(e, item){
                 callback(e, item);
             });
 

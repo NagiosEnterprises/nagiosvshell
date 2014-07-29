@@ -2,79 +2,69 @@
 
 angular.module('vshell2.controllers', [])
 
-    .controller('QuicksearchCtrl', ['$scope', '$http', '$location', '$filter', 'vshell_uri', function ($scope, $http, $location, $filter, vshell_uri) {
+    // .controller('QuicksearchCtrl', ['$scope', '$http', '$location', '$filter', 'vshell_uri', function ($scope, $http, $location, $filter, vshell_uri) {
+    .controller('QuicksearchCtrl', ['$scope', '$location', '$filter', 'async', function ($scope, $location, $filter, async) {
 
-        var callback = function(e, item){
-            var base = $filter('uri')(item.type),
-                path = base + '/' + item.uri;
-            $location.path(path);
-            $scope.$apply();
+        var callback = function(data, status, headers, config){
+            var quicksearch_callback = function(e, item){
+                var base = $filter('uri')(item.type),
+                    path = base + '/' + item.uri;
+                $location.path(path);
+                $scope.$apply();
+            }
+
+            quicksearch.init(data, quicksearch_callback);
+
+            return data;
         }
 
         $scope.getQuicksearchData = function () {
+            var options = {
+                name: 'quicksearch',
+                url: 'quicksearch',
+                callback: callback
+            }
 
-            $http({ method: 'GET', url: vshell_uri + 'api/quicksearch' })
-                .success(function(data, status, headers, config) {
-                    quicksearch.init(data, callback);
-                }).
-                error(function(data, status, headers, config) {
-                    messages.error('failed to load Quicksearch data from the V-Shell2 API');
-                });
-
+            async.api($scope, options);
         };
 
     }])
 
-    .controller('NavCtrl', ['$scope', '$http', 'vshell_uri', function ($scope, $http, vshell_uri) {
+    .controller('NavCtrl', ['$scope', 'async', function ($scope, async) {
 
         $scope.getNav = function () {
+            var options = {
+                name: 'nav',
+                url: 'vshellconfig',
+            }
 
-            $scope.nav = [];
-
-            $http({ method: 'GET', url: vshell_uri + 'api/vshellconfig' })
-                .success(function(data, status, headers, config) {
-                    $scope.nav = data;
-                }).
-                error(function(data, status, headers, config) {
-                    messages.error('failed to load VShell config information from the V-Shell2 API');
-                });
-
+            async.api($scope, options);
         };
 
     }])
 
-    .controller('OverviewCtrl', ['$scope', '$http', 'vshell_uri', function ($scope, $http, vshell_uri) {
-
+    .controller('OverviewCtrl', ['$scope', 'async', function ($scope, async) {
+    
         $scope.getOverview = function () {
+            var options = {
+                name: 'overview',
+                url: 'overview',
+            }
 
-            $scope.overview = [];
-
-            $http({ method: 'GET', url: vshell_uri + 'api/overview' })
-                .success(function(data, status, headers, config) {
-                    $scope.overview = data;
-                }).
-                error(function(data, status, headers, config) {
-                    messages.error('failed to load Overview information from the V-Shell2 API');
-                });
-
-        };
+            async.api($scope, options);
+        }
 
     }])
 
-    .controller('StatusCtrl', ['$scope', '$http', 'vshell_uri', function ($scope, $http, vshell_uri) {
+    .controller('StatusCtrl', ['$scope', 'async', function ($scope, async) {
 
         $scope.getStatus = function () {
+            var options = {
+                name: 'status',
+                url: 'status',
+            }
 
-            $scope.status = [];
-
-            $http({ method: 'GET', url: vshell_uri + 'api/status' })
-                .success(function(data, status, headers, config) {
-                    $scope.status = data;
-                }).
-                error(function(data, status, headers, config) {
-                    messages.error('failed to load Status information from the V-Shell2 API');
-                });
-
+            async.api($scope, options);
         };
 
     }])
