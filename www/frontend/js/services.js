@@ -4,36 +4,11 @@ angular.module('vshell2.services', [])
 
     .value('authors', 'Mike Guthrie and Chris Laskey')
 
-    .factory('async', function($http) {
+    .factory('async', function($http, paths) {
 
         var async = {};
 
-        // Variables
-
         async.cache = {};
-
-        async.paths = {};
-
-        async.paths.app = (function() {
-            var path = location.pathname,
-                has_leading_slash = (path.substring(0,1) == '/'),
-                has_trailing_slash = (path.slice(-1) == '/');
-
-            if( path == '' || path == '/' ){
-                return path;
-            }
-
-            if( ! has_leading_slash ){ path = '/' + path; }
-            if( ! has_trailing_slash ){ path = path + '/'; }
-
-            return path;
-        })();
-
-        async.paths.api = (function() {
-            return async.paths.app + 'api/';
-        })();
-
-        // Implementation Methods
 
         async.validate = function(options){
             options.method = options.method || 'GET';
@@ -92,7 +67,7 @@ angular.module('vshell2.services', [])
         }
 
         async.api = function(scope, options){
-            options.url = async.paths.api + options.url;
+            options.url = paths.api + options.url;
             options = async.validate(options);
             async.cached(scope, options);
             async.fetch(scope, options);
@@ -119,27 +94,82 @@ angular.module('vshell2.services', [])
                 });
         }
 
-        // Public interface
-
         return {
             api: function(scope, options){
                 async.api(scope, options);
             }
-        }
+        };
+
     })
 
-    // TODO: deprecated, now part of the async instance
-    .factory('vshell_uri', function() {
-        var path = location.pathname,
-            has_leading_slash = (path.substring(0,1) == '/'),
-            has_trailing_slash = (path.slice(-1) == '/');
+    .factory('paths', function($http) {
 
-        if( path == '' || path == '/' ){
+        var add_slashes = function(path){
+            var has_leading_slash = (path.substring(0,1) == '/'),
+                has_trailing_slash = (path.slice(-1) == '/');
+
+            if( path == '' || path == '/' ){
+                return path;
+            }
+
+            if( ! has_leading_slash ){ path = '/' + path; }
+            if( ! has_trailing_slash ){ path = path + '/'; }
+
             return path;
-        }
+        };
 
-        if( ! has_leading_slash ){ path = '/' + path; }
-        if( ! has_trailing_slash ){ path = path + '/'; }
+        var app = (function(){
+            return add_slashes(location.pathname);
+        })();
 
-        return path;
+        var api = (function(){
+            return app + 'api/';
+        })();
+
+        var core_as_promise = (function(){
+            // Returns a promise, usable in Controllers. For filters
+            // see the nested object hack in the core_for_filters() function.
+            //
+            // http://stackoverflow.com/a/12513509/657661
+
+            var uri = api + 'vshellconfig';
+
+            return $http.get(uri).then(function(response){
+                var path = response.data.coreurl;
+                return add_slashes(path);
+            });
+
+        })();
+
+        var core_for_filters = (function(){
+            // Instead of using a promise, return a nested object.
+            // When the value returns, the inner key: value gets updated.
+            // Downside is this only works with AngularJS filters and
+            // adds an extra call, e.g. paths.core.value.
+            //
+            // For an alternative returning a promise see core_as_promise()
+            // function.
+
+            var uri = api + 'vshellconfig',
+                results = {
+                    value: {}
+                };
+
+            $http.get(uri).then(function(response){
+                var path = response.data.coreurl;
+                results.value = add_slashes(path);
+            });
+
+            return results;
+
+        })();
+
+        return {
+            app: app,
+            api: api,
+            core_as_promise: core_as_promise,
+            core_for_filters: core_for_filters,
+        };
+
     })
+

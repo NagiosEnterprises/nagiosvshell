@@ -2,6 +2,18 @@
 
 angular.module('vshell2.controllers', [])
 
+    .controller('PageCtrl', ['$scope', 'async', 'paths', function ($scope, async, paths) {
+
+        $scope.initPage = function () {
+
+            paths.core_as_promise.then(function(value) {
+                $scope.nagios_core = value;
+            });
+
+        };
+
+    }])
+
     .controller('QuicksearchCtrl', ['$scope', '$location', '$filter', 'async', function ($scope, $location, $filter, async) {
 
         var callback = function(data, status, headers, config){
@@ -23,21 +35,6 @@ angular.module('vshell2.controllers', [])
                 name: 'quicksearch',
                 url: 'quicksearch',
                 callback: callback
-            };
-
-            async.api($scope, options);
-
-        };
-
-    }])
-
-    .controller('NavCtrl', ['$scope', 'async', function ($scope, async) {
-
-        $scope.getNav = function () {
-
-            var options = {
-                name: 'nav',
-                url: 'vshellconfig',
             };
 
             async.api($scope, options);
