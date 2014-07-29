@@ -1,5 +1,7 @@
 # HTML Template
 
+Add prefetch call
+
 Tactical Overview page
 
 Add help / contact / issues section to display options page

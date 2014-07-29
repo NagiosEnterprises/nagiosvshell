@@ -2,7 +2,6 @@
 
 angular.module('vshell2.controllers', [])
 
-    // .controller('QuicksearchCtrl', ['$scope', '$http', '$location', '$filter', 'vshell_uri', function ($scope, $http, $location, $filter, vshell_uri) {
     .controller('QuicksearchCtrl', ['$scope', '$location', '$filter', 'async', function ($scope, $location, $filter, async) {
 
         var callback = function(data, status, headers, config){
@@ -69,25 +68,21 @@ angular.module('vshell2.controllers', [])
 
     }])
 
-    .controller('HostStatusCtrl', ['$scope', '$http', '$routeParams', '$filter', 'vshell_uri', function ($scope, $http, $routeParams, $filter, vshell_uri) {
+    .controller('HostStatusCtrl', ['$scope', '$routeParams', '$filter', 'async', function ($scope, $routeParams, $filter, async) {
+
+        var callback = function(data, status, headers, config){
+            var filter = $routeParams.state || '';
+            return $filter('by_state')(data, 'host', filter);
+        }
 
         $scope.getHostStatus = function () {
+            var options = {
+                name: 'hoststatus',
+                url: 'hoststatus',
+                callback: callback,
+            }
 
-            $scope.is_loading = true;
-            $scope.hoststatus = [];
-            $scope.statefilter = $routeParams.state || '';
-
-            $http({ method: 'GET', url: vshell_uri + 'api/hoststatus' })
-                .success(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    data = $filter('by_state')(data, 'host', $scope.statefilter);
-                    $scope.hoststatus = data;
-                }).
-                error(function(data, status, headers, config) {
-                    $scope.is_loading = false;
-                    messages.error('failed to load Host Status information from the V-Shell2 API');
-                });
-
+            async.api($scope, options);
         };
 
     }])
