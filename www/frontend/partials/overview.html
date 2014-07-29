@@ -1,14 +1,146 @@
 <div ng-include="'frontend/partials/_header.html'"></div>
 
-<div ng-include="'frontend/partials/_status.html'"></div>
-
 <div ng-include="'frontend/partials/_browser.html'"></div>
 
 <div ng-include="'frontend/partials/_messages.html'"></div>
 
-<div id="content" class="clearfix" ng-controller="HostStatusCtrl" ng-init="getHostStatus()">
+<div id="content" class="clearfix" ng-controller="OverviewCtrl" ng-init="getOverview()">
 
     <h1>Tactical Overview</h1>
+
+    <table class="tac">
+        <tbody>
+
+            <tr>
+                <th>Monitoring Features</th>
+            </tr>
+
+            <tr>
+                <td>Flap Detection</td>
+                <td>Notification</td>
+                <td>Event Handlers</td>
+                <td>Active Checks</td>
+                <td>Passive Checks</td>
+            </tr>
+
+            <tr>
+
+                <!-- Flapping -->
+                <td class="green">
+                    <?php echo $data['hostsFdHtml']; ?><br />
+                    <?php echo $data['servicesFdHtml']; ?><br />
+                    <?php echo $data['hostsFlapHtml']; ?><br />
+                    <?php echo $data['servicesFlapHtml']; ?><br />
+                </td>
+
+                <!-- Notifications -->
+                <td class="green">
+                    <?php echo $data['hostsNtfHtml']; ?><br />
+                    <?php echo $data['servicesNtfHtml']; ?><br />
+                </td>
+
+                <!-- Event Handlers -->
+                <td class="green">
+                    <?php echo $data['hostsEhHtml']; ?><br />
+                    <?php echo $data['servicesEhHtml']; ?><br />
+                </td>
+
+                <!-- Active/Passive CHECKS -->
+                <td class="green">
+                    <?php echo $data['hostsAcHtml']; ?><br />
+                    <?php echo $data['servicesAcHtml']; ?><br />
+                </td>
+
+                <td class="green">
+                    <?php echo $data['hostsPcHtml']; ?><br />
+                    <?php echo $data['servicesPcHtml']; ?><br />
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+active_service_checks: "1"
+event_handlers: "1"
+flap_detection: "1"
+hostlink: "/vshell2/hosts?state_filter="
+hostsAcHtml: "All Hosts Enabled"
+hostsAcknowledgedTotal: 1
+hostsActiveChecksDisabled: 0
+hostsDownAcknowledged: 1
+hostsDownDisabled: 0
+hostsDownScheduled: 0
+hostsDownTotal: 17
+hostsDownUnhandled: 16
+hostsEhHtml: "All Hosts Enabled"
+hostsEventHandlerDisabled: 0
+hostsFdHtml: "All Hosts Enabled"
+hostsFlapHtml: "No Hosts Flapping"
+hostsFlapping: 0
+hostsFlappingDisabled: 0
+hostsNotificationsDisabled: 0
+hostsNtfHtml: "All Hosts Enabled"
+hostsPassiveChecksDisabled: 0
+hostsPcHtml: "All Hosts Enabled"
+hostsPending: 0
+hostsPendingDisabled: 0
+hostsProblemsTotal: 17
+hostsTotal: 22
+hostsUnhandledTotal: 16
+hostsUnreachableAcknowledged: 0
+hostsUnreachableDisabled: 0
+hostsUnreachableScheduled: 0
+hostsUnreachableTotal: 0
+hostsUnreachableUnhandled: 0
+hostsUpDisabled: 0
+hostsUpTotal: 5
+last_command_check: 1406587276
+lastcmd: "Mon Jul 28 22:41 16s"
+notifications: "1"
+passive_service_checks: "1"
+servicesAcHtml: "All Services Enabled"
+servicesAcknowledgedTotal: 1
+servicesActiveChecksDisabled: 0
+servicesCriticalAcknowledged: 1
+servicesCriticalDisabled: 0
+servicesCriticalHostProblem: 28
+servicesCriticalScheduled: 0
+servicesCriticalTotal: 28
+servicesCriticalUnhandled: 27
+servicesEhHtml: "All Services Enabled"
+servicesEventHandlerDisabled: 0
+servicesFdHtml: "All Services Enabled"
+servicesFlapHtml: "No Servies Flapping"
+servicesFlapping: 0
+servicesFlappingDisabled: 0
+servicesNotificationsDisabled: 0
+servicesNtfHtml: "All Services Enabled"
+servicesOkDisabled: 11
+servicesOkTotal: 11
+servicesPassiveChecksDisabled: 1
+servicesPcHtml: "<span class="red">1 Services disabled</span>"
+servicesPending: 0
+servicesPendingDisabled: 0
+servicesPendingTotal: 0
+servicesProblemsTotal: 28
+servicesTotal: 39
+servicesTotalDisabled: 0
+servicesUnhandledTotal: 27
+servicesUnknownAcknowledged: 0
+servicesUnknownDisabled: 0
+servicesUnknownHostProblem: 0
+servicesUnknownScheduled: 0
+servicesUnknownTotal: 0
+servicesUnknownUnhandled: 0
+servicesWarningAcknowledged: 0
+servicesWarningDisabled: 0
+servicesWarningHostProblem: 0
+servicesWarningScheduled: 0
+servicesWarningTotal: 0
+servicesWarningUnhandled: 0
+servlink: "/vshell2/services?state_filter="
+version: "3.5.1"
+
 
 </div>
 

@@ -43,6 +43,24 @@ angular.module('vshell2.controllers', [])
 
     }])
 
+    .controller('OverviewCtrl', ['$scope', '$http', 'vshell_uri', function ($scope, $http, vshell_uri) {
+
+        $scope.getOverview = function () {
+
+            $scope.overview = [];
+
+            $http({ method: 'GET', url: vshell_uri + 'api/overview' })
+                .success(function(data, status, headers, config) {
+                    $scope.overview = data;
+                }).
+                error(function(data, status, headers, config) {
+                    messages.error('failed to load Overview information from the V-Shell2 API');
+                });
+
+        };
+
+    }])
+
     .controller('StatusCtrl', ['$scope', '$http', 'vshell_uri', function ($scope, $http, vshell_uri) {
 
         $scope.getStatus = function () {

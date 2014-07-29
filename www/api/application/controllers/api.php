@@ -25,7 +25,7 @@ class API extends VS_Controller
      */
     public function quicksearch()
     {
-    
+
         $Data = array();
 
         $hosts = $this->nagios_data->get_collection('hoststatus');
@@ -60,6 +60,15 @@ class API extends VS_Controller
 
         $this->output($Data);
 
+    }
+
+
+    /**
+     * Retrieve tactical overview data
+     */
+    public function tacticaloverview() {
+        $Data = $this->tac_data->get_tac_data();
+        $this->output($Data);
     }
 
 

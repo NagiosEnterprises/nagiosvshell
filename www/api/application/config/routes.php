@@ -45,6 +45,8 @@ $route['status'] = 'api';
 
 $route['quicksearch'] = 'api/quicksearch';
 
+$route['overview'] = 'api/tacticaloverview';
+
 $route['hoststatus/(:any)'] = "api/hoststatus/$1";
 $route['hoststatus*'] = "api/hoststatus";
 
