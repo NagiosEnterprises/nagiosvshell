@@ -88,6 +88,8 @@ angular.module('vshell2.controllers', [])
                 callback: callback,
             };
 
+            $scope.statefilter = $routeParams.state || '';
+
             async.api($scope, options);
 
         };
@@ -164,7 +166,8 @@ angular.module('vshell2.controllers', [])
     .controller('ServiceStatusCtrl', ['$scope', '$routeParams', '$filter', 'async', function ($scope, $routeParams, $filter, async) {
 
         var callback = function(data, status, headers, config){
-                return $filter('by_state')(data, 'service', $routeParams.state);
+                var filter = $routeParams.state || '';
+                return $filter('by_state')(data, 'service', filter);
             }
 
         $scope.getServiceStatus = function () {
@@ -174,6 +177,8 @@ angular.module('vshell2.controllers', [])
                     url: 'servicestatus',
                     callback: callback,
                 };
+
+            $scope.statefilter = $routeParams.state || '';
 
             async.api($scope, options);
 

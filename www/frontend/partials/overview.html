@@ -32,24 +32,24 @@
                     </thead>
                     <tbody>
                         <tr class="{{ overview.hostsUpTotal | is_active }} hosts-up footable-odd">
-                            <td>Up</td>
-                            <td>{{ overview.hostsUpTotal | percent: overview.hostsTotal }}</td>
-                            <td>{{ overview.hostsUpTotal }}</td>
+                            <td><a href="#/{{ 'host' | uri }}/state/up">Up</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/state/up">{{ overview.hostsUpTotal | percent: overview.hostsTotal }}</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/state/up">{{ overview.hostsUpTotal }}</a></td>
                         </tr>
                         <tr class="{{ overview.hostsDownTotal | is_active }} hosts-down footable-even">
-                            <td>Down</td>
-                            <td>{{ overview.hostsDownTotal | percent: overview.hostsTotal }}</td>
-                            <td>{{ overview.hostsDownTotal }}</td>
+                            <td><a href="#/{{ 'host' | uri }}/state/down">Down</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/state/down">{{ overview.hostsDownTotal | percent: overview.hostsTotal }}</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/state/down">{{ overview.hostsDownTotal }}</a></td>
                         </tr>
                         <tr class="{{ overview.hostsUnreachableTotal | is_active }} hosts-unreachable footable-odd">
-                            <td>Unreachable</td>
-                            <td>{{ overview.hostsUnreachableTotal | percent: overview.hostsTotal }}</td>
-                            <td>{{ overview.hostsUnreachableTotal }}</td>
+                            <td><a href="#/{{ 'host' | uri }}/state/unreachable">Unreachable</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/state/unreachable">{{ overview.hostsUnreachableTotal | percent: overview.hostsTotal }}</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/state/unreachable">{{ overview.hostsUnreachableTotal }}</a></td>
                         </tr>
                         <tr class="{{ overview.hostsPending | is_active }} hosts-pending footable-even">
-                            <td>Pending</td>
-                            <td>{{ overview.hostsPending | percent: overview.hostsTotal }}</td>
-                            <td>{{ overview.hostsPending }}</td>
+                            <td><a href="#/{{ 'host' | uri }}/state/pending">Pending</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/state/pending">{{ overview.hostsPending | percent: overview.hostsTotal }}</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/state/pending">{{ overview.hostsPending }}</a></td>
                         </tr>
                         <tr class="footable-odd">
                             <th>Total Hosts</th>
@@ -118,29 +118,29 @@
                     </thead>
                     <tbody>
                         <tr class="{{ overview.servicesOkTotal | is_active }} services-ok footable-odd">
-                            <td>Ok</td>
-                            <td>{{ overview.servicesOkTotal | percent: overview.servicesTotal }}</td>
-                            <td>{{ overview.servicesOkTotal }}</td>
+                            <td><a href="#/{{ 'service' | uri }}/state/ok">Ok</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/ok">{{ overview.servicesOkTotal | percent: overview.servicesTotal }}</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/ok">{{ overview.servicesOkTotal }}</a></td>
                         </tr>
                         <tr class="{{ overview.servicesWarningTotal | is_active }} services-warning footable-even">
-                            <td>Warning</td>
-                            <td>{{ overview.servicesWarningTotal | percent: overview.servicesTotal }}</td>
-                            <td>{{ overview.servicesWarningTotal }}</td>
+                            <td><a href="#/{{ 'service' | uri }}/state/warning">Warning</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/warning">{{ overview.servicesWarningTotal | percent: overview.servicesTotal }}</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/warning">{{ overview.servicesWarningTotal }}</a></td>
                         </tr>
                         <tr class="{{ overview.servicesUnknownTotal | is_active }} services-unknown footable-odd">
-                            <td>Unknown</td>
-                            <td>{{ overview.servicesUnknownTotal | percent: overview.servicesTotal }}</td>
-                            <td>{{ overview.servicesUnknownTotal }}</td>
+                            <td><a href="#/{{ 'service' | uri }}/state/unknown">Unknown</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/unknown">{{ overview.servicesUnknownTotal | percent: overview.servicesTotal }}</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/unknown">{{ overview.servicesUnknownTotal }}</a></td>
                         </tr>
                         <tr class="{{ overview.servicesCriticalTotal | is_active }} services-critical footable-even">
-                            <td>Critical</td>
-                            <td>{{ overview.servicesCriticalTotal | percent: overview.servicesTotal }}</td>
-                            <td>{{ overview.servicesCriticalTotal }}</td>
+                            <td><a href="#/{{ 'service' | uri }}/state/critical">Critical</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/critical">{{ overview.servicesCriticalTotal | percent: overview.servicesTotal }}</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/critical">{{ overview.servicesCriticalTotal }}</a></td>
                         </tr>
                         <tr class="{{ overview.servicesPendingTotal | is_active }} services-pending footable-odd">
-                            <td>Pending</td>
-                            <td>{{ overview.servicesPendingTotal | percent: overview.servicesTotal }}</td>
-                            <td>{{ overview.servicesPendingTotal }}</td>
+                            <td><a href="#/{{ 'service' | uri }}/state/pending">Pending</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/pending">{{ overview.servicesPendingTotal | percent: overview.servicesTotal }}</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/pending">{{ overview.servicesPendingTotal }}</a></td>
                         </tr>
                         <tr class="footable-even">
                             <th>Total Services</th>

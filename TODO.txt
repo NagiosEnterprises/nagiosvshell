@@ -4,7 +4,7 @@ Add prefetch call
 
 Active style on navigation
 
-Tactical Overview page
+Finish tactical Overview page
 
 Add help / contact / issues section to display options page
 
