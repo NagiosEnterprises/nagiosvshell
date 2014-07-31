@@ -10,7 +10,7 @@
 
     <h1>Servicegroup Status Details for All Groups</h1>
 
-    <div ng-repeat="servicegroup in servicegroupstatus" class="table-container partial-width">
+    <div ng-repeat="servicegroup in servicegroupstatus" class="table-container partial-width grid">
 
         <h3><a class="state-{{ servicegroup | groupstate }}" ng-href="#/servicegroups/{{ servicegroup.servicegroup_name }}">{{ servicegroup.alias }}</a></h3>
 

@@ -30,7 +30,7 @@
             </div>
 
             <nav>
-                <ul class="local">
+                <ul>
                     <li><a ng-href="#/overview">Tactical Overview</a></li>
                     <li><a ng-href="#/hosts">Hosts</a></li>
                     <li><a ng-href="#/services">Services</a></li>
@@ -50,18 +50,6 @@
                     </li>
                     <li><a href="#/configurations">Configurations</a></li>
                     <li><a href="#/comments">Comments</a></li>
-                </ul>
-                <ul class="external">
-                    <li>
-                        <a href="">Commands<span class="icon external"></span></a>
-                        <ul>
-                            <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/extinfo.cgi?type=3">Comments</a></li>
-                            <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/extinfo.cgi?type=6">Downtime</a></li>
-                            <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/extinfo.cgi?type=0">Process Info</a></li>
-                            <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/extinfo.cgi?type=4">Performance Info</a></li>
-                            <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/extinfo.cgi?type=7">Scheduling Queue</a></li>
-                        </ul>
-                    </li>
                     <li>
                         <a href="">Reports<span class="icon external"></span></a>
                         <ul>
@@ -72,6 +60,16 @@
                             <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/histogram.cgi">Alert Histogram</a></li>
                             <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/notifications.cgi?contact=all">Notifications</a></li>
                             <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/showlog.cgi">Event Log</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="">System<span class="icon external"></span></a>
+                        <ul>
+                            <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/extinfo.cgi?type=3">Comments</a></li>
+                            <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/extinfo.cgi?type=6">Downtime</a></li>
+                            <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/extinfo.cgi?type=0">Process Info</a></li>
+                            <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/extinfo.cgi?type=4">Performance Info</a></li>
+                            <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/extinfo.cgi?type=7">Scheduling Queue</a></li>
                         </ul>
                     </li>
                 </ul>

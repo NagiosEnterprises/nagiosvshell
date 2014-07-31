@@ -26,6 +26,20 @@ angular.module('vshell2.filters', [])
         };
     })
 
+    .filter('percent', function(numberFilter) {
+        return function(input, total, places) {
+            var places = places || 1,
+                fraction = parseInt(input, 10) / parseInt(total, 10),
+                percent = fraction * 100;
+
+            if( percent == 0 || percent == 100 ){
+                return percent + '%';
+            } else {
+                return numberFilter(percent, places) + '%';
+            }
+        };
+    })
+
     .filter('object_to_array', function() {
         return function(input) {
             var i, arr = [];
@@ -34,6 +48,35 @@ angular.module('vshell2.filters', [])
             }
             return arr;
         }
+    })
+
+    .filter('property', function() {
+        // Filter on Deep Object Property
+        // By: Anton Kropp
+        // See: http://onoffswitch.net/filter-deep-object-properties-angularjs/
+        // Dependencies: underscore.js
+
+        function parseString(input){
+            return input.split(".");
+        };
+
+        function getValue(element, propertyArray){
+            var value = element;
+
+            _.forEach(propertyArray, function(property){
+                value = value[property];
+            });
+
+            return value;
+        };
+
+        return function (input, propertyString, target){
+            var properties = parseString(propertyString);
+
+            return _.filter(input, function(item){
+                return getValue(item, properties) == target;
+            });
+        };
     })
 
     .filter('uri', function() {
@@ -211,6 +254,27 @@ angular.module('vshell2.filters', [])
         };
     })
 
+    .filter('overviewstate', function() {
+        return function(input) {
+            if( ! input ) {
+                return 'undefined';
+            }
+
+            if( input.hostsDownTotal > 0 || input.servicesCriticalTotal > 0 ){
+                return 'critical';
+            } else if( input.hostsUnreachableTotal > 0 || input.servicesUnknownTotal > 0 ){
+                return 'unknown';
+            } else if( input.servicesWarningTotal > 0 ){
+               return 'warning';
+            } else if( input.hostsPendingTotal > 0 || input.servicesPendingTotal > 0 ){
+               return 'pending';
+            } else if( input.hostsUpTotal > 0 || input.servicesOkTotal > 0 ){
+               return 'ok';
+            }
+            return 'undefined';
+        };
+    })
+
     .filter('groupstate', function() {
         return function(input) {
             if( ! input ) {
@@ -229,35 +293,6 @@ angular.module('vshell2.filters', [])
                return 'ok';
             }
             return 'undefined';
-        };
-    })
-
-    .filter('property', function() {
-        // Filter on Deep Object Property
-        // By: Anton Kropp
-        // See: http://onoffswitch.net/filter-deep-object-properties-angularjs/
-        // Dependencies: underscore.js
-
-        function parseString(input){
-            return input.split(".");
-        };
-
-        function getValue(element, propertyArray){
-            var value = element;
-
-            _.forEach(propertyArray, function(property){
-                value = value[property];
-            });
-
-            return value;
-        };
-
-        return function (input, propertyString, target){
-            var properties = parseString(propertyString);
-
-            return _.filter(input, function(item){
-                return getValue(item, properties) == target;
-            });
         };
     })
 

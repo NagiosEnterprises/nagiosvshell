@@ -10,7 +10,7 @@
 
     <h1>Hostgroup Status Details for All Groups</h1>
 
-    <div ng-repeat="hostgroup in hostgroupstatus" class="table-container partial-width">
+    <div ng-repeat="hostgroup in hostgroupstatus" class="table-container partial-width grid">
 
         <h3><a class="state-{{ hostgroup | groupstate }}" ng-href="#/hostgroups/{{ hostgroup.hostgroup_name }}">{{ hostgroup.alias }}</a></h3>
 

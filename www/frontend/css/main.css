@@ -482,6 +482,8 @@ nav {
     }
 
         nav ul ul a {
+            font-size: 12px;
+            font-weight: 400;
             padding: 0px;
         }
 
@@ -493,26 +495,32 @@ nav {
 
             .icon.external {
                 background: url('../images/icon-external.png') center center no-repeat;
-                opacity: 0.6;
+                opacity: 0.8;
             }
 
     nav li {
-        padding: 0px 20px 0px 40px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 9px 20px 9px 40px;
     }
 
+        nav li:last-child {
+            border-bottom: none;
+        }
+
         nav ul ul li {
+            border: none;
             padding: 0px;
         }
 
     nav ul {
         list-style: none;
         margin: 0px;
-        padding: 18px 0px 20px 0px;
+        padding: 0px 0px 0px 0px;
         width: 100%;
     }
 
         nav ul ul {
-            font-weight: 400;
             padding: 0px 0px 0px 20px;
         }
 
@@ -545,24 +553,16 @@ nav {
         }
 
 body.colorscheme-dark {
-    background: #232323;
+    background: #28282a;
 }
-
-    body.colorscheme-dark nav ul.local {
-        background: #2a2a2c;
-    }
 
     body.colorscheme-dark #sidebar-footer {
         background: #1d1d1d;
     }
 
 body.colorscheme-blue {
-    background: #70a4b4;
+    background: #85becf;
 }
-
-    body.colorscheme-blue nav ul.local {
-        background: #85becf;
-    }
 
     body.colorscheme-blue #sidebar-footer {
         background: #5f94a4;
@@ -704,7 +704,7 @@ body.colorscheme-blue {
     }
 
         .status-block.active {
-            color: #fff;
+            color: #fff !important;
         }
 
             .status-block.active.hosts-up { background: #8dcd54; }
@@ -732,11 +732,11 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
     }
 
     h1 .state-down, h3 .state-down { color: #d24555; }
-    h1 .state-unreachable, h3 .state-unreachable { color: #ff9333; }
+    h1 .state-unreachable, h3 .state-unreachable { color: #ee8425; }
     h1 .state-pending, h3 .state-pending { color: #858585; }
 
-    h1 .state-warning, h3 .state-warning { color: #ffc833; }
-    h1 .state-unknown, h3 .state-unknown { color: #ff9333; }
+    h1 .state-warning, h3 .state-warning { color: #e3a808; }
+    h1 .state-unknown, h3 .state-unknown { color: #ee8425; }
     h1 .state-critical, h3 .state-critical { color: #d24555; }
     h1 .state-pending, h3 .state-pending { color: #858585; }
 
@@ -767,43 +767,16 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
     text-decoration: none;
 }
 
-    .status-item.active {
-        font-weight: 700;
-    }
+    .active.hosts-up { color: #6cb22f; }
+    .active.hosts-down { color: #d24555; }
+    .active.hosts-unreachable { color: #ee8425; }
+    .active.hosts-pending { color: #858585; }
 
-    .status-item.active.services-ok { color: #8dcd54; }
-    .status-item.active.services-warning { color: #ffc833; }
-    .status-item.active.services-unknown { color: #ff9333; }
-    .status-item.active.services-critical { color: #d24555; }
-    .status-item.active.services-pending { color: #858585; }
-
-    .status-item.active.hosts-up { color: #8dcd54; }
-    .status-item.active.hosts-down { color: #d24555; }
-    .status-item.active.hosts-unreachable { color: #ff9333; }
-    .status-item.active.hosts-pending { color: #858585; }
-
-.status-summary {
-    color: #aaa;
-    display: inline-block;
-    font-weight: 600;
-    margin: 0px 4px 0px 0px;
-    text-decoration: none;
-}
-
-    .status-summary.active {
-        font-weight: 700;
-    }
-
-    .status-summary.active.services-ok { color: #8dcd54; }
-    .status-summary.active.services-warning { color: #ffc833; }
-    .status-summary.active.services-unknown { color: #ff9333; }
-    .status-summary.active.services-critical { color: #d24555; }
-    .status-summary.active.services-pending { color: #858585; }
-
-    .status-summary.active.hosts-up { color: #8dcd54; }
-    .status-summary.active.hosts-down { color: #d24555; }
-    .status-summary.active.hosts-unreachable { color: #ff9333; }
-    .status-summary.active.hosts-pending { color: #858585; }
+    .active.services-ok { color: #6cb22f; }
+    .active.services-warning { color: #e3a808; }
+    .active.services-unknown { color: #ee8425; }
+    .active.services-critical { color: #d24555; }
+    .active.services-pending { color: #858585; }
 
 .text {
     margin: 0px 40px 40px 40px;
@@ -822,10 +795,23 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
 
 .table-container.partial-width {
     float: left;
-    margin: 0px 0px 30px 0px;
+    margin: 0px 0px 40px 0px;
     padding: 0px 0px 0px 40px;
     width: 33%;
 }
+
+    .table-container.partial-width.half {
+        width: 50%;
+    }
+
+        .table-container.partial-width.half.left {
+            padding-right: 20px;
+        }
+
+        .table-container.partial-width.half.right {
+            padding-left: 20px;
+            padding-right: 40px;
+        }
 
     .table-container.partial-width.two-thirds {
         width: 66%;
@@ -836,11 +822,11 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
         width: 100%;
     }
 
-    .table-container.partial-width:nth-child(3n+2){
+    .table-container.partial-width.grid:nth-child(3n+2) {
         clear: left;
     }
 
-        .table-container.partial-width tr td:nth-child(3) {
+        .table-container.partial-width.grid tr td:nth-child(3) {
             max-width: 100px;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -854,6 +840,7 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
 
 .table-container.full-width {
     clear: both;
+    margin: 0px 0px 40px 0px;
     width: 100%;
 }
 
@@ -957,7 +944,7 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
         border: none;
         font-size: 12px;
         line-height: 16px;
-        margin: 0px 0px 15px 0px;
+        margin: 0px 0px 0px 0px;
         text-align: left;
         width: 100%;
     }
@@ -1156,14 +1143,107 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
         font-size: 9px;
     }
 
+.status-overview {
+    padding: 40px 0px 0px 0px;
+    width: 100%;
+}
+
+    .status-callout {
+        height: 120px;
+        width: 100%;
+    }
+
+        .status-callout-icon {
+            border-bottom-right-radius: 4px;
+            border-top-left-radius: 4px;
+            float: left;
+            height: 120px;
+            position: relative;
+            width: 38%;
+        }
+
+            .status-callout-icon.ok {
+                background: #8dcd54 url('../images/icon-overview-ok.png') center center no-repeat;
+            }
+
+            .status-callout-icon.warning {
+                background: #ffc833 url('../images/icon-overview-warning.png') center center no-repeat;
+            }
+
+            .status-callout-icon.unknown {
+                background: #ff9333 url('../images/icon-overview-unknown.png') center center no-repeat;
+            }
+
+            .status-callout-icon.critical {
+                background: #d24555 url('../images/icon-overview-critical.png') center center no-repeat;
+            }
+
+            .status-callout-icon.pending {
+                background: #858585 url('../images/icon-overview-pending.png') center center no-repeat;
+            }
+
+        .status-callout-text {
+            background: #fff;
+            border-top-right-radius: 4px;
+            float: left;
+            height: 120px;
+            overflow: none;
+            text-align: center;
+            width: 62%;
+        }
+
+            .status-callout-text h2 {
+                font-size: 20px;
+                font-weight: 600;
+                line-height: 20px;
+                margin: 40px 0px 6px 0px;
+            }
+
+            .status-callout-text h4 {
+                font-size: 16px;
+                line-height: 20px;
+                margin: 0px 0px 0px 0px;
+            }
+
+    .status-overview-tables {
+        background: #fff;
+        padding: 30px 0px 0px 0px;
+    }
+
+        .status-overview-tables table {
+            margin: 0px 0px 30px 0px;
+        }
+
+            .status-overview-tables th {
+                border: none;
+            }
+
+            .status-overview-tables th:nth-child(2),
+            .status-overview-tables td:nth-child(2),
+            .status-overview-tables th:nth-child(3),
+            .status-overview-tables td:nth-child(3) {
+                text-align: right;
+                width: 100px;
+            }
+
+            .status-overview-tables tr.inactive {
+                color: #777;
+            }
+
+            .status-overview-tables tr.active {
+                font-weight: 600;
+            }
+
+
 /* Responsive
  * ============================================================================ */
 
 @media only screen and (max-width: 1036px) {
 
     body.sidebar-open .table-container.partial-width,
-    body.sidebar-open .table-container.partial-width.two-thirds {
-        padding: 0px 40px 0px 40px;
+    body.sidebar-open .table-container.partial-width.two-thirds,
+    body.sidebar-open .table-container.partial-width.half {
+        padding: 0px 40px 0px 40px !important;
         width: 100%;
     }
 
@@ -1217,10 +1297,26 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
     }
 
     .table-container.partial-width,
-    .table-container.partial-width.two-thirds {
-        padding: 0px 40px 0px 40px;
+    .table-container.partial-width.two-thirds,
+    .table-container.partial-width.half {
+        padding: 0px 40px 0px 40px !important;
         width: 100%;
     }
+
+    .status-overview {
+
+    }
+
+        .status-callout-icon {
+            border-bottom-right-radius: 0px;
+            border-top-right-radius: 4px;
+            width: 100%;
+        }
+
+        .status-callout-text {
+            border-top-right-radius: 0px;
+            width: 100%;
+        }
 
 }
 

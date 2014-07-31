@@ -45,11 +45,11 @@
                 <tr ng-repeat="servicegroup in servicegroupstatus" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                     <td><a href="#/servicegroups/{{ servicegroup.servicegroup_name }}">{{ servicegroup.alias }}</a></td>
                     <td>
-                        <span class="status-summary services-ok {{ servicegroup.servicesOK | is_active }}">{{ servicegroup.servicesOK }} OK</span>
-                        <span class="status-summary services-warning {{ servicegroup.servicesWarning | is_active }}">{{ servicegroup.servicesWarning }} Warning</span>
-                        <span class="status-summary services-unknown {{ servicegroup.servicesUnknown | is_active }}">{{ servicegroup.servicesUnknown }} Unknown</span>
-                        <span class="status-summary services-critical {{ servicegroup.servicesCritical | is_active }}">{{ servicegroup.servicesCritical }} Critical</span>
-                        <span class="status-summary services-pending {{ servicegroup.servicesPending | is_active }}">{{ servicegroup.servicesPending }} Pending</span>
+                        <span class="status-item services-ok {{ servicegroup.servicesOK | is_active }}">{{ servicegroup.servicesOK }} OK</span>
+                        <span class="status-item services-warning {{ servicegroup.servicesWarning | is_active }}">{{ servicegroup.servicesWarning }} Warning</span>
+                        <span class="status-item services-unknown {{ servicegroup.servicesUnknown | is_active }}">{{ servicegroup.servicesUnknown }} Unknown</span>
+                        <span class="status-item services-critical {{ servicegroup.servicesCritical | is_active }}">{{ servicegroup.servicesCritical }} Critical</span>
+                        <span class="status-item services-pending {{ servicegroup.servicesPending | is_active }}">{{ servicegroup.servicesPending }} Pending</span>
                     </td>
                 </tr>
             </tbody>

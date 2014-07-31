@@ -6,6 +6,185 @@
 
 <div id="content" class="clearfix" ng-controller="OverviewCtrl" ng-init="getOverview()">
 
+    <div class="table-container partial-width half left">
+
+        <div class="status-overview status-overview-hosts">
+
+            <div class="status-callout">
+                <div class="status-callout-icon {{ overview | overviewstate }}">
+                    <span class="icon status-{{ overview | overviewstate }}"></span>
+                </div>
+                <div class="status-callout-text">
+                    <h2>{{ overview.hostsProblemsTotal }} Host Problem{{ overview.hostsProblemsTotal | plural }}</h2>
+                    <h4>{{ (overview.hostsTotal - overview.hostsProblemsTotal) | percent: overview.hostsTotal: 2 }} Host Health</h4>
+                </div>
+            </div>
+
+            <div class="status-overview-tables">
+
+                <table cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <th>Host State</th>
+                            <th>Percentage</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="{{ overview.hostsUpTotal | is_active }} hosts-up footable-odd">
+                            <td>Up</td>
+                            <td>{{ overview.hostsUpTotal | percent: overview.hostsTotal }}</td>
+                            <td>{{ overview.hostsUpTotal }}</td>
+                        </tr>
+                        <tr class="{{ overview.hostsDownTotal | is_active }} hosts-down footable-even">
+                            <td>Down</td>
+                            <td>{{ overview.hostsDownTotal | percent: overview.hostsTotal }}</td>
+                            <td>{{ overview.hostsDownTotal }}</td>
+                        </tr>
+                        <tr class="{{ overview.hostsUnreachableTotal | is_active }} hosts-unreachable footable-odd">
+                            <td>Unreachable</td>
+                            <td>{{ overview.hostsUnreachableTotal | percent: overview.hostsTotal }}</td>
+                            <td>{{ overview.hostsUnreachableTotal }}</td>
+                        </tr>
+                        <tr class="{{ overview.hostsPending | is_active }} hosts-pending footable-even">
+                            <td>Pending</td>
+                            <td>{{ overview.hostsPending | percent: overview.hostsTotal }}</td>
+                            <td>{{ overview.hostsPending }}</td>
+                        </tr>
+                        <tr class="footable-odd">
+                            <th>Total Hosts</th>
+                            <th>-</th>
+                            <th>{{ overview.hostsTotal }}</th>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <th>Host Problems</th>
+                            <th>Percentage</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="footable-odd">
+                            <td>Unhandled</td>
+                            <td>{{ overview.hostsUnhandledTotal | percent: overview.hostsProblemsTotal }}</td>
+                            <td>{{ overview.hostsUnhandledTotal }}</td>
+                        </tr>
+                        <tr class="footable-even">
+                            <td>Acknowledged</td>
+                            <td>{{ overview.hostsAcknowledgedTotal | percent: overview.hostsProblemsTotal }}</td>
+                            <td>{{ overview.hostsAcknowledgedTotal }}</td>
+                        </tr>
+                        <tr class="footable-odd">
+                            <th>Total Problems</th>
+                            <th>-</th>
+                            <th>{{ overview.hostsProblemsTotal }}</th>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="table-container partial-width half right">
+
+        <div class="status-overview status-overview-services">
+
+            <div class="status-callout">
+                <div class="status-callout-icon {{ overview | overviewstate }}">
+                    <span class="status-icon-{{ overview | overviewstate }}"></span>
+                </div>
+                <div class="status-callout-text">
+                    <h2>{{ overview.servicesProblemsTotal }} Service Problem{{ overview.servicesProblemsTotal | plural }}</h2>
+                    <h4>{{ (overview.servicesTotal - overview.servicesProblemsTotal) | percent: overview.servicesTotal: 2 }} Service Health</h4>
+                </div>
+            </div>
+
+            <div class="status-overview-tables">
+
+                <table cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <th>Service State</th>
+                            <th>Percentage</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="{{ overview.servicesOkTotal | is_active }} services-ok footable-odd">
+                            <td>Ok</td>
+                            <td>{{ overview.servicesOkTotal | percent: overview.servicesTotal }}</td>
+                            <td>{{ overview.servicesOkTotal }}</td>
+                        </tr>
+                        <tr class="{{ overview.servicesWarningTotal | is_active }} services-warning footable-even">
+                            <td>Warning</td>
+                            <td>{{ overview.servicesWarningTotal | percent: overview.servicesTotal }}</td>
+                            <td>{{ overview.servicesWarningTotal }}</td>
+                        </tr>
+                        <tr class="{{ overview.servicesUnknownTotal | is_active }} services-unknown footable-odd">
+                            <td>Unknown</td>
+                            <td>{{ overview.servicesUnknownTotal | percent: overview.servicesTotal }}</td>
+                            <td>{{ overview.servicesUnknownTotal }}</td>
+                        </tr>
+                        <tr class="{{ overview.servicesCriticalTotal | is_active }} services-critical footable-even">
+                            <td>Critical</td>
+                            <td>{{ overview.servicesCriticalTotal | percent: overview.servicesTotal }}</td>
+                            <td>{{ overview.servicesCriticalTotal }}</td>
+                        </tr>
+                        <tr class="{{ overview.servicesPendingTotal | is_active }} services-pending footable-odd">
+                            <td>Pending</td>
+                            <td>{{ overview.servicesPendingTotal | percent: overview.servicesTotal }}</td>
+                            <td>{{ overview.servicesPendingTotal }}</td>
+                        </tr>
+                        <tr class="footable-even">
+                            <th>Total Services</th>
+                            <th>-</th>
+                            <th>{{ overview.servicesTotal }}</th>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <th>Service Problems</th>
+                            <th>Percentage</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="footable-odd">
+                            <td>Unhandled</td>
+                            <td>{{ overview.servicesUnhandledTotal | percent: overview.servicesProblemsTotal }}</td>
+                            <td>{{ overview.servicesUnhandledTotal }}</td>
+                        </tr>
+                        <tr class="footable-even">
+                            <td>Acknowledged</td>
+                            <td>{{ overview.servicesAcknowledgedTotal | percent: overview.servicesProblemsTotal }}</td>
+                            <td>{{ overview.servicesAcknowledgedTotal }}</td>
+                        </tr>
+                        <tr class="footable-odd">
+                            <th>Total Problems</th>
+                            <th>-</th>
+                            <th>{{ overview.servicesProblemsTotal }}</th>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!--
+
     <h1>Tactical Overview</h1>
 
     <table class="tac">
@@ -25,7 +204,6 @@
 
             <tr>
 
-                <!-- Flapping -->
                 <td class="green">
                     <?php echo $data['hostsFdHtml']; ?><br />
                     <?php echo $data['servicesFdHtml']; ?><br />
@@ -33,19 +211,16 @@
                     <?php echo $data['servicesFlapHtml']; ?><br />
                 </td>
 
-                <!-- Notifications -->
                 <td class="green">
                     <?php echo $data['hostsNtfHtml']; ?><br />
                     <?php echo $data['servicesNtfHtml']; ?><br />
                 </td>
 
-                <!-- Event Handlers -->
                 <td class="green">
                     <?php echo $data['hostsEhHtml']; ?><br />
                     <?php echo $data['servicesEhHtml']; ?><br />
                 </td>
 
-                <!-- Active/Passive CHECKS -->
                 <td class="green">
                     <?php echo $data['hostsAcHtml']; ?><br />
                     <?php echo $data['servicesAcHtml']; ?><br />
@@ -65,13 +240,7 @@ event_handlers: "1"
 flap_detection: "1"
 hostlink: "/vshell2/hosts?state_filter="
 hostsAcHtml: "All Hosts Enabled"
-hostsAcknowledgedTotal: 1
 hostsActiveChecksDisabled: 0
-hostsDownAcknowledged: 1
-hostsDownDisabled: 0
-hostsDownScheduled: 0
-hostsDownTotal: 17
-hostsDownUnhandled: 16
 hostsEhHtml: "All Hosts Enabled"
 hostsEventHandlerDisabled: 0
 hostsFdHtml: "All Hosts Enabled"
@@ -82,31 +251,12 @@ hostsNotificationsDisabled: 0
 hostsNtfHtml: "All Hosts Enabled"
 hostsPassiveChecksDisabled: 0
 hostsPcHtml: "All Hosts Enabled"
-hostsPending: 0
-hostsPendingDisabled: 0
-hostsProblemsTotal: 17
-hostsTotal: 22
-hostsUnhandledTotal: 16
-hostsUnreachableAcknowledged: 0
-hostsUnreachableDisabled: 0
-hostsUnreachableScheduled: 0
-hostsUnreachableTotal: 0
-hostsUnreachableUnhandled: 0
-hostsUpDisabled: 0
-hostsUpTotal: 5
 last_command_check: 1406587276
 lastcmd: "Mon Jul 28 22:41 16s"
 notifications: "1"
 passive_service_checks: "1"
 servicesAcHtml: "All Services Enabled"
-servicesAcknowledgedTotal: 1
 servicesActiveChecksDisabled: 0
-servicesCriticalAcknowledged: 1
-servicesCriticalDisabled: 0
-servicesCriticalHostProblem: 28
-servicesCriticalScheduled: 0
-servicesCriticalTotal: 28
-servicesCriticalUnhandled: 27
 servicesEhHtml: "All Services Enabled"
 servicesEventHandlerDisabled: 0
 servicesFdHtml: "All Services Enabled"
@@ -115,32 +265,13 @@ servicesFlapping: 0
 servicesFlappingDisabled: 0
 servicesNotificationsDisabled: 0
 servicesNtfHtml: "All Services Enabled"
-servicesOkDisabled: 11
-servicesOkTotal: 11
 servicesPassiveChecksDisabled: 1
 servicesPcHtml: "<span class="red">1 Services disabled</span>"
-servicesPending: 0
-servicesPendingDisabled: 0
-servicesPendingTotal: 0
-servicesProblemsTotal: 28
-servicesTotal: 39
-servicesTotalDisabled: 0
-servicesUnhandledTotal: 27
-servicesUnknownAcknowledged: 0
-servicesUnknownDisabled: 0
-servicesUnknownHostProblem: 0
-servicesUnknownScheduled: 0
-servicesUnknownTotal: 0
-servicesUnknownUnhandled: 0
-servicesWarningAcknowledged: 0
-servicesWarningDisabled: 0
-servicesWarningHostProblem: 0
-servicesWarningScheduled: 0
-servicesWarningTotal: 0
-servicesWarningUnhandled: 0
 servlink: "/vshell2/services?state_filter="
 version: "3.5.1"
 
+
+    -->
 
 </div>
 

@@ -149,6 +149,8 @@ angular.module('vshell2.services', [])
             //
             // For an alternative returning a promise see core_as_promise()
             // function.
+            //
+            // https://groups.google.com/forum/#!topic/angular/xbAZY8ZKSd4
 
             var uri = api + 'vshellconfig',
                 results = {

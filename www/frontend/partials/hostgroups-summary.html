@@ -46,17 +46,17 @@
                 <tr ng-repeat="hostgroup in hostgroupstatus" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                     <td><a href="#/hostgroups/{{ hostgroup.hostgroup_name }}">{{ hostgroup.alias }}</a></td>
                     <td>
-                        <span class="status-summary hosts-up {{ hostgroup.hostsUp | is_active }}">{{ hostgroup.hostsUp }} Up</span>
-                        <span class="status-summary hosts-down {{ hostgroup.hostsDown | is_active }}">{{ hostgroup.hostsDown }} Down</span>
-                        <span class="status-summary hosts-unreachable {{ hostgroup.hostsUnreachable | is_active }}">{{ hostgroup.hostsUnreachable }} Unreachable</span>
-                        <span class="status-summary hosts-pending {{ hostgroup.hosts | is_active }}">{{ hostgroup.hostsPending }} Pending</span>
+                        <span class="status-item hosts-up {{ hostgroup.hostsUp | is_active }}">{{ hostgroup.hostsUp }} Up</span>
+                        <span class="status-item hosts-down {{ hostgroup.hostsDown | is_active }}">{{ hostgroup.hostsDown }} Down</span>
+                        <span class="status-item hosts-unreachable {{ hostgroup.hostsUnreachable | is_active }}">{{ hostgroup.hostsUnreachable }} Unreachable</span>
+                        <span class="status-item hosts-pending {{ hostgroup.hosts | is_active }}">{{ hostgroup.hostsPending }} Pending</span>
                     </td>
                     <td>
-                        <span class="status-summary services-ok {{ hostgroup.servicesOK | is_active }}">{{ hostgroup.servicesOK }} OK</span>
-                        <span class="status-summary services-warning {{ hostgroup.servicesWarning | is_active }}">{{ hostgroup.servicesWarning }} Warning</span>
-                        <span class="status-summary services-unknown {{ hostgroup.servicesUnknown | is_active }}">{{ hostgroup.servicesUnknown }} Unknown</span>
-                        <span class="status-summary services-critical {{ hostgroup.servicesCritical | is_active }}">{{ hostgroup.servicesCritical }} Critical</span>
-                        <span class="status-summary services-pending {{ hostgroup.servicesPending | is_active }}">{{ hostgroup.servicesPending }} Pending</span>
+                        <span class="status-item services-ok {{ hostgroup.servicesOK | is_active }}">{{ hostgroup.servicesOK }} OK</span>
+                        <span class="status-item services-warning {{ hostgroup.servicesWarning | is_active }}">{{ hostgroup.servicesWarning }} Warning</span>
+                        <span class="status-item services-unknown {{ hostgroup.servicesUnknown | is_active }}">{{ hostgroup.servicesUnknown }} Unknown</span>
+                        <span class="status-item services-critical {{ hostgroup.servicesCritical | is_active }}">{{ hostgroup.servicesCritical }} Critical</span>
+                        <span class="status-item services-pending {{ hostgroup.servicesPending | is_active }}">{{ hostgroup.servicesPending }} Pending</span>
                     </td>
                 </tr>
             </tbody>
