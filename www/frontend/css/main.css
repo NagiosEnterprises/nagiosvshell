@@ -1103,7 +1103,7 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
         }
 
     .table-container tr.state-pending td {
-        color: #666;
+
     }
 
         .table-container tr.state-pending td.status {
@@ -1237,13 +1237,13 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
                 .status-overview-tables tr.active.hosts-up a { color: #6cb22f; }
                 .status-overview-tables tr.active.hosts-down a { color: #d24555; }
                 .status-overview-tables tr.active.hosts-unreachable a { color: #ee8425; }
-                .status-overview-tables tr.active.hosts-pending a { color: #858585; }
+                .status-overview-tables tr.active.hosts-pending a { color: #777; }
 
                 .status-overview-tables tr.active.services-ok a { color: #6cb22f; }
                 .status-overview-tables tr.active.services-warning a { color: #e3a808; }
                 .status-overview-tables tr.active.services-unknown a { color: #ee8425; }
                 .status-overview-tables tr.active.services-critical a { color: #d24555; }
-                .status-overview-tables tr.active.services-pending a { color: #858585; }
+                .status-overview-tables tr.active.services-pending a { color: #777; }
 
 
 /* Responsive

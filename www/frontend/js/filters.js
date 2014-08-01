@@ -270,7 +270,7 @@ angular.module('vshell2.filters', [])
                 return 'unknown';
             } else if( input.servicesWarningTotal > 0 ){
                return 'warning';
-            } else if( input.hostsPendingTotal > 0 || input.servicesPendingTotal > 0 ){
+            } else if( input.hostsPending > 0 || input.servicesPendingTotal > 0 ){
                return 'pending';
             } else if( input.hostsUpTotal > 0 || input.servicesOkTotal > 0 ){
                return 'ok';
