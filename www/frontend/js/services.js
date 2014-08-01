@@ -45,9 +45,6 @@ angular.module('vshell2.services', [])
         }
 
         async.cached = function(scope, options){
-            // Return cached data immediately while new data
-            // is fetched. Apply any callbacks on cached data
-            // before returning.
             var result = async.get_cache(options.url),
                 data = async.apply_callback(options.callback, result.data, result.status, result.headers, result.config);
 
@@ -84,10 +81,9 @@ angular.module('vshell2.services', [])
                         config: config
                     };
 
-                    async.set_cache(options.url, result);
-                    data = async.apply_callback(options.callback, data, status, headers, config);
-                    async.update(scope, options, data);
                     async.is_loading(scope, false);
+                    async.set_cache(options.url, result);
+                    async.cached(scope, options);
                 }).
                 error(function(data, status, headers, config) {
                     messages.error('failed to load ' + options.name + ' data from the V-Shell2 API');
