@@ -51,7 +51,7 @@
                 <tr ng-if="(servicestatus | size) == 0">
                     <td colspan="7">{{ is_loading ? 'Loading...' : 'No services are defined' }}</td>
                 </tr>
-                <tr ng-repeat="service in servicestatus" class="state-{{ service.current_state | servicestate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
+                <tr ng-repeat="service in servicestatus | orderObjectBy: 'host_name'" class="state-{{ service.current_state | servicestate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                     <td host-entry item="service"></td>
                     <td service-entry item="service"></td>
                     <td class="status">{{ service.current_state | servicestate }}</td>

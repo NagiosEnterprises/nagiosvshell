@@ -43,10 +43,10 @@
                 <tr ng-if="(hostgroup.HostStatusCollection | size) == 0">
                     <td colspan="5">{{ is_loading ? 'Loading...' : 'No hostgroup members are defined' }}</td>
                 </tr>
-                <tr ng-repeat="host in hostgroup.HostStatusCollection" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
+                <tr ng-repeat="host in hostgroup.HostStatusCollection | orderObjectBy: 'host_name'" class="state-{{ host.current_state | hoststate | lowercase }}" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
                     <td host-entry item="host"></td>
                     <td class="status">{{ host.current_state | hoststate }}</td>
-                    <td><span ng-repeat="service in host.ServiceStatusCollection" class="service-list-item state-{{ service.current_state | servicestate | lowercase }}">{{ service.service_description }}</span></td>
+                    <td><span ng-repeat="service in host.ServiceStatusCollection | orderObjectBy: 'service_description'" class="service-list-item state-{{ service.current_state | servicestate | lowercase }}">{{ service.service_description }}</span></td>
                 </tr>
             </tbody>
         </table>

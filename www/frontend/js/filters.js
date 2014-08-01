@@ -50,6 +50,28 @@ angular.module('vshell2.filters', [])
         }
     })
 
+    .filter('orderObjectBy', function() {
+        // Order on Object of Objects
+        // See: http://justinklemm.com/angularjs-filter-ordering-objects-ngrepeat/
+        return function(items, field, reverse) {
+            var filtered = [];
+
+            angular.forEach(items, function(item) {
+                filtered.push(item);
+            });
+
+            filtered.sort(function (a, b) {
+                return (a[field] > b[field] ? 1 : -1);
+            });
+
+            if( reverse ) {
+                filtered.reverse();
+            }
+
+            return filtered;
+        };
+    })
+
     .filter('property', function() {
         // Filter on Deep Object Property
         // By: Anton Kropp
@@ -192,7 +214,7 @@ angular.module('vshell2.filters', [])
         };
     })
 
-    .filter('hostcommand', function() {
+    .filter('hostcommand', function(paths) {
         return function(input, type) {
             var commands = {
                     'acknowledge_problem': 'cgi-bin/cmd.cgi?cmd_typ=33&host=',
