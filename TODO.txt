@@ -8,16 +8,7 @@ Finish Tactical Overview page
 
 Add help / contact / issues section to display options page
 
-Flap detection icon on host and service tables
-
 Comment icon on host and service tables
-
-Update command filters to use dynamic nagios URI value
-
-Remove:
-    - Legacy icons
-    - Legacy images
-    - Static dir
 
 ## Future
 
