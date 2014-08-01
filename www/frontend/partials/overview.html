@@ -52,9 +52,9 @@
                             <td><a href="#/{{ 'host' | uri }}/state/pending">{{ overview.hostsPending }}</a></td>
                         </tr>
                         <tr class="footable-odd">
-                            <th>Total Hosts</th>
-                            <th>-</th>
-                            <th>{{ overview.hostsTotal }}</th>
+                            <th><a href="#/{{ 'host' | uri }}">Total Hosts</a></th>
+                            <th><a href="#/{{ 'host' | uri }}">-</a></th>
+                            <th><a href="#/{{ 'host' | uri }}">{{ overview.hostsTotal }}</a></th>
                         </tr>
                     </tbody>
                 </table>
@@ -69,19 +69,19 @@
                     </thead>
                     <tbody>
                         <tr class="footable-odd">
-                            <td>Unhandled</td>
-                            <td>{{ overview.hostsUnhandledTotal | percent: overview.hostsProblemsTotal }}</td>
-                            <td>{{ overview.hostsUnhandledTotal }}</td>
+                            <td><a href="#/{{ 'host' | uri }}/problems/unhandled">Unhandled</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/problems/unhandled">{{ overview.hostsUnhandledTotal | percent: overview.hostsProblemsTotal }}</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/problems/unhandled">{{ overview.hostsUnhandledTotal }}</a></td>
                         </tr>
                         <tr class="footable-even">
-                            <td>Acknowledged</td>
-                            <td>{{ overview.hostsAcknowledgedTotal | percent: overview.hostsProblemsTotal }}</td>
-                            <td>{{ overview.hostsAcknowledgedTotal }}</td>
+                            <td><a href="#/{{ 'host' | uri }}/problems/acknowledged">Acknowledged</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/problems/acknowledged">{{ overview.hostsAcknowledgedTotal | percent: overview.hostsProblemsTotal }}</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/problems/acknowledged">{{ overview.hostsAcknowledgedTotal }}</a></td>
                         </tr>
                         <tr class="footable-odd">
-                            <th>Total Problems</th>
-                            <th>-</th>
-                            <th>{{ overview.hostsProblemsTotal }}</th>
+                            <th><a href="#/{{ 'host' | uri }}/problems/all">Total Problems</a></th>
+                            <th><a href="#/{{ 'host' | uri }}/problems/all">-</a></th>
+                            <th><a href="#/{{ 'host' | uri }}/problems/all">{{ overview.hostsProblemsTotal }}</a></th>
                         </tr>
                     </tbody>
                 </table>
@@ -143,9 +143,9 @@
                             <td><a href="#/{{ 'service' | uri }}/state/pending">{{ overview.servicesPendingTotal }}</a></td>
                         </tr>
                         <tr class="footable-even">
-                            <th>Total Services</th>
-                            <th>-</th>
-                            <th>{{ overview.servicesTotal }}</th>
+                            <th><a href="#/{{ 'service' | uri }}">Total Services</a></th>
+                            <th><a href="#/{{ 'service' | uri }}">-</a></th>
+                            <th><a href="#/{{ 'service' | uri }}">{{ overview.servicesTotal }}</a></th>
                         </tr>
                     </tbody>
                 </table>
@@ -160,19 +160,19 @@
                     </thead>
                     <tbody>
                         <tr class="footable-odd">
-                            <td>Unhandled</td>
-                            <td>{{ overview.servicesUnhandledTotal | percent: overview.servicesProblemsTotal }}</td>
-                            <td>{{ overview.servicesUnhandledTotal }}</td>
+                            <td><a href="#/{{ 'service' | uri }}/problems/unhandled">Unhandled</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/problems/unhandled">{{ overview.servicesUnhandledTotal | percent: overview.servicesProblemsTotal }}</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/problems/unhandled">{{ overview.servicesUnhandledTotal }}</a></td>
                         </tr>
                         <tr class="footable-even">
-                            <td>Acknowledged</td>
-                            <td>{{ overview.servicesAcknowledgedTotal | percent: overview.servicesProblemsTotal }}</td>
-                            <td>{{ overview.servicesAcknowledgedTotal }}</td>
+                            <td><a href="#/{{ 'service' | uri }}/problems/acknowledged">Acknowledged</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/problems/acknowledged">{{ overview.servicesAcknowledgedTotal | percent: overview.servicesProblemsTotal }}</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/problems/acknowledged">{{ overview.servicesAcknowledgedTotal }}</a></td>
                         </tr>
                         <tr class="footable-odd">
-                            <th>Total Problems</th>
-                            <th>-</th>
-                            <th>{{ overview.servicesProblemsTotal }}</th>
+                            <th><a href="#/{{ 'service' | uri }}/problems/all">Total Problems</a></th>
+                            <th><a href="#/{{ 'service' | uri }}/problems/all">-</a></th>
+                            <th><a href="#/{{ 'service' | uri }}/problems/all">{{ overview.servicesProblemsTotal }}</a></th>
                         </tr>
                     </tbody>
                 </table>

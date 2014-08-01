@@ -468,6 +468,7 @@ nav {
     left: 0px;
     overflow-x: hidden;
     overflow-y: scroll;
+    padding: 20px 0px 0px 0px;
     position: absolute;
     top: 80px;
     width: 295px;
@@ -499,9 +500,7 @@ nav {
             }
 
     nav li {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-        padding: 9px 20px 9px 40px;
+        padding: 5px 20px 5px 40px;
     }
 
         nav li:last-child {

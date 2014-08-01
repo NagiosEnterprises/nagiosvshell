@@ -4,7 +4,7 @@ Add prefetch call
 
 Active style on navigation
 
-Finish tactical Overview page
+Finish Tactical Overview page
 
 Add help / contact / issues section to display options page
 
@@ -18,12 +18,6 @@ Remove:
     - Legacy icons
     - Legacy images
     - Static dir
-
-Host Detail page:
-    - Load comments
-
-Service Detail page:
-    - Load comments
 
 ## Future
 

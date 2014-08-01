@@ -44,7 +44,7 @@ angular.module('vshell2.controllers', [])
     }])
 
     .controller('OverviewCtrl', ['$scope', 'async', function ($scope, async) {
-    
+
         $scope.getOverview = function () {
 
             var options = {
@@ -76,8 +76,16 @@ angular.module('vshell2.controllers', [])
     .controller('HostStatusCtrl', ['$scope', '$routeParams', '$filter', 'async', function ($scope, $routeParams, $filter, async) {
 
         var callback = function(data, status, headers, config){
-                var filter = $routeParams.state || '';
-                return $filter('by_state')(data, 'host', filter);
+                var state_filter = $routeParams.state,
+                    problem_filter = $routeParams.handled;
+
+                if( state_filter ){
+                    data = $filter('by_state')(data, 'host', state_filter);
+                } else if( problem_filter ){
+                    data = $filter('by_problem')(data, problem_filter);
+                }
+
+                return data;
             }
 
         $scope.getHostStatus = function () {
@@ -89,6 +97,7 @@ angular.module('vshell2.controllers', [])
             };
 
             $scope.statefilter = $routeParams.state || '';
+            $scope.problemsfilter = $routeParams.handled || '';
 
             async.api($scope, options);
 
@@ -129,7 +138,7 @@ angular.module('vshell2.controllers', [])
     .controller('HostgroupStatusDetailsCtrl', ['$scope', '$routeParams', 'async', function ($scope, $routeParams, async) {
 
         var callback = function(data, status, headers, config){
-                return (data && data[0]) ? data[0] : data; 
+                return (data && data[0]) ? data[0] : data;
             }
 
         $scope.getHostgroupStatusDetails = function () {
@@ -166,8 +175,16 @@ angular.module('vshell2.controllers', [])
     .controller('ServiceStatusCtrl', ['$scope', '$routeParams', '$filter', 'async', function ($scope, $routeParams, $filter, async) {
 
         var callback = function(data, status, headers, config){
-                var filter = $routeParams.state || '';
-                return $filter('by_state')(data, 'service', filter);
+                var state_filter = $routeParams.state,
+                    problem_filter = $routeParams.handled;
+
+                if( state_filter ){
+                    data = $filter('by_state')(data, 'service', state_filter);
+                } else if( problem_filter ){
+                    data = $filter('by_problem')(data, problem_filter);
+                }
+
+                return data;
             }
 
         $scope.getServiceStatus = function () {
@@ -179,6 +196,7 @@ angular.module('vshell2.controllers', [])
                 };
 
             $scope.statefilter = $routeParams.state || '';
+            $scope.problemsfilter = $routeParams.handled || '';
 
             async.api($scope, options);
 
@@ -219,7 +237,7 @@ angular.module('vshell2.controllers', [])
     .controller('ServicegroupStatusDetailsCtrl', ['$scope', '$routeParams', 'async', function ($scope, $routeParams, async) {
 
         var callback = function(data, status, headers, config){
-                return (data && data[0]) ? data[0] : data; 
+                return (data && data[0]) ? data[0] : data;
             }
 
         $scope.getServicegroupStatusDetails = function () {
@@ -238,12 +256,12 @@ angular.module('vshell2.controllers', [])
 
     .controller('ConfigurationsCtrl', ['$scope', '$routeParams', 'async', function ($scope, $routeParams, async) {
 
-        var type = $routeParams.type || '', 
+        var type = $routeParams.type || '',
             callback = function(data, status, headers, config){
                 if( type ){
                     data = data[type] || {};
                 }
-                return data; 
+                return data;
             }
 
         $scope.getConfigurations = function () {
@@ -262,7 +280,7 @@ angular.module('vshell2.controllers', [])
 
     .controller('ConfigurationDetailsCtrl', ['$scope', '$routeParams', '$filter', 'async', function ($scope, $routeParams, $filter, async) {
 
-        var type = ($routeParams.type || ''), 
+        var type = ($routeParams.type || ''),
             name = $routeParams.name,
             name_key = $filter('configuration_anchor_key')(type),
             callback = function(data, status, headers, config){
@@ -271,7 +289,7 @@ angular.module('vshell2.controllers', [])
                 }
                 data = data[type]['items'];
                 data = $filter('property')(data, name_key, name)[0];
-                return data; 
+                return data;
             }
 
         $scope.getConfigurationDetails = function () {

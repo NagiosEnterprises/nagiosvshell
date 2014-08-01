@@ -70,11 +70,15 @@ angular.module('vshell2.filters', [])
             return value;
         };
 
-        return function (input, propertyString, target){
+        return function (input, propertyString, target, reverse){
             var properties = parseString(propertyString);
 
             return _.filter(input, function(item){
-                return getValue(item, properties) == target;
+                if( reverse ){ 
+                    return getValue(item, properties) != target;
+                }else{
+                    return getValue(item, properties) == target;
+                }
             });
         };
     })
@@ -341,6 +345,26 @@ angular.module('vshell2.filters', [])
                 state_id_lookup = (type == 'host') ? hoststateFilter : servicestateFilter;
                 state_id = state_id_lookup(state_capitalized, 'reverse-lookup');
                 input = propertyFilter(input, 'current_state', state_id);
+            }
+
+            return input;
+        };
+    })
+
+    .filter('by_problem', function(propertyFilter) {
+        return function(input, filter) {
+            var filter_lookup = {
+                    'unhandled': '0',
+                    'acknowledged': '1' 
+                };
+
+            // Filter those that are marked as having a problem (any state)
+            input = propertyFilter(input, 'current_problem_id', '0', 'reverse');
+
+            // Filter those that are marked as having a specific problem state
+            // (acknowledged or unhandled)
+            if( filter_lookup[filter] ){
+                input = propertyFilter(input, 'problem_has_been_acknowledged', filter_lookup[filter]);
             }
 
             return input;
