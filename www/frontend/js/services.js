@@ -26,8 +26,8 @@ angular.module('vshell2.services', [])
                     milliseconds;
 
                 if( !seconds ) {
-                    messages.error('invalid UPDATEINTERVAL value in vshell.conf, using default of 10 seconds.');
-                    seconds = 10;
+                    seconds = 15;
+                    messages.error('invalid UPDATEINTERVAL value in vshell.conf, using default of ' + seconds + ' seconds.');
                 }
 
                 milliseconds = seconds * 1000;

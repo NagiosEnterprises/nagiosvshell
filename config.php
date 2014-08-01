@@ -38,7 +38,7 @@ $defaults['debian'] = array(
 	'vshell_baseurl'  => 'vshell2',
 	'nagios_coreurl'  => 'nagios3',
 	'TTL'             => '90',
-	'update_interval' => '10',
+	'update_interval' => '15',
 	'lang'            => 'en_GB',
 );
 
@@ -53,7 +53,7 @@ $defaults['redhat'] = array(
 	'vshell_baseurl'  => 'vshell2',
 	'nagios_coreurl'  => 'nagios',
 	'TTL'             => '90',
-	'update_interval' => '10',
+	'update_interval' => '15',
 	'lang'            => 'en_GB',
 );
 
