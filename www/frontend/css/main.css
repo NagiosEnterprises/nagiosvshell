@@ -453,7 +453,7 @@ h1, h2, h3, h4, h5 {
 }
 
 h1 {
-    font-size: 24px;
+    font-size: 25px;
     margin: 30px 40px 30px 40px;
 }
 
@@ -828,6 +828,10 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
         margin-left: 40px;
     }
 
+    .table-container .commands h3 {
+        margin-top: 1em;
+    }
+
     .table-container .table-options {
         margin: 15px 0px 15px 0px;
         width: 100%;
@@ -1056,8 +1060,11 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
 
     .table-container tr td.status {
         font-weight: 700;
-        width: 120px;
     }
+
+        .table-container.full-width tr td.status {
+            width: 120px;
+        }
 
     .table-container tr.state-ok td,
     .table-container tr.state-up td {

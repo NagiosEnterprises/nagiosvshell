@@ -2,8 +2,6 @@
 
 Add prefetch call
 
-Add default ordering by host and service name. Status first?
-
 Active style on navigation
 
 Finish Tactical Overview page

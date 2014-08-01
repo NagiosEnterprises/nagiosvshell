@@ -11,9 +11,7 @@
         <div class="status-overview status-overview-hosts">
 
             <div class="status-callout">
-                <div class="status-callout-icon {{ overview | overviewstate }}">
-                    <span class="icon status-{{ overview | overviewstate }}"></span>
-                </div>
+                <div class="status-callout-icon {{ overview | overviewstate }}"></div>
                 <div class="status-callout-text">
                     <h2>{{ overview.hostsProblemsTotal }} Host Problem{{ overview.hostsProblemsTotal | plural }}</h2>
                     <h4>{{ (overview.hostsTotal - overview.hostsProblemsTotal) | percent: overview.hostsTotal: 2 }} Host Health</h4>
