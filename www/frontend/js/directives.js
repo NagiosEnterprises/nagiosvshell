@@ -7,25 +7,25 @@ angular.module('vshell2.directives', [])
         // Fix footable initiation to happen after AngularJS finishes loading
         // asynchronous API data.
         //
-        // See Daniel Stucki's excellent StackOverflow answer:
+        // Daniel Stucki's StackOverflow answer was a great starting point.
+        // But instead of adding each row individually, it has been
+        // modified to wait until ng-repeat is finished, then call footable
+        // on the entire table.
         // http://stackoverflow.com/a/21057869/657661
         //
         // Also see footable API docs:
         // http://fooplugins.com/footable/demos/api.htm#docs
 
         return function(scope, element) {
-            var footableTable = element.parents('table'),
-                footableObject;
+            var footableTable = element.parents('table');
 
-            if (scope.$last && ! footableTable.hasClass('footable-loaded')) {
+            if( !scope.$last ) {
+                return false;
+            }
+
+            if (! footableTable.hasClass('footable-loaded')) {
                 footableTable.footable();
-            };
-
-            footableObject = footableTable.data('footable');
-
-            if (footableObject !== undefined) {
-                footableObject.appendRow(element);
-            };
+            }
         };
 
     })

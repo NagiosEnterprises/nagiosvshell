@@ -1,6 +1,6 @@
 # HTML Template
 
-Add prefetch call
+Add default refresh timer
 
 Active style on navigation
 
