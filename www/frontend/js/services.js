@@ -4,9 +4,11 @@ angular.module('vshell2.services', [])
 
     .value('authors', 'Mike Guthrie and Chris Laskey')
 
-    .factory('async', function($http, paths) {
+    .factory('async', function($http, $interval, paths) {
 
         var async = {};
+
+        async.intervals = {};
 
         async.cache = {};
 
@@ -28,7 +30,7 @@ angular.module('vshell2.services', [])
             return hash;
         }
 
-        async.update = function(scope, options, data){
+        async.set_scope = function(scope, options, data){
             scope[options.name] = data;
         }
 
@@ -48,7 +50,7 @@ angular.module('vshell2.services', [])
             var result = async.get_cache(options.url),
                 data = async.apply_callback(options.callback, result.data, result.status, result.headers, result.config);
 
-            async.update(scope, options, data);
+            async.set_scope(scope, options, data);
         }
 
         async.get_cache = function(key){
@@ -63,11 +65,22 @@ angular.module('vshell2.services', [])
             async.cache[cache_key] = value;
         }
 
+        async.update_queue = function(scope, options){
+            if( options.queue ) {
+                $interval.cancel(async.intervals[options.queue]);
+
+                async.intervals[options.queue] = $interval(function() {
+                    async.fetch(scope, options);
+                }, 10000);
+            }
+        }
+
         async.api = function(scope, options){
             options.url = paths.api + options.url;
             options = async.validate(options);
             async.cached(scope, options);
             async.fetch(scope, options);
+            async.update_queue(scope, options);
         }
 
         async.fetch = function(scope, options){
@@ -86,7 +99,7 @@ angular.module('vshell2.services', [])
                     async.cached(scope, options);
                 }).
                 error(function(data, status, headers, config) {
-                    messages.error('failed to load ' + options.name + ' data from the V-Shell2 API');
+                    messages.error('failed to update ' + options.name + ' data from the V-Shell2 API');
                 });
         }
 

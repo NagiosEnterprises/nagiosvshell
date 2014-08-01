@@ -8,7 +8,7 @@
             <input class="input" type="text" value="" placeholder="Quick Search" tabindex="1"/>
         </form>
     </div>
-    <div class="info-container" ng-controller="StatusCtrl" ng-init="getStatus()">
+    <div class="info-container" ng-controller="StatusCtrl" ng-init="getStatus('header')">
         <span class="logged-in-as">Logged in as {{ status.username ? status.username : '...' }}</span><br/>
         <span class="last-update">{{ status.last_command_check ? (status.last_command_check * 1000 | date: 'EEE, MMM d, y H:mm:ss') : 'Updating...' }}</span>
     </div>

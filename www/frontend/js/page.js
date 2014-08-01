@@ -6,15 +6,23 @@
 
         var add = function(type, text){
             var container = $('#messages'),
+                time = moment().calendar(),
+                content,
                 message;
 
-            message = [
+            content = [
                 '<div class="message ' + type + '">',
-                '<strong>Error</strong> ' + text,
+                    '<strong>Error</strong> ' + text + ' ' + time,
                 '</div>'
             ].join('\n');
 
-            $(message).appendTo(container);
+            message = $(content);
+
+            setTimeout(function() {
+                message.fadeOut(1000);
+            }, 9000);
+
+            message.appendTo(container);
         }
 
         return {

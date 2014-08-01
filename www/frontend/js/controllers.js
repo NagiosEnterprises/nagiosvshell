@@ -32,10 +32,27 @@ angular.module('vshell2.controllers', [])
         $scope.getQuicksearchData = function () {
 
             var options = {
-                name: 'quicksearch',
-                url: 'quicksearch',
-                callback: callback
-            };
+                    name: 'quicksearch',
+                    url: 'quicksearch',
+                    queue: 'quicksearch',
+                    callback: callback,
+                };
+
+            async.api($scope, options);
+
+        };
+
+    }])
+
+    .controller('StatusCtrl', ['$scope', 'async', function ($scope, async) {
+
+        $scope.getStatus = function (section) {
+
+            var options = {
+                    name: 'status',
+                    url: 'status',
+                    queue: 'status-' + section,
+                };
 
             async.api($scope, options);
 
@@ -48,28 +65,14 @@ angular.module('vshell2.controllers', [])
         $scope.getOverview = function () {
 
             var options = {
-                name: 'overview',
-                url: 'overview',
-            };
+                    name: 'overview',
+                    url: 'overview',
+                    queue: 'main',
+                };
 
             async.api($scope, options);
 
         }
-
-    }])
-
-    .controller('StatusCtrl', ['$scope', 'async', function ($scope, async) {
-
-        $scope.getStatus = function () {
-
-            var options = {
-                name: 'status',
-                url: 'status',
-            };
-
-            async.api($scope, options);
-
-        };
 
     }])
 
@@ -91,10 +94,11 @@ angular.module('vshell2.controllers', [])
         $scope.getHostStatus = function () {
 
             var options = {
-                name: 'hoststatus',
-                url: 'hoststatus',
-                callback: callback,
-            };
+                    name: 'hoststatus',
+                    url: 'hoststatus',
+                    queue: 'main',
+                    callback: callback,
+                };
 
             $scope.statefilter = $routeParams.state || '';
             $scope.problemsfilter = $routeParams.handled || '';
@@ -110,9 +114,10 @@ angular.module('vshell2.controllers', [])
         $scope.getHostStatusDetails = function () {
 
             var options = {
-                name: 'host',
-                url: 'hoststatus/' + $routeParams.host,
-            };
+                    name: 'host',
+                    url: 'hoststatus/' + $routeParams.host,
+                    queue: 'main',
+                };
 
             async.api($scope, options);
 
@@ -125,9 +130,10 @@ angular.module('vshell2.controllers', [])
         $scope.getHostgroupStatus = function () {
 
             var options = {
-                name: 'hostgroupstatus',
-                url: 'hostgroupstatus',
-            };
+                    name: 'hostgroupstatus',
+                    url: 'hostgroupstatus',
+                    queue: 'main',
+                };
 
             async.api($scope, options);
 
@@ -144,10 +150,11 @@ angular.module('vshell2.controllers', [])
         $scope.getHostgroupStatusDetails = function () {
 
             var options = {
-                name: 'hostgroup',
-                url: 'hostgroupstatus/' + $routeParams.group,
-                callback: callback,
-            };
+                    name: 'hostgroup',
+                    url: 'hostgroupstatus/' + $routeParams.group,
+                    queue: 'main',
+                    callback: callback,
+                };
 
             async.api($scope, options);
 
@@ -162,6 +169,7 @@ angular.module('vshell2.controllers', [])
             var options = {
                     name: 'servicestatus',
                     url: 'servicestatus/' + $routeParams.host,
+                    queue: 'main',
                 };
 
             $scope.host_name = $routeParams.host;
@@ -192,6 +200,7 @@ angular.module('vshell2.controllers', [])
             var options = {
                     name: 'servicestatus',
                     url: 'servicestatus',
+                    queue: 'main',
                     callback: callback,
                 };
 
@@ -211,6 +220,7 @@ angular.module('vshell2.controllers', [])
             var options = {
                     name: 'service',
                     url: 'servicestatus/' + $routeParams.host + '/' + $routeParams.service,
+                    queue: 'main',
                 };
 
             async.api($scope, options);
@@ -226,6 +236,7 @@ angular.module('vshell2.controllers', [])
             var options = {
                     name: 'servicegroupstatus',
                     url: 'servicegroupstatus',
+                    queue: 'main',
                 };
 
             async.api($scope, options);
@@ -245,6 +256,7 @@ angular.module('vshell2.controllers', [])
             var options = {
                     name: 'servicegroup',
                     url: 'servicegroupstatus/' + $routeParams.group,
+                    queue: 'main',
                     callback: callback,
                 };
 
@@ -269,6 +281,7 @@ angular.module('vshell2.controllers', [])
             var options = {
                     name: 'configurations',
                     url: 'configurations/' + type,
+                    queue: 'main',
                     callback: callback,
                 };
 
@@ -300,6 +313,7 @@ angular.module('vshell2.controllers', [])
             var options = {
                     name: 'configuration',
                     url: 'configurations/' + type,
+                    queue: 'main',
                     callback: callback,
                 };
 
@@ -316,6 +330,7 @@ angular.module('vshell2.controllers', [])
             var options = {
                     name: 'comments',
                     url: 'comments',
+                    queue: 'main',
                 };
 
             async.api($scope, options);
