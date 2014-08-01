@@ -1055,18 +1055,20 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
         }
 
     .table-container tr td.status {
-        font-weight: 600;
+        font-weight: 700;
+        width: 120px;
     }
 
     .table-container tr.state-ok td,
     .table-container tr.state-up td {
-        font-weight: 400;
+
     }
 
         .table-container tr.enabled td,
         .table-container tr.state-ok td.status,
         .table-container tr.state-up td.status {
             background-color: #e9ffd6;
+            color: #6cb22f;
         }
 
     .table-container tr.state-critical td,
@@ -1078,6 +1080,7 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
         .table-container tr.state-critical td.status,
         .table-container tr.state-down td.status {
             background-color: #ffccd1;
+            color: #d24555;
         }
 
     .table-container tr.state-unknown td,
@@ -1088,18 +1091,16 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
         .table-container tr.state-unknown td.status,
         .table-container tr.state-unreachable td.status {
             background-color: #ffdabf;
+            color: #ee8425;
         }
 
-    .table-container tr.state-problems td,
-    .table-container tr.state-unhandled td,
     .table-container tr.state-warning td {
 
     }
 
-        .table-container tr.state-problems td.status,
-        .table-container tr.state-unhandled td.status,
         .table-container tr.state-warning td.status {
             background-color: #fceab6;
+            color: #e3a808;
         }
 
     .table-container tr.state-pending td {
@@ -1108,14 +1109,7 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
 
         .table-container tr.state-pending td.status {
             background-color: #d0d0d0;
-        }
-
-    .table-container tr.state-acknowledged td {
-
-    }
-
-        .table-container tr.state-acknowledged td.status {
-            background-color: #f0d6ff;
+            color: #777;
         }
 
     .footable.breakpoint > tbody > tr > td > span.footable-toggle {
