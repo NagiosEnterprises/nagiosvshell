@@ -6,19 +6,19 @@
 # below is used. 
 
 $custom = array(
-	'targetdir'      => '',
-	'apacheconfdir'  => '',
-	'apacheconffile' => '',
-	'apacheuser'     => '',
-	'apachegroup'    => '',
-	'etc_conf'       => '',
-	'htpasswd_file'  => '',
+	'targetdir'       => '',
+	'apacheconfdir'   => '',
+	'apacheconffile'  => '',
+	'apacheuser'      => '',
+	'apachegroup'     => '',
+	'etc_conf'        => '',
+	'htpasswd_file'   => '',
 	# See config/vshell.conf for explanations of each value
-	'vshell_baseurl' => '',
-	'nagios_coreurl' => '',
-	'resultlimit'    => '',
-	'lang'           => '',
-	'TTL'            => '',
+	'vshell_baseurl'  => '',
+	'TTL'             => '',
+	'update_interval' => '',
+	'nagios_coreurl'  => '',
+	'lang'            => '',
 );
 
 ## Default values
@@ -28,33 +28,33 @@ $custom = array(
 $defaults = array();
 
 $defaults['debian'] = array(
-	'targetdir'      => '/usr/local/vshell2',
-	'apacheconfdir'  => '/etc/apache2/conf.d',
-	'apacheconffile' => 'vshell2.conf',
-	'apacheuser'     => 'www-data',
-	'apachegroup'    => 'www-data',
-	'etc_conf'       => 'vshell2.conf',
-	'htpasswd_file'  => '/etc/nagios3/htpasswd.users',
-	'vshell_baseurl' => 'vshell2',
-	'nagios_coreurl' => 'nagios3',
-	'resultlimit'    => '100',
-	'lang'           => 'en_GB',
-	'TTL'            => '90',
+	'targetdir'       => '/usr/local/vshell2',
+	'apacheconfdir'   => '/etc/apache2/conf.d',
+	'apacheconffile'  => 'vshell2.conf',
+	'apacheuser'      => 'www-data',
+	'apachegroup'     => 'www-data',
+	'etc_conf'        => 'vshell2.conf',
+	'htpasswd_file'   => '/etc/nagios3/htpasswd.users',
+	'vshell_baseurl'  => 'vshell2',
+	'nagios_coreurl'  => 'nagios3',
+	'TTL'             => '90',
+	'update_interval' => '10',
+	'lang'            => 'en_GB',
 );
 
 $defaults['redhat'] = array(
-	'targetdir'      => '/usr/local/vshell2',
-	'apacheconfdir'  => '/etc/httpd/conf.d',
-	'apacheconffile' => 'vshell2.conf',
-	'apacheuser'     => 'apache',
-	'apachegroup'    => 'apache',
-	'etc_conf'       => 'vshell2.conf',
-	'htpasswd_file'  => '/etc/nagios/passwd',
-	'vshell_baseurl' => 'vshell2',
-	'nagios_coreurl' => 'nagios',
-	'resultlimit'    => '100',
-	'lang'           => 'en_GB',
-	'TTL'            => '90',
+	'targetdir'       => '/usr/local/vshell2',
+	'apacheconfdir'   => '/etc/httpd/conf.d',
+	'apacheconffile'  => 'vshell2.conf',
+	'apacheuser'      => 'apache',
+	'apachegroup'     => 'apache',
+	'etc_conf'        => 'vshell2.conf',
+	'htpasswd_file'   => '/etc/nagios/passwd',
+	'vshell_baseurl'  => 'vshell2',
+	'nagios_coreurl'  => 'nagios',
+	'TTL'             => '90',
+	'update_interval' => '10',
+	'lang'            => 'en_GB',
 );
 
 ## Create defintions

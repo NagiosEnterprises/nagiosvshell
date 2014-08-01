@@ -279,14 +279,14 @@ class API extends VS_Controller
      */
     function vshellconfig() {
         $config = array(
-            'baseurl'     => BASEURL,
-            'cgicfg'      => CGICFG,
-            'coreurl'     => COREURL,
-            'lang'        => LANG,
-            'objectsfile' => OBJECTSFILE,
-            'resultlimit' => RESULTLIMIT,
-            'statusfile'  => STATUSFILE,
-            'ttl'         => TTL
+            'baseurl'        => BASEURL,
+            'cgicfg'         => CGICFG,
+            'coreurl'        => COREURL,
+            'lang'           => LANG,
+            'objectsfile'    => OBJECTSFILE,
+            'statusfile'     => STATUSFILE,
+            'ttl'            => TTL,
+            'updateinterval' => UPDATEINTERVAL
         );
 
         $this->output($config);

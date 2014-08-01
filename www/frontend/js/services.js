@@ -4,13 +4,36 @@ angular.module('vshell2.services', [])
 
     .value('authors', 'Mike Guthrie and Chris Laskey')
 
-    .factory('async', function($http, $interval, paths) {
+    .factory('async', function($http, $timeout, $interval, paths) {
 
         var async = {};
 
+        async.cache = {};
+
         async.intervals = {};
 
-        async.cache = {};
+        async.fetch_interval_time = (function(){
+            // Get the interval time from the API
+            //
+            // Since AngularJS services are singletons, executing function
+            // immediately triggers it on service instantiation and skips the
+            // need for a seperate init function
+
+            var uri = paths.api + 'vshellconfig';
+
+            $http.get(uri).then(function(response){
+                var seconds = +response.data.updateinterval,
+                    milliseconds;
+
+                if( !seconds ) {
+                    messages.error('invalid UPDATEINTERVAL value in vshell.conf, using default of 10 seconds.');
+                    seconds = 10;
+                }
+
+                milliseconds = seconds * 1000;
+                async.interval_time = milliseconds;
+            });
+        })();
 
         async.validate = function(options){
             options.method = options.method || 'GET';
@@ -20,6 +43,7 @@ angular.module('vshell2.services', [])
         async.hash = function(input){
             // Quick hash algorithm from Java
             // http://stackoverflow.com/a/7616484/657661
+
             var hash = 0, i, chr, len;
             if (input.length == 0) { return hash; }
             for (i = 0, len = input.length; i < len; i++) {
@@ -66,12 +90,31 @@ angular.module('vshell2.services', [])
         }
 
         async.update_queue = function(scope, options){
+            // Update data asynchronously on a time interval set in vshell.conf
+            //
+            // Named queues allow multiple streams of data to be updated and
+            // minimizes the chances of an unseen background piece of data
+            // updating endlessly.
+
             if( options.queue ) {
+
+                // Wait for interval time to be loaded from API
+                if( !async.interval_time ){
+                    console.log('loading');
+                    $timeout(function(){
+                        async.update_queue(scope, options);
+                    }, 100);
+                }
+
+                // Cancel any existing intervals in the same queue
                 $interval.cancel(async.intervals[options.queue]);
 
+                // Update named interval queue with new interval
                 async.intervals[options.queue] = $interval(function() {
+                    console.log(async.interval_time);
                     async.fetch(scope, options);
-                }, 10000);
+                }, async.interval_time);
+
             }
         }
 

@@ -53,8 +53,6 @@ class VS_Controller extends CI_Controller
         if ($this->input->post('pagelimit') !== False) {
             setcookie('limit', $this->input->post('pagelimit'));
             $limit = $this->input->post('pagelimit');
-        } else {
-            $limit = isset($_COOKIE['limit']) ? $_COOKIE['limit'] : RESULTLIMIT;
         }
         $this->limit_filter = $limit;
     }
