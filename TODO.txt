@@ -1,7 +1,5 @@
 # HTML Template
 
-Add default refresh timer
-
 Active style on navigation
 
 Finish Tactical Overview page
