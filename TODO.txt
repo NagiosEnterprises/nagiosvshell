@@ -1,7 +1,5 @@
 # HTML Template
 
-Find a way to fix FooTable display after page load
-
 Active style on navigation
 
 Finish Tactical Overview page
