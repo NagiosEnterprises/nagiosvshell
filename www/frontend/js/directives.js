@@ -24,8 +24,14 @@ angular.module('vshell2.directives', [])
             }
 
             if (! footableTable.hasClass('footable-loaded')) {
-                footableTable.footable();
+                footableTable.footable({
+                    lucidBookmarkable: {
+                        enabled: true
+                    }
+                });
             }
+
+            footableTable.trigger('footable_initialized');
         };
 
     })

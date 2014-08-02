@@ -42,7 +42,7 @@
                 <tr ng-if="(servicegroupstatus | size) == 0">
                     <td colspan="2">{{ is_loading ? 'Loading...' : 'No servicegroups are defined' }}</td>
                 </tr>
-                <tr ng-repeat="servicegroup in servicegroupstatus | orderObjectBy: 'alias'" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
+                <tr ng-repeat="servicegroup in servicegroupstatus | orderObjectBy: 'alias'" ng-class-odd="'footable-even'" ng-class-even="'footable-odd'" footabledata>
                     <td><a href="#/servicegroups/{{ servicegroup.servicegroup_name }}">{{ servicegroup.alias }}</a></td>
                     <td>
                         <span class="status-item services-ok {{ servicegroup.servicesOK | is_active }}">{{ servicegroup.servicesOK }} OK</span>

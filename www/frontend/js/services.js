@@ -100,7 +100,6 @@ angular.module('vshell2.services', [])
 
                 // Wait for interval time to be loaded from API
                 if( !async.interval_time ){
-                    console.log('loading');
                     $timeout(function(){
                         async.update_queue(scope, options);
                     }, 100);
@@ -111,7 +110,6 @@ angular.module('vshell2.services', [])
 
                 // Update named interval queue with new interval
                 async.intervals[options.queue] = $interval(function() {
-                    console.log(async.interval_time);
                     async.fetch(scope, options);
                 }, async.interval_time);
 

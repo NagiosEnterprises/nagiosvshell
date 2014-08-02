@@ -41,7 +41,7 @@
                 <tr ng-if="(configurations.items | size) == 0">
                     <td>{{ is_loading ? 'Loading...' : 'No configuration items are defined' }}</td>
                 </tr>
-                <tr ng-repeat="item in configurations.items | orderObjectBy: 'host_name'" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
+                <tr ng-repeat="item in configurations.items | orderObjectBy: 'host_name'" ng-class-odd="'footable-even'" ng-class-even="'footable-odd'" footabledata>
                     <td>
                         <a href="#/{{ 'configuration' | uri }}/{{ configurations.name }}/{{ item[( configurations.name | configuration_anchor_key )] }}">
                             <span ng-if="configurations.name == 'services'">{{ item.host_name }} ({{ item.service_description }})</span>
