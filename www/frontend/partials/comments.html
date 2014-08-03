@@ -46,7 +46,7 @@
                 <tr ng-if="(comments | size) == 0">
                     <td colspan="6">{{ is_loading ? 'Loading...' : 'No comments created' }}</td>
                 </tr>
-                <tr ng-repeat="comment in comments | orderBy: 'entry_time': true" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>
+                <tr ng-repeat="comment in comments | orderBy: 'entry_time': true" footabledata>
                     <td host-entry item="comment"></td>
                     <td service-entry item="comment"></td>
                     <td>{{ comment.author }}</td>

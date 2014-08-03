@@ -43,7 +43,7 @@
                 <tr ng-if="(hostgroupstatus | size) == 0">
                     <td colspan="3">{{ is_loading ? 'Loading...' : 'No hostsgroups are defined' }}</td>
                 </tr>
-                <tr ng-repeat="hostgroup in hostgroupstatus | orderObjectBy: 'alias'" ng-class-odd="'footable-even'" ng-class-even="'footable-odd'" footabledata>
+                <tr ng-repeat="hostgroup in hostgroupstatus | orderObjectBy: 'alias'" footabledata>
                     <td><a href="#/hostgroups/{{ hostgroup.hostgroup_name }}">{{ hostgroup.alias }}</a></td>
                     <td>
                         <span class="status-item hosts-up {{ hostgroup.hostsUp | is_active }}">{{ hostgroup.hostsUp }} Up</span>
