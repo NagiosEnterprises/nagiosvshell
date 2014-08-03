@@ -2,7 +2,7 @@
 
 angular.module('vshell2.directives', [])
 
-    .directive('footabledata', function(){
+    .directive('footabledata', function($timeout){
 
         // Fix footable initiation to happen after AngularJS finishes loading
         // asynchronous API data.
@@ -16,6 +16,22 @@ angular.module('vshell2.directives', [])
         // Also see footable API docs:
         // http://fooplugins.com/footable/demos/api.htm#docs
 
+        var init_cooldown_is_over = function(ft, id){
+            var last_init_id = ft.data('last_init_id'),
+                is_initial_request = last_init_id == id,
+                last_init_time = ft.data('last_init_time'),
+                cooldown = 900,
+                time_difference;
+
+            if( is_initial_request ) {
+                return false; 
+            }
+
+            time_difference = Date.now() - last_init_time;
+
+            return time_difference > cooldown;
+        };
+
         return function(scope, element) {
             var footableTable = element.parents('table');
 
@@ -23,15 +39,25 @@ angular.module('vshell2.directives', [])
                 return false;
             }
 
-            if (! footableTable.hasClass('footable-loaded')) {
-                footableTable.footable({
-                    lucidBookmarkable: {
-                        enabled: true
-                    }
-                });
-            }
+            $timeout(function () {
 
-            footableTable.trigger('footable_initialized');
+                if (! footableTable.hasClass('footable-loaded')) {
+                    footableTable
+                        .footable({
+                            memory: {
+                                enabled: true
+                            }
+                        })
+                        .data('last_init_time', Date.now())
+                        .data('last_init_id', scope.$id);
+                }
+
+                if( init_cooldown_is_over(footableTable, scope.$id) ){
+                    footableTable.trigger('footable_initialized');
+                    footableTable.data('footable').redraw();
+                }
+
+            });
         };
 
     })
