@@ -26,12 +26,7 @@ angular.module('vshell2.directives', [])
             scope.$evalAsync(function(){
 
                 if (! footableTable.hasClass('footable-loaded')) {
-                    footableTable
-                        .footable({
-                            memory: {
-                                enabled: true
-                            }
-                        });
+                    footableTable.footable();
                 }
 
                 footableTable.trigger('footable_initialized');
