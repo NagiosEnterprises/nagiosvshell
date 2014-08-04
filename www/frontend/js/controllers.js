@@ -35,6 +35,7 @@ angular.module('vshell2.controllers', [])
                     name: 'quicksearch',
                     url: 'quicksearch',
                     queue: 'quicksearch',
+                    cache: true,
                     callback: callback,
                 };
 
@@ -52,6 +53,7 @@ angular.module('vshell2.controllers', [])
                     name: 'status',
                     url: 'status',
                     queue: 'status-' + section,
+                    cache: true,
                 };
 
             async.api($scope, options);
@@ -68,6 +70,7 @@ angular.module('vshell2.controllers', [])
                     name: 'overview',
                     url: 'overview',
                     queue: 'main',
+                    cache: true,
                 };
 
             async.api($scope, options);

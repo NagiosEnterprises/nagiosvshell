@@ -119,7 +119,9 @@ angular.module('vshell2.services', [])
         async.api = function(scope, options){
             options.url = paths.api + options.url;
             options = async.validate(options);
-            async.cached(scope, options);
+            if( options.cache ){
+                async.cached(scope, options);
+            }
             async.fetch(scope, options);
             async.update_queue(scope, options);
         }

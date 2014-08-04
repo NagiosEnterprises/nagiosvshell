@@ -46,7 +46,7 @@
                 <tr ng-repeat="host in hostgroup.HostStatusCollection | orderObjectBy: 'host_name'" class="state-{{ host.current_state | hoststate | lowercase }}" footabledata>
                     <td host-entry item="host"></td>
                     <td class="status">{{ host.current_state | hoststate }}</td>
-                    <td><span ng-repeat="service in host.ServiceStatusCollection | orderObjectBy: 'service_description'" class="service-list-item state-{{ service.current_state | servicestate | lowercase }}">{{ service.service_description }}</span></td>
+                    <td><a ng-repeat="service in host.ServiceStatusCollection | orderObjectBy: 'service_description'" class="status-item active services-{{ service.current_state | servicestate | lowercase }}" href="#/services/{{ host.host_name }}/{{ service.service_description }}">{{ service.service_description }}</a></td>
                 </tr>
             </tbody>
         </table>
