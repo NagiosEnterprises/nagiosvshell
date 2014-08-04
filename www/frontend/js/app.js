@@ -14,7 +14,7 @@ angular.module('vshell2', [
         $routeProvider.when('/hosts/state/:state', {templateUrl: 'frontend/partials/hosts.html'});
         $routeProvider.when('/hosts/problems/:handled', {templateUrl: 'frontend/partials/hosts.html'});
         $routeProvider.when('/hosts/:host*', {templateUrl: 'frontend/partials/hostdetails.html'});
-        $routeProvider.when('/hostgroups', {templateUrl: 'frontend/partials/hostgroups-summary.html'});
+        $routeProvider.when('/hostgroups/summary', {templateUrl: 'frontend/partials/hostgroups-summary.html'});
         $routeProvider.when('/hostgroups/grid', {templateUrl: 'frontend/partials/hostgroups-grid.html'});
         $routeProvider.when('/hostgroups/:group*', {templateUrl: 'frontend/partials/hostgroups-details.html'});
         $routeProvider.when('/services', {templateUrl: 'frontend/partials/services.html'});
@@ -22,7 +22,7 @@ angular.module('vshell2', [
         $routeProvider.when('/services/problems/:handled', {templateUrl: 'frontend/partials/services.html'});
         $routeProvider.when('/services/on-host/:host', {templateUrl: 'frontend/partials/hostservices.html'});
         $routeProvider.when('/services/:host/:service*', {templateUrl: 'frontend/partials/servicedetails.html'});
-        $routeProvider.when('/servicegroups', {templateUrl: 'frontend/partials/servicegroups-summary.html'});
+        $routeProvider.when('/servicegroups/summary', {templateUrl: 'frontend/partials/servicegroups-summary.html'});
         $routeProvider.when('/servicegroups/grid', {templateUrl: 'frontend/partials/servicegroups-grid.html'});
         $routeProvider.when('/servicegroups/:group*', {templateUrl: 'frontend/partials/servicegroups-details.html'});
         $routeProvider.when('/configurations', {templateUrl: 'frontend/partials/configurations-grid.html'});

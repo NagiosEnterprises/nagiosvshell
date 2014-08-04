@@ -482,6 +482,10 @@ nav {
         text-decoration: none;
     }
 
+        nav a.active {
+            color: #4580a8;
+        }
+
         nav ul ul a {
             font-size: 12px;
             font-weight: 400;

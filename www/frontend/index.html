@@ -29,36 +29,36 @@
                 <a class="nav-button" id="nav-button-close" href="">Close Navigation</a>
             </div>
 
-            <nav>
+            <nav active-nav>
                 <ul>
-                    <li><a ng-href="#/overview">Tactical Overview</a></li>
-                    <li><a ng-href="#/hosts">Hosts</a></li>
-                    <li><a ng-href="#/services">Services</a></li>
+                    <li><a ng-href="#/overview" active-when="/overview">Tactical Overview</a></li>
+                    <li><a ng-href="#/hosts" active-when="/hosts">Hosts</a></li>
+                    <li><a ng-href="#/services" active-when="/services">Services</a></li>
                     <li>
-                        <a ng-href="#/hostgroups">Host Groups</a>
+                        <a ng-href="#/hostgroups/summary" active-when="/hostgroups">Host Groups</a>
                         <ul>
-                            <li><a ng-href="#/hostgroups">Summary</a></li>
-                            <li><a ng-href="#/hostgroups/grid">Grid</a></li>
+                            <li><a ng-href="#/hostgroups/summary" active-when="/hostgroups/summary">Summary</a></li>
+                            <li><a ng-href="#/hostgroups/grid" active-when="/hostgroups/grid">Grid</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a ng-href="#/servicegroups">Service Groups</a>
+                        <a ng-href="#/servicegroups/summary" active-when="/servicegroups">Service Groups</a>
                         <ul>
-                            <li><a ng-href="#/servicegroups">Summary</a></li>
-                            <li><a ng-href="#/servicegroups/grid">Grid</a></li>
+                            <li><a ng-href="#/servicegroups/summary" active-when="/servicegroups/summary">Summary</a></li>
+                            <li><a ng-href="#/servicegroups/grid" active-when="/servicegroups/grid">Grid</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a ng-href="#/hosts/problems/all">Problems</a>
+                        <a ng-href="#/hosts/problems/all" active-when="/hosts/problems">Problems</a>
                         <ul>
-                            <li><a ng-href="#/hosts/problems/all">Hosts</a></li>
-                            <li><a ng-href="#/services/problems/all">Services</a></li>
+                            <li><a ng-href="#/hosts/problems/all" active-when="/hosts/problems">Hosts</a></li>
+                            <li><a ng-href="#/services/problems/all" active-when="/services/problems">Services</a></li>
                         </ul>
                     </li>
-                    <li><a href="#/configurations">Configurations</a></li>
-                    <li><a href="#/comments">Comments</a></li>
+                    <li><a href="#/configurations" active-when="/configurations">Configurations</a></li>
+                    <li><a href="#/comments" active-when="/comments">Comments</a></li>
                     <li>
-                        <a href="">Reports<span class="icon external"></span></a>
+                        <a href="{{ nagios_core }}">Reports<span class="icon external"></span></a>
                         <ul>
                             <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/avail.cgi">Availability</a></li>
                             <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/trends.cgi">Trends</a></li>
@@ -70,7 +70,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="">System<span class="icon external"></span></a>
+                        <a ng-href="{{ nagios_core }}">System<span class="icon external"></span></a>
                         <ul>
                             <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/extinfo.cgi?type=3">Comments</a></li>
                             <li><a target="nagios" ng-href="{{ nagios_core }}cgi-bin/extinfo.cgi?type=6">Downtime</a></li>

@@ -2,6 +2,34 @@
 
 angular.module('vshell2.directives', [])
 
+    .directive('activeNav', ['$location', function(location) {
+
+        return function(scope, element, attrs) {
+
+            var starts_with = function(path, match){
+                return path && match && path.indexOf(match) === 0;
+            }
+
+            scope.$on('$locationChangeSuccess', function(event) {
+                var anchors = element.find('a'),
+                    path = location.path();
+
+                $.each(anchors, function(){
+                    var anchor = $(this),
+                        match = anchor.attr('active-when');
+                     
+                    if( match && starts_with(path, match) ){
+                        anchor.addClass('active');
+                    } else {
+                        anchor.removeClass('active');
+                    }
+                });
+            });
+
+        };
+
+    }])
+
     .directive('footabledata', function(){
 
         // Fix footable initiation to happen after AngularJS finishes loading
@@ -16,7 +44,7 @@ angular.module('vshell2.directives', [])
         // Also see footable API docs:
         // http://fooplugins.com/footable/demos/api.htm#docs
 
-        return function(scope, element) {
+        return function(scope, element, attrs) {
             var footableTable = element.parents('table');
 
             if( !scope.$last ) {
