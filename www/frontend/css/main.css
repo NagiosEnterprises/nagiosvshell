@@ -734,7 +734,7 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
     h1 .state-unreachable, h3 .state-unreachable { color: #ee8425; }
     h1 .state-pending, h3 .state-pending { color: #858585; }
 
-    h1 .state-warning, h3 .state-warning { color: #e3a808; }
+    h1 .state-warning, h3 .state-warning { color: #dba102; }
     h1 .state-unknown, h3 .state-unknown { color: #ee8425; }
     h1 .state-critical, h3 .state-critical { color: #d24555; }
     h1 .state-pending, h3 .state-pending { color: #858585; }
@@ -1107,7 +1107,7 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
 
         .table-container tr.state-warning td.status {
             background-color: #fceab6;
-            color: #e3a808;
+            color: #dba102;
         }
 
     .table-container tr.state-pending td {
@@ -1138,7 +1138,7 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
     .active.hosts-pending { color: #858585; }
 
     .active.services-ok { color: #6cb22f; }
-    .active.services-warning { color: #e3a808; }
+    .active.services-warning { color: #dba102; }
     .active.services-unknown { color: #ee8425; }
     .active.services-critical { color: #d24555; }
     .active.services-pending { color: #858585; }
@@ -1239,13 +1239,13 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
                 .status-overview-tables tr.active.hosts-up a { color: #6cb22f; }
                 .status-overview-tables tr.active.hosts-down a { color: #d24555; }
                 .status-overview-tables tr.active.hosts-unreachable a { color: #ee8425; }
-                .status-overview-tables tr.active.hosts-pending a { color: #777; }
+                .status-overview-tables tr.active.hosts-pending a { color: #666; }
 
                 .status-overview-tables tr.active.services-ok a { color: #6cb22f; }
-                .status-overview-tables tr.active.services-warning a { color: #e3a808; }
+                .status-overview-tables tr.active.services-warning a { color: #dba102; }
                 .status-overview-tables tr.active.services-unknown a { color: #ee8425; }
                 .status-overview-tables tr.active.services-critical a { color: #d24555; }
-                .status-overview-tables tr.active.services-pending a { color: #777; }
+                .status-overview-tables tr.active.services-pending a { color: #666; }
 
 
 /* Responsive
