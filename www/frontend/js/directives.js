@@ -4,9 +4,27 @@ angular.module('vshell2.directives', [])
 
     .directive('activeNav', ['$location', function(location) {
 
+        // Assigns active navigation class based on $location changes
+        //
+        // Used as an attribute on the parent container, <nav active-nav>
+        //
+        // When location changes each child anchor element is checked against
+        // the new location value.
+        // 
+        // Anchors declare what to match against using the active-when attribute,
+        // <a href="#/some-page" active-when="/some-page">. Multiple matches can
+        // be given using a separator (default is ';').
+        //
+        // Matches are made against the beginning of the path, and are done
+        // with indexOf() instead of a regex for speed.
+
         return function(scope, element, attrs) {
 
-            var starts_with = function(path, match){
+            var child_attribute = 'active-when',
+                active_class = 'active',
+                match_separator = ';';
+
+            function starts_with(path, match){
                 return path && match && path.indexOf(match) === 0;
             }
 
@@ -14,15 +32,24 @@ angular.module('vshell2.directives', [])
                 var anchors = element.find('a'),
                     path = location.path();
 
-                $.each(anchors, function(){
+                anchors.each(function(index){
                     var anchor = $(this),
-                        match = anchor.attr('active-when');
-                     
-                    if( match && starts_with(path, match) ){
-                        anchor.addClass('active');
-                    } else {
-                        anchor.removeClass('active');
+                        when = anchor.attr(child_attribute),
+                        matches;
+
+                    anchor.removeClass(active_class);
+
+                    if( !when ){
+                        return false;
                     }
+
+                    matches = when.split(match_separator);
+
+                    $.each(matches, function(index, match){
+                        if( match && starts_with(path, match) ){
+                            anchor.addClass(active_class);
+                        }
+                    });
                 });
             });
 

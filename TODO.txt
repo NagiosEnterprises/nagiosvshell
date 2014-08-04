@@ -1,8 +1,6 @@
 # HTML Template
 
-Active style on navigation
-
-Finish Tactical Overview page
+Add additional information to Tactical Overview page
 
 Add help / contact / issues section to display options page
 
