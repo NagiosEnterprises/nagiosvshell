@@ -4,7 +4,7 @@ angular.module('vshell2.services', [])
 
     .value('authors', 'Mike Guthrie and Chris Laskey')
 
-    .factory('async', function($http, $timeout, $interval, paths) {
+    .factory('async', function($http, $timeout, $interval, $window, paths) {
 
         var async = {};
 
