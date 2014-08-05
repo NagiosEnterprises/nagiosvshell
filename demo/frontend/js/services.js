@@ -117,6 +117,7 @@ angular.module('vshell2.services', [])
         }
 
         async.api = function(scope, options){
+            // options.url = paths.api + options.url;
             options.url = $window.location.origin + paths.api + options.url + '?callback=JSON_CALLBACK';
             options = async.validate(options);
             if( options.cache ){
@@ -129,7 +130,6 @@ angular.module('vshell2.services', [])
 
         async.fetch = function(scope, options){
             async.is_loading(scope, true);
-            console.log(options.url);
             // $http({ method: options.method, url: options.url })
             $http.jsonp(options.url)
                 .success(function(data, status, headers, config) {
