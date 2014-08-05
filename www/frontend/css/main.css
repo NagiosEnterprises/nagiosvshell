@@ -707,7 +707,7 @@ body.colorscheme-blue {
     }
 
         .status-block.active {
-            color: #fff;
+            color: #fff !important;
         }
 
             .status-block.active.hosts-up { background: #8dcd54; }
