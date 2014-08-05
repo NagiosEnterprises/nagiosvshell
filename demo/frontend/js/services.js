@@ -19,7 +19,7 @@ angular.module('vshell2.services', [])
             // immediately triggers it on service instantiation and skips the
             // need for a seperate init function
 
-            var uri = paths.api + 'vshellconfig';
+            var uri = paths.api + 'vshellconfig/index.html';
 
             $http.get(uri).then(function(response){
                 var seconds = +response.data.updateinterval,
