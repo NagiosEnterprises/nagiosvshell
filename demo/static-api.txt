@@ -1,0 +1,125 @@
+# API urls
+
+api
+api/status
+api/quicksearch
+api/overview
+
+# Hosts
+
+api/hoststatus
+api/hoststatus/backup.example.com
+api/hoststatus/bbc.com
+api/hoststatus/boston.example.com
+api/hoststatus/catalyst.example.com
+api/hoststatus/compnet.example.com
+api/hoststatus/configure.example.com
+api/hoststatus/flow.example.com
+api/hoststatus/gateway.example.com
+api/hoststatus/github.com
+api/hoststatus/google.com
+api/hoststatus/hypervisor1.example.com
+api/hoststatus/hypervisor2.example.com
+api/hoststatus/hypervisor3.example.com
+api/hoststatus/labs.example.com
+api/hoststatus/monitoring.example.com
+api/hoststatus/music.example.com
+api/hoststatus/mysql-master.example.com
+api/hoststatus/mysql-slave.example.com
+api/hoststatus/nagios.com
+api/hoststatus/nagios.org
+api/hoststatus/nl.example.com
+api/hoststatus/profusion.example.com
+api/hoststatus/project.example.com
+api/hoststatus/proxy.example.com
+api/hoststatus/rain.example.com
+api/hoststatus/vision.example.com
+api/hoststatus/webserver.example.com
+
+# Host Groups
+
+api/hostgroupstatus
+api/hostgroupstatus/hypervisors
+api/hostgroupstatus/mysql
+api/hostgroupstatus/physical-servers
+api/hostgroupstatus/virtual-machines
+api/hostgroupstatus/websites
+
+# Host services
+
+api/servicestatus/backup.example.com
+api/servicestatus/bbc.com
+api/servicestatus/boston.example.com
+api/servicestatus/catalyst.example.com
+api/servicestatus/compnet.example.com
+api/servicestatus/configure.example.com
+api/servicestatus/flow.example.com
+api/servicestatus/gateway.example.com
+api/servicestatus/github.com
+api/servicestatus/google.com
+api/servicestatus/hypervisor1.example.com
+api/servicestatus/hypervisor2.example.com
+api/servicestatus/hypervisor3.example.com
+api/servicestatus/labs.example.com
+api/servicestatus/monitoring.example.com
+api/servicestatus/music.example.com
+api/servicestatus/mysql-master.example.com
+api/servicestatus/mysql-slave.example.com
+api/servicestatus/nagios.com
+api/servicestatus/nagios.org
+api/servicestatus/nl.example.com
+api/servicestatus/profusion.example.com
+api/servicestatus/project.example.com
+api/servicestatus/proxy.example.com
+api/servicestatus/rain.example.com
+api/servicestatus/vision.example.com
+api/servicestatus/webserver.example.com
+
+# Services
+
+api/servicestatus
+api/servicestatus/backup.example.com/Current Load
+api/servicestatus/backup.example.com/Disk Space
+api/servicestatus/backup.example.com/SSH
+api/servicestatus/backup.example.com/Swap Usage
+api/servicestatus/catalyst.example.com/Site catalyst.example.com
+api/servicestatus/compnet.example.com/Site compnet.example.com
+api/servicestatus/configure.example.com/Current Load
+api/servicestatus/configure.example.com/Disk Space
+api/servicestatus/configure.example.com/SSH
+api/servicestatus/configure.example.com/Swap Usage
+api/servicestatus/gateway.example.com/Current Load
+api/servicestatus/gateway.example.com/Disk Space
+api/servicestatus/gateway.example.com/SSH
+api/servicestatus/gateway.example.com/Swap Usage
+api/servicestatus/labs.example.com/Site flow.example.com
+api/servicestatus/labs.example.com/Site vision.example.com
+api/servicestatus/monitoring.example.com/Current Load
+api/servicestatus/monitoring.example.com/Disk Space
+api/servicestatus/monitoring.example.com/SSH
+api/servicestatus/mysql-master.example.com/MySQL Connection
+api/servicestatus/mysql-master.example.com/SSH
+api/servicestatus/mysql-master.example.com/Swap Usage
+api/servicestatus/mysql-master.example.com/Disk Space
+api/servicestatus/mysql-master.example.com/Current Load
+api/servicestatus/mysql-slave.example.com/SSH
+api/servicestatus/mysql-slave.example.com/Current Load
+api/servicestatus/mysql-slave.example.com/MySQL Connection
+api/servicestatus/mysql-slave.example.com/MySQL Slave Status
+api/servicestatus/mysql-slave.example.com/Swap Usage
+api/servicestatus/mysql-slave.example.com/Disk Space
+api/servicestatus/nl.example.com/Site nl.example.com
+api/servicestatus/project.example.com/Site project.example.com
+api/servicestatus/project.example.com/Site project.org
+api/servicestatus/proxy.example.com/SSH
+api/servicestatus/proxy.example.com/Swap Usage
+api/servicestatus/proxy.example.com/Disk Space
+api/servicestatus/proxy.example.com/Current Load
+api/servicestatus/rain.example.com/Site rain.example.com
+api/servicestatus/rain.example.com/Page rain.example.com/login
+
+# Service Groups
+
+api/servicegroupstatus
+api/servicegroupstatus/mysql
+api/servicegroupstatus/websites
