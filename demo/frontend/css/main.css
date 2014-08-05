@@ -707,7 +707,7 @@ body.colorscheme-blue {
     }
 
         .status-block.active {
-            color: #fff !important;
+            color: #fff;
         }
 
             .status-block.active.hosts-up { background: #8dcd54; }
@@ -1166,23 +1166,23 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
             width: 38%;
         }
 
-            .status-callout-icon.ok {
+            #content .status-callout-icon.ok {
                 background: #8dcd54 url('../images/icon-overview-ok.png') center center no-repeat;
             }
 
-            .status-callout-icon.warning {
+            #content .status-callout-icon.warning {
                 background: #ffc833 url('../images/icon-overview-warning.png') center center no-repeat;
             }
 
-            .status-callout-icon.unknown {
+            #content .status-callout-icon.unknown {
                 background: #ff9333 url('../images/icon-overview-unknown.png') center center no-repeat;
             }
 
-            .status-callout-icon.critical {
+            #content .status-callout-icon.critical {
                 background: #d24555 url('../images/icon-overview-critical.png') center center no-repeat;
             }
 
-            .status-callout-icon.pending {
+            #content .status-callout-icon.pending {
                 background: #858585 url('../images/icon-overview-pending.png') center center no-repeat;
             }
 
