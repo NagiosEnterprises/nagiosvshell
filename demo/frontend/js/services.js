@@ -117,7 +117,7 @@ angular.module('vshell2.services', [])
         }
 
         async.api = function(scope, options){
-            options.url = $window.location.origin + paths.api + options.url;
+            options.url = $window.location.origin + paths.api + options.url + '/';
             options = async.validate(options);
             if( options.cache ){
                 async.cached(scope, options);
