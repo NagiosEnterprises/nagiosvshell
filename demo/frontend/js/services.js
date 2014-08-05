@@ -4,7 +4,7 @@ angular.module('vshell2.services', [])
 
     .value('authors', 'Mike Guthrie and Chris Laskey')
 
-    .factory('async', function($http, $timeout, $interval, paths) {
+    .factory('async', function($http, $timeout, $interval, $window, paths) {
 
         var async = {};
 
@@ -117,7 +117,7 @@ angular.module('vshell2.services', [])
         }
 
         async.api = function(scope, options){
-            options.url = paths.api + options.url + '?callback=JSON_CALLBACK';
+            options.url = $window.location.origin + paths.api + options.url + '?callback=JSON_CALLBACK';
             options = async.validate(options);
             if( options.cache ){
                 async.cached(scope, options);
