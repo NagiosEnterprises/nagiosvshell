@@ -130,7 +130,8 @@ angular.module('vshell2.services', [])
         async.fetch = function(scope, options){
             async.is_loading(scope, true);
             console.log(options.url);
-            $http({ method: options.method, url: options.url })
+            // $http({ method: options.method, url: options.url })
+            $http.jsonp(options.url)
                 .success(function(data, status, headers, config) {
                     var result = {
                         data: data,
