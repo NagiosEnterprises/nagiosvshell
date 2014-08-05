@@ -225,6 +225,7 @@ angular.module('vshell2.services', [])
         return {
             app: app,
             api: api,
+            api_appendix: api_appendix,
             core_as_promise: core_as_promise,
             core_for_filters: core_for_filters,
         };
