@@ -1,3 +1,6 @@
+# Omitted on purpose, requires hand tuning afterwards to work with github.io URL paths
+# api/vshellconfig
+
 # API urls
 
 api
