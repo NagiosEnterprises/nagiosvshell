@@ -123,7 +123,8 @@ angular.module('vshell2.services', [])
                 async.cached(scope, options);
             }
             async.fetch(scope, options);
-            async.update_queue(scope, options);
+            // Temporarily disable update queue to make GitHub Demo debugging easier
+            // async.update_queue(scope, options);
         }
 
         async.fetch = function(scope, options){
