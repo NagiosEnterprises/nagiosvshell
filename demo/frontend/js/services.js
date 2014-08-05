@@ -117,7 +117,7 @@ angular.module('vshell2.services', [])
         }
 
         async.api = function(scope, options){
-            options.url = paths.api + options.url + '/';
+            options.url = paths.api + options.url + '?callback=JSON_CALLBACK';
             options = async.validate(options);
             if( options.cache ){
                 async.cached(scope, options);
