@@ -19,7 +19,7 @@ angular.module('vshell2.services', [])
             // immediately triggers it on service instantiation and skips the
             // need for a seperate init function
 
-            var uri = paths.api + 'vshellconfig/index.html';
+            var uri = paths.api + 'vshellconfig' + paths.api_appendix;
 
             $http.get(uri).then(function(response){
                 var seconds = +response.data.updateinterval,
@@ -117,14 +117,13 @@ angular.module('vshell2.services', [])
         }
 
         async.api = function(scope, options){
-            options.url = paths.api + options.url + '/index.html';
+            options.url = paths.api + options.url + paths.api_appendix;
             options = async.validate(options);
             if( options.cache ){
                 async.cached(scope, options);
             }
             async.fetch(scope, options);
-            // Temporarily disable update queue to make GitHub Demo debugging easier
-            // async.update_queue(scope, options);
+            async.update_queue(scope, options);
         }
 
         async.fetch = function(scope, options){
@@ -179,13 +178,17 @@ angular.module('vshell2.services', [])
             return app + 'api/';
         })();
 
+        var api_appendix = (function(){
+            return app.indexOf('demo') === -1 ? '' : '/index.html';
+        })();
+
         var core_as_promise = (function(){
             // Returns a promise, usable in Controllers. For filters
             // see the nested object hack in the core_for_filters() function.
             //
             // http://stackoverflow.com/a/12513509/657661
 
-            var uri = api + 'vshellconfig/index.html';
+            var uri = api + 'vshellconfig' + api_appendix;
 
             return $http.get(uri).then(function(response){
                 var path = response.data.coreurl;
@@ -205,7 +208,7 @@ angular.module('vshell2.services', [])
             //
             // https://groups.google.com/forum/#!topic/angular/xbAZY8ZKSd4
 
-            var uri = api + 'vshellconfig/index.html',
+            var uri = api + 'vshellconfig' + api_appendix,
                 results = {
                     value: {}
                 };
@@ -227,4 +230,3 @@ angular.module('vshell2.services', [])
         };
 
     })
-
