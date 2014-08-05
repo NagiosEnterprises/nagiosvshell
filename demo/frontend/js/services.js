@@ -185,7 +185,7 @@ angular.module('vshell2.services', [])
             //
             // http://stackoverflow.com/a/12513509/657661
 
-            var uri = api + 'vshellconfig';
+            var uri = api + 'vshellconfig/index.html';
 
             return $http.get(uri).then(function(response){
                 var path = response.data.coreurl;
@@ -205,7 +205,7 @@ angular.module('vshell2.services', [])
             //
             // https://groups.google.com/forum/#!topic/angular/xbAZY8ZKSd4
 
-            var uri = api + 'vshellconfig',
+            var uri = api + 'vshellconfig/index.html',
                 results = {
                     value: {}
                 };
