@@ -14,8 +14,8 @@ def get_args():
         args['base_url'] = sys.argv[2].strip('/')
         if len(sys.argv) > 3:
             # Optional args
-            args['user'] = sys.argv[2]
-            args['pass'] = sys.argv[3]
+            args['user'] = sys.argv[3]
+            args['pass'] = sys.argv[4]
         return args
     except IndexError as e:
         print('Error: missing command line arguments:')
