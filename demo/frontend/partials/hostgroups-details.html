@@ -1,0 +1,59 @@
+<div ng-include="'frontend/partials/_header.html'"></div>
+
+<div ng-include="'frontend/partials/_status.html'"></div>
+
+<div ng-include="'frontend/partials/_browser.html'"></div>
+
+<div ng-include="'frontend/partials/_messages.html'"></div>
+
+<div id="content" class="clearfix" ng-controller="HostgroupStatusDetailsCtrl" ng-init="getHostgroupStatusDetails()">
+
+    <div class="table-container full-width">
+
+        <h1>Host Group Status Details for <span class="state-{{ hostgroup | groupstate }}">{{ hostgroup.alias }}</span></h1>
+
+        <div class="table-options">
+            <form action="" class="filter-form" method="post">
+                <div class="filter-icon"></div>
+                <input id="footable-filter" class="footable-filter" type="text" placeholder="Filter Table"/>
+            </form>
+            <div class="pagesize-container">
+                Show <a class="active" ng-href="#" data-page-size="25">25</a> <a ng-href="#" data-page-size="100">100</a> <a ng-href="#" data-page-size="50000">All</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation="#footable-pagination" data-limit-navigation="5" data-filter="#footable-filter">
+            <thead>
+                <tr>
+                    <th>Host</th>
+                    <th>Host Status</th>
+                    <th>Services</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <div class="results-count">{{ hostgroup.HostStatusCollection | size }} Result{{ hostgroup.HostStatusCollection | plural }}</div>
+                        <div class="footable-pagination pagination" id="footable-pagination"></div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr ng-if="(hostgroup.HostStatusCollection | size) == 0">
+                    <td colspan="5">{{ is_loading ? 'Loading...' : 'No hostgroup members are defined' }}</td>
+                </tr>
+                <tr ng-repeat="host in hostgroup.HostStatusCollection | orderObjectBy: 'host_name'" class="state-{{ host.current_state | hoststate | lowercase }}" footabledata>
+                    <td host-entry item="host"></td>
+                    <td class="status">{{ host.current_state | hoststate }}</td>
+                    <td><a ng-repeat="service in host.ServiceStatusCollection | orderObjectBy: 'service_description'" class="status-item active services-{{ service.current_state | servicestate | lowercase }}" href="#/services/{{ host.host_name }}/{{ service.service_description }}">{{ service.service_description }}</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div ng-include="'frontend/partials/_footer.html'"></div>
+

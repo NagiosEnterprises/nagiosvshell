@@ -1,0 +1,68 @@
+<div ng-include="'frontend/partials/_header.html'"></div>
+
+<div ng-include="'frontend/partials/_status.html'"></div>
+
+<div ng-include="'frontend/partials/_browser.html'"></div>
+
+<div ng-include="'frontend/partials/_messages.html'"></div>
+
+<div id="content" class="clearfix" ng-controller="ServicegroupStatusCtrl" ng-init="getServicegroupStatus()">
+
+    <h1>Service Group Status Details for All Groups</h1>
+
+    <div ng-repeat="servicegroup in servicegroupstatus" class="table-container partial-width grid">
+
+        <h3><a class="state-{{ servicegroup | groupstate }}" ng-href="#/servicegroups/{{ servicegroup.servicegroup_name }}">{{ servicegroup.alias }}</a></h3>
+
+        <div class="table-options">
+            <form action="" class="filter-form" method="post">
+                <div class="filter-icon"></div>
+                <input id="footable-filter-{{ $index }}" class="footable-filter" type="text" placeholder="Filter Table"/>
+            </form>
+            <div class="pagesize-container">
+                Show <a class="active" ng-href="#" data-page-size="5">5</a> <a ng-href="#" data-page-size="50">50</a> <a ng-href="#" data-page-size="50000">All</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="5" data-page-navigation="#footable-pagination-{{ $index }}" data-limit-navigation="5" data-filter="#footable-filter-{{ $index }}">
+            <thead>
+                <tr>
+                    <th>Host</th>
+                    <th>Service</th>
+                    <th>Status</th>
+                    <th data-hide="all">Last Check</th>
+                    <th data-hide="all">Attempt</th>
+                    <th data-hide="all">Duration</th>
+                    <th data-hide="all">Status Information</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="3">
+                        <div class="results-count">{{ servicegroup.ServiceStatusCollection | size }} Result{{ servicegroup.ServiceStatusCollection | plural }}</div>
+                        <div class="footable-pagination pagination hide-if-no-paging" id="footable-pagination-{{ $index }}"></div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr ng-if="(servicegroup.ServiceStatusCollection | size) == 0">
+                    <td colspan="7">{{ is_loading ? 'Loading...' : 'No services are defined' }}</td>
+                </tr>
+                <tr ng-repeat="service in servicegroup.ServiceStatusCollection | orderObjectBy: 'host_name'" class="state-{{ service.current_state | servicestate | lowercase }}" footabledata>
+                    <td host-entry item="service"></td>
+                    <td><a href="#/services/{{ service.host_name }}/{{ service.service_description }}">{{ service.service_description }}</a></td>
+                    <td class="status">{{ service.current_state | servicestate }}</td>
+                    <td>{{ service.last_check * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
+                    <td>{{ service.current_attempt }}/{{ service.max_attempts }}</td>
+                    <td>{{ service.last_state_change | ago }}</td>
+                    <td>{{ service.plugin_output }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div ng-include="'frontend/partials/_footer.html'"></div>

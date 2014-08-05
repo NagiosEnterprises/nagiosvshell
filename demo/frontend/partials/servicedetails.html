@@ -1,0 +1,190 @@
+<div ng-include="'frontend/partials/_header.html'"></div>
+
+<div ng-include="'frontend/partials/_status.html'"></div>
+
+<div ng-include="'frontend/partials/_browser.html'"></div>
+
+<div ng-include="'frontend/partials/_messages.html'"></div>
+
+<div id="content" class="clearfix" ng-controller="ServiceStatusDetailsCtrl" ng-init="getServiceStatusDetails()">
+
+    <h1>Service Details for <span class="state-{{ service.current_state | servicestate | lowercase }}">{{ service.service_description }}</span></h1>
+
+    <p class="subheading"><a href="#/{{ 'host' | uri }}/{{ service.host_name }}">Host {{ service.host_name }}</a></p>
+
+    <div class="details table-container partial-width two-thirds">
+
+        <h3>Details</h3>
+
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr class="footable-odd">
+                    <td>Service Description</td>
+                    <td>{{ service.service_description }}</td>
+                </tr>
+                <tr class="footable-even">
+                    <td>Host Name</td>
+                    <td>{{ service.host_name }}</td>
+                </tr>
+                <tr class="state-{{ service.current_state | servicestate | lowercase }} footable-odd">
+                    <td>Current State</td>
+                    <td class="status">{{ service.current_state | servicestate }}</td>
+                </tr>
+                <tr class="footable-even">
+                    <td>Check Command</td>
+                    <td>{{ service.check_command }}</td>
+                </tr>
+                <tr class="footable-odd">
+                    <td>Plugin Output</td>
+                    <td>{{ service.plugin_output }}</td>
+                </tr>
+                <tr class="footable-even">
+                    <td>Duration</td>
+                    <td>{{ service.last_state_change | ago }}</td>
+                </tr>
+                <tr class="footable-odd">
+                    <td>State Type</td>
+                    <td>{{ service.state_type | state_type }}</td>
+                </tr>
+                <tr class="footable-even">
+                    <td>Current Check</td>
+                    <td>{{ service.current_attempt }} of {{ service.max_attempts }}</td>
+                </tr>
+                <tr class="footable-odd">
+                    <td>Last Check</td>
+                    <td>{{ service.last_check * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
+                </tr>
+                <tr class="footable-even">
+                    <td>Next Check</td>
+                    <td>{{ service.next_check * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
+                </tr>
+                <tr class="footable-odd">
+                    <td>Last State Change</td>
+                    <td>{{ service.last_state_change * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
+                </tr>
+                <tr class="footable-even">
+                    <td>Last Notification</td>
+                    <td>{{ service.last_notification > 0 ? (service.last_notification  * 1000 | date: 'yyyy-MM-dd H:mm:ss') : 'Never' }}</td>
+                </tr>
+                <tr class="footable-odd">
+                    <td>Check Type</td>
+                    <td>{{ service.check_type | check_type }}</td>
+                </tr>
+                <tr class="footable-even">
+                    <td>Check Latency</td>
+                    <td>{{ service.check_latency }}</td>
+                </tr>
+                <tr class="footable-odd">
+                    <td>Execution Time</td>
+                    <td>{{ service.check_execution_time }}</td>
+                </tr>
+                <tr class="footable-even">
+                    <td>State Change</td>
+                    <td>{{ service.percent_state_change }}%</td>
+                </tr>
+                <tr class="footable-odd">
+                    <td>Performance Data</td>
+                    <td>{{ service.performance_data }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="table-container partial-width">
+
+        <div class="attributes">
+
+            <h3>Attributes</h3>
+
+            <table cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr class="{{ service.active_checks_enabled | is_enabled }}">
+                        <td>Active Checks: {{ service.active_checks_enabled | is_enabled | capitalize }}</td>
+                        <td><a target="nagios" ng-href="{{ service.host_name | servicecommand: service.service_description: 'active_checks' }}">Toggle</a></td>
+                    </tr>
+                    <tr class="{{ service.passive_checks_enabled | is_enabled }}">
+                        <td>Passive Checks: {{ service.passive_checks_enabled | is_enabled | capitalize }}</td>
+                        <td><a target="nagios" ng-href="{{ service.host_name | servicecommand: service.service_description: 'passive_checks' }}">Toggle</a></td>
+                    </tr>
+                    <tr class="{{ service.obsess_over_service | is_enabled }}">
+                        <td>Obsession: {{ service.obsess_over_service | is_enabled | capitalize }}</td>
+                        <td><a target="nagios" ng-href="{{ service.host_name | servicecommand: service.service_description: 'obsession' }}">Toggle</a></td>
+                    </tr>
+                    <tr class="{{ service.notifications_enabled | is_enabled }}">
+                        <td>Notifications: {{ service.notifications_enabled | is_enabled | capitalize }}</td>
+                        <td><a target="nagios" ng-href="{{ service.host_name | servicecommand: service.service_description: 'notifications' }}">Toggle</a></td>
+                    </tr>
+                    <tr class="{{ service.flap_detection_enabled | is_enabled }}">
+                        <td>Flap Detection: {{ service.flap_detection_enabled | is_enabled | capitalize }}</td>
+                        <td><a target="nagios" ng-href="{{ service.host_name | servicecommand: service.service_description: 'flap_detection' }}">Toggle</a></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><small>Commands will not appear until after page reload</small></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="commands">
+
+            <h3>Commands</h3>
+
+            <table cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr class="footable-odd">
+                        <td><a target="nagios" ng-href="{{ service.host_name | servicecommand: service.service_description: 'custom_notification' }}">Send custom notification</a></td>
+                    </tr>
+                    <tr class="footable-even">
+                        <td><a target="nagios" ng-href="{{ service.host_name | servicecommand: service.service_description: 'schedule_downtime' }}">Schedule downtime</a></td>
+                    </tr>
+                    <tr class="footable-odd">
+                        <td><a target="nagios" ng-href="{{ service.host_name | servicecommand: service.service_description: 'schedule_check' }}">Reschedule Next Check</a></td>
+                    </tr>
+                    <tr class="footable-even">
+                        <td><a target="nagios" ng-href="{{ service.host_name | servicecommand: service.service_description: 'acknowledge_problem' }}">Acknowledge Problem</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="table-container partial-width full">
+
+        <h3>Comments</h3>
+
+        <table cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th>Author</th>
+                    <th>Entry Time</th>
+                    <th>Comment</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="4"><a target="nagios" class="add-comment" href="{{ service.host_name | servicecommand: service.service_description: 'comment_add' }}">Add Comment</a></td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr ng-if="(service.servicecomments | size) == 0">
+                    <td colspan="4">{{ is_loading ? 'Loading...' : 'No comments for service' }}</td>
+                </tr>
+                <tr ng-repeat="comment in service.servicecomments" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'">
+                    <td>{{ comment.author }}</td>
+                    <td>{{ comment.entry_time * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
+                    <td>{{ comment.comment_data }}</td>
+                    <td><a target="nagios" ng-href="{{ comment.comment_id | servicecommand: 'null-parameter': 'comment_delete' }}">Delete Comment</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div ng-include="'frontend/partials/_footer.html'"></div>

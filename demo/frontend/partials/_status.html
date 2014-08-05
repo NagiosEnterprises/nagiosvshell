@@ -1,0 +1,17 @@
+<section id="status" class="clearfix" ng-controller="StatusCtrl" ng-init="getStatus('bar')">
+    <div id="hosts-status">
+        <a ng-href="#/{{ 'host' | uri }}" class="heading">Hosts</a>
+        <a ng-href="#/{{ 'host' | uri }}/state/up" class="status-block hosts-up {{ status.hostsUpTotal | is_active }}">{{ status.hostsUpTotal }} Up</a>
+        <a ng-href="#/{{ 'host' | uri }}/state/down" class="status-block hosts-down {{ status.hostsDownTotal | is_active }}">{{ status.hostsDownTotal }} Down</a>
+        <a ng-href="#/{{ 'host' | uri }}/state/unreachable" class="status-block hosts-unreachable {{ status.hostsUnreachableTotal | is_active }}">{{ status.hostsUnreachableTotal }} Unreachable</a>
+        <a ng-href="#/{{ 'host' | uri }}/state/pending" class="status-block hosts-pending {{ status.hostsPending | is_active }}">{{ status.hostsPending }} Pending</a>
+    </div>
+    <div id="services-status">
+        <a ng-href="#/{{ 'service' | uri }}" class="heading">Services</a>
+        <a ng-href="#/{{ 'service' | uri }}/state/ok" class="status-block services-ok {{ status.servicesOkTotal | is_active }}">{{ status.servicesOkTotal }} OK</a>
+        <a ng-href="#/{{ 'service' | uri }}/state/warning" class="status-block services-warning {{ status.servicesWarningTotal | is_active }}">{{ status.servicesWarningTotal }} Warning</a>
+        <a ng-href="#/{{ 'service' | uri }}/state/unknown" class="status-block services-unknown {{ status.servicesUnknownTotal | is_active }}">{{ status.servicesUnknownTotal }} Unknown</a>
+        <a ng-href="#/{{ 'service' | uri }}/state/critical" class="status-block services-critical {{ status.servicesCriticalTotal | is_active }}">{{ status.servicesCriticalTotal }} Critical</a>
+        <a ng-href="#/{{ 'service' | uri }}/state/pending" class="status-block services-pending {{ status.servicesPendingTotal | is_active }}">{{ status.servicesPendingTotal }} Pending</a>
+    </div>
+</section>

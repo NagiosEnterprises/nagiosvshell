@@ -1,0 +1,66 @@
+<div ng-include="'frontend/partials/_header.html'"></div>
+
+<div ng-include="'frontend/partials/_status.html'"></div>
+
+<div ng-include="'frontend/partials/_browser.html'"></div>
+
+<div ng-include="'frontend/partials/_messages.html'"></div>
+
+<div id="content" class="clearfix" ng-controller="HostStatusCtrl" ng-init="getHostStatus()">
+
+    <div class="table-container full-width">
+
+        <h1>Host Status Details For All Host Groups</h1>
+
+        <p class="subheading" ng-if="statefilter">Filtered by State {{ statefilter | capitalize }}</p>
+
+        <p class="subheading" ng-if="problemsfilter">Filtered by {{ problemsfilter | capitalize }} Problems</p>
+
+        <div class="table-options">
+            <form action="" class="filter-form" method="post">
+                <div class="filter-icon"></div>
+                <input id="footable-filter" class="footable-filter" type="text" placeholder="Filter Table"/>
+            </form>
+            <div class="pagesize-container">
+                Show <a class="active" ng-href="#" data-page-size="25">25</a> <a ng-href="#" data-page-size="100">100</a> <a ng-href="#" data-page-size="50000">All</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation="#footable-pagination" data-limit-navigation="5" data-filter="#footable-filter">
+            <thead>
+                <tr>
+                    <th>Host</th>
+                    <th>Status</th>
+                    <th data-hide="phone">Last Check</th>
+                    <th data-hide="phone">Duration</th>
+                    <th data-hide="phone">Status Information</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <div class="results-count">{{ hoststatus | size }} Result{{ hoststatus | plural }}</div>
+                        <div class="footable-pagination pagination" id="footable-pagination"></div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr ng-if="(hoststatus | size) == 0">
+                    <td colspan="5">{{ is_loading ? 'Loading...' : 'No hosts are defined' }}</td>
+                </tr>
+                <tr ng-repeat="host in hoststatus | orderObjectBy: 'host_name'" class="state-{{ host.current_state | hoststate | lowercase }}" footabledata>
+                    <td host-entry item="host"></td>
+                    <td class="status">{{ host.current_state | hoststate }}</td>
+                    <td>{{ host.last_check * 1000 | date: 'yyyy-MM-dd H:mm:ss' }}</td>
+                    <td>{{ host.last_state_change | ago }}</td>
+                    <td>{{ host.plugin_output }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div ng-include="'frontend/partials/_footer.html'"></div>

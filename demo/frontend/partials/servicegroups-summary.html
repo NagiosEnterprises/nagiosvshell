@@ -1,0 +1,62 @@
+<div ng-include="'frontend/partials/_header.html'"></div>
+
+<div ng-include="'frontend/partials/_status.html'"></div>
+
+<div ng-include="'frontend/partials/_browser.html'"></div>
+
+<div ng-include="'frontend/partials/_messages.html'"></div>
+
+<div id="content" class="clearfix" ng-controller="ServicegroupStatusCtrl" ng-init="getServicegroupStatus()">
+
+    <div class="table-container full-width">
+
+        <h1>Service Group Status Details for All Groups</h1>
+
+        <div class="table-options">
+            <form action="" class="filter-form" method="post">
+                <div class="filter-icon"></div>
+                <input id="footable-filter" class="footable-filter" type="text" placeholder="Filter Table"/>
+            </form>
+            <div class="pagesize-container">
+                Show <a class="active" ng-href="#" data-page-size="25">25</a> <a ng-href="#" data-page-size="100">100</a> <a ng-href="#" data-page-size="50000">All</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation="#footable-pagination" data-limit-navigation="5" data-filter="#footable-filter">
+            <thead>
+                <tr>
+                    <th>Service Group</th>
+                    <th>Services Status</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <div class="results-count">{{ servicegroupstatus | size }} Result{{ servicegroupstatus | plural }}</div>
+                        <div class="footable-pagination pagination" id="footable-pagination"></div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr ng-if="(servicegroupstatus | size) == 0">
+                    <td colspan="2">{{ is_loading ? 'Loading...' : 'No servicegroups are defined' }}</td>
+                </tr>
+                <tr ng-repeat="servicegroup in servicegroupstatus | orderObjectBy: 'alias'" footabledata>
+                    <td><a href="#/servicegroups/{{ servicegroup.servicegroup_name }}">{{ servicegroup.alias }}</a></td>
+                    <td>
+                        <span class="status-item services-ok {{ servicegroup.servicesOK | is_active }}">{{ servicegroup.servicesOK }} OK</span>
+                        <span class="status-item services-warning {{ servicegroup.servicesWarning | is_active }}">{{ servicegroup.servicesWarning }} Warning</span>
+                        <span class="status-item services-unknown {{ servicegroup.servicesUnknown | is_active }}">{{ servicegroup.servicesUnknown }} Unknown</span>
+                        <span class="status-item services-critical {{ servicegroup.servicesCritical | is_active }}">{{ servicegroup.servicesCritical }} Critical</span>
+                        <span class="status-item services-pending {{ servicegroup.servicesPending | is_active }}">{{ servicegroup.servicesPending }} Pending</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div ng-include="'frontend/partials/_footer.html'"></div>

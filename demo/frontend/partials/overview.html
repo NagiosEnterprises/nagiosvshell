@@ -1,0 +1,276 @@
+<div ng-include="'frontend/partials/_header.html'"></div>
+
+<div ng-include="'frontend/partials/_browser.html'"></div>
+
+<div ng-include="'frontend/partials/_messages.html'"></div>
+
+<div id="content" class="clearfix" ng-controller="OverviewCtrl" ng-init="getOverview()">
+
+    <div class="table-container partial-width half left">
+
+        <div class="status-overview status-overview-hosts">
+
+            <div class="status-callout">
+                <div class="status-callout-icon {{ overview | overviewstate }}"></div>
+                <div class="status-callout-text">
+                    <h2>{{ overview.hostsProblemsTotal }} Host Problem{{ overview.hostsProblemsTotal | plural }}</h2>
+                    <h4>{{ (overview.hostsTotal - overview.hostsProblemsTotal) | percent: overview.hostsTotal: 2 }} Host Health</h4>
+                </div>
+            </div>
+
+            <div class="status-overview-tables">
+
+                <table cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <th>Host State</th>
+                            <th>Percentage</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="{{ overview.hostsUpTotal | is_active }} hosts-up footable-odd">
+                            <td><a href="#/{{ 'host' | uri }}/state/up">Up</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/state/up">{{ overview.hostsUpTotal | percent: overview.hostsTotal }}</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/state/up">{{ overview.hostsUpTotal }}</a></td>
+                        </tr>
+                        <tr class="{{ overview.hostsDownTotal | is_active }} hosts-down footable-even">
+                            <td><a href="#/{{ 'host' | uri }}/state/down">Down</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/state/down">{{ overview.hostsDownTotal | percent: overview.hostsTotal }}</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/state/down">{{ overview.hostsDownTotal }}</a></td>
+                        </tr>
+                        <tr class="{{ overview.hostsUnreachableTotal | is_active }} hosts-unreachable footable-odd">
+                            <td><a href="#/{{ 'host' | uri }}/state/unreachable">Unreachable</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/state/unreachable">{{ overview.hostsUnreachableTotal | percent: overview.hostsTotal }}</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/state/unreachable">{{ overview.hostsUnreachableTotal }}</a></td>
+                        </tr>
+                        <tr class="{{ overview.hostsPending | is_active }} hosts-pending footable-even">
+                            <td><a href="#/{{ 'host' | uri }}/state/pending">Pending</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/state/pending">{{ overview.hostsPending | percent: overview.hostsTotal }}</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/state/pending">{{ overview.hostsPending }}</a></td>
+                        </tr>
+                        <tr class="footable-odd">
+                            <th><a href="#/{{ 'host' | uri }}">Total Hosts</a></th>
+                            <th><a href="#/{{ 'host' | uri }}">-</a></th>
+                            <th><a href="#/{{ 'host' | uri }}">{{ overview.hostsTotal }}</a></th>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <th>Host Problems</th>
+                            <th>Percentage</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="footable-odd">
+                            <td><a href="#/{{ 'host' | uri }}/problems/unhandled">Unhandled</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/problems/unhandled">{{ overview.hostsUnhandledTotal | percent: overview.hostsProblemsTotal }}</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/problems/unhandled">{{ overview.hostsUnhandledTotal }}</a></td>
+                        </tr>
+                        <tr class="footable-even">
+                            <td><a href="#/{{ 'host' | uri }}/problems/acknowledged">Acknowledged</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/problems/acknowledged">{{ overview.hostsAcknowledgedTotal | percent: overview.hostsProblemsTotal }}</a></td>
+                            <td><a href="#/{{ 'host' | uri }}/problems/acknowledged">{{ overview.hostsAcknowledgedTotal }}</a></td>
+                        </tr>
+                        <tr class="footable-odd">
+                            <th><a href="#/{{ 'host' | uri }}/problems/all">Total Problems</a></th>
+                            <th><a href="#/{{ 'host' | uri }}/problems/all">-</a></th>
+                            <th><a href="#/{{ 'host' | uri }}/problems/all">{{ overview.hostsProblemsTotal }}</a></th>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="table-container partial-width half right">
+
+        <div class="status-overview status-overview-services">
+
+            <div class="status-callout">
+                <div class="status-callout-icon {{ overview | overviewstate }}">
+                    <span class="status-icon-{{ overview | overviewstate }}"></span>
+                </div>
+                <div class="status-callout-text">
+                    <h2>{{ overview.servicesProblemsTotal }} Service Problem{{ overview.servicesProblemsTotal | plural }}</h2>
+                    <h4>{{ (overview.servicesTotal - overview.servicesProblemsTotal) | percent: overview.servicesTotal: 2 }} Service Health</h4>
+                </div>
+            </div>
+
+            <div class="status-overview-tables">
+
+                <table cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <th>Service State</th>
+                            <th>Percentage</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="{{ overview.servicesOkTotal | is_active }} services-ok footable-odd">
+                            <td><a href="#/{{ 'service' | uri }}/state/ok">Ok</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/ok">{{ overview.servicesOkTotal | percent: overview.servicesTotal }}</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/ok">{{ overview.servicesOkTotal }}</a></td>
+                        </tr>
+                        <tr class="{{ overview.servicesWarningTotal | is_active }} services-warning footable-even">
+                            <td><a href="#/{{ 'service' | uri }}/state/warning">Warning</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/warning">{{ overview.servicesWarningTotal | percent: overview.servicesTotal }}</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/warning">{{ overview.servicesWarningTotal }}</a></td>
+                        </tr>
+                        <tr class="{{ overview.servicesUnknownTotal | is_active }} services-unknown footable-odd">
+                            <td><a href="#/{{ 'service' | uri }}/state/unknown">Unknown</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/unknown">{{ overview.servicesUnknownTotal | percent: overview.servicesTotal }}</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/unknown">{{ overview.servicesUnknownTotal }}</a></td>
+                        </tr>
+                        <tr class="{{ overview.servicesCriticalTotal | is_active }} services-critical footable-even">
+                            <td><a href="#/{{ 'service' | uri }}/state/critical">Critical</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/critical">{{ overview.servicesCriticalTotal | percent: overview.servicesTotal }}</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/critical">{{ overview.servicesCriticalTotal }}</a></td>
+                        </tr>
+                        <tr class="{{ overview.servicesPendingTotal | is_active }} services-pending footable-odd">
+                            <td><a href="#/{{ 'service' | uri }}/state/pending">Pending</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/pending">{{ overview.servicesPendingTotal | percent: overview.servicesTotal }}</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/state/pending">{{ overview.servicesPendingTotal }}</a></td>
+                        </tr>
+                        <tr class="footable-even">
+                            <th><a href="#/{{ 'service' | uri }}">Total Services</a></th>
+                            <th><a href="#/{{ 'service' | uri }}">-</a></th>
+                            <th><a href="#/{{ 'service' | uri }}">{{ overview.servicesTotal }}</a></th>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <th>Service Problems</th>
+                            <th>Percentage</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="footable-odd">
+                            <td><a href="#/{{ 'service' | uri }}/problems/unhandled">Unhandled</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/problems/unhandled">{{ overview.servicesUnhandledTotal | percent: overview.servicesProblemsTotal }}</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/problems/unhandled">{{ overview.servicesUnhandledTotal }}</a></td>
+                        </tr>
+                        <tr class="footable-even">
+                            <td><a href="#/{{ 'service' | uri }}/problems/acknowledged">Acknowledged</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/problems/acknowledged">{{ overview.servicesAcknowledgedTotal | percent: overview.servicesProblemsTotal }}</a></td>
+                            <td><a href="#/{{ 'service' | uri }}/problems/acknowledged">{{ overview.servicesAcknowledgedTotal }}</a></td>
+                        </tr>
+                        <tr class="footable-odd">
+                            <th><a href="#/{{ 'service' | uri }}/problems/all">Total Problems</a></th>
+                            <th><a href="#/{{ 'service' | uri }}/problems/all">-</a></th>
+                            <th><a href="#/{{ 'service' | uri }}/problems/all">{{ overview.servicesProblemsTotal }}</a></th>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!--
+
+    <h1>Tactical Overview</h1>
+
+    <table class="tac">
+        <tbody>
+
+            <tr>
+                <th>Monitoring Features</th>
+            </tr>
+
+            <tr>
+                <td>Flap Detection</td>
+                <td>Notification</td>
+                <td>Event Handlers</td>
+                <td>Active Checks</td>
+                <td>Passive Checks</td>
+            </tr>
+
+            <tr>
+
+                <td class="green">
+                    <?php echo $data['hostsFdHtml']; ?><br />
+                    <?php echo $data['servicesFdHtml']; ?><br />
+                    <?php echo $data['hostsFlapHtml']; ?><br />
+                    <?php echo $data['servicesFlapHtml']; ?><br />
+                </td>
+
+                <td class="green">
+                    <?php echo $data['hostsNtfHtml']; ?><br />
+                    <?php echo $data['servicesNtfHtml']; ?><br />
+                </td>
+
+                <td class="green">
+                    <?php echo $data['hostsEhHtml']; ?><br />
+                    <?php echo $data['servicesEhHtml']; ?><br />
+                </td>
+
+                <td class="green">
+                    <?php echo $data['hostsAcHtml']; ?><br />
+                    <?php echo $data['servicesAcHtml']; ?><br />
+                </td>
+
+                <td class="green">
+                    <?php echo $data['hostsPcHtml']; ?><br />
+                    <?php echo $data['servicesPcHtml']; ?><br />
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+active_service_checks: "1"
+event_handlers: "1"
+flap_detection: "1"
+hostlink: "/vshell2/hosts?state_filter="
+hostsAcHtml: "All Hosts Enabled"
+hostsActiveChecksDisabled: 0
+hostsEhHtml: "All Hosts Enabled"
+hostsEventHandlerDisabled: 0
+hostsFdHtml: "All Hosts Enabled"
+hostsFlapHtml: "No Hosts Flapping"
+hostsFlapping: 0
+hostsFlappingDisabled: 0
+hostsNotificationsDisabled: 0
+hostsNtfHtml: "All Hosts Enabled"
+hostsPassiveChecksDisabled: 0
+hostsPcHtml: "All Hosts Enabled"
+last_command_check: 1406587276
+lastcmd: "Mon Jul 28 22:41 16s"
+notifications: "1"
+passive_service_checks: "1"
+servicesAcHtml: "All Services Enabled"
+servicesActiveChecksDisabled: 0
+servicesEhHtml: "All Services Enabled"
+servicesEventHandlerDisabled: 0
+servicesFdHtml: "All Services Enabled"
+servicesFlapHtml: "No Servies Flapping"
+servicesFlapping: 0
+servicesFlappingDisabled: 0
+servicesNotificationsDisabled: 0
+servicesNtfHtml: "All Services Enabled"
+servicesPassiveChecksDisabled: 1
+servicesPcHtml: "<span class="red">1 Services disabled</span>"
+servlink: "/vshell2/services?state_filter="
+version: "3.5.1"
+
+
+    -->
+
+</div>
+
+<div ng-include="'frontend/partials/_footer.html'"></div>
