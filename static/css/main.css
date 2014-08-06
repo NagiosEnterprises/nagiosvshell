@@ -488,7 +488,8 @@ a {
         }
 
 #callout-image {
-    background: url('../images/callout-host-detail.png') top center no-repeat;
+    background: url('../images/callout-host-detail.png') center center no-repeat;
+    background-size: contain;
     height: 604px;
     margin: -17px 0px 0px -17px;
     width: 974px;
@@ -506,14 +507,51 @@ a {
 
 }
 
+@media only screen and (max-width: 1019px) {
+
+    #callout-image {
+        margin: 0px;
+        width: 100%;
+    }
+
+}
+
 @media only screen and (max-width: 959px) {
+
+    #wrapper-callout {
+        height: 720px;
+    }
+
+        #callout-image {
+            height: 470px;
+        }
 
 }
 
 @media only screen and (max-width: 767px) {
 
+    #wrapper-header nav {
+        display: none;
+    }
+
+    #wrapper-callout {
+        height: 600px;
+    }
+
+        #callout-image {
+            height: 280px;
+        }
+
 }
 
 @media only screen and (max-width: 479px) {
+
+    #wrapper-callout {
+        height: 584px;
+    }
+
+        #callout-image {
+            height: 200px;
+        }
 
 }
