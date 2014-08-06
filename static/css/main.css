@@ -1,0 +1,519 @@
+/* Fonts
+ * ============================================================================ */
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/OpenSans-Light-webfont.woff') format('woff'),
+         url('../fonts/OpenSans-Light-webfont.ttf')  format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/OpenSans-Regular-webfont.woff') format('woff'),
+         url('../fonts/OpenSans-Regular-webfont.ttf')  format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/OpenSans-Semibold-webfont.woff') format('woff'),
+         url('../fonts/OpenSans-Semibold-webfont.ttf')  format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/OpenSans-Bold-webfont.woff') format('woff'),
+         url('../fonts/OpenSans-Bold-webfont.ttf')  format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+
+/* Normalize CSS
+ * ============================================================================ */
+/* ! normalize.css v3.0.1 | MIT License | git.io/normalize */
+
+html {
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+    display: block;
+}
+
+audio,
+canvas,
+progress,
+video {
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
+
+[hidden],
+template {
+    display: none;
+}
+
+a {
+    background: transparent;
+}
+
+a:active,
+a:hover {
+    outline: 0;
+}
+
+abbr[title] {
+    border-bottom: 1px dotted;
+}
+
+b,
+strong {
+    font-weight: bold;
+}
+
+dfn {
+    font-style: italic;
+}
+
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+mark {
+    background: #ff0;
+    color: #000;
+}
+
+small {
+    font-size: 80%;
+}
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -0.5em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+img {
+    border: 0;
+}
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+figure {
+    margin: 1em 40px;
+}
+
+hr {
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
+}
+
+pre {
+    overflow: auto;
+}
+
+code,
+kbd,
+pre,
+samp {
+    font-family: monospace, monospace;
+    font-size: 1em;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+}
+
+button {
+    overflow: visible;
+}
+
+button,
+select {
+    text-transform: none;
+}
+
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+
+button[disabled],
+html input[disabled] {
+    cursor: default;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+input {
+    line-height: normal;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    height: auto;
+}
+
+input[type="search"] {
+    -webkit-appearance: textfield;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+fieldset {
+    border: 1px solid #c0c0c0;
+    margin: 0 2px;
+    padding: 0.35em 0.625em 0.75em;
+}
+
+legend {
+    border: 0;
+    padding: 0;
+}
+
+textarea {
+    overflow: auto;
+}
+
+optgroup {
+    font-weight: bold;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+td,
+th {
+    padding: 0;
+}
+
+
+/* Universals
+ * ============================================================================ */
+
+html,
+body {
+    background: #212121;
+    color: #3e3e3e;
+    font-family: 'Open Sans', sans-serif;
+    font-smooth: always;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+code,
+pre {
+    font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+}
+
+code {
+    color: #bf1f47;
+    font-size: 14px;
+    white-space: nowrap
+}
+
+pre {
+    background: #303030;
+    color: #fff;
+    display: block;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0px 0px 10px;
+    padding: 30px;
+    white-space: pre;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* Structure
+ * ============================================================================ */
+
+.wrapper {
+    width: 100%;
+}
+
+    #wrapper-header {
+        background: #212121;
+        height: 80px;
+        max-height: 80px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    #wrapper-callout {
+        background: #007acc url('../images/background-disk.jpg') bottom right no-repeat;
+        height: 828px;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    #wrapper-about {
+        display: none;
+        padding: 0px 0px 50px 0px;
+    }
+
+    #wrapper-features {
+        display: none;
+        padding: 0px 0px 50px 0px;
+    }
+
+    #wrapper-footer {
+        display: none;
+    }
+
+
+/* Header
+ * ============================================================================ */
+
+#container-header {
+    height: 80px;
+    position: relative;
+}
+
+    .logo-container {
+        height: 100%;
+        top: 0px;
+        left: 0px;
+        position: absolute;
+        width: 280px;
+    }
+
+        .logo {
+            background: url('../images/logo-shell.png') 0px 10px no-repeat;
+            color: #4580a8;
+            display: block;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 60px;
+            height: 60px;
+            margin: 10px 0px;
+            padding: 0px 0px 0px 37px;
+            text-decoration: none;
+            width: 280px;
+        }
+
+            .logo .emphasis {
+                color: #fff;
+            }
+
+
+    nav {
+        bottom: 0px;
+        display: block;
+        height: 100%;
+        left: 280px;
+        position: absolute;
+        right: 0px;
+        top: 0px;
+    }
+
+        nav ul {
+            display: block;
+            float: right;
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+        }
+
+            nav li {
+                display: inline-block;
+                margin: 0px;
+                padding: 0px 0px 0px 0px;
+            }
+
+                nav a {
+                    color: #eee;
+                    display: inline-block;
+                    height: 80px;
+                    font-size: 15px;
+                    line-height: 22px;
+                    padding: 29px 10px;
+                    text-decoration: none;
+                }
+
+                    nav a:hover {
+                        background: #d54452;
+                    }
+
+                    nav a.github {
+                        background: url('../images/icon-github.png') center right no-repeat;
+                        text-indent: -5000px;
+                        padding-left: 20px;
+                        width: 22px;
+                    }
+
+/* Callout
+ * ============================================================================ */
+
+#callout h1 {
+    color: #fff;
+    display: block;
+    font-size: 55px;
+    font-weight: 300;
+    line-height: 55px;
+    margin: 60px 0px 0px 0px;
+    padding: 0px;
+    width: 100%;
+}
+
+#callout h4 {
+    color: #fff;
+    display: block;
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 20px;
+    margin: 15px 0px 0px 0px;
+    padding: 0px;
+    width: 100%;
+}
+
+#callout-buttons {
+    margin: 36px 0px 36px 0px;
+    width: 100%;
+}
+
+    #callout-buttons .button {
+        border-radius: 3px;
+        display: inline-block;
+        font-weight: 700;
+        font-size: 14px;
+        text-transform: uppercase;
+    }
+
+    #callout-button-download {
+        background: #fff;
+        color: #2e75a4;
+        padding: 13px 23px;
+        margin: 0px 5px 0px 0px;
+    }
+
+        #callout-button-download:hover {
+            background: #12537f;
+            color: #fff;
+        }
+
+    #callout-button-demo {
+        border: 2px solid #fff;
+        color: #fff;
+        padding: 11px 21px;
+    }
+
+        #callout-button-demo:hover {
+            background: #12537f;
+            color: #fff;
+            border: none;
+            padding: 13px 23px;
+        }
+
+#callout-image {
+    background: url('../images/callout-host-detail.png') top center no-repeat;
+    height: 604px;
+    margin: -17px 0px 0px -17px;
+    width: 974px;
+}
+
+
+/* Mobile
+ * ============================================================================ */
+
+@media only screen and (min-width: 1910px) {
+
+    #wrapper-header {
+        background-size: cover;
+    }
+
+}
+
+@media only screen and (max-width: 959px) {
+
+}
+
+@media only screen and (max-width: 767px) {
+
+}
+
+@media only screen and (max-width: 479px) {
+
+}
