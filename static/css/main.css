@@ -334,10 +334,16 @@ a {
         padding: 100px 0px 40px 0px;
     }
 
+    #wrapper-action {
+        background: #90b206;
+        text-align: center;
+    }
+
     #wrapper-footer {
-        background: #f2f2f2;
+        background: #212121;
         font-size: 15px;
-        padding: 30px 0px 30px 0px;
+        padding: 25px 0px 25px 0px;
+        text-align: center;
     }
 
 
@@ -451,7 +457,7 @@ a {
     width: 100%;
 }
 
-    #callout-buttons .button {
+    .button {
         border-radius: 3px;
         display: inline-block;
         font-weight: 700;
@@ -459,25 +465,25 @@ a {
         text-transform: uppercase;
     }
 
-    #callout-button-download {
+    .button-download {
         background: #fff;
         color: #2e75a4;
         padding: 13px 23px;
         margin: 0px 5px 0px 0px;
     }
 
-        #callout-button-download:hover {
+        .button-download:hover {
             background: #12537f;
             color: #fff;
         }
 
-    #callout-button-demo {
+    .button-demo {
         border: 2px solid #fff;
         color: #fff;
         padding: 11px 21px;
     }
 
-        #callout-button-demo:hover {
+        .button-demo:hover {
             background: #12537f;
             color: #fff;
             border: none;
@@ -497,10 +503,10 @@ a {
  * ============================================================================ */
 
 #about h2 {
-    font-size: 30px;
+    font-size: 36px;
     font-weight: 400;
     line-height: 1em;
-    margin: 0px 0px 26px 0px;
+    margin: 0px 0px 30px 0px;
     padding: 0px;
 }
 
@@ -513,10 +519,10 @@ a {
 }
 
 #about h3 {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 400;
     line-height: 30px;
-    margin: 0px 0px 26px 0px;
+    margin: 0px 0px 30px 0px;
     padding: 0px;
 }
 
@@ -526,15 +532,69 @@ a {
 }
 
 
+/* Action
+ * ============================================================================ */
+
+#action h2 {
+    color: #fff;
+    display: block;
+    font-size: 45px;
+    font-weight: 300;
+    line-height: 45px;
+    margin: 60px 0px 0px 0px;
+    padding: 0px;
+    width: 100%;
+}
+
+#action h4 {
+    color: #fff;
+    display: block;
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 20px;
+    margin: 15px 0px 0px 0px;
+    padding: 0px;
+    width: 100%;
+}
+
+#action-buttons {
+    margin: 30px 0px 60px 0px;
+    width: 100%;
+}
+
+#action .button-download {
+    background: #fff;
+    color: #698301;
+}
+
+    #action .button-download:hover {
+        background: #759201;
+        color: #fff;
+    }
+
+#action .button-demo {
+    border: 2px solid #fff;
+    color: #fff;
+    padding: 11px 21px;
+}
+
+    #action .button-demo:hover {
+        background: #759201;
+        color: #fff;
+        border: none;
+        padding: 13px 23px;
+    }
+
+
 /* Footer
  * ============================================================================ */
 
 #footer p {
-    text-align: center;
+    color: #aaa;
 }
 
 #footer a {
-    color: #1c6da4;
+    color: #fff;
 }
 
 /* Mobile
