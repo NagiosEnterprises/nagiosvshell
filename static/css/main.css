@@ -264,9 +264,12 @@ th {
 html,
 body {
     background: #212121;
+    background: #fff;
     color: #3e3e3e;
     font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
     font-smooth: always;
+    line-height: 24px;
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
@@ -284,25 +287,24 @@ pre {
 }
 
 code {
-    color: #bf1f47;
+    color: #d54452;
     font-size: 14px;
     white-space: nowrap
 }
 
 pre {
-    background: #303030;
-    color: #fff;
+    color: #555;
     display: block;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 20px;
-    margin: 0px 0px 10px;
-    padding: 30px;
+    margin: 0px 0px 1em 0px;
     white-space: pre;
     word-break: break-all;
     word-wrap: break-word;
 }
 
 a {
+    color: #007acc;
     text-decoration: none;
 }
 
@@ -324,23 +326,18 @@ a {
 
     #wrapper-callout {
         background: #007acc url('../images/background-disk.jpg') bottom right no-repeat;
-        height: 828px;
-        overflow: hidden;
+        height: 800px;
         text-align: center;
     }
 
     #wrapper-about {
-        display: none;
-        padding: 0px 0px 50px 0px;
-    }
-
-    #wrapper-features {
-        display: none;
-        padding: 0px 0px 50px 0px;
+        padding: 100px 0px 40px 0px;
     }
 
     #wrapper-footer {
-        display: none;
+        background: #f2f2f2;
+        font-size: 15px;
+        padding: 30px 0px 30px 0px;
     }
 
 
@@ -496,6 +493,50 @@ a {
 }
 
 
+/* About
+ * ============================================================================ */
+
+#about h2 {
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 1em;
+    margin: 0px 0px 26px 0px;
+    padding: 0px;
+}
+
+#about p.intro {
+    font-size: 18px;
+}
+
+#about ul {
+    line-height: 22px;
+}
+
+#about h3 {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 30px;
+    margin: 0px 0px 26px 0px;
+    padding: 0px;
+}
+
+#container-quick-install p {
+    font-size: 15px;
+    line-height: 22px;
+}
+
+
+/* Footer
+ * ============================================================================ */
+
+#footer p {
+    text-align: center;
+}
+
+#footer a {
+    color: #1c6da4;
+}
+
 /* Mobile
  * ============================================================================ */
 
@@ -503,6 +544,21 @@ a {
 
     #wrapper-header {
         background-size: cover;
+    }
+
+}
+
+@media only screen and (min-width: 1020px) {
+
+    #container-about-text {
+        padding-right: 50px;
+        width: 570px;
+    }
+
+    #container-quick-install {
+        border-left: 1px solid #ccc;
+        padding: 0px 0px 0px 50px;
+        width: 350px;
     }
 
 }
