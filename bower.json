@@ -1,0 +1,13 @@
+{
+  "name": "nagios-vshell",
+  "description": "A visual shell for Nagios",
+  "version": "0.0.0",
+  "homepage": "https://github.com/chrislaskey/nagiosvshell",
+  "license": "GPLv2",
+  "private": true,
+  "dependencies": {
+    "angular": "1.2.x",
+    "angular-route": "1.2.x",
+    "angular-mocks": "~1.2.x"
+  }
+}

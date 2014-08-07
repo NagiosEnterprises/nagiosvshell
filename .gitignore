@@ -1,0 +1,4 @@
+node_modules*
+www/frontend/bower_components*
+www/index.html
+*npm-debug.log
