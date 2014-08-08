@@ -1,9 +1,9 @@
+'use strict';
+
 // Messages
 
     var messages = (function($){
         
-        'use strict';
-
         var add = function(type, text){
             var container = $('#messages'),
                 time = moment().calendar(),
@@ -23,13 +23,13 @@
             }, 9000);
 
             message.appendTo(container);
-        }
+        };
 
         return {
             error: function(text){
                 add('error', text);
             }
-        }
+        };
 
     })(jQuery);
 
@@ -37,8 +37,6 @@
 // Quicksearch
 
     var quicksearch = (function($){
-
-        'use strict';
 
         var version = 0;
 
@@ -57,7 +55,7 @@
                     '<span class="value">' + data.name + '</span>',
                 '</div>'
             ].join('\n');
-        }
+        };
 
         var get_name = function(){
             // Quicksearch uses localStorage and uses the name as a key.
@@ -65,11 +63,7 @@
             // data is updated.
             version = version + 1;
             return 'quicksearch' + version;
-        }
-
-        var get_path = function(type, uri){
-            return '/hosts/' + uri;
-        }
+        };
 
         var init = function(data, callback){
 
@@ -99,7 +93,7 @@
                 callback(e, item);
             });
 
-        }
+        };
 
         var matcher = function(items){
 
@@ -118,13 +112,13 @@
                 cb(matches);
             };
 
-        }
+        };
 
         return {
             init: function(data, callback){
                 init(data, callback);
             }
-        }
+        };
 
     })(jQuery);
 
@@ -136,6 +130,7 @@
     tables.pagesize = {};
 
     tables.pagesize.bind = function(){
+
         $('body').on('click', '.pagesize-container a', function(e){
             var pagesize = $(this).data('page-size'),
                 options = $(this).siblings('a'),
@@ -151,14 +146,12 @@
                 .data('footable')
                 .redraw();
         });
-    }
+    };
 
 
 // Nav
 
     var nav = (function($){
-
-        'use strict';
 
         var cookie_name = 'vshell_nav',
             mobile_breakpoint = 768,
@@ -169,30 +162,30 @@
             $('body')
                 .removeClass('sidebar-closed')
                 .addClass('sidebar-open');
-        }
+        };
 
         var close = function(){
             $('body')
                 .removeClass('sidebar-open')
                 .addClass('sidebar-closed');
-        }
+        };
 
         var get_cookie = function(){
             return $.cookie(cookie_name);
-        }
+        };
 
         var set_cookie = function(value){
             $.cookie(cookie_name, value, { expires: 365, path: '/' });
-        }
+        };
 
         var is_mobile = function(){
-            return $(window).width() < mobile_breakpoint
-        }
+            return $(window).width() < mobile_breakpoint;
+        };
 
         var was_open = function(){
             var cookie = get_cookie();
-            return cookie === 'open' || cookie == undefined;
-        }
+            return cookie === 'open' || cookie === undefined;
+        };
 
         var load = function(){
             if( is_mobile() ){
@@ -204,10 +197,10 @@
                     close();
                 }
             }
-        }
+        };
 
         var bind = function(){
-            $('body').on('click', 'nav', function(e){
+            $('body').on('click', 'nav', function(){
                 load();
             });
 
@@ -222,7 +215,7 @@
                 set_cookie('close');
                 close();
             });
-        }
+        };
 
         return {
             init: function(){
@@ -232,7 +225,7 @@
             open: function(){
                 open();
             }
-        }
+        };
 
     })(jQuery);
 
@@ -240,8 +233,6 @@
 // Colorscheme
 
     var colorscheme = (function($){
-
-        'use strict';
 
         var cookie_name = 'vshell_colorscheme',
             buttons = '.colorscheme-choice',
@@ -253,36 +244,36 @@
                 .removeClass('colorscheme-dark')
                 .removeClass('colorscheme-blue')
                 .addClass(color);
-        }
+        };
 
         var get_cookie = function(){
             return $.cookie(cookie_name);
-        }
+        };
 
         var set_cookie = function(value){
             $.cookie(cookie_name, value, { expires: 365, path: '/' });
-        }
+        };
 
         var load = function(){
             click();
-        }
+        };
 
         var bind = function(nav){
             $('body').on('click', buttons, function(e){
-                var color = $(this).attr("title");
+                var color = $(this).attr('title');
                 e.preventDefault();
                 set_cookie(color);
                 nav.open();
                 click();
             });
-        }
+        };
 
         return {
             init: function(){
                 bind(nav);
                 load();
             }
-        }
+        };
 
     })(jQuery);
 
@@ -294,3 +285,5 @@
         colorscheme.init(nav);
         tables.pagesize.bind();
     });
+
+/*jshint unused:false */

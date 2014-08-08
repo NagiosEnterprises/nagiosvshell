@@ -22,12 +22,12 @@ angular.module('vshell.controllers', [])
                         path = base + '/' + item.uri;
                     $location.path(path);
                     $scope.$apply();
-                }
+                };
 
                 quicksearch.init(data, quicksearch_callback);
 
                 return data;
-            }
+            };
 
         $scope.init = function () {
 
@@ -75,7 +75,7 @@ angular.module('vshell.controllers', [])
 
             async.api($scope, options);
 
-        }
+        };
 
     }])
 
@@ -92,7 +92,7 @@ angular.module('vshell.controllers', [])
                 }
 
                 return data;
-            }
+            };
 
         $scope.init = function () {
 
@@ -148,7 +148,7 @@ angular.module('vshell.controllers', [])
 
         var callback = function(data, status, headers, config){
                 return (data && data[0]) ? data[0] : data;
-            }
+            };
 
         $scope.init = function () {
 
@@ -178,7 +178,7 @@ angular.module('vshell.controllers', [])
                 }
 
                 return data;
-            }
+            };
 
         $scope.init = function () {
 
@@ -252,7 +252,7 @@ angular.module('vshell.controllers', [])
 
         var callback = function(data, status, headers, config){
                 return (data && data[0]) ? data[0] : data;
-            }
+            };
 
         $scope.init = function () {
 
@@ -277,7 +277,7 @@ angular.module('vshell.controllers', [])
                     data = data[type] || {};
                 }
                 return data;
-            }
+            };
 
         $scope.init = function () {
 
@@ -306,7 +306,7 @@ angular.module('vshell.controllers', [])
                 data = data[type]['items'];
                 data = $filter('property')(data, name_key, name)[0];
                 return data;
-            }
+            };
 
         $scope.init = function () {
 
@@ -340,4 +340,4 @@ angular.module('vshell.controllers', [])
 
         };
 
-    }])
+    }]);

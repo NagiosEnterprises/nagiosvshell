@@ -31,4 +31,4 @@ angular.module('vshell', [
         $routeProvider.when('/comments', {templateUrl: 'frontend/partials/comments.html'});
         $routeProvider.when('/options', {templateUrl: 'frontend/partials/options.html'});
         $routeProvider.otherwise({redirectTo: '/overview'});
-    }])
+    }]);

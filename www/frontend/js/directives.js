@@ -132,4 +132,4 @@ angular.module('vshell.directives', [])
             templateUrl: 'frontend/partials/directives/service-entry.html',
         };
 
-    })
+    });

@@ -11,7 +11,7 @@ angular.module('vshell.filters', [])
                 return '';
             }
 
-            first = input.substring(0,1).toUpperCase(),
+            first = input.substring(0,1).toUpperCase();
             rest = input.substring(1);
 
             if( strict ){
@@ -19,7 +19,7 @@ angular.module('vshell.filters', [])
             }
 
             return first + rest;
-        }
+        };
     })
 
     .filter('count', function() {
@@ -31,21 +31,21 @@ angular.module('vshell.filters', [])
     .filter('plural', function() {
         return function(input) {
             var size = _.size(input);
-            return size == 1 ? '' : 's';
+            return size === 1 ? '' : 's';
         };
     })
 
     .filter('percent', function(numberFilter) {
-        return function(input, total, places) {
+        return function(input, total, precision) {
             var fraction = parseInt(input, 10) / parseInt(total, 10),
                 percent = fraction * 100,
-                places = (places != 0 && ! places) ? 1 : places;
+                places = (precision !== 0 && ! precision) ? 1 : precision;
 
-            if( input == undefined || ! total ){ // Catch when total == 0
+            if( input === undefined || ! total ){ // Catch when total == 0
                 throw new Error('Requires numeric input and total arguments');
             }
 
-            if( percent == 0 || percent == 100 ){
+            if( percent === 0 || percent === 100 ){
                 return percent + '%';
             } else {
                 return numberFilter(percent, places) + '%';
@@ -82,8 +82,8 @@ angular.module('vshell.filters', [])
         // Dependencies: underscore.js
 
         function parseString(input){
-            return input.split(".");
-        };
+            return input.split('.');
+        }
 
         function getValue(element, propertyArray){
             var value = element;
@@ -93,16 +93,16 @@ angular.module('vshell.filters', [])
             });
 
             return value;
-        };
+        }
 
         return function (input, propertyString, target, reverse){
             var properties = parseString(propertyString);
 
             return _.filter(input, function(item){
                 if( reverse ){ 
-                    return getValue(item, properties) != target;
+                    return getValue(item, properties) !== target;
                 }else{
-                    return getValue(item, properties) == target;
+                    return getValue(item, properties) === target;
                 }
             });
         };
@@ -111,11 +111,11 @@ angular.module('vshell.filters', [])
     .filter('uri', function() {
         // Decouples type (hosts) from URI path (/hosts)
         return function(input) {
-            if( input == 'host' ){ return 'hosts'; }
-            if( input == 'service' ){ return 'services'; }
-            if( input == 'hostgroup' ){ return 'hostgroups'; }
-            if( input == 'servicegroup' ){ return 'servicegroups'; }
-            if( input == 'configuration' ){ return 'configurations'; }
+            if( input === 'host' ){ return 'hosts'; }
+            if( input === 'service' ){ return 'services'; }
+            if( input === 'hostgroup' ){ return 'hostgroups'; }
+            if( input === 'servicegroup' ){ return 'servicegroups'; }
+            if( input === 'configuration' ){ return 'configurations'; }
             return 'overview';
         };
     })
@@ -367,7 +367,7 @@ angular.module('vshell.filters', [])
 
             if( state ){
                 state_capitalized = capitalizeFilter(state);
-                state_id_lookup = (type == 'host') ? hoststateFilter : servicestateFilter;
+                state_id_lookup = (type === 'host') ? hoststateFilter : servicestateFilter;
                 state_id = state_id_lookup(state_capitalized, 'reverse-lookup');
                 input = propertyFilter(input, 'current_state', state_id);
             }
@@ -394,4 +394,4 @@ angular.module('vshell.filters', [])
 
             return input;
         };
-    })
+    });

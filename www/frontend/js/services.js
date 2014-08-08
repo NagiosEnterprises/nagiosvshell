@@ -38,21 +38,21 @@ angular.module('vshell.services', [])
         async.validate = function(options){
             options.method = options.method || 'GET';
             return options;
-        }
+        };
 
         async.hash = function(input){
             // Quick hash algorithm from Java
             // http://stackoverflow.com/a/7616484/657661
 
             var hash = 0, i, chr, len;
-            if (input.length == 0) { return hash; }
+            if (input.length === 0) { return hash; }
             for (i = 0, len = input.length; i < len; i++) {
                 chr   = input.charCodeAt(i);
                 hash  = ((hash << 5) - hash) + chr;
                 hash |= 0; // Convert to 32bit integer
             }
             return hash;
-        }
+        };
 
         async.set_scope = function(scope, options, data){
             scope[options.name] = data;
@@ -60,38 +60,38 @@ angular.module('vshell.services', [])
                 options: options,
                 data: data
             };
-        }
+        };
 
         async.is_loading = function(scope, bool){
             var result = bool ? true : false;
             scope['is_loading'] = result;
-        }
+        };
 
         async.apply_callback = function(callback, data, status, headers, config){
-            if( typeof(callback) == "function" ){
+            if( typeof(callback) === 'function' ){
                 data = callback(data, status, headers, config);
             }
             return data;
-        }
+        };
 
         async.cached = function(scope, options){
             var result = async.get_cache(options.url),
                 data = async.apply_callback(options.callback, result.data, result.status, result.headers, result.config);
 
             async.set_scope(scope, options, data);
-        }
+        };
 
         async.get_cache = function(key){
             var cache_key = async.hash(key),
                 empty_result = {};
 
             return async.cache[cache_key] || empty_result;
-        }
+        };
 
         async.set_cache = function(key, value){
             var cache_key = async.hash(key);
             async.cache[cache_key] = value;
-        }
+        };
 
         async.update_queue = function(scope, options){
             // Update data asynchronously on a time interval set in vshell.conf
@@ -118,7 +118,7 @@ angular.module('vshell.services', [])
                 }, async.interval_time);
 
             }
-        }
+        };
 
         async.api = function(scope, options){
             options.url = paths.api + options.url + paths.api_appendix;
@@ -128,7 +128,7 @@ angular.module('vshell.services', [])
             }
             async.fetch(scope, options);
             async.update_queue(scope, options);
-        }
+        };
 
         async.fetch = function(scope, options){
             async.is_loading(scope, true);
@@ -148,7 +148,7 @@ angular.module('vshell.services', [])
                 error(function(data, status, headers, config) {
                     messages.error('failed to update ' + options.name + ' data from the V-Shell2 API');
                 });
-        }
+        };
 
         return {
             api: function(scope, options){
@@ -161,10 +161,10 @@ angular.module('vshell.services', [])
     .factory('paths', function($http) {
 
         var add_slashes = function(path){
-            var has_leading_slash = (path.substring(0,1) == '/'),
-                has_trailing_slash = (path.slice(-1) == '/');
+            var has_leading_slash = (path.substring(0,1) === '/'),
+                has_trailing_slash = (path.slice(-1) === '/');
 
-            if( path == '' || path == '/' ){
+            if( path === '' || path === '/' ){
                 return path;
             }
 
@@ -234,4 +234,4 @@ angular.module('vshell.services', [])
             core_for_filters: core_for_filters,
         };
 
-    })
+    });
