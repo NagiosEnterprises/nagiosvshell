@@ -1,6 +1,8 @@
 'use strict';
 
-describe('controllers', function(){
+describe('Controllers', function(){
+
+    var $filter, scope, ctrl, mockAsync;
 
     beforeEach(function(){
         module('vshell.controllers');
@@ -8,403 +10,336 @@ describe('controllers', function(){
         module('vshell.services');
     });
 
-
-    // Page
-
-    it('Should be defined', inject(function($controller) {
-        var ctrl = $controller('PageCtrl', { $scope: {}, async: {}, paths: {} });
-
-        expect( ctrl ).toBeDefined();
+    beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        scope = $rootScope.$new();
+        mockAsync = mockService(async);
     }));
 
+    describe('Page', function() {
 
-    // Quicksearch
+        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+            ctrl = $controller('PageCtrl', { $scope: scope, async: mockAsync, paths: {} });
+        }));
 
-    it('Should be defined', inject(function($controller) {
-        var ctrl = $controller('QuicksearchCtrl', { $scope: {}, $location: {}, $filter: {}, async: {} });
+        it('Should be defined', inject(function($controller) {
+            expect( ctrl ).toBeDefined();
+        }));
 
-        expect( ctrl ).toBeDefined();
-    }));
+    });
 
-    it('Should have an init method', inject(function($rootScope, $controller, $location, $filter, async) {
-        var scope = $rootScope.$new(),
-            ctrl = $controller('QuicksearchCtrl', { $scope: scope, $location: {}, $filter: {}, async: {} });
+    describe('Quicksearch', function() {
 
-        expect( scope.init ).toBeDefined();
-    }));
+        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+            ctrl = $controller('QuicksearchCtrl', { $scope: scope, $location: {}, $filter: $filter, async: mockAsync });
+        }));
 
-    it('Should call async service', inject(function($rootScope, $controller, $location, $filter, async) {
-        var scope = $rootScope.$new(),
-            mockAsync = mockService(async),
-            ctrl = $controller('QuicksearchCtrl', { $scope: scope, $location: $location, $filter: $filter, async: mockAsync });
+        it('Should be defined', function(){
+            expect( ctrl ).toBeDefined();
+        });
 
-        scope.init();
+        it('Should have an init method', function() {
+            expect( scope.init ).toBeDefined();
+        });
 
-        expect( mockAsync.api ).toHaveBeenCalled();
-    }));
+        it('Should call async service', function() {
+            scope.init();
+            expect( mockAsync.api ).toHaveBeenCalled();
+        });
 
+    });
 
-    // Status
+    describe('Status', function() {
 
-    it('Should be defined', inject(function($controller) {
-        var ctrl = $controller('StatusCtrl', { $scope: {}, async: {} });
-
-        expect( ctrl ).toBeDefined();
-    }));
-
-    it('Should have an init method', inject(function($rootScope, $controller) {
-        var scope = $rootScope.$new(),
-            ctrl = $controller('StatusCtrl', { $scope: scope, async: {} });
-
-        expect( scope.init ).toBeDefined();
-    }));
-
-    it('Should call async service', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            mockAsync = mockService(async),
+        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
             ctrl = $controller('StatusCtrl', { $scope: scope, async: mockAsync });
+        }));
 
-        scope.init();
+        it('Should be defined', inject(function($controller) {
+            expect( ctrl ).toBeDefined();
+        }));
 
-        expect( mockAsync.api ).toHaveBeenCalled();
-    }));
+        it('Should have an init method', inject(function($rootScope, $controller) {
+            expect( scope.init ).toBeDefined();
+        }));
 
+        it('Should call async service', inject(function($rootScope, $controller, async) {
+            scope.init();
+            expect( mockAsync.api ).toHaveBeenCalled();
+        }));
 
-    // Overview
+    });
 
-    it('Should be defined', inject(function($controller) {
-        var ctrl = $controller('OverviewCtrl', { $scope: {}, async: {} });
+    describe('Overview', function() {
 
-        expect( ctrl ).toBeDefined();
-    }));
-
-    it('Should have an init method', inject(function($rootScope, $controller) {
-        var scope = $rootScope.$new(),
-            ctrl = $controller('OverviewCtrl', { $scope: scope, async: {} });
-
-        expect( scope.init ).toBeDefined();
-    }));
-
-    it('Should call async service', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            mockAsync = mockService(async),
+        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
             ctrl = $controller('OverviewCtrl', { $scope: scope, async: mockAsync });
+        }));
 
-        scope.init();
+        it('Should be defined', inject(function($controller) {
+            expect( ctrl ).toBeDefined();
+        }));
 
-        expect( mockAsync.api ).toHaveBeenCalled();
-    }));
+        it('Should have an init method', inject(function($rootScope, $controller) {
+            expect( scope.init ).toBeDefined();
+        }));
 
+        it('Should call async service', inject(function($rootScope, $controller, async) {
+            scope.init();
+            expect( mockAsync.api ).toHaveBeenCalled();
+        }));
 
-    // Host Status
+    });
 
-    it('Should be defined', inject(function($controller) {
-        var ctrl = $controller('HostStatusCtrl', { $scope: {}, $routeParams: {}, $filter: {}, async: {} });
+    describe('Host Status', function() {
 
-        expect( ctrl ).toBeDefined();
-    }));
-
-    it('Should have an init method', inject(function($rootScope, $controller, $filter, async) {
-        var scope = $rootScope.$new(),
-            ctrl = $controller('HostStatusCtrl', { $scope: scope, $routeParams: {}, $filter: {}, async: {} });
-
-        expect( scope.init ).toBeDefined();
-    }));
-
-    it('Should call async service', inject(function($rootScope, $controller, $filter, async) {
-        var scope = $rootScope.$new(),
-            mockAsync = mockService(async),
+        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
             ctrl = $controller('HostStatusCtrl', { $scope: scope, $routeParams: {}, $filter: $filter, async: mockAsync });
+        }));
 
-        scope.init();
+        it('Should be defined', inject(function($controller) {
+            expect( ctrl ).toBeDefined();
+        }));
 
-        expect( mockAsync.api ).toHaveBeenCalled();
-    }));
+        it('Should have an init method', inject(function($rootScope, $controller, $filter, async) {
+            expect( scope.init ).toBeDefined();
+        }));
 
+        it('Should call async service', inject(function($rootScope, $controller, $filter, async) {
+            scope.init();
+            expect( mockAsync.api ).toHaveBeenCalled();
+        }));
 
-    // Host Status Details
+    });
 
-    it('Should be defined', inject(function($controller) {
-        var ctrl = $controller('HostStatusDetailsCtrl', { $scope: {}, $routeParams: {}, async: {} });
+    describe('Host Status Details', function() {
 
-        expect( ctrl ).toBeDefined();
-    }));
-
-    it('Should have an init method', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            ctrl = $controller('HostStatusDetailsCtrl', { $scope: scope, $routeParams: {}, async: {} });
-
-        expect( scope.init ).toBeDefined();
-    }));
-
-    it('Should call async service', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            mockAsync = mockService(async),
+        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
             ctrl = $controller('HostStatusDetailsCtrl', { $scope: scope, $routeParams: {}, async: mockAsync });
+        }));
 
-        scope.init();
+        it('Should be defined', inject(function($controller) {
+            expect( ctrl ).toBeDefined();
+        }));
 
-        expect( mockAsync.api ).toHaveBeenCalled();
-    }));
+        it('Should have an init method', inject(function($rootScope, $controller, async) {
+            expect( scope.init ).toBeDefined();
+        }));
 
+        it('Should call async service', inject(function($rootScope, $controller, async) {
+            scope.init();
+            expect( mockAsync.api ).toHaveBeenCalled();
+        }));
 
-    // Host Group Status
+    });
 
-    it('Should be defined', inject(function($controller) {
-        var ctrl = $controller('HostgroupStatusCtrl', { $scope: {}, async: {} });
+    describe('Host Group Status', function() {
 
-        expect( ctrl ).toBeDefined();
-    }));
-
-    it('Should have an init method', inject(function($rootScope, $controller) {
-        var scope = $rootScope.$new(),
-            ctrl = $controller('HostgroupStatusCtrl', { $scope: scope, async: {} });
-
-        expect( scope.init ).toBeDefined();
-    }));
-
-    it('Should call async service', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            mockAsync = mockService(async),
+        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
             ctrl = $controller('HostgroupStatusCtrl', { $scope: scope, async: mockAsync });
+        }));
 
-        scope.init();
+        it('Should be defined', inject(function($controller) {
+            expect( ctrl ).toBeDefined();
+        }));
 
-        expect( mockAsync.api ).toHaveBeenCalled();
-    }));
+        it('Should have an init method', inject(function($rootScope, $controller) {
+            expect( scope.init ).toBeDefined();
+        }));
 
+        it('Should call async service', inject(function($rootScope, $controller, async) {
+            scope.init();
+            expect( mockAsync.api ).toHaveBeenCalled();
+        }));
 
-    // Host Group Status Details
+    });
 
-    it('Should be defined', inject(function($controller) {
-        var ctrl = $controller('HostgroupStatusDetailsCtrl', { $scope: {}, $routeParams: {}, async: {} });
+    describe('Host Group Status Details', function() {
 
-        expect( ctrl ).toBeDefined();
-    }));
-
-    it('Should have an init method', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            ctrl = $controller('HostgroupStatusDetailsCtrl', { $scope: scope, $routeParams: {}, async: {} });
-
-        expect( scope.init ).toBeDefined();
-    }));
-
-    it('Should call async service', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            mockAsync = mockService(async),
+        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
             ctrl = $controller('HostgroupStatusDetailsCtrl', { $scope: scope, $routeParams: {}, async: mockAsync });
+        }));
 
-        scope.init();
+        it('Should be defined', inject(function($controller) {
+            expect( ctrl ).toBeDefined();
+        }));
 
-        expect( mockAsync.api ).toHaveBeenCalled();
-    }));
+        it('Should have an init method', inject(function($rootScope, $controller, async) {
+            expect( scope.init ).toBeDefined();
+        }));
 
+        it('Should call async service', inject(function($rootScope, $controller, async) {
+            scope.init();
+            expect( mockAsync.api ).toHaveBeenCalled();
+        }));
 
-    // Services
+    });
 
-    it('Should be defined', inject(function($controller) {
-        var ctrl = $controller('ServiceStatusCtrl', { $scope: {}, $routeParams: {}, $filter: {}, async: {} });
+    describe('Service Status', function() {
 
-        expect( ctrl ).toBeDefined();
-    }));
-
-    it('Should have an init method', inject(function($rootScope, $controller, $filter, async) {
-        var scope = $rootScope.$new(),
-            ctrl = $controller('ServiceStatusCtrl', { $scope: scope, $routeParams: {}, $filter: {}, async: {} });
-
-        expect( scope.init ).toBeDefined();
-    }));
-
-    it('Should call async service', inject(function($rootScope, $controller, $filter, async) {
-        var scope = $rootScope.$new(),
-            mockAsync = mockService(async),
+        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
             ctrl = $controller('ServiceStatusCtrl', { $scope: scope, $routeParams: {}, $filter: $filter, async: mockAsync });
+        }));
 
-        scope.init();
+        it('Should be defined', inject(function($controller) {
+            expect( ctrl ).toBeDefined();
+        }));
 
-        expect( mockAsync.api ).toHaveBeenCalled();
-    }));
+        it('Should have an init method', inject(function($rootScope, $controller, $filter, async) {
+            expect( scope.init ).toBeDefined();
+        }));
 
+        it('Should call async service', inject(function($rootScope, $controller, $filter, async) {
+            scope.init();
+            expect( mockAsync.api ).toHaveBeenCalled();
+        }));
 
-    // Services by Host
+    });
 
-    it('Should be defined', inject(function($controller) {
-        var ctrl = $controller('ServiceHostStatusCtrl', { $scope: {}, $routeParams: {}, async: {} });
+    describe('Services by Host', function() {
 
-        expect( ctrl ).toBeDefined();
-    }));
-
-    it('Should have an init method', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            ctrl = $controller('ServiceHostStatusCtrl', { $scope: scope, $routeParams: {}, async: {} });
-
-        expect( scope.init ).toBeDefined();
-    }));
-
-    it('Should call async service', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            mockAsync = mockService(async),
+        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
             ctrl = $controller('ServiceHostStatusCtrl', { $scope: scope, $routeParams: {}, async: mockAsync });
+        }));
 
-        scope.init();
+        it('Should be defined', inject(function($controller) {
+            expect( ctrl ).toBeDefined();
+        }));
 
-        expect( mockAsync.api ).toHaveBeenCalled();
-    }));
+        it('Should have an init method', inject(function($rootScope, $controller, async) {
+            expect( scope.init ).toBeDefined();
+        }));
 
+        it('Should call async service', inject(function($rootScope, $controller, async) {
+            scope.init();
+            expect( mockAsync.api ).toHaveBeenCalled();
+        }));
 
-    // Service Status Details
+    });
 
-    it('Should be defined', inject(function($controller) {
-        var ctrl = $controller('ServiceStatusDetailsCtrl', { $scope: {}, $routeParams: {}, async: {} });
+    describe('Service Status Details', function() {
 
-        expect( ctrl ).toBeDefined();
-    }));
-
-    it('Should have an init method', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            ctrl = $controller('ServiceStatusDetailsCtrl', { $scope: scope, $routeParams: {}, async: {} });
-
-        expect( scope.init ).toBeDefined();
-    }));
-
-    it('Should call async service', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            mockAsync = mockService(async),
+        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
             ctrl = $controller('ServiceStatusDetailsCtrl', { $scope: scope, $routeParams: {}, async: mockAsync });
+        }));
 
-        scope.init();
+        it('Should be defined', inject(function($controller) {
+            expect( ctrl ).toBeDefined();
+        }));
 
-        expect( mockAsync.api ).toHaveBeenCalled();
-    }));
+        it('Should have an init method', inject(function($rootScope, $controller, async) {
+            expect( scope.init ).toBeDefined();
+        }));
 
+        it('Should call async service', inject(function($rootScope, $controller, async) {
+            scope.init();
+            expect( mockAsync.api ).toHaveBeenCalled();
+        }));
 
-    // Service Group Status
+    });
 
-    it('Should be defined', inject(function($controller) {
-        var ctrl = $controller('ServicegroupStatusCtrl', { $scope: {}, async: {} });
+    describe('Service Group Status', function() {
 
-        expect( ctrl ).toBeDefined();
-    }));
-
-    it('Should have an init method', inject(function($rootScope, $controller) {
-        var scope = $rootScope.$new(),
-            ctrl = $controller('ServicegroupStatusCtrl', { $scope: scope, async: {} });
-
-        expect( scope.init ).toBeDefined();
-    }));
-
-    it('Should call async service', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            mockAsync = mockService(async),
+        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
             ctrl = $controller('ServicegroupStatusCtrl', { $scope: scope, async: mockAsync });
+        }));
 
-        scope.init();
+        it('Should be defined', inject(function($controller) {
+            expect( ctrl ).toBeDefined();
+        }));
 
-        expect( mockAsync.api ).toHaveBeenCalled();
-    }));
+        it('Should have an init method', inject(function($rootScope, $controller) {
+            expect( scope.init ).toBeDefined();
+        }));
 
+        it('Should call async service', inject(function($rootScope, $controller, async) {
+            scope.init();
+            expect( mockAsync.api ).toHaveBeenCalled();
+        }));
 
-    // Service Group Status Details
+    });
 
-    it('Should be defined', inject(function($controller) {
-        var ctrl = $controller('ServicegroupStatusDetailsCtrl', { $scope: {}, $routeParams: {}, async: {} });
+    describe('Service Group Status Details', function() {
 
-        expect( ctrl ).toBeDefined();
-    }));
-
-    it('Should have an init method', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            ctrl = $controller('ServicegroupStatusDetailsCtrl', { $scope: scope, $routeParams: {}, async: {} });
-
-        expect( scope.init ).toBeDefined();
-    }));
-
-    it('Should call async service', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            mockAsync = mockService(async),
+        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
             ctrl = $controller('ServicegroupStatusDetailsCtrl', { $scope: scope, $routeParams: {}, async: mockAsync });
+        }));
 
-        scope.init();
+        it('Should be defined', inject(function($controller) {
+            expect( ctrl ).toBeDefined();
+        }));
 
-        expect( mockAsync.api ).toHaveBeenCalled();
-    }));
+        it('Should have an init method', inject(function($rootScope, $controller, async) {
+            expect( scope.init ).toBeDefined();
+        }));
 
-    
-    // Configurations
+        it('Should call async service', inject(function($rootScope, $controller, async) {
+            scope.init();
+            expect( mockAsync.api ).toHaveBeenCalled();
+        }));
 
-    it('Should be defined', inject(function($controller) {
-        var ctrl = $controller('ConfigurationsCtrl', { $scope: {}, $routeParams: {}, async: {} });
+    });
 
-        expect( ctrl ).toBeDefined();
-    }));
+    describe('Configurations', function() {
 
-    it('Should have an init method', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            ctrl = $controller('ConfigurationsCtrl', { $scope: scope, $routeParams: {}, async: {} });
-
-        expect( scope.init ).toBeDefined();
-    }));
-
-    it('Should call async service', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            mockAsync = mockService(async),
+        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
             ctrl = $controller('ConfigurationsCtrl', { $scope: scope, $routeParams: {}, async: mockAsync });
+        }));
 
-        scope.init();
+        it('Should be defined', inject(function($controller) {
+            expect( ctrl ).toBeDefined();
+        }));
 
-        expect( mockAsync.api ).toHaveBeenCalled();
-    }));
+        it('Should have an init method', inject(function($rootScope, $controller, async) {
+            expect( scope.init ).toBeDefined();
+        }));
 
+        it('Should call async service', inject(function($rootScope, $controller, async) {
+            scope.init();
+            expect( mockAsync.api ).toHaveBeenCalled();
+        }));
 
-    // Configuration Details
+    });
 
-    it('Should be defined', inject(function($controller, $filter) {
-        var ctrl = $controller('ConfigurationDetailsCtrl', { $scope: {}, $routeParams: {}, $filter: $filter, async: {} });
+    describe('Configuration Details', function() {
 
-        expect( ctrl ).toBeDefined();
-    }));
-
-    it('Should have an init method', inject(function($rootScope, $controller, $filter, async) {
-        var scope = $rootScope.$new(),
-            ctrl = $controller('ConfigurationDetailsCtrl', { $scope: scope, $routeParams: {}, $filter: $filter, async: {} });
-
-        expect( scope.init ).toBeDefined();
-    }));
-
-    it('Should call async service', inject(function($rootScope, $controller, $filter, async) {
-        var scope = $rootScope.$new(),
-            mockAsync = mockService(async),
+        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
             ctrl = $controller('ConfigurationDetailsCtrl', { $scope: scope, $routeParams: {}, $filter: $filter, async: mockAsync });
+        }));
 
-        scope.init();
+        it('Should be defined', inject(function($controller, $filter) {
+            expect( ctrl ).toBeDefined();
+        }));
 
-        expect( mockAsync.api ).toHaveBeenCalled();
-    }));
+        it('Should have an init method', inject(function($rootScope, $controller, $filter, async) {
+            expect( scope.init ).toBeDefined();
+        }));
 
+        it('Should call async service', inject(function($rootScope, $controller, $filter, async) {
+            scope.init();
+            expect( mockAsync.api ).toHaveBeenCalled();
+        }));
 
-    // Comments
+    });
 
-    it('Should be defined', inject(function($controller) {
-        var ctrl = $controller('CommentsCtrl', { $scope: {}, $routeParams: {}, async: {} });
+    describe('Comments', function() {
 
-        expect( ctrl ).toBeDefined();
-    }));
-
-    it('Should have an init method', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            ctrl = $controller('CommentsCtrl', { $scope: scope, $routeParams: {}, async: {} });
-
-        expect( scope.init ).toBeDefined();
-    }));
-
-    it('Should call async service', inject(function($rootScope, $controller, async) {
-        var scope = $rootScope.$new(),
-            mockAsync = mockService(async),
+        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
             ctrl = $controller('CommentsCtrl', { $scope: scope, $routeParams: {}, async: mockAsync });
+        }));
 
-        scope.init();
+        it('Should be defined', inject(function($controller) {
+            expect( ctrl ).toBeDefined();
+        }));
 
-        expect( mockAsync.api ).toHaveBeenCalled();
-    }));
+        it('Should have an init method', inject(function($rootScope, $controller, async) {
+            expect( scope.init ).toBeDefined();
+        }));
+
+        it('Should call async service', inject(function($rootScope, $controller, async) {
+            scope.init();
+            expect( mockAsync.api ).toHaveBeenCalled();
+        }));
+
+    });
 
 });
