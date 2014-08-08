@@ -160,7 +160,7 @@
 
         'use strict';
 
-        var cookie_name = 'vshell2_nav',
+        var cookie_name = 'vshell_nav',
             mobile_breakpoint = 768,
             button_open_name = '#nav-button-open',
             button_close_name = '#nav-button-close';
@@ -243,7 +243,7 @@
 
         'use strict';
 
-        var cookie_name = 'vshell2_colorscheme',
+        var cookie_name = 'vshell_colorscheme',
             buttons = '.colorscheme-choice',
             default_scheme = 'colorscheme-dark';
 

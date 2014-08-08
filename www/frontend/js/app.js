@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('vshell2', [
+angular.module('vshell', [
   'ngRoute',
-  'vshell2.filters',
-  'vshell2.services',
-  'vshell2.directives',
-  'vshell2.controllers'
+  'vshell.filters',
+  'vshell.services',
+  'vshell.directives',
+  'vshell.controllers'
 ])
 
     .config(['$routeProvider', function($routeProvider) {

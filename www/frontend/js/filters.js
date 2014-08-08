@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vshell2.filters', [])
+angular.module('vshell.filters', [])
 
     .filter('capitalize', function() {
         return function(input) {

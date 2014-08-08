@@ -1,4 +1,4 @@
-<section id="status" class="clearfix" ng-controller="StatusCtrl" ng-init="getStatus('bar')">
+<section id="status" class="clearfix" ng-controller="StatusCtrl" ng-init="init('bar')">
     <div id="hosts-status">
         <a ng-href="#/{{ 'host' | uri }}" class="heading">Hosts</a>
         <a ng-href="#/{{ 'host' | uri }}/state/up" class="status-block hosts-up {{ status.hostsUpTotal | is_active }}">{{ status.hostsUpTotal }}&nbsp;Up</a>

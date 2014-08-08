@@ -7,7 +7,7 @@
 
 <div ng-include="'frontend/partials/_messages.html'"></div>
 
-<div id="content" class="clearfix" ng-controller="HostStatusDetailsCtrl" ng-init="getHostStatusDetails()">
+<div id="content" class="clearfix" ng-controller="HostStatusDetailsCtrl" ng-init="init()">
 
     <h1>Host Details for <span class="state-{{ host.current_state | hoststate | lowercase }}">{{ host.host_name }}</span></h1>
 

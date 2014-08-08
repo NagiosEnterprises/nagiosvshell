@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vshell2.directives', [])
+angular.module('vshell.directives', [])
 
     .directive('activeNav', ['$location', function(location) {
 

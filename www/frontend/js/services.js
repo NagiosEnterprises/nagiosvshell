@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vshell2.services', [])
+angular.module('vshell.services', [])
 
     .value('authors', 'Mike Guthrie and Chris Laskey')
 
@@ -56,6 +56,10 @@ angular.module('vshell2.services', [])
 
         async.set_scope = function(scope, options, data){
             scope[options.name] = data;
+            scope['async'] = {
+                options: options,
+                data: data
+            };
         }
 
         async.is_loading = function(scope, bool){

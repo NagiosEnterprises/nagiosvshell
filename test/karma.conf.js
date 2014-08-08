@@ -4,12 +4,15 @@ module.exports = function(config){
     basePath : '../www/',
 
     files : [
+      // Note: un-minified libraries often produce better error messages.
+      // Using Bower makes this easy.
+      
       'frontend/js/lib/jquery-*.js',
-      'frontend/js/lib/angular-1*.js',
-      'frontend/js/lib/angular-route.1*.js',
+      'frontend/bower_components/angular/angular.js',
+      'frontend/bower_components/angular-route/angular-route.js',
       'frontend/js/lib/jquery.cookie*.js',
       'frontend/js/lib/typeahead*.js',
-      'frontend/js/lib/underscore*.js',
+      'frontend/bower_components/underscore/underscore.js',
       'frontend/js/lib/moment*.js',
       'frontend/js/lib/footable*.js',
       'frontend/js/page.js',
@@ -19,18 +22,20 @@ module.exports = function(config){
       'frontend/js/filters.js',
       'frontend/js/services.js',
       'frontend/bower_components/angular-mocks/angular-mocks.js',
-      '../test/unit/**/*.js'
+      '../test/unit/mocks/*.js',
+      '../test/unit/specs/**/*.js'
     ],
 
     autoWatch : true,
 
     frameworks: ['jasmine'],
 
-    browsers : ['Firefox'],
+    browsers : ['PhantomJS'],
 
     plugins : [
             'karma-chrome-launcher',
             'karma-firefox-launcher',
+            'karma-phantomjs-launcher',
             'karma-jasmine',
             'karma-junit-reporter'
             ],

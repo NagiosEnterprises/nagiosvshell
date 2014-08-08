@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('vshell2.controllers', [])
+angular.module('vshell.controllers', [])
 
     .controller('PageCtrl', ['$scope', 'async', 'paths', function ($scope, async, paths) {
 
-        $scope.initPage = function () {
+        $scope.init = function () {
 
             paths.core_as_promise.then(function(value) {
                 $scope.nagios_core = value;
@@ -29,7 +29,7 @@ angular.module('vshell2.controllers', [])
                 return data;
             }
 
-        $scope.getQuicksearchData = function () {
+        $scope.init = function () {
 
             var options = {
                     name: 'quicksearch',
@@ -47,7 +47,7 @@ angular.module('vshell2.controllers', [])
 
     .controller('StatusCtrl', ['$scope', 'async', function ($scope, async) {
 
-        $scope.getStatus = function (section) {
+        $scope.init = function (section) {
 
             var options = {
                     name: 'status',
@@ -64,7 +64,7 @@ angular.module('vshell2.controllers', [])
 
     .controller('OverviewCtrl', ['$scope', 'async', function ($scope, async) {
 
-        $scope.getOverview = function () {
+        $scope.init = function () {
 
             var options = {
                     name: 'overview',
@@ -94,7 +94,7 @@ angular.module('vshell2.controllers', [])
                 return data;
             }
 
-        $scope.getHostStatus = function () {
+        $scope.init = function () {
 
             var options = {
                     name: 'hoststatus',
@@ -114,7 +114,7 @@ angular.module('vshell2.controllers', [])
 
     .controller('HostStatusDetailsCtrl', ['$scope', '$routeParams', 'async', function ($scope, $routeParams, async) {
 
-        $scope.getHostStatusDetails = function () {
+        $scope.init = function () {
 
             var options = {
                     name: 'host',
@@ -130,7 +130,7 @@ angular.module('vshell2.controllers', [])
 
     .controller('HostgroupStatusCtrl', ['$scope', 'async', function ($scope, async) {
 
-        $scope.getHostgroupStatus = function () {
+        $scope.init = function () {
 
             var options = {
                     name: 'hostgroupstatus',
@@ -150,7 +150,7 @@ angular.module('vshell2.controllers', [])
                 return (data && data[0]) ? data[0] : data;
             }
 
-        $scope.getHostgroupStatusDetails = function () {
+        $scope.init = function () {
 
             var options = {
                     name: 'hostgroup',
@@ -167,7 +167,7 @@ angular.module('vshell2.controllers', [])
 
     .controller('ServiceHostStatusCtrl', ['$scope', '$routeParams', 'async', function ($scope, $routeParams, async) {
 
-        $scope.getServiceHostStatus = function () {
+        $scope.init = function () {
 
             var options = {
                     name: 'servicestatus',
@@ -198,7 +198,7 @@ angular.module('vshell2.controllers', [])
                 return data;
             }
 
-        $scope.getServiceStatus = function () {
+        $scope.init = function () {
 
             var options = {
                     name: 'servicestatus',
@@ -218,7 +218,7 @@ angular.module('vshell2.controllers', [])
 
     .controller('ServiceStatusDetailsCtrl', ['$scope', '$routeParams', 'async', function ($scope, $routeParams, async) {
 
-        $scope.getServiceStatusDetails = function () {
+        $scope.init = function () {
 
             var options = {
                     name: 'service',
@@ -234,7 +234,7 @@ angular.module('vshell2.controllers', [])
 
     .controller('ServicegroupStatusCtrl', ['$scope', 'async', function ($scope, async) {
 
-        $scope.getServicegroupStatus = function () {
+        $scope.init = function () {
 
             var options = {
                     name: 'servicegroupstatus',
@@ -254,7 +254,7 @@ angular.module('vshell2.controllers', [])
                 return (data && data[0]) ? data[0] : data;
             }
 
-        $scope.getServicegroupStatusDetails = function () {
+        $scope.init = function () {
 
             var options = {
                     name: 'servicegroup',
@@ -279,7 +279,7 @@ angular.module('vshell2.controllers', [])
                 return data;
             }
 
-        $scope.getConfigurations = function () {
+        $scope.init = function () {
 
             var options = {
                     name: 'configurations',
@@ -308,7 +308,7 @@ angular.module('vshell2.controllers', [])
                 return data;
             }
 
-        $scope.getConfigurationDetails = function () {
+        $scope.init = function () {
 
             $scope.configuration_type = $routeParams.type;
             $scope.configuration_name = $routeParams.name;
@@ -328,7 +328,7 @@ angular.module('vshell2.controllers', [])
 
     .controller('CommentsCtrl', ['$scope', 'async', function ($scope, async) {
 
-        $scope.getComments = function () {
+        $scope.init = function () {
 
             var options = {
                     name: 'comments',
