@@ -34,13 +34,13 @@
             <tfoot>
                 <tr>
                     <td colspan="5">
-                        <div class="results-count">{{ hostgroupstatus | size }} Result{{ hostgroupstatus | plural }}</div>
+                        <div class="results-count">{{ hostgroupstatus | count }} Result{{ hostgroupstatus | plural }}</div>
                         <div class="footable-pagination pagination" id="footable-pagination"></div>
                     </td>
                 </tr>
             </tfoot>
             <tbody>
-                <tr ng-if="(hostgroupstatus | size) == 0">
+                <tr ng-if="(hostgroupstatus | count) == 0">
                     <td colspan="3">{{ is_loading ? 'Loading...' : 'No hostsgroups are defined' }}</td>
                 </tr>
                 <tr ng-repeat="hostgroup in hostgroupstatus | orderObjectBy: 'alias'" footabledata>

@@ -40,13 +40,13 @@
             <tfoot>
                 <tr>
                     <td colspan="3">
-                        <div class="results-count">{{ servicegroup.ServiceStatusCollection | size }} Result{{ servicegroup.ServiceStatusCollection | plural }}</div>
+                        <div class="results-count">{{ servicegroup.ServiceStatusCollection | count }} Result{{ servicegroup.ServiceStatusCollection | plural }}</div>
                         <div class="footable-pagination pagination hide-if-no-paging" id="footable-pagination-{{ $index }}"></div>
                     </td>
                 </tr>
             </tfoot>
             <tbody>
-                <tr ng-if="(servicegroup.ServiceStatusCollection | size) == 0">
+                <tr ng-if="(servicegroup.ServiceStatusCollection | count) == 0">
                     <td colspan="7">{{ is_loading ? 'Loading...' : 'No services are defined' }}</td>
                 </tr>
                 <tr ng-repeat="service in servicegroup.ServiceStatusCollection | orderObjectBy: 'host_name'" class="state-{{ service.current_state | servicestate | lowercase }}" footabledata>

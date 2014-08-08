@@ -171,7 +171,7 @@
                 </tr>
             </tfoot>
             <tbody>
-                <tr ng-if="(service.servicecomments | size) == 0">
+                <tr ng-if="(service.servicecomments | count) == 0">
                     <td colspan="4">{{ is_loading ? 'Loading...' : 'No comments for service' }}</td>
                 </tr>
                 <tr ng-repeat="comment in service.servicecomments" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'">

@@ -3,19 +3,28 @@
 angular.module('vshell.filters', [])
 
     .filter('capitalize', function() {
-        return function(input) {
-            var first, rest;
-            if( ! input ){ return ''; }
+        return function(input, strict) {
+            var first,
+                rest;
+
+            if( ! input ){
+                return '';
+            }
+
             first = input.substring(0,1).toUpperCase(),
-            rest = input.substring(1).toLowerCase();
+            rest = input.substring(1);
+
+            if( strict ){
+                rest = rest.toLowerCase();
+            }
+
             return first + rest;
         }
     })
 
-    .filter('size', function() {
+    .filter('count', function() {
         return function(input) {
-            var type = typeof input;
-            return type == "object" ? _.size(input) : 0;
+            return _.size(input);
         };
     })
 
@@ -28,9 +37,13 @@ angular.module('vshell.filters', [])
 
     .filter('percent', function(numberFilter) {
         return function(input, total, places) {
-            var places = places || 1,
-                fraction = parseInt(input, 10) / parseInt(total, 10),
-                percent = fraction * 100;
+            var fraction = parseInt(input, 10) / parseInt(total, 10),
+                percent = fraction * 100,
+                places = (places != 0 && ! places) ? 1 : places;
+
+            if( input == undefined || ! total ){ // Catch when total == 0
+                throw new Error('Requires numeric input and total arguments');
+            }
 
             if( percent == 0 || percent == 100 ){
                 return percent + '%';
@@ -38,16 +51,6 @@ angular.module('vshell.filters', [])
                 return numberFilter(percent, places) + '%';
             }
         };
-    })
-
-    .filter('object_to_array', function() {
-        return function(input) {
-            var i, arr = [];
-            for(i in input){
-                arr.push(input[i]);
-            }
-            return arr;
-        }
     })
 
     .filter('orderObjectBy', function() {

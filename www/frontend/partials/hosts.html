@@ -40,13 +40,13 @@
             <tfoot>
                 <tr>
                     <td colspan="5">
-                        <div class="results-count">{{ hoststatus | size }} Result{{ hoststatus | plural }}</div>
+                        <div class="results-count">{{ hoststatus | count }} Result{{ hoststatus | plural }}</div>
                         <div class="footable-pagination pagination" id="footable-pagination"></div>
                     </td>
                 </tr>
             </tfoot>
             <tbody>
-                <tr ng-if="(hoststatus | size) == 0">
+                <tr ng-if="(hoststatus | count) == 0">
                     <td colspan="5">{{ is_loading ? 'Loading...' : 'No hosts are defined' }}</td>
                 </tr>
                 <tr ng-repeat="host in hoststatus | orderObjectBy: 'host_name'" class="state-{{ host.current_state | hoststate | lowercase }}" footabledata>

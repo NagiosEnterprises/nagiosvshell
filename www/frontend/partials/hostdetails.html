@@ -173,7 +173,7 @@
                 </tr>
             </tfoot>
             <tbody>
-                <tr ng-if="(host.hostcomments | size) == 0">
+                <tr ng-if="(host.hostcomments | count) == 0">
                     <td colspan="4">{{ is_loading ? 'Loading...' : 'No comments for host' }}</td>
                 </tr>
                 <tr ng-repeat="comment in host.hostcomments" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'">

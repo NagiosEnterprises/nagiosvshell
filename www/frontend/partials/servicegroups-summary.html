@@ -33,13 +33,13 @@
             <tfoot>
                 <tr>
                     <td colspan="5">
-                        <div class="results-count">{{ servicegroupstatus | size }} Result{{ servicegroupstatus | plural }}</div>
+                        <div class="results-count">{{ servicegroupstatus | count }} Result{{ servicegroupstatus | plural }}</div>
                         <div class="footable-pagination pagination" id="footable-pagination"></div>
                     </td>
                 </tr>
             </tfoot>
             <tbody>
-                <tr ng-if="(servicegroupstatus | size) == 0">
+                <tr ng-if="(servicegroupstatus | count) == 0">
                     <td colspan="2">{{ is_loading ? 'Loading...' : 'No servicegroups are defined' }}</td>
                 </tr>
                 <tr ng-repeat="servicegroup in servicegroupstatus | orderObjectBy: 'alias'" footabledata>
