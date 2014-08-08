@@ -23,7 +23,7 @@ module.exports = function(config){
       'frontend/js/services.js',
       'frontend/bower_components/angular-mocks/angular-mocks.js',
       '../test/unit/mocks/*.js',
-      '../test/unit/specs/**/*.js'
+      '../test/unit/specs/**/*.js',
     ],
 
     autoWatch : true,
@@ -33,17 +33,27 @@ module.exports = function(config){
     browsers : ['PhantomJS'],
 
     plugins : [
-            'karma-chrome-launcher',
-            'karma-firefox-launcher',
-            'karma-phantomjs-launcher',
-            'karma-jasmine',
-            'karma-junit-reporter'
-            ],
+      'karma-chrome-launcher',
+      'karma-firefox-launcher',
+      'karma-phantomjs-launcher',
+      'karma-jasmine',
+      'karma-junit-reporter',
+      'karma-coverage',
+    ],
 
-    junitReporter : {
-      outputFile: 'test_out/unit.xml',
-      suite: 'unit'
-    }
+    reporters: ['progress', 'coverage'],
+
+    preprocessors: {
+      'frontend/js/controllers.js': ['coverage'],
+      'frontend/js/directives.js': ['coverage'],
+      'frontend/js/filters.js': ['coverage'],
+      'frontend/js/services.js': ['coverage'],
+    },
+
+    coverageReporter: {
+      type : 'text',
+      dir : '../test/coverage/',
+    },
 
   });
 }
