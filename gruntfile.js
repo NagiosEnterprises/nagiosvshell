@@ -10,12 +10,15 @@ module.exports = function (grunt) {
                     config: ".jsbeautifierrc"
                 },
                 src: [
-                    'www/frontend/js/app.js',
-                    'www/frontend/js/controllers.js',
-                    'www/frontend/js/directives.js',
-                    'www/frontend/js/filters.js',
-                    'www/frontend/js/page.js',
-                    'www/frontend/js/services.js'
+                    'www/frontend/js/*.js',
+                ]
+            },
+            tests: {
+                options: {
+                    config: ".jsbeautifierrc"
+                },
+                src: [
+                    'test/unit/specs/*.js',
                 ]
             }
         },
@@ -25,12 +28,15 @@ module.exports = function (grunt) {
                     jshintrc: '.jshintrc'
                 },
                 src: [
-                    'www/frontend/js/app.js',
-                    'www/frontend/js/controllers.js',
-                    'www/frontend/js/directives.js',
-                    'www/frontend/js/filters.js',
-                    'www/frontend/js/page.js',
-                    'www/frontend/js/services.js'
+                    'www/frontend/js/*.js',
+                ]
+            },
+            tests: {
+                options: {
+                    jshintrc: '.jshintrc'
+                },
+                src: [
+                    'test/unit/specs/*.js',
                 ]
             }
         }
