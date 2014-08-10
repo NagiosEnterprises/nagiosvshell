@@ -361,6 +361,7 @@ body {
 
             .nav-button {
                 background: #212121 url('../images/icon-nav.png') center center no-repeat;
+                direction: ltr;
                 display: block;
                 height: 80px;
                 position: absolute;
