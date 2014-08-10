@@ -2,143 +2,147 @@
 
 // Messages
 
-    var messages = (function($){
-        
-        var add = function(type, text){
-            var container = $('#messages'),
-                time = moment().calendar(),
-                content,
-                message;
+var messages = (function($) {
 
-            content = [
-                '<div class="message ' + type + '">',
-                    '<strong>Error</strong> ' + text + ' ' + time,
-                '</div>'
-            ].join('\n');
+    var add = function(type, text) {
+        var container = $('#messages'),
+            time = moment()
+            .calendar(),
+            content,
+            message;
 
-            message = $(content);
+        content = [
+            '<div class="message ' + type + '">',
+            '<strong>Error</strong> ' + text + ' ' + time,
+            '</div>'
+        ].join('\n');
 
-            setTimeout(function() {
-                message.fadeOut(1000);
-            }, 9000);
+        message = $(content);
 
-            message.appendTo(container);
-        };
+        setTimeout(function() {
+            message.fadeOut(1000);
+        }, 9000);
 
-        return {
-            error: function(text){
-                add('error', text);
-            }
-        };
+        message.appendTo(container);
+    };
 
-    })(jQuery);
+    return {
+        error: function(text) {
+            add('error', text);
+        }
+    };
+
+})(jQuery);
 
 
 // Quicksearch
 
-    var quicksearch = (function($){
+var quicksearch = (function($) {
 
-        var version = 0;
+    var version = 0;
 
-        var templates = {};
+    var templates = {};
 
-        templates.empty = [
-            '<div class="empty-message">',
-            'No quicksearch matches found',
+    templates.empty = [
+        '<div class="empty-message">',
+        'No quicksearch matches found',
+        '</div>'
+    ].join('\n');
+
+    templates.suggestion = function(data) {
+        return [
+            '<div class="quicksearch-item">',
+            '<span class="type">' + data.type + '</span>',
+            '<span class="value">' + data.name + '</span>',
             '</div>'
         ].join('\n');
+    };
 
-        templates.suggestion = function(data){
-            return [
-                '<div class="quicksearch-item">',
-                    '<span class="type">' + data.type + '</span>',
-                    '<span class="value">' + data.name + '</span>',
-                '</div>'
-            ].join('\n');
-        };
+    var get_name = function() {
+        // Quicksearch uses localStorage and uses the name as a key.
+        // Incrementing name prevents stale cache data when quicksearch's
+        // data is updated.
+        version = version + 1;
+        return 'quicksearch' + version;
+    };
 
-        var get_name = function(){
-            // Quicksearch uses localStorage and uses the name as a key.
-            // Incrementing name prevents stale cache data when quicksearch's
-            // data is updated.
-            version = version + 1;
-            return 'quicksearch' + version;
-        };
+    var init = function(data, callback) {
 
-        var init = function(data, callback){
+        var input = $('#quicksearch .input'),
+            name = get_name();
 
-            var input = $('#quicksearch .input'),
-                name = get_name();
+        input.typeahead('destroy');
 
-            input.typeahead('destroy');
+        input.typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        }, {
+            name: name,
+            displayKey: 'name',
+            source: matcher(data),
+            templates: {
+                empty: templates.empty,
+                suggestion: templates.suggestion
+            }
+        });
 
-            input.typeahead(
-                {
-                    hint: true,
-                    highlight: true,
-                    minLength: 1
-                },
-                {
-                    name: name,
-                    displayKey: 'name',
-                    source: matcher(data),
-                    templates: {
-                        empty: templates.empty,
-                        suggestion: templates.suggestion
-                    }
+        input.on('typeahead:selected', function(e, item) {
+            callback(e, item);
+        });
+
+    };
+
+    var matcher = function(items) {
+
+        return function(q, cb) {
+            var matches = [],
+                re = new RegExp(q, 'i');
+
+            $.each(items, function(i, item) {
+                var value = item.name;
+
+                if (re.test(value)) {
+                    matches.push(item);
                 }
-            );
-
-            input.on('typeahead:selected', function(e, item){
-                callback(e, item);
             });
 
+            cb(matches);
         };
 
-        var matcher = function(items){
+    };
 
-            return function(q, cb) {
-                var matches = [],
-                    re = new RegExp(q, 'i');
+    return {
+        init: function(data, callback) {
+            init(data, callback);
+        }
+    };
 
-                $.each(items, function(i, item) {
-                    var value = item.name;
-
-                    if (re.test(value)) {
-                        matches.push(item);
-                    }
-                });
-
-                cb(matches);
-            };
-
-        };
-
-        return {
-            init: function(data, callback){
-                init(data, callback);
-            }
-        };
-
-    })(jQuery);
+})(jQuery);
 
 
 // FooTable
 
-    var tables = {};
+var tables = {};
 
-    tables.pagesize = {};
+tables.pagesize = {};
 
-    tables.pagesize.bind = function(){
+tables.pagesize.bind = function() {
 
-        $('body').on('click', '.pagesize-container a', function(e){
-            var pagesize = $(this).data('page-size'),
-                options = $(this).siblings('a'),
-                table = $(this).parents('.table-container').find('.footable');
+    $('body')
+        .on('click', '.pagesize-container a', function(e) {
+            var pagesize = $(this)
+                .data('page-size'),
+                options = $(this)
+                .siblings('a'),
+                table = $(this)
+                .parents('.table-container')
+                .find('.footable');
 
             e.preventDefault();
 
-            $(this).addClass('active');
+            $(this)
+                .addClass('active');
             options.removeClass('active');
 
             table
@@ -146,141 +150,154 @@
                 .data('footable')
                 .redraw();
         });
-    };
+};
 
 
 // Nav
 
-    var nav = (function($){
+var nav = (function($) {
 
-        var cookie_name = 'vshell_nav',
-            mobile_breakpoint = 768,
-            button_open_name = '#nav-button-open',
-            button_close_name = '#nav-button-close';
+    var cookie_name = 'vshell_nav',
+        mobile_breakpoint = 768,
+        button_open_name = '#nav-button-open',
+        button_close_name = '#nav-button-close';
 
-        var open = function(){
-            $('body')
-                .removeClass('sidebar-closed')
-                .addClass('sidebar-open');
-        };
+    var open = function() {
+        $('body')
+            .removeClass('sidebar-closed')
+            .addClass('sidebar-open');
+    };
 
-        var close = function(){
-            $('body')
-                .removeClass('sidebar-open')
-                .addClass('sidebar-closed');
-        };
+    var close = function() {
+        $('body')
+            .removeClass('sidebar-open')
+            .addClass('sidebar-closed');
+    };
 
-        var get_cookie = function(){
-            return $.cookie(cookie_name);
-        };
+    var get_cookie = function() {
+        return $.cookie(cookie_name);
+    };
 
-        var set_cookie = function(value){
-            $.cookie(cookie_name, value, { expires: 365, path: '/' });
-        };
+    var set_cookie = function(value) {
+        $.cookie(cookie_name, value, {
+            expires: 365,
+            path: '/'
+        });
+    };
 
-        var is_mobile = function(){
-            return $(window).width() < mobile_breakpoint;
-        };
+    var is_mobile = function() {
+        return $(window)
+            .width() < mobile_breakpoint;
+    };
 
-        var was_open = function(){
-            var cookie = get_cookie();
-            return cookie === 'open' || cookie === undefined;
-        };
+    var was_open = function() {
+        var cookie = get_cookie();
+        return cookie === 'open' || cookie === undefined;
+    };
 
-        var load = function(){
-            if( is_mobile() ){
+    var load = function() {
+        if (is_mobile()) {
+            close();
+        } else {
+            if (was_open()) {
+                open();
+            } else {
                 close();
-            }else{
-                if( was_open() ){
-                    open();
-                }else{
-                    close();
-                }
             }
-        };
+        }
+    };
 
-        var bind = function(){
-            $('body').on('click', 'nav', function(){
+    var bind = function() {
+        $('body')
+            .on('click', 'nav', function() {
                 load();
             });
 
-            $('body').on('click', button_open_name, function(e){
+        $('body')
+            .on('click', button_open_name, function(e) {
                 e.preventDefault();
                 set_cookie('open');
                 open();
             });
 
-            $('body').on('click', button_close_name, function(e){
+        $('body')
+            .on('click', button_close_name, function(e) {
                 e.preventDefault();
                 set_cookie('close');
                 close();
             });
-        };
+    };
 
-        return {
-            init: function(){
-                load();
-                bind();
-            },
-            open: function(){
-                open();
-            }
-        };
+    return {
+        init: function() {
+            load();
+            bind();
+        },
+        open: function() {
+            open();
+        }
+    };
 
-    })(jQuery);
+})(jQuery);
 
 
 // Colorscheme
 
-    var colorscheme = (function($){
+var colorscheme = (function($) {
 
-        var cookie_name = 'vshell_colorscheme',
-            buttons = '.colorscheme-choice',
-            default_scheme = 'colorscheme-dark';
+    var cookie_name = 'vshell_colorscheme',
+        buttons = '.colorscheme-choice',
+        default_scheme = 'colorscheme-dark';
 
-        var click = function(){
-            var color = get_cookie() || default_scheme;
-            $('body')
-                .removeClass('colorscheme-dark')
-                .removeClass('colorscheme-blue')
-                .addClass(color);
-        };
+    var click = function() {
+        var color = get_cookie() || default_scheme;
+        $('body')
+            .removeClass('colorscheme-dark')
+            .removeClass('colorscheme-blue')
+            .addClass(color);
+    };
 
-        var get_cookie = function(){
-            return $.cookie(cookie_name);
-        };
+    var get_cookie = function() {
+        return $.cookie(cookie_name);
+    };
 
-        var set_cookie = function(value){
-            $.cookie(cookie_name, value, { expires: 365, path: '/' });
-        };
+    var set_cookie = function(value) {
+        $.cookie(cookie_name, value, {
+            expires: 365,
+            path: '/'
+        });
+    };
 
-        var load = function(){
-            click();
-        };
+    var load = function() {
+        click();
+    };
 
-        var bind = function(nav){
-            $('body').on('click', buttons, function(e){
-                var color = $(this).attr('title');
+    var bind = function(nav) {
+        $('body')
+            .on('click', buttons, function(e) {
+                var color = $(this)
+                    .attr('title');
                 e.preventDefault();
                 set_cookie(color);
                 nav.open();
                 click();
             });
-        };
+    };
 
-        return {
-            init: function(){
-                bind(nav);
-                load();
-            }
-        };
+    return {
+        init: function() {
+            bind(nav);
+            load();
+        }
+    };
 
-    })(jQuery);
+})(jQuery);
 
 
 // Document ready
 
-    $(document).ready(function(){
+$(document)
+    .ready(function() {
         nav.init();
         colorscheme.init(nav);
         tables.pagesize.bind();
