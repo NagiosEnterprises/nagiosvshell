@@ -40,10 +40,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-jsbeautifier');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     
-    // Default task
+    // Register grunt tasks
     grunt.registerTask('default', ['jsbeautifier', 'jshint']);
-
-    // Test task
-    grunt.registerTask('test', ['jshint']);
+    grunt.registerTask('test', ['jsbeautifier', 'jshint']);
 
 };
