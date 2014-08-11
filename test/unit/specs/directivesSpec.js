@@ -23,7 +23,7 @@ describe('directives', function() {
 
     describe('activeNav', function() {
 
-        beforeEach(inject(function () {
+        beforeEach(inject(function() {
 
             element = angular.element(
                 '<nav active-nav>' +
@@ -39,12 +39,12 @@ describe('directives', function() {
 
         }));
 
-        it('Should be triggered by test event', function () {
+        it('Should be triggered by test event', function() {
             scope.$broadcast('$locationChangeSuccess');
             expect(scope.activeNavUpdated).toBe(true);
         });
 
-        it('Should have no active links when path does not match', function () {
+        it('Should have no active links when path does not match', function() {
             $location.path('/no-matches');
             scope.$broadcast('$locationChangeSuccess');
 
@@ -55,7 +55,7 @@ describe('directives', function() {
             expect(active.length).toBe(0);
         });
 
-        it('Should have one active link when path matches active-when value', function () {
+        it('Should have one active link when path matches active-when value', function() {
             $location.path('/third');
             scope.$broadcast('$locationChangeSuccess');
 
@@ -69,7 +69,7 @@ describe('directives', function() {
 
     describe('hostEntry', function() {
 
-        beforeEach(inject(function () {
+        beforeEach(inject(function() {
 
             element = angular.element(
                 '<container>' +
@@ -77,29 +77,25 @@ describe('directives', function() {
                 '</container>'
             );
 
-            scope.items = [
-                {
-                    'host_name': 'unit-test.hostname',
-                    'problem_has_been_acknowledged': false,
-                    'is_flapping': false
-                },
-                {
-                    'host_name': 'unit-test.hostname',
-                    'problem_has_been_acknowledged': true,
-                    'is_flapping': false
-                },
-                {
-                    'host_name': 'unit-test.hostname',
-                    'problem_has_been_acknowledged': true,
-                    'is_flapping': true
-                }
-            ];
+            scope.items = [{
+                'host_name': 'unit-test.hostname',
+                'problem_has_been_acknowledged': false,
+                'is_flapping': false
+            }, {
+                'host_name': 'unit-test.hostname',
+                'problem_has_been_acknowledged': true,
+                'is_flapping': false
+            }, {
+                'host_name': 'unit-test.hostname',
+                'problem_has_been_acknowledged': true,
+                'is_flapping': true
+            }];
 
             compiled = createItems();
 
         }));
 
-        it('Should create correct number of test items', function () {
+        it('Should create correct number of test items', function() {
             var items = compiled.find('td');
             expect(items.length).toBe(3);
         });
@@ -108,7 +104,7 @@ describe('directives', function() {
 
     describe('serviceEntry', function() {
 
-        beforeEach(inject(function () {
+        beforeEach(inject(function() {
 
             element = angular.element(
                 '<container>' +
@@ -116,32 +112,28 @@ describe('directives', function() {
                 '</container>'
             );
 
-            scope.items = [
-                {
-                    'service_description': 'unit-test-service',
-                    'host_name': 'unit-test.hostname',
-                    'problem_has_been_acknowledged': false,
-                    'is_flapping': false
-                },
-                {
-                    'service_description': 'unit-test-service-acknowledged',
-                    'host_name': 'unit-test.hostname',
-                    'problem_has_been_acknowledged': true,
-                    'is_flapping': false
-                },
-                {
-                    'service_description': 'unit-test-service-flapping',
-                    'host_name': 'unit-test.hostname',
-                    'problem_has_been_acknowledged': true,
-                    'is_flapping': true
-                }
-            ];
+            scope.items = [{
+                'service_description': 'unit-test-service',
+                'host_name': 'unit-test.hostname',
+                'problem_has_been_acknowledged': false,
+                'is_flapping': false
+            }, {
+                'service_description': 'unit-test-service-acknowledged',
+                'host_name': 'unit-test.hostname',
+                'problem_has_been_acknowledged': true,
+                'is_flapping': false
+            }, {
+                'service_description': 'unit-test-service-flapping',
+                'host_name': 'unit-test.hostname',
+                'problem_has_been_acknowledged': true,
+                'is_flapping': true
+            }];
 
             compiled = createItems();
 
         }));
 
-        it('Should create correct number of test items', function () {
+        it('Should create correct number of test items', function() {
             var items = compiled.find('td');
             expect(items.length).toBe(3);
         });
