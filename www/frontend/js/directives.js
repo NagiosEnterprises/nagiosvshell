@@ -3,7 +3,7 @@
 angular.module('vshell.directives', [])
 
 .directive('activeNav', ['$location',
-    function(location) {
+    function($location) {
 
         // Assigns active navigation class based on $location changes
         //
@@ -31,7 +31,7 @@ angular.module('vshell.directives', [])
 
             scope.$on('$locationChangeSuccess', function(event) {
                 var anchors = element.find('a'),
-                    path = location.path();
+                    path = $location.path();
 
                 anchors.each(function(index) {
                     var anchor = $(this),

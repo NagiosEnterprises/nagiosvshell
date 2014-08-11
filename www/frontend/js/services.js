@@ -150,10 +150,10 @@ angular.module('vshell.services', [])
                 async.is_loading(scope, false);
                 async.set_cache(options.url, result);
                 async.cached(scope, options);
-            }).
-        error(function(data, status, headers, config) {
-            messages.error('failed to update ' + options.name + ' data from the V-Shell2 API');
-        });
+            })
+            .error(function(data, status, headers, config) {
+                messages.error('failed to update ' + options.name + ' data from the V-Shell2 API');
+            });
     };
 
     return {

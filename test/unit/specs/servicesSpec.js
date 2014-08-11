@@ -4,9 +4,9 @@ describe('service', function() {
 
     var http, paths, service;
 
-    var test_url = function(path){
+    var test_url = function(path) {
         return '/context.html' + path;
-    }
+    };
 
     beforeEach(function() {
         module('vshell.services');
@@ -29,23 +29,23 @@ describe('service', function() {
 
     describe('paths', function() {
 
-        beforeEach(function (){ 
+        beforeEach(function() {
             inject(function(_paths_) {
                 http.when('GET', test_url('/api/vshellconfig'))
                     .respond({
-                        "coreurl": "\/test-coreurl-value"
+                        'coreurl': '\/test-coreurl-value'
                     });
 
                 paths = _paths_;
             });
         });
 
-        afterEach (function () {
+        afterEach(function() {
             http.verifyNoOutstandingExpectation();
             http.verifyNoOutstandingRequest();
         });
 
-        it('Should make $http call', function() {
+        it('Should make $http calls when service is created', function() {
             http.expectGET(test_url('/api/vshellconfig'));
             http.flush();
         });
@@ -72,11 +72,16 @@ describe('service', function() {
             http.flush();
         });
 
+        it('Should have a (faked) synchronous method for filters', function() {
+            expect(paths.core_for_filters).toBeDefined();
+            http.flush();
+        });
+
     });
 
     describe('async', function() {
 
-        beforeEach(function (){ 
+        beforeEach(function() {
             inject(function($httpBackend, async, _paths_) {
                 http = $httpBackend;
 
@@ -84,7 +89,7 @@ describe('service', function() {
                     .respond({});
 
                 service = async;
-                paths = mockService(_paths_);
+                paths = _paths_;
             });
         });
 
