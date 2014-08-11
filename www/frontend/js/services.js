@@ -167,8 +167,8 @@ angular.module('vshell.services', [])
 .factory('paths', function($http) {
 
     var add_slashes = function(path) {
-        var has_leading_slash = (path.substring(0, 1) === '/'),
-            has_trailing_slash = (path.slice(-1) === '/');
+        var has_leading_slash = (path && path.substring(0, 1) === '/'),
+            has_trailing_slash = (path && path.slice(-1) === '/');
 
         if (path === '' || path === '/') {
             return path;
