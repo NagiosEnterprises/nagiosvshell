@@ -21,6 +21,7 @@ module.exports = function(config){
       'frontend/js/directives.js',
       'frontend/js/filters.js',
       'frontend/js/services.js',
+      'frontend/partials/directives/*.html',
       'frontend/bower_components/angular-mocks/angular-mocks.js',
       '../test/unit/mocks/*.js',
       '../test/unit/specs/**/*.js',
@@ -39,6 +40,7 @@ module.exports = function(config){
       'karma-jasmine',
       'karma-junit-reporter',
       'karma-coverage',
+      'karma-ng-html2js-preprocessor'
     ],
 
     reporters: ['progress', 'coverage'],
@@ -48,6 +50,7 @@ module.exports = function(config){
       'frontend/js/directives.js': ['coverage'],
       'frontend/js/filters.js': ['coverage'],
       'frontend/js/services.js': ['coverage'],
+      'frontend/partials/directives/*.html': ['ng-html2js']
     },
 
     coverageReporter: {

@@ -30,8 +30,11 @@ angular.module('vshell.directives', [])
             }
 
             scope.$on('$locationChangeSuccess', function(event) {
+
                 var anchors = element.find('a'),
                     path = $location.path();
+
+                scope.activeNavUpdated = true;
 
                 anchors.each(function(index) {
                     var anchor = $(this),
