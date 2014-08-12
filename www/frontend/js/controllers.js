@@ -367,4 +367,20 @@ angular.module('vshell.controllers', [])
         };
 
     }
+])
+
+.controller('OptionsCtrl', ['$scope', '$http', 'paths',
+    function($scope, $http, paths) {
+
+        $scope.init = function() {
+
+            var uri = paths.app + 'package.json';
+
+            $http.get(uri).then(function(response) {
+                $scope.vshell = response.data;
+            });
+
+        };
+
+    }
 ]);

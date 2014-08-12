@@ -2,7 +2,7 @@
 
 describe('Controllers', function() {
 
-    var $filter, scope, ctrl, mockAsync;
+    var $filter, scope, ctrl, mockAsync, mockPaths;
 
     beforeEach(function() {
         module('vshell.controllers');
@@ -10,14 +10,15 @@ describe('Controllers', function() {
         module('vshell.services');
     });
 
-    beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+    beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
         scope = $rootScope.$new();
         mockAsync = mockService(async);
+        mockPaths = mockService(paths);
     }));
 
     describe('Page', function() {
 
-        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
             ctrl = $controller('PageCtrl', {
                 $scope: scope,
                 async: mockAsync,
@@ -33,7 +34,7 @@ describe('Controllers', function() {
 
     describe('Quicksearch', function() {
 
-        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
             ctrl = $controller('QuicksearchCtrl', {
                 $scope: scope,
                 $location: {},
@@ -59,7 +60,7 @@ describe('Controllers', function() {
 
     describe('Status', function() {
 
-        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
             ctrl = $controller('StatusCtrl', {
                 $scope: scope,
                 async: mockAsync
@@ -83,7 +84,7 @@ describe('Controllers', function() {
 
     describe('Overview', function() {
 
-        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
             ctrl = $controller('OverviewCtrl', {
                 $scope: scope,
                 async: mockAsync
@@ -107,7 +108,7 @@ describe('Controllers', function() {
 
     describe('Hosts', function() {
 
-        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
             ctrl = $controller('HostsCtrl', {
                 $scope: scope,
                 $routeParams: {},
@@ -133,7 +134,7 @@ describe('Controllers', function() {
 
     describe('Host Details', function() {
 
-        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
             ctrl = $controller('HostDetailsCtrl', {
                 $scope: scope,
                 $routeParams: {},
@@ -158,7 +159,7 @@ describe('Controllers', function() {
 
     describe('Host Groups', function() {
 
-        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
             ctrl = $controller('HostGroupsCtrl', {
                 $scope: scope,
                 async: mockAsync
@@ -182,7 +183,7 @@ describe('Controllers', function() {
 
     describe('Host Group Details', function() {
 
-        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
             ctrl = $controller('HostGroupDetailsCtrl', {
                 $scope: scope,
                 $routeParams: {},
@@ -207,7 +208,7 @@ describe('Controllers', function() {
 
     describe('Host Services', function() {
 
-        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
             ctrl = $controller('HostServicesCtrl', {
                 $scope: scope,
                 $routeParams: {},
@@ -232,7 +233,7 @@ describe('Controllers', function() {
 
     describe('Services', function() {
 
-        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
             ctrl = $controller('ServicesCtrl', {
                 $scope: scope,
                 $routeParams: {},
@@ -258,7 +259,7 @@ describe('Controllers', function() {
 
     describe('Service Details', function() {
 
-        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
             ctrl = $controller('ServiceDetailsCtrl', {
                 $scope: scope,
                 $routeParams: {},
@@ -283,7 +284,7 @@ describe('Controllers', function() {
 
     describe('Service Groups', function() {
 
-        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
             ctrl = $controller('ServiceGroupsCtrl', {
                 $scope: scope,
                 async: mockAsync
@@ -307,7 +308,7 @@ describe('Controllers', function() {
 
     describe('Service Group Details', function() {
 
-        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
             ctrl = $controller('ServiceGroupDetailsCtrl', {
                 $scope: scope,
                 $routeParams: {},
@@ -332,7 +333,7 @@ describe('Controllers', function() {
 
     describe('Configurations', function() {
 
-        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
             ctrl = $controller('ConfigurationsCtrl', {
                 $scope: scope,
                 $routeParams: {},
@@ -357,7 +358,7 @@ describe('Controllers', function() {
 
     describe('Configuration Details', function() {
 
-        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
             ctrl = $controller('ConfigurationDetailsCtrl', {
                 $scope: scope,
                 $routeParams: {},
@@ -383,7 +384,7 @@ describe('Controllers', function() {
 
     describe('Comments', function() {
 
-        beforeEach(inject(function($rootScope, $controller, $location, $filter, async, paths) {
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
             ctrl = $controller('CommentsCtrl', {
                 $scope: scope,
                 $routeParams: {},
@@ -402,6 +403,26 @@ describe('Controllers', function() {
         it('Should call async service', inject(function($rootScope, $controller, async) {
             scope.init();
             expect(mockAsync.api).toHaveBeenCalled();
+        }));
+
+    });
+
+    describe('Options', function() {
+
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, $location, $filter, async, paths) {
+            ctrl = $controller('OptionsCtrl', {
+                $scope: scope,
+                $http: $httpBackend,
+                paths: mockPaths
+            });
+        }));
+
+        it('Should be defined', inject(function($controller) {
+            expect(ctrl).toBeDefined();
+        }));
+
+        it('Should have an init method', inject(function($rootScope, $controller, async) {
+            expect(scope.init).toBeDefined();
         }));
 
     });

@@ -532,7 +532,7 @@ nav {
     bottom: 0px;
     height: 60px;
     left: 0px;
-    padding: 18px 0px 0px 20px;
+    padding: 18px 0px 0px 40px;
     position: absolute;
     width: 100%;
     z-index: 100;
@@ -752,7 +752,7 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
         margin: -15px 40px 15px 40px;
     }
 
-    #content p a {
+    #content p.subheading a {
         color: #666;
         font-size: 14px;
         font-weight: 600;
@@ -763,12 +763,26 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
             text-decoration: underline;
         }
 
-.text {
-    margin: 0px 40px 40px 40px;
+#content .text {
+    padding: 0px 40px 20px 40px;
     width: 100%;
 }
 
-    .colorscheme-choice {
+    #content .text h3 {
+        font-size: 22px;
+        margin: 1.5em 0px 1em 0px;
+    }
+
+    #content .text p {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    #content .text strong {
+        font-weight: 600;
+    }
+
+    #content .text a {
         color: #4580a8;
         display: inline-block;
         text-decoration: none;
