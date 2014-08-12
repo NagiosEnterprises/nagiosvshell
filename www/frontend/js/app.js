@@ -23,16 +23,16 @@ angular.module('vshell', [
             templateUrl: 'frontend/partials/hosts.html'
         });
         $routeProvider.when('/hosts/:host*', {
-            templateUrl: 'frontend/partials/hostdetails.html'
+            templateUrl: 'frontend/partials/host-details.html'
         });
         $routeProvider.when('/hostgroups/summary', {
-            templateUrl: 'frontend/partials/hostgroups-summary.html'
+            templateUrl: 'frontend/partials/host-groups-summary.html'
         });
         $routeProvider.when('/hostgroups/grid', {
-            templateUrl: 'frontend/partials/hostgroups-grid.html'
+            templateUrl: 'frontend/partials/host-groups-grid.html'
         });
         $routeProvider.when('/hostgroups/:group*', {
-            templateUrl: 'frontend/partials/hostgroups-details.html'
+            templateUrl: 'frontend/partials/host-group-details.html'
         });
         $routeProvider.when('/services', {
             templateUrl: 'frontend/partials/services.html'
@@ -44,19 +44,19 @@ angular.module('vshell', [
             templateUrl: 'frontend/partials/services.html'
         });
         $routeProvider.when('/services/on-host/:host', {
-            templateUrl: 'frontend/partials/hostservices.html'
+            templateUrl: 'frontend/partials/host-services.html'
         });
         $routeProvider.when('/services/:host/:service*', {
-            templateUrl: 'frontend/partials/servicedetails.html'
+            templateUrl: 'frontend/partials/service-details.html'
         });
         $routeProvider.when('/servicegroups/summary', {
-            templateUrl: 'frontend/partials/servicegroups-summary.html'
+            templateUrl: 'frontend/partials/service-groups-summary.html'
         });
         $routeProvider.when('/servicegroups/grid', {
-            templateUrl: 'frontend/partials/servicegroups-grid.html'
+            templateUrl: 'frontend/partials/service-groups-grid.html'
         });
         $routeProvider.when('/servicegroups/:group*', {
-            templateUrl: 'frontend/partials/servicegroups-details.html'
+            templateUrl: 'frontend/partials/service-group-details.html'
         });
         $routeProvider.when('/configurations', {
             templateUrl: 'frontend/partials/configurations-grid.html'
