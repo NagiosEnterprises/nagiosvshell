@@ -44,6 +44,15 @@ if($code > 0)
 	$errorstring .= "ERROR: Failed to copy files to ".TARGETDIR." directory \n$output\n";
 }
 
+// Copy package.json into web directory
+echo "Copying package.json file...\n";
+$output = system('/bin/cp -r ./package.json '.escapeshellarg(TARGETDIR), $code);
+if($code > 0)
+{
+	$errors++;
+	$errorstring .= "ERROR: Failed to copy package.json into ".TARGETDIR." directory \n$output\n";
+}
+
 // Change file ownership
 echo "Updating file permissions...\n";
 $output = system('/bin/chown -R '.escapeshellarg(APACHEUSER).':'.escapeshellarg(APACHEGROUP).' '.escapeshellarg(TARGETDIR), $code);
