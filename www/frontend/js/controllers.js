@@ -19,7 +19,7 @@ angular.module('vshell.controllers', [])
 .controller('QuicksearchCtrl', ['$scope', '$location', '$filter', 'async',
     function($scope, $location, $filter, async) {
 
-        var callback = function(data, status, headers, config) {
+        $scope.callback = function(data, status, headers, config) {
             var quicksearch_callback = function(e, item) {
                 var base = $filter('uri')(item.type),
                     path = base + '/' + item.uri;
@@ -38,8 +38,7 @@ angular.module('vshell.controllers', [])
                 name: 'quicksearch',
                 url: 'quicksearch',
                 queue: 'quicksearch',
-                cache: true,
-                callback: callback
+                cache: true
             };
 
             async.api($scope, options);
@@ -90,7 +89,7 @@ angular.module('vshell.controllers', [])
 .controller('HostsCtrl', ['$scope', '$routeParams', '$filter', 'async',
     function($scope, $routeParams, $filter, async) {
 
-        var callback = function(data, status, headers, config) {
+        $scope.callback = function(data, status, headers, config) {
             var state_filter = $routeParams.state,
                 problem_filter = $routeParams.handled;
 
@@ -108,8 +107,7 @@ angular.module('vshell.controllers', [])
             var options = {
                 name: 'hosts',
                 url: 'hoststatus',
-                queue: 'main',
-                callback: callback
+                queue: 'main'
             };
 
             $scope.statefilter = $routeParams.state || '';
@@ -161,7 +159,7 @@ angular.module('vshell.controllers', [])
 .controller('HostGroupDetailsCtrl', ['$scope', '$routeParams', 'async',
     function($scope, $routeParams, async) {
 
-        var callback = function(data, status, headers, config) {
+        $scope.callback = function(data, status, headers, config) {
             return (data && data[0]) ? data[0] : data;
         };
 
@@ -170,8 +168,7 @@ angular.module('vshell.controllers', [])
             var options = {
                 name: 'hostgroup',
                 url: 'hostgroupstatus/' + $routeParams.group,
-                queue: 'main',
-                callback: callback
+                queue: 'main'
             };
 
             async.api($scope, options);
@@ -204,7 +201,7 @@ angular.module('vshell.controllers', [])
 .controller('ServicesCtrl', ['$scope', '$routeParams', '$filter', 'async',
     function($scope, $routeParams, $filter, async) {
 
-        var callback = function(data, status, headers, config) {
+        $scope.callback = function(data, status, headers, config) {
             var state_filter = $routeParams.state,
                 problem_filter = $routeParams.handled;
 
@@ -222,8 +219,7 @@ angular.module('vshell.controllers', [])
             var options = {
                 name: 'services',
                 url: 'servicestatus',
-                queue: 'main',
-                callback: callback
+                queue: 'main'
             };
 
             $scope.statefilter = $routeParams.state || '';
@@ -275,7 +271,7 @@ angular.module('vshell.controllers', [])
 .controller('ServiceGroupDetailsCtrl', ['$scope', '$routeParams', 'async',
     function($scope, $routeParams, async) {
 
-        var callback = function(data, status, headers, config) {
+        $scope.callback = function(data, status, headers, config) {
             return (data && data[0]) ? data[0] : data;
         };
 
@@ -284,8 +280,7 @@ angular.module('vshell.controllers', [])
             var options = {
                 name: 'servicegroup',
                 url: 'servicegroupstatus/' + $routeParams.group,
-                queue: 'main',
-                callback: callback
+                queue: 'main'
             };
 
             async.api($scope, options);
@@ -298,21 +293,21 @@ angular.module('vshell.controllers', [])
 .controller('ConfigurationsCtrl', ['$scope', '$routeParams', 'async',
     function($scope, $routeParams, async) {
 
-        var type = $routeParams.type || '',
-            callback = function(data, status, headers, config) {
-                if (type) {
-                    data = data[type] || {};
-                }
-                return data;
-            };
+        var type = $routeParams.type || '';
+
+        $scope.callback = function(data, status, headers, config) {
+            if (type) {
+                data = data[type] || {};
+            }
+            return data;
+        };
 
         $scope.init = function() {
 
             var options = {
                 name: 'configurations',
                 url: 'configurations/' + type,
-                queue: 'main',
-                callback: callback
+                queue: 'main'
             };
 
             async.api($scope, options);
@@ -327,15 +322,16 @@ angular.module('vshell.controllers', [])
 
         var type = ($routeParams.type || ''),
             name = $routeParams.name,
-            name_key = $filter('configuration_anchor_key')(type),
-            callback = function(data, status, headers, config) {
-                if (!data || !data[type]) {
-                    return data;
-                }
-                data = data[type]['items'];
-                data = $filter('property')(data, name_key, name)[0];
+            name_key = $filter('configuration_anchor_key')(type);
+
+        $scope.callback = function(data, status, headers, config) {
+            if (!data || !data[type]) {
                 return data;
-            };
+            }
+            data = data[type]['items'];
+            data = $filter('property')(data, name_key, name)[0];
+            return data;
+        };
 
         $scope.init = function() {
 
@@ -345,8 +341,7 @@ angular.module('vshell.controllers', [])
             var options = {
                 name: 'configuration',
                 url: 'configurations/' + type,
-                queue: 'main',
-                callback: callback
+                queue: 'main'
             };
 
             async.api($scope, options);

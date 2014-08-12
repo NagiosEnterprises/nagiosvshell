@@ -70,16 +70,16 @@ angular.module('vshell.services', [])
         scope['is_loading'] = result;
     };
 
-    async.apply_callback = function(callback, data, status, headers, config) {
-        if (typeof(callback) === 'function') {
-            data = callback(data, status, headers, config);
+    async.apply_callback = function(scope, data, status, headers, config) {
+        if (scope.callback) {
+            data = scope.callback(data, status, headers, config);
         }
         return data;
     };
 
     async.cached = function(scope, options) {
         var result = async.get_cache(options.url),
-            data = async.apply_callback(options.callback, result.data, result.status, result.headers, result.config);
+            data = async.apply_callback(scope, result.data, result.status, result.headers, result.config);
 
         async.set_scope(scope, options, data);
     };
