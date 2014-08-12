@@ -106,7 +106,7 @@ angular.module('vshell.controllers', [])
         $scope.init = function() {
 
             var options = {
-                name: 'hoststatus',
+                name: 'hosts',
                 url: 'hoststatus',
                 queue: 'main',
                 callback: callback
@@ -146,7 +146,7 @@ angular.module('vshell.controllers', [])
         $scope.init = function() {
 
             var options = {
-                name: 'hostgroupstatus',
+                name: 'hostgroups',
                 url: 'hostgroupstatus',
                 queue: 'main'
             };
@@ -187,7 +187,7 @@ angular.module('vshell.controllers', [])
         $scope.init = function() {
 
             var options = {
-                name: 'servicestatus',
+                name: 'hostservices',
                 url: 'servicestatus/' + $routeParams.host,
                 queue: 'main'
             };
@@ -220,7 +220,7 @@ angular.module('vshell.controllers', [])
         $scope.init = function() {
 
             var options = {
-                name: 'servicestatus',
+                name: 'services',
                 url: 'servicestatus',
                 queue: 'main',
                 callback: callback
@@ -260,7 +260,7 @@ angular.module('vshell.controllers', [])
         $scope.init = function() {
 
             var options = {
-                name: 'servicegroupstatus',
+                name: 'servicegroups',
                 url: 'servicegroupstatus',
                 queue: 'main'
             };

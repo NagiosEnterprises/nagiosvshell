@@ -42,16 +42,16 @@
             <tfoot>
                 <tr>
                     <td colspan="7">
-                        <div class="results-count">{{ servicestatus | count }} Result{{ servicestatus | plural }}</div>
+                        <div class="results-count">{{ services | count }} Result{{ services | plural }}</div>
                         <div class="footable-pagination pagination" id="footable-pagination"></div>
                     </td>
                 </tr>
             </tfoot>
             <tbody>
-                <tr ng-if="(servicestatus | count) == 0">
+                <tr ng-if="(services | count) == 0">
                     <td colspan="7">{{ is_loading ? 'Loading...' : 'No services are defined' }}</td>
                 </tr>
-                <tr ng-repeat="service in servicestatus | orderObjectBy: 'host_name'" class="state-{{ service.current_state | servicestate | lowercase }}" footabledata>
+                <tr ng-repeat="service in services | orderObjectBy: 'host_name'" class="state-{{ service.current_state | servicestate | lowercase }}" footabledata>
                     <td host-entry item="service"></td>
                     <td service-entry item="service"></td>
                     <td class="status">{{ service.current_state | servicestate }}</td>
