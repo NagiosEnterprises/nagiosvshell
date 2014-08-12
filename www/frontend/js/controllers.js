@@ -87,7 +87,7 @@ angular.module('vshell.controllers', [])
     }
 ])
 
-.controller('HostStatusCtrl', ['$scope', '$routeParams', '$filter', 'async',
+.controller('HostsCtrl', ['$scope', '$routeParams', '$filter', 'async',
     function($scope, $routeParams, $filter, async) {
 
         var callback = function(data, status, headers, config) {
@@ -122,7 +122,7 @@ angular.module('vshell.controllers', [])
     }
 ])
 
-.controller('HostStatusDetailsCtrl', ['$scope', '$routeParams', 'async',
+.controller('HostDetailsCtrl', ['$scope', '$routeParams', 'async',
     function($scope, $routeParams, async) {
 
         $scope.init = function() {
@@ -140,7 +140,7 @@ angular.module('vshell.controllers', [])
     }
 ])
 
-.controller('HostgroupStatusCtrl', ['$scope', 'async',
+.controller('HostGroupsCtrl', ['$scope', 'async',
     function($scope, async) {
 
         $scope.init = function() {
@@ -158,7 +158,7 @@ angular.module('vshell.controllers', [])
     }
 ])
 
-.controller('HostgroupStatusDetailsCtrl', ['$scope', '$routeParams', 'async',
+.controller('HostGroupDetailsCtrl', ['$scope', '$routeParams', 'async',
     function($scope, $routeParams, async) {
 
         var callback = function(data, status, headers, config) {
@@ -181,7 +181,27 @@ angular.module('vshell.controllers', [])
     }
 ])
 
-.controller('ServiceStatusCtrl', ['$scope', '$routeParams', '$filter', 'async',
+.controller('HostServicesCtrl', ['$scope', '$routeParams', 'async',
+    function($scope, $routeParams, async) {
+
+        $scope.init = function() {
+
+            var options = {
+                name: 'servicestatus',
+                url: 'servicestatus/' + $routeParams.host,
+                queue: 'main'
+            };
+
+            $scope.host_name = $routeParams.host;
+
+            async.api($scope, options);
+
+        };
+
+    }
+])
+
+.controller('ServicesCtrl', ['$scope', '$routeParams', '$filter', 'async',
     function($scope, $routeParams, $filter, async) {
 
         var callback = function(data, status, headers, config) {
@@ -216,27 +236,7 @@ angular.module('vshell.controllers', [])
     }
 ])
 
-.controller('ServiceHostStatusCtrl', ['$scope', '$routeParams', 'async',
-    function($scope, $routeParams, async) {
-
-        $scope.init = function() {
-
-            var options = {
-                name: 'servicestatus',
-                url: 'servicestatus/' + $routeParams.host,
-                queue: 'main'
-            };
-
-            $scope.host_name = $routeParams.host;
-
-            async.api($scope, options);
-
-        };
-
-    }
-])
-
-.controller('ServiceStatusDetailsCtrl', ['$scope', '$routeParams', 'async',
+.controller('ServiceDetailsCtrl', ['$scope', '$routeParams', 'async',
     function($scope, $routeParams, async) {
 
         $scope.init = function() {
@@ -254,7 +254,7 @@ angular.module('vshell.controllers', [])
     }
 ])
 
-.controller('ServicegroupStatusCtrl', ['$scope', 'async',
+.controller('ServiceGroupsCtrl', ['$scope', 'async',
     function($scope, async) {
 
         $scope.init = function() {
@@ -272,7 +272,7 @@ angular.module('vshell.controllers', [])
     }
 ])
 
-.controller('ServicegroupStatusDetailsCtrl', ['$scope', '$routeParams', 'async',
+.controller('ServiceGroupDetailsCtrl', ['$scope', '$routeParams', 'async',
     function($scope, $routeParams, async) {
 
         var callback = function(data, status, headers, config) {
