@@ -6,7 +6,7 @@
 
 <div ng-include="'frontend/partials/_messages.html'"></div>
 
-<div id="content" class="clearfix" ng-controller="ConfigurationDetailsCtrl" ng-init="getConfigurationDetails()">
+<div id="content" class="clearfix" ng-controller="ConfigurationDetailsCtrl" ng-init="init()">
 
     <h1>Configuration Details for {{ configuration.name | capitalize }}</h1>
 
@@ -36,13 +36,13 @@
             <tfoot>
                 <tr>
                     <td colspan="2">
-                        <div class="results-count">{{ configuration | size }} Result{{ configuration | plural }}</div>
+                        <div class="results-count">{{ configuration | count }} Result{{ configuration | plural }}</div>
                         <div class="footable-pagination pagination" id="footable-pagination"></div>
                     </td>
                 </tr>
             </tfoot>
             <tbody>
-                <tr ng-if="(configuration | size) == 0">
+                <tr ng-if="(configuration | count) == 0">
                     <td colspan="2">{{ is_loading ? 'Loading...' : 'No configuration details are defined' }}</td>
                 </tr>
                 <tr ng-repeat="(key, value) in configuration" ng-class-odd="'footable-odd'" ng-class-even="'footable-even'" footabledata>

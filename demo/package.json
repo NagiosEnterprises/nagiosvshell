@@ -1,0 +1,51 @@
+{
+    "name": "nagios-vshell",
+    "version": "2.0.0-387",
+    "description": "A Visual Shell for Nagios",
+    "repository": "https://github.com/chrislaskey/nagiosvshell",
+    "license": "GPLv2",
+    "contributors": [
+        {
+            "name": "Mike Guthrie",
+            "email": "cablemikey911@yahoo.com"
+        },
+        {
+            "name": "Chris Laskey",
+            "email": "contact@chrislaskey.com",
+            "url": "http://chrislaskey.com"
+        }
+    ],
+    "devDependencies": {
+        "bower": "^1.3.1",
+        "grunt": "~0.4",
+        "grunt-contrib-jshint": "~0.1.1",
+        "grunt-jsbeautifier": "~0.2.7",
+        "grunt-bump": "~0.0.15",
+        "http-server": "^0.6.1",
+        "js-beautify": "~1.5",
+        "jshint": "~2.5",
+        "jslint": "~0.6",
+        "karma": "~0.10",
+        "karma-coverage": "~0.1",
+        "karma-junit-reporter": "^0.2.2",
+        "karma-ng-html2js-preprocessor": "~0.1",
+        "protractor": "~0.20.1",
+        "shelljs": "^0.2.6"
+    },
+    "scripts": {
+        "postinstall": "bower install",
+
+        "prestart": "npm install",
+        "start": "http-server -a localhost -p 8000",
+
+        "pretest": "npm install",
+        "test": "karma start test/karma.conf.js",
+        "test-single-run": "karma start test/karma.conf.js --single-run",
+
+        "preupdate-webdriver": "npm install",
+        "update-webdriver": "webdriver-manager update",
+
+        "preprotractor": "npm run update-webdriver",
+        "protractor": "protractor test/protractor-conf.js"
+    }
+}

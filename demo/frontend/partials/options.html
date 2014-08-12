@@ -6,17 +6,36 @@
 
 <div ng-include="'frontend/partials/_messages.html'"></div>
 
-<div id="content" class="clearfix" ng-controller="HostStatusCtrl" ng-init="getHostStatus()">
+<div id="content" class="clearfix" ng-controller="OptionsCtrl" ng-init="init()">
 
-    <h1>Nagios V-Shell Options</h1>
+    <h1>Nagios V-Shell</h1>
 
     <div class="text">
 
-        <h3>Colorscheme</h3>
+        <h3>Colorschemes</h3>
 
         <ul>
             <li><a class="colorscheme-choice" ng-href="#" title="colorscheme-dark">Dark</a></li>
             <li><a class="colorscheme-choice" ng-href="#" title="colorscheme-blue">Blue</a></li>
+        </ul>
+
+        <h3>About V-Shell</h3>
+
+        <p><strong>Version {{ vshell.version }}</strong></p>
+
+        <p>Nagios V-Shell is an open source project released under {{ vshell.license }}. To get the latest version, report an issue, or contribute code, visit the <a target="blank" href="{{ vshell.repository }}">project's GitHub page</a>.</p>
+        
+        <p>The V-Shell project is developed by:</p>
+
+        <ul>
+            <li ng-repeat="person in vshell.contributors">
+                <span ng-if="person.url"> 
+                    <a target="blank" href="{{ person.url }}">{{ person.name }}</a>
+                </span>
+                <span ng-if="!person.url">
+                    {{ person.name }}
+                </span>
+            </li>
         </ul>
 
     </div>

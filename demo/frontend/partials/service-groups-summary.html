@@ -6,7 +6,7 @@
 
 <div ng-include="'frontend/partials/_messages.html'"></div>
 
-<div id="content" class="clearfix" ng-controller="ServicegroupStatusCtrl" ng-init="getServicegroupStatus()">
+<div id="content" class="clearfix" ng-controller="ServiceGroupsCtrl" ng-init="init()">
 
     <div class="table-container full-width">
 
@@ -33,16 +33,16 @@
             <tfoot>
                 <tr>
                     <td colspan="5">
-                        <div class="results-count">{{ servicegroupstatus | size }} Result{{ servicegroupstatus | plural }}</div>
+                        <div class="results-count">{{ servicegroups | count }} Result{{ servicegroups | plural }}</div>
                         <div class="footable-pagination pagination" id="footable-pagination"></div>
                     </td>
                 </tr>
             </tfoot>
             <tbody>
-                <tr ng-if="(servicegroupstatus | size) == 0">
+                <tr ng-if="(servicegroups | count) == 0">
                     <td colspan="2">{{ is_loading ? 'Loading...' : 'No servicegroups are defined' }}</td>
                 </tr>
-                <tr ng-repeat="servicegroup in servicegroupstatus | orderObjectBy: 'alias'" footabledata>
+                <tr ng-repeat="servicegroup in servicegroups | orderObjectBy: 'alias'" footabledata>
                     <td><a href="#/servicegroups/{{ servicegroup.servicegroup_name }}">{{ servicegroup.alias }}</a></td>
                     <td>
                         <span class="status-item services-ok {{ servicegroup.servicesOK | is_active }}">{{ servicegroup.servicesOK }} OK</span>

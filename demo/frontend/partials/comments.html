@@ -6,7 +6,7 @@
 
 <div ng-include="'frontend/partials/_messages.html'"></div>
 
-<div id="content" class="clearfix" ng-controller="CommentsCtrl" ng-init="getComments()">
+<div id="content" class="clearfix" ng-controller="CommentsCtrl" ng-init="init()">
 
     <h1>Comments for All Hosts and All Services</h1>
 
@@ -37,13 +37,13 @@
             <tfoot>
                 <tr>
                     <td colspan="6">
-                        <div class="results-count">{{ comments | size }} Result{{ comments | plural }}</div>
+                        <div class="results-count">{{ comments | count }} Result{{ comments | plural }}</div>
                         <div class="footable-pagination pagination" id="footable-pagination"></div>
                     </td>
                 </tr>
             </tfoot>
             <tbody>
-                <tr ng-if="(comments | size) == 0">
+                <tr ng-if="(comments | count) == 0">
                     <td colspan="6">{{ is_loading ? 'Loading...' : 'No comments created' }}</td>
                 </tr>
                 <tr ng-repeat="comment in comments | orderBy: 'entry_time': true" footabledata>

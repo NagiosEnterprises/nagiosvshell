@@ -6,11 +6,11 @@
 
 <div ng-include="'frontend/partials/_messages.html'"></div>
 
-<div id="content" class="clearfix" ng-controller="ConfigurationsCtrl" ng-init="init()">
+<div id="content" class="clearfix" ng-controller="HostGroupDetailsCtrl" ng-init="init()">
 
-    <h1>Configurations for {{ configurations.name | capitalize }}</h1>
+    <div class="table-container full-width">
 
-    <div class="details table-container full-width">
+        <h1>Host Group Status Details for <span class="state-{{ hostgroup | groupstate }}">{{ hostgroup.alias }}</span></h1>
 
         <div class="table-options">
             <form action="" class="filter-form" method="post">
@@ -26,28 +26,27 @@
         <table cellspacing="0" cellpadding="0" class="footable" data-page-size="25" data-page-navigation="#footable-pagination" data-limit-navigation="5" data-filter="#footable-filter">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Host</th>
+                    <th>Host Status</th>
+                    <th>Services</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <td>
-                        <div class="results-count">{{ configurations.items | count }} Result{{ configurations.items | plural }}</div>
+                    <td colspan="5">
+                        <div class="results-count">{{ hostgroup.HostStatusCollection | count }} Result{{ hostgroup.HostStatusCollection | plural }}</div>
                         <div class="footable-pagination pagination" id="footable-pagination"></div>
                     </td>
                 </tr>
             </tfoot>
             <tbody>
-                <tr ng-if="(configurations.items | count) == 0">
-                    <td>{{ is_loading ? 'Loading...' : 'No configuration items are defined' }}</td>
+                <tr ng-if="(hostgroup.HostStatusCollection | count) == 0">
+                    <td colspan="5">{{ is_loading ? 'Loading...' : 'No hostgroup members are defined' }}</td>
                 </tr>
-                <tr ng-repeat="item in configurations.items | orderObjectBy: 'host_name'" footabledata>
-                    <td>
-                        <a href="#/{{ 'configuration' | uri }}/{{ configurations.name }}/{{ item[( configurations.name | configuration_anchor_key )] }}">
-                            <span ng-if="configurations.name == 'services'">{{ item.host_name }} ({{ item.service_description }})</span>
-                            <span ng-if="configurations.name != 'services'">{{ item[( configurations.name | configuration_display_key )] }}</span>
-                        </a>
-                    </td>
+                <tr ng-repeat="host in hostgroup.HostStatusCollection | orderObjectBy: 'host_name'" class="state-{{ host.current_state | hoststate | lowercase }}" footabledata>
+                    <td host-entry item="host"></td>
+                    <td class="status">{{ host.current_state | hoststate }}</td>
+                    <td><a ng-repeat="service in host.ServiceStatusCollection | orderObjectBy: 'service_description'" class="status-item active services-{{ service.current_state | servicestate | lowercase }}" href="#/services/{{ host.host_name }}/{{ service.service_description }}">{{ service.service_description }}</a></td>
                 </tr>
             </tbody>
         </table>
@@ -57,3 +56,4 @@
 </div>
 
 <div ng-include="'frontend/partials/_footer.html'"></div>
+

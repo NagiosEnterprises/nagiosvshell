@@ -6,11 +6,11 @@
 
 <div ng-include="'frontend/partials/_messages.html'"></div>
 
-<div id="content" class="clearfix" ng-controller="HostgroupStatusCtrl" ng-init="getHostgroupStatus()">
+<div id="content" class="clearfix" ng-controller="HostGroupsCtrl" ng-init="init()">
 
     <h1>Host Group Status Details for All Groups</h1>
 
-    <div ng-repeat="hostgroup in hostgroupstatus" class="table-container partial-width grid">
+    <div ng-repeat="hostgroup in hostgroups" class="table-container partial-width grid">
 
         <h3><a class="state-{{ hostgroup | groupstate }}" ng-href="#/hostgroups/{{ hostgroup.hostgroup_name }}">{{ hostgroup.alias }}</a></h3>
 
@@ -40,13 +40,13 @@
             <tfoot>
                 <tr>
                     <td colspan="3">
-                        <div class="results-count">{{ hostgroup.HostStatusCollection | size }} Result{{ hostgroup.HostStatusCollection | plural }}</div>
+                        <div class="results-count">{{ hostgroup.HostStatusCollection | count }} Result{{ hostgroup.HostStatusCollection | plural }}</div>
                         <div class="footable-pagination pagination hide-if-no-paging" id="footable-pagination-{{ $index }}"></div>
                     </td>
                 </tr>
             </tfoot>
             <tbody>
-                <tr ng-if="(hostgroup.HostStatusCollection | size) == 0">
+                <tr ng-if="(hostgroup.HostStatusCollection | count) == 0">
                     <td colspan="7">{{ is_loading ? 'Loading...' : 'No hosts associated with hostgroup' }}</td>
                 </tr>
                 <tr ng-repeat="host in hostgroup.HostStatusCollection | orderObjectBy: 'host_name'" class="state-{{ host.current_state | hoststate | lowercase }}" footabledata>
