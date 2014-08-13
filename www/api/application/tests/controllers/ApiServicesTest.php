@@ -104,6 +104,7 @@ class ApiServicesTest extends PHPUnit_Framework_TestCase
         $first_result = (array) reset($this->result);
         $result_keys = array_keys($first_result);
         $different_keys = array_diff($this->keys, $result_keys);
+        $this->assertFalse(empty($result_keys));
         $this->assertEmpty($different_keys);
     }
 

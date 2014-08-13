@@ -110,8 +110,9 @@ class ApiIndexTest extends PHPUnit_Framework_TestCase
 
     public function testOutputKeysMatch()
     {
-        $result_keys = array_keys($this->result);
+        $result_keys = array_keys((array) $this->result);
         $different_keys = array_diff($this->keys, $result_keys);
+        $this->assertFalse(empty($result_keys));
         $this->assertEmpty($different_keys);
     }
 }
