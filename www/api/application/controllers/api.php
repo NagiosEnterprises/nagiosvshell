@@ -20,6 +20,25 @@ class API extends VS_Controller
         $this->output($Data);
     }
 
+
+    /**
+     * Retrieve program status
+     */
+    public function programstatus(){
+        $Program = $this->nagios_data->get_collection('programstatus');
+        $this->output($Program);
+    }
+
+
+    /**
+     * Retrieve info status
+     * @return [type] [description]
+     */
+    public function info(){
+        $Info = $this->nagios_data->get_collection('info');
+        $this->output($Info);
+    }
+
     /**
      * Fetch object names
      */
@@ -73,9 +92,27 @@ class API extends VS_Controller
 
 
     /**
-     * Fetch status of a certain type
+     * Fetch /etc/vshell2.conf file values, as parsed by CodeIgniter
+     */
+    function vshellconfig() {
+        $config = array(
+            'baseurl'        => BASEURL,
+            'cgicfg'         => CGICFG,
+            'coreurl'        => COREURL,
+            'lang'           => LANG,
+            'objectsfile'    => OBJECTSFILE,
+            'statusfile'     => STATUSFILE,
+            'ttl'            => TTL,
+            'updateinterval' => UPDATEINTERVAL
+        );
+
+        $this->output($config);
+    }
+
+
+    /**
+     * Fetch host status
      *
-     * @param  string $type
      * @param  string $host_name
      */
     public function hoststatus($host_name='') {
@@ -134,36 +171,10 @@ class API extends VS_Controller
 
 
     /**
-     * Retrieve program status
+     * Fetch host group status
+     *
+     * @param  string $hostgroup_name
      */
-    public function programstatus(){
-        $Program = $this->nagios_data->get_collection('programstatus');
-        $this->output($Program);
-    }
-
-
-    /**
-     * Retrieve info status
-     * @return [type] [description]
-     */
-    public function info(){
-        $Info = $this->nagios_data->get_collection('info');
-        $this->output($Info);
-    }
-
-
-    /**
-     * Retrieve object data, either the collection or a single record
-     * @param  string $type Object type
-     * @param  string $name object's name field
-     */
-    public function object($type,$name='') {
-        $Object = $this->nagios_data->get_collection($type);
-
-        $this->output($Object);
-    }
-
-
     public function hostgroupstatus($hostgroup_name = ''){
 
         $HostgroupStatus = new HostStatusCollection();
@@ -185,6 +196,12 @@ class API extends VS_Controller
 
     }
 
+
+    /**
+     * Fetch service group status
+     *
+     * @param  string $servicegroup_name
+     */
     public function servicegroupstatus($servicegroup_name = ''){
 
         $ServicegroupStatus = new ServiceStatusCollection();
@@ -206,6 +223,12 @@ class API extends VS_Controller
 
     }
 
+
+    /**
+     * Fetch configurations
+     *
+     * @param  string $type
+     */
     public function configurations($type = '')
     {
         $configurations = array();
@@ -277,27 +300,6 @@ class API extends VS_Controller
         }
 
         $this->output($comments);
-    }
-
-
-    /**
-     * Fetch /etc/vshell2.conf file values, as parsed by CodeIgniter
-     *
-     * @param  string $type
-     */
-    function vshellconfig() {
-        $config = array(
-            'baseurl'        => BASEURL,
-            'cgicfg'         => CGICFG,
-            'coreurl'        => COREURL,
-            'lang'           => LANG,
-            'objectsfile'    => OBJECTSFILE,
-            'statusfile'     => STATUSFILE,
-            'ttl'            => TTL,
-            'updateinterval' => UPDATEINTERVAL
-        );
-
-        $this->output($config);
     }
 
 }
