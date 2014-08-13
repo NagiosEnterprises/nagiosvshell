@@ -84,7 +84,12 @@ class API extends VS_Controller
 
         //fetch by host name
         if(!empty($host_name)){
-            $Data = $Data->get_index_key('host_name',$host_name)->first();
+            $Data = $Data->get_index_key('host_name', $host_name);
+            if( empty($Data) ){
+                return $this->output($Data);
+            } 
+            $Data = $Data->first();
+
             //add comments
             $all_comments = $this->nagios_data->get_collection('hostcomment');
             $host_comments = $all_comments->get_index_key('host_name',$host_name);
