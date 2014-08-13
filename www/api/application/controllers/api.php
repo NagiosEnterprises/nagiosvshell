@@ -140,6 +140,7 @@ class API extends VS_Controller
 
     /**
      * Retrieve service status objects based on parameters
+     * 
      * @param  string $host_name host name filter
      * @param  string $service   service description (requires host name)
      */
@@ -179,17 +180,24 @@ class API extends VS_Controller
 
         $HostgroupStatus = new HostStatusCollection();
         $Hostgroups = $this->nagios_data->get_collection('hostgroup');
+        $found = False; 
 
         foreach($Hostgroups as $Hostgroup){
             if( $hostgroup_name != '' ) {
                 if( $Hostgroup->hostgroup_name == $hostgroup_name ){
                     $Hostgroup->hydrate();
                     $HostgroupStatus[] = $Hostgroup;
+                    $found = True;
                 }
             }else{
                 $Hostgroup->hydrate();
                 $HostgroupStatus[] = $Hostgroup;
+                $found = True;
             }
+        }
+
+        if( empty($found) ){
+            return $this->output(array());
         }
 
         $this->output($HostgroupStatus);
