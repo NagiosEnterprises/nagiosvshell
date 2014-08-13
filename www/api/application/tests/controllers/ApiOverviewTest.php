@@ -1,6 +1,6 @@
 <?php
 
-class ApiIndexTest extends PHPUnit_Framework_TestCase
+class ApiOverviewTest extends PHPUnit_Framework_TestCase
 {
 
     private $CI;
@@ -87,7 +87,6 @@ class ApiIndexTest extends PHPUnit_Framework_TestCase
         'servicesWarningTotal',
         'servicesWarningUnhandled',
         'servlink',
-        'username',
         'version'
     );
 
@@ -97,7 +96,7 @@ class ApiIndexTest extends PHPUnit_Framework_TestCase
 
         $this->controller = new API();
         $this->controller->set_output_type('test');
-        $this->controller->index();
+        $this->controller->tacticaloverview();
 
         $this->result = $this->controller->get_output_data();
     }
@@ -116,4 +115,4 @@ class ApiIndexTest extends PHPUnit_Framework_TestCase
     }
 }
 
-/* End of file application/tests/controllers/ApiIndexTest.php */
+/* End of file application/tests/controllers/ApiOverviewTest.php */
