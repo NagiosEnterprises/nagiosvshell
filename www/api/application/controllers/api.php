@@ -214,17 +214,24 @@ class API extends VS_Controller
 
         $ServicegroupStatus = new ServiceStatusCollection();
         $Servicegroups = $this->nagios_data->get_collection('servicegroup');
+        $found = False; 
 
         foreach($Servicegroups as $Servicegroup){
             if( $servicegroup_name != '' ) {
                 if( $Servicegroup->servicegroup_name == $servicegroup_name ){
                     $Servicegroup->hydrate();
                     $ServicegroupStatus[] = $Servicegroup;
+                    $found = True;
                 }
             }else{
                 $Servicegroup->hydrate();
                 $ServicegroupStatus[] = $Servicegroup;
+                $found = True;
             }
+        }
+
+        if( empty($found) ){
+            return $this->output(array());
         }
 
         $this->output($ServicegroupStatus);

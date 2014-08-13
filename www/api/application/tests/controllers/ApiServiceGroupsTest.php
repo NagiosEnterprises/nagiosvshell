@@ -1,6 +1,6 @@
 <?php
 
-class ApiHostGroupsTest extends PHPUnit_Framework_TestCase
+class ApiServiceGroupsTest extends PHPUnit_Framework_TestCase
 {
 
     private $CI;
@@ -8,16 +8,12 @@ class ApiHostGroupsTest extends PHPUnit_Framework_TestCase
     private $result;
 
     private $keys = array(
-        'HostStatusCollection',
+        'ServiceStatusCollection',
         'alias',
-        'hostgroup_name',
-        'hostsDown',
-        'hostsPending',
-        'hostsUnreachable',
-        'hostsUp',
         'id',
         'members',
         'name',
+        'servicegroup_name',
         'servicesCritical',
         'servicesOK',
         'servicesPending',
@@ -32,9 +28,9 @@ class ApiHostGroupsTest extends PHPUnit_Framework_TestCase
         $this->controller->set_output_type('test');
     }
 
-    private function init($hostgroup_name = '')
+    private function init($servicegroup_name = '')
     {
-        $this->controller->hostgroupstatus($hostgroup_name);
+        $this->controller->servicegroupstatus($servicegroup_name);
         $this->result = $this->controller->get_output_data();
     }
 
@@ -64,17 +60,17 @@ class ApiHostGroupsTest extends PHPUnit_Framework_TestCase
 
     public function testSingleOutputNotEmpty()
     {
-        $this->init('problem-hosts');
+        $this->init('websites');
         $not_empty = !empty($this->result);
         $this->assertTrue($not_empty);
     }
 
-    public function testSingleOutputEmptyWhenHostGroupDoesNotExist()
+    public function testSingleOutputEmptyWhenServiceGroupDoesNotExist()
     {
-        $this->init('nonexistant-host-group');
+        $this->init('nonexistant-service-group');
         $is_empty = empty($this->result);
         $this->assertTrue($is_empty);
     }
 }
 
-/* End of file application/tests/controllers/ApiHostGroupsTest.php */
+/* End of file application/tests/controllers/ApiServiceGroupsTest.php */
