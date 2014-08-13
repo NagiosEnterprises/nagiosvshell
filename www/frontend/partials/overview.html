@@ -6,7 +6,7 @@
 
 <div id="content" class="clearfix" ng-controller="OverviewCtrl" ng-init="init()">
 
-    <div class="table-container partial-width half left">
+    <div class="table-container partial-width half left" ng-if="!is_loading">
 
         <div class="status-overview status-overview-hosts">
 
@@ -90,7 +90,7 @@
 
     </div>
 
-    <div class="table-container partial-width half right">
+    <div class="table-container partial-width half right" ng-if="!is_loading">
 
         <div class="status-overview status-overview-services">
 
