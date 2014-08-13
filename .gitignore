@@ -1,5 +1,6 @@
 node_modules*
 www/frontend/bower_components*
+www/api/application/logs/*
 www/index.html
 *npm-debug.log
 test/coverage/*

@@ -10,12 +10,15 @@ class VS_Controller extends CI_Controller
     protected $start_filter;
     protected $limit_filter;
 
+    protected $output_type;
+    protected $output_data;
+
     public function __construct()
     {
         parent::__construct();
-
         $this->process_result_filters();
         $this->process_pagination_filters();
+        $this->output_type = 'default';
     }
 
     protected function process_result_filters()
@@ -63,7 +66,31 @@ class VS_Controller extends CI_Controller
         $this->start_filter = intval($start);
     }
 
+    public function set_output_type($output_type)
+    {
+        $this->output_type = $output_type;
+    }
+
     protected function output($data)
+    {
+        if($this->output_type == 'test'){
+            $this->test_output($data);
+        }else{
+            $this->api_output($data);
+        }
+    }
+
+    protected function test_output($data)
+    {
+        $this->output_data = $data;
+    }
+
+    public function get_output_data()
+    {
+        return $this->output_data ? $this->output_data : False;
+    }
+
+    protected function api_output($data)
     {
         $format = strtolower($this->input->get('format'));
 
