@@ -33,33 +33,33 @@ class API extends VS_Controller
         $hostgroups = $this->nagios_data->get_collection('hostgroup');
         $servicegroups = $this->nagios_data->get_collection('servicegroup');
 
-        function quicksearch_item($type, $name, $uri)
-        {
-            return array(
-                'type' => $type,
-                'name' => $name,
-                'uri' => $uri
-            );
-        }
-
         foreach($hosts as $host){
-            $Data[] = quicksearch_item('host', $host->host_name, $host->host_name);
+            $Data[] = $this->quicksearch_item('host', $host->host_name, $host->host_name);
         }
 
         foreach($services as $service){
-            $Data[] = quicksearch_item('service', $service->service_description.' on '.$service->host_name, $service->host_name.'/'.$service->id);
+            $Data[] = $this->quicksearch_item('service', $service->service_description.' on '.$service->host_name, $service->host_name.'/'.$service->id);
         }
 
         foreach($hostgroups as $hostgroup){
-            $Data[] = quicksearch_item('hostgroup', $hostgroup->alias, $hostgroup->hostgroup_name);
+            $Data[] = $this->quicksearch_item('hostgroup', $hostgroup->alias, $hostgroup->hostgroup_name);
         }
 
         foreach($servicegroups as $servicegroup){
-            $Data[] = quicksearch_item('servicegroup', $servicegroup->alias, $servicegroup->servicegroup_name);
+            $Data[] = $this->quicksearch_item('servicegroup', $servicegroup->alias, $servicegroup->servicegroup_name);
         }
 
         $this->output($Data);
 
+    }
+
+    private function quicksearch_item($type, $name, $uri)
+    {
+        return array(
+            'type' => $type,
+            'name' => $name,
+            'uri' => $uri
+        );
     }
 
 
