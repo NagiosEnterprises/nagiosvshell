@@ -82,7 +82,8 @@ class VS_Controller extends CI_Controller
 
     protected function test_output($data)
     {
-        $this->output_data = $data;
+        $converted = json_decode(json_encode($data));
+        $this->output_data = $converted;
     }
 
     public function get_output_data()

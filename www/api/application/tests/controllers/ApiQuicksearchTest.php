@@ -7,6 +7,12 @@ class ApiQuicksearchTest extends PHPUnit_Framework_TestCase
     private $controller;
     private $result;
 
+    private $keys = array(
+        'name',
+        'type',
+        'uri'
+    );
+
     public function setUp()
     {
         $this->CI = &get_instance();
@@ -22,7 +28,7 @@ class ApiQuicksearchTest extends PHPUnit_Framework_TestCase
     {
         $filtered = array();
         foreach($this->result as $item){
-            if($item['type'] == $type){
+            if($item->type == $type){
                 $filtered[] = $item;
             }
         } 
@@ -37,7 +43,7 @@ class ApiQuicksearchTest extends PHPUnit_Framework_TestCase
 
     public function testOutputExpectedSize()
     {
-        $count = count($this->result);
+        $count = count((array) $this->result);
         $this->assertEquals($count, 14);
     }
 
@@ -67,6 +73,14 @@ class ApiQuicksearchTest extends PHPUnit_Framework_TestCase
         $filtered = $this->filterOutput('servicegroup');
         $count = count($filtered);
         $this->assertEquals($count, 2);
+    }
+
+    public function testOutputItemKeysMatch()
+    {
+        $first_result = (array) reset($this->result);
+        $result_keys = array_keys($first_result);
+        $different_keys = array_diff($this->keys, $result_keys);
+        $this->assertEmpty($different_keys);
     }
 }
 
