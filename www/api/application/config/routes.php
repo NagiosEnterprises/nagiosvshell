@@ -38,41 +38,29 @@
 |
 */
 
-$route['default_controller'] = 'api';
-$route['404_override'] = '';
+$route["default_controller"] = "api";
+$route["404_override"] = "";
 
-$route['status'] = 'api';
+$route["status"] = "api";
 
-$route['quicksearch'] = 'api/quicksearch';
-
-$route['overview'] = 'api/tacticaloverview';
-
-$route['hoststatus/(:any)'] = "api/hoststatus/$1";
-$route['hoststatus*'] = "api/hoststatus";
-
-$route['servicestatus/(:any)/(:any)'] = "api/servicestatus/$1/$2";
-$route['servicestatus/(:any)'] = "api/servicestatus/$1";
-$route['servicestatus*'] = "api/servicestatus";
-
-$route['hostgroupstatus/(:any)'] = "api/hostgroupstatus/$1";
-$route['hostgroupstatus*'] = "api/hostgroupstatus";
-
-$route['servicegroupstatus/(:any)'] = "api/servicegroupstatus/$1";
-$route['servicegroupstatus*'] = "api/servicegroupstatus";
-
-$route['configurations/(:any)'] = "api/configurations/$1";
-$route['configurations'] = "api/configurations";
-
-$route['comments/(:any)'] = "api/comments/$1";
-$route['comments'] = "api/comments";
-
-$route['object/(:any)'] = "api/object/$1";
-
-$route['nagiosstatus'] = "api/programstatus";
-$route['nagiosinfo'] = "api/info";
-
-$route['vshellconfig'] = "api/vshellconfig";
-
+$route["comments/(:any)"] = "api/comments/$1";
+$route["comments"] = "api/comments";
+$route["configurations/(:any)"] = "api/configurations/$1";
+$route["configurations"] = "api/configurations";
+$route["hostgroupstatus/(:any)"] = "api/hostgroupstatus/$1";
+$route["hostgroupstatus*"] = "api/hostgroupstatus";
+$route["hoststatus/(:any)"] = "api/hoststatus/$1";
+$route["hoststatus*"] = "api/hoststatus";
+$route["overview"] = "api/tacticaloverview";
+$route["nagiosinfo"] = "api/info";
+$route["nagiosstatus"] = "api/programstatus";
+$route["quicksearch"] = "api/quicksearch";
+$route["servicegroupstatus/(:any)"] = "api/servicegroupstatus/$1";
+$route["servicegroupstatus*"] = "api/servicegroupstatus";
+$route["servicestatus/(:any)/(:any)"] = "api/servicestatus/$1/$2";
+$route["servicestatus/(:any)"] = "api/servicestatus/$1";
+$route["servicestatus*"] = "api/servicestatus";
+$route["vshellconfig"] = "api/vshellconfig";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
