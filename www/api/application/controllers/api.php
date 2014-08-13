@@ -289,32 +289,39 @@ class API extends VS_Controller
      *
      * @param  string $type
      */
-    public function comments($type='') {
+    public function comments($type = '') {
+        $allowed_types = array(
+            'hostcomment',
+            'servicecomment'
+        );
 
-        function flatten($array){
-            $flattened = array();
-            foreach($array as $comments){
-                $flattened[] = $comments[0];
+        if( $type != '' ){
+            if( ! in_array($type, $allowed_types) ){
+                return $this->output(array());
             }
-            return $flattened;
-        }
-
-        function merge($first, $second){
-            $first = flatten($first);
-            $second = flatten($second);
-            return array_merge($first, $second);
-        }
-
-        if( $type == '' ){
+            $specific_comments = $this->nagios_data->get_collection($type)->get_index('host_name');
+            $comments = $this->comments_flatten($specific_comments);
+        } else {
             $host_comments = $this->nagios_data->get_collection('hostcomment')->get_index('host_name');
             $service_comments = $this->nagios_data->get_collection('servicecomment')->get_index('host_name');
-            $comments = merge($host_comments, $service_comments);
-        } else {
-            $specific_comments = $this->nagios_data->get_collection($type);
-            $comments = flatten($specific_comments);
+            $comments = $this->comments_merge($host_comments, $service_comments);
         }
 
         $this->output($comments);
+    }
+
+    private function comments_flatten($array){
+        $flattened = array();
+        foreach($array as $comments){
+            $flattened = array_merge($flattened, $comments);
+        }
+        return $flattened;
+    }
+
+    private function comments_merge($first, $second){
+        $first = $this->comments_flatten($first);
+        $second = $this->comments_flatten($second);
+        return array_merge($first, $second);
     }
 
 }
