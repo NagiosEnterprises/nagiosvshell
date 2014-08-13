@@ -44,6 +44,24 @@ if($code > 0)
 	$errorstring .= "ERROR: Failed to copy files to ".TARGETDIR." directory \n$output\n";
 }
 
+// Copy readme.md into web directory
+echo "Copying readme.md file...\n";
+$output = system('/bin/cp -r ./readme.md '.escapeshellarg(TARGETDIR), $code);
+if($code > 0)
+{
+	$errors++;
+	$errorstring .= "ERROR: Failed to copy readme.md into ".TARGETDIR." directory \n$output\n";
+}
+
+// Copy license.txt into web directory
+echo "Copying license.txt file...\n";
+$output = system('/bin/cp -r ./license.txt '.escapeshellarg(TARGETDIR), $code);
+if($code > 0)
+{
+	$errors++;
+	$errorstring .= "ERROR: Failed to copy license.txt into ".TARGETDIR." directory \n$output\n";
+}
+
 // Copy package.json into web directory
 echo "Copying package.json file...\n";
 $output = system('/bin/cp -r ./package.json '.escapeshellarg(TARGETDIR), $code);
