@@ -118,6 +118,9 @@ class API extends VS_Controller
                 $Data = $Data->get_index_key('host_name',$host_name);
             } else {
                 $Data = $Data->get_index_key('host_name',$host_name)->get_where('service_description',$service_description)->first();
+                if( empty($Data) ){
+                    return $this->output(array());
+                } 
                 //add comments
                 $all_comments = $this->nagios_data->get_collection('servicecomment');
                 $service_comments = $all_comments->get_where('service_description',$service_description);

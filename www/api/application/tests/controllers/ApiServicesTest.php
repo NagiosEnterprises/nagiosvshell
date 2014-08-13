@@ -1,6 +1,6 @@
 <?php
 
-class ApiHostsTest extends PHPUnit_Framework_TestCase
+class ApiServicesTest extends PHPUnit_Framework_TestCase
 {
 
     private $CI;
@@ -28,7 +28,12 @@ class ApiHostsTest extends PHPUnit_Framework_TestCase
         'failure_prediction_enabled',
         'flap_detection_enabled',
         'has_been_checked',
+        'host_current_state',
+        'host_id',
+        'host_is_flapping',
         'host_name',
+        'host_problem_has_been_acknowledged',
+        'host_scheduled_downtime_depth',
         'id',
         'is_flapping',
         'last_check',
@@ -38,9 +43,10 @@ class ApiHostsTest extends PHPUnit_Framework_TestCase
         'last_notification',
         'last_problem_id',
         'last_state_change',
-        'last_time_down',
-        'last_time_unreachable',
-        'last_time_up',
+        'last_time_critical',
+        'last_time_ok',
+        'last_time_unknown',
+        'last_time_warning',
         'last_update',
         'long_plugin_output',
         'max_attempts',
@@ -51,7 +57,7 @@ class ApiHostsTest extends PHPUnit_Framework_TestCase
         'no_more_notifications',
         'notification_period',
         'notifications_enabled',
-        'obsess_over_host',
+        'obsess_over_service',
         'passive_checks_enabled',
         'percent_state_change',
         'performance_data',
@@ -60,6 +66,7 @@ class ApiHostsTest extends PHPUnit_Framework_TestCase
         'process_performance_data',
         'retry_interval',
         'scheduled_downtime_depth',
+        'service_description',
         'should_be_scheduled',
         'state_type'
     );
@@ -71,9 +78,9 @@ class ApiHostsTest extends PHPUnit_Framework_TestCase
         $this->controller->set_output_type('test');
     }
 
-    private function init($host_name = '')
+    private function init($host_name = '', $service_name = '')
     {
-        $this->controller->hoststatus($host_name);
+        $this->controller->servicestatus($host_name, $service_name);
         $this->result = $this->controller->get_output_data();
     }
 
@@ -88,7 +95,7 @@ class ApiHostsTest extends PHPUnit_Framework_TestCase
     {
         $this->init();
         $count = count((array) $this->result);
-        $this->assertEquals($count, 3);
+        $this->assertEquals($count, 7);
     }
 
     public function testOutputItemKeysMatch()
@@ -100,19 +107,40 @@ class ApiHostsTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($different_keys);
     }
 
-    public function testSingleOutputNotEmpty()
+    public function testSingleHostOutputNotEmpty()
     {
         $this->init('up.example.com');
         $not_empty = !empty($this->result);
         $this->assertTrue($not_empty);
     }
 
-    public function testSingleOutputEmptyWhenHostDoesNotExist()
+    public function testSingleHostOutputEmptyWhenHostDoesNotExist()
     {
         $this->init('nonexistant.host.name');
         $is_empty = empty($this->result);
         $this->assertTrue($is_empty);
     }
+
+    public function testSingleHostOutputExpectedSize()
+    {
+        $this->init('up.example.com');
+        $count = count((array) $this->result);
+        $this->assertEquals($count, 3);
+    }
+
+    public function testSingleServiceOutputNotEmpty()
+    {
+        $this->init('up.example.com', 'SSH');
+        $not_empty = !empty($this->result);
+        $this->assertTrue($not_empty);
+    }
+
+    public function testSingleServiceOutputEmptyWhenServiceDoesNotExist()
+    {
+        $this->init('up.example.com', 'Non existant service');
+        $is_empty = empty($this->result);
+        $this->assertTrue($is_empty);
+    }
 }
 
-/* End of file application/tests/controllers/ApiHostsTest.php */
+/* End of file application/tests/controllers/ApiServicesTest.php */
