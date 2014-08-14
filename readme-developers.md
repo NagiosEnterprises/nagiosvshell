@@ -45,7 +45,7 @@ follows the [Angular Seed](https://github.com/angular/angular-seed) layout.
 
 ## Automation
 
-V-Shell relies on a number of JavaScript packages to keep code organized
+V-Shell relies on a number of automated packages to keep code organized
 and tested.
 
 The frontend uses [Karma](https://karma-runner.github.io) as a test runner and
@@ -54,9 +54,11 @@ The frontend uses [Karma](https://karma-runner.github.io) as a test runner and
 End-to-end tests are supported using
 [Protractor](https://github.com/angular/protractor).
 
-Code hinting and beautification are done by [Grunt](http://gruntjs.com/) using
-[JS Hint](http://www.jshint.com/) and [JS
+Front-end code hinting and beautification are done by
+[Grunt](http://gruntjs.com/) using [JS Hint](http://www.jshint.com/) and [JS
 Beautifier](https://github.com/beautify-web/js-beautify)
+
+API unit tests are done using [phpunit](http://phpunit.de/).
 
 ## Setting up a dev environment
 
@@ -92,8 +94,12 @@ to load the latest changes. Then view the changes in the browser at
 
 ## Running automation and passing tests
 
-Using `npm test` in a separate terminal window will automatically re-run unit
-tests when files change.
+Using `npm test` in a separate terminal window will automatically re-run
+frontend unit tests when files change.
+
+Changes to the API can be tested using PHP and the included `phpunit.phar`
+file. To run the unit tests from the project root call `php test/phpunit.phar
+--configuration /full/path/to/build/test/phpunit.xml`
 
 If tests are passing and new changes look good, the final step is running the
 automated tools with Grunt.

@@ -4,6 +4,8 @@ Add additional information to Tactical Overview page
 
 Comment icon on host and service tables
 
+Fix Travis-CI phpunit test runner
+
 ## Future
 
 Add language support
