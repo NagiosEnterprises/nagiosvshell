@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpunit bootstrap="../www/api/application/tests/bootstrap.php">
+    <!-- Note: specify an absolute path when using `phpunit -configuration test/phpunit.xml` -->
+	<testsuites>
+		<testsuite name="TestSuite">
+			<directory>../www/api/application/tests</directory>
+		</testsuite>
+	</testsuites>
+	<php>
+		<const name="PHPUNIT_TEST" value="1" />
+		<const name="PHPUNIT_CHARSET" value="UTF-8" />
+		<server name="REMOTE_ADDR" value="0.0.0.0" />
+	</php>
+	<filter>
+		<blacklist>
+			<directory suffix=".php">system</directory>
+			<!--directory suffix=".php">../www/api/application/libraries</directory-->
+		</blacklist>
+	</filter>
+</phpunit>
