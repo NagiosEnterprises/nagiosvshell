@@ -7,9 +7,13 @@ php:
   - "5.4"
   - "5.3"
 
+before_install:
+  - sudo apt-get update -qq
+
 install:
   - npm install -g grunt-cli
   - npm install
+  - sudo apt-get install -y php5-cli
 
 before_script:
   - export DISPLAY=:99.0
