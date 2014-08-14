@@ -3,10 +3,6 @@ language: node_js
 node_js:
   - "0.10"
 
-php:
-  - "5.4"
-  - "5.3"
-
 before_install:
   - sudo apt-get update -qq
 
@@ -26,4 +22,4 @@ script:
   - grunt test
   - node_modules/.bin/karma start test/karma.conf.js --no-auto-watch --single-run --reporters=dots --browsers=PhantomJS
 # - node_modules/.bin/protractor test/protractor-conf.js --browser=firefox
-  - php test/phpunit.phar --configuration "${TRAVIS_BUILD_DIR}"/www/api/phpunit.xml
+  - php test/phpunit.phar --configuration "${TRAVIS_BUILD_DIR}"/wrong/www/api/phpunit.xml
