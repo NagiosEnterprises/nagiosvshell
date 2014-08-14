@@ -20,7 +20,9 @@ def get_args():
         return args
     except IndexError as e:
         print('Error: missing command line arguments:')
-        print('# {0} <input-file> <base-url>\n'.format(__file__))
+        print('# {0} <input-file> <base-url>\n\n'.format(__file__))
+        print('Example: ./static-api.py static-api.txt ' +
+              'http://10.0.0.1/vshell2/api username password')
 
 def get_paths(args):
 
