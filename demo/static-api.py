@@ -10,6 +10,7 @@ dir = './api'
 def get_args():
     try:
         args = {}
+        sys.argv
         args['file'] = sys.argv[1]
         args['base_url'] = sys.argv[2].strip('/')
         if len(sys.argv) > 3:
@@ -19,7 +20,7 @@ def get_args():
         return args
     except IndexError as e:
         print('Error: missing command line arguments:')
-        print('# {0} <input-file> <base-url>\n'.format(argv[0]))
+        print('# {0} <input-file> <base-url>\n'.format(__file__))
 
 def get_paths(args):
 

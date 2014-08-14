@@ -125,3 +125,19 @@ servicestatus/rain.example.com/Page rain.example.com/login
 servicegroupstatus
 servicegroupstatus/mysql
 servicegroupstatus/websites
+
+# Configurations
+
+configurations
+configurations/commands
+configurations/contactgroups
+configurations/contacts
+configurations/hostgroups
+configurations/hosts
+configurations/servicegroups
+configurations/services
+configurations/timeperiods
+
+# Comments
+
+comments
