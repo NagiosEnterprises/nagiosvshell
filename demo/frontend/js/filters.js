@@ -293,7 +293,47 @@ angular.module('vshell.filters', [])
     };
 })
 
-.filter('overviewstate', function() {
+.filter('overviewHostState', function() {
+    return function(input) {
+        if (!input) {
+            return 'undefined';
+        }
+
+        if (input.hostsDownTotal > 0) {
+            return 'critical';
+        } else if (input.hostsUnreachableTotal > 0) {
+            return 'unknown';
+        } else if (input.hostsPending > 0) {
+            return 'pending';
+        } else if (input.hostsUpTotal > 0) {
+            return 'ok';
+        }
+        return 'undefined';
+    };
+})
+
+.filter('overviewServiceState', function() {
+    return function(input) {
+        if (!input) {
+            return 'undefined';
+        }
+
+        if (input.servicesCriticalTotal > 0) {
+            return 'critical';
+        } else if (input.servicesUnknownTotal > 0) {
+            return 'unknown';
+        } else if (input.servicesWarningTotal > 0) {
+            return 'warning';
+        } else if (input.servicesPendingTotal > 0) {
+            return 'pending';
+        } else if (input.servicesOkTotal > 0) {
+            return 'ok';
+        }
+        return 'undefined';
+    };
+})
+
+.filter('overviewOverallState', function() {
     return function(input) {
         if (!input) {
             return 'undefined';

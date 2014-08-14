@@ -1,3 +1,4 @@
+demo/frontend/bower_components*
 node_modules*
 test*
 www*

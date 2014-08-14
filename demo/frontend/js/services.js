@@ -107,7 +107,7 @@ angular.module('vshell.services', [])
 
             // Wait for interval time to be loaded from API
             if (!async.interval_time) {
-                $timeout(function() {
+                return $timeout(function() {
                     async.update_queue(scope, options);
                 }, 100);
             }
