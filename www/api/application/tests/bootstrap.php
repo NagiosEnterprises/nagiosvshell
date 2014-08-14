@@ -8,7 +8,6 @@
  * Application specific testing values
  */
 
-
 global $username;
 $username = 'phpunit';
 
