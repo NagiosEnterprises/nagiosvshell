@@ -40,6 +40,7 @@ class ApiCommentsTest extends PHPUnit_Framework_TestCase
         $this->init();
         $not_empty = !empty($this->result);
         $this->assertTrue($not_empty);
+        $this->assertTrue(False);
     }
 
     public function testOutputExpectedSize()
