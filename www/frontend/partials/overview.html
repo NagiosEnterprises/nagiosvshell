@@ -11,9 +11,9 @@
         <div class="status-overview status-overview-hosts">
 
             <div class="status-callout">
-                <div class="status-callout-icon {{ overview | overviewstate }}"></div>
+                <a ng-href="#/{{ 'host' | uri }}/{{ overview.hostsProblemsTotal == 0 ? '' : 'problems/all' }}" class="status-callout-icon {{ overview | overviewHostState }}"></a>
                 <div class="status-callout-text">
-                    <h2>{{ overview.hostsProblemsTotal }} Host Problem{{ overview.hostsProblemsTotal | plural }}</h2>
+                    <h2><a ng-href="#/{{ 'host' | uri }}/{{ overview.hostsProblemsTotal == 0 ? '' : 'problems/all' }}">{{ overview.hostsProblemsTotal }} Host Problem{{ overview.hostsProblemsTotal | plural }}</a></h2>
                     <h4>{{ (overview.hostsTotal - overview.hostsProblemsTotal) | percent: overview.hostsTotal: 2 }} Host Health</h4>
                 </div>
             </div>
@@ -95,13 +95,10 @@
         <div class="status-overview status-overview-services">
 
             <div class="status-callout">
-                <div class="status-callout-icon {{ overview | overviewstate }}">
-                    <span class="status-icon-{{ overview | overviewstate }}"></span>
-                </div>
+                <a ng-href="#/{{ 'service' | uri }}/{{ overview.servicesProblemsTotal == 0 ? '' : 'problems/all' }}" class="status-callout-icon {{ overview | overviewServiceState }}"></a>
                 <div class="status-callout-text">
-                    <h2>{{ overview.servicesProblemsTotal }} Service Problem{{ overview.servicesProblemsTotal | plural }}</h2>
-                    <h4>{{ (overview.servicesTotal - overview.servicesProblemsTotal) | percent: overview.servicesTotal: 2 }} Service Health</h4>
-                </div>
+                    <h2><a ng-href="#/{{ 'service' | uri }}/{{ overview.servicesProblemsTotal == 0 ? '' : 'problems/all' }}">{{ overview.servicesProblemsTotal }} Service Problem{{ overview.servicesProblemsTotal | plural }}</a></h2>
+                    <h4>{{ (overview.servicesTotal - overview.servicesProblemsTotal) | percent: overview.servicesTotal: 2 }} Service Health</h4> </div>
             </div>
 
             <div class="status-overview-tables">
