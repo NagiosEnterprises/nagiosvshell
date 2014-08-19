@@ -4,3 +4,4 @@ www/api/application/logs/*
 www/index.html
 *npm-debug.log
 test/coverage/*
+demo*
