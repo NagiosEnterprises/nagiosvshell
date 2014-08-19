@@ -2,15 +2,15 @@
 
 [![Build Status](https://travis-ci.org/chrislaskey/nagiosvshell.svg?branch=2.x)](https://travis-ci.org/chrislaskey/nagiosvshell)
 
-A visual shell for Nagios
+A modern visual shell for Nagios
 
 
 ## Installation
 
 
-### Prerequisites:
+### Prerequisites
 
-Nagios V-Shell is compatible with Nagios Core 3.X and Nagios IX.
+Nagios V-Shell is compatible with Nagios XI and Nagios Core 3.X.
 
 V-Shell requires Apache and PHP 5.3 or higher. 
 
@@ -18,21 +18,21 @@ V-Shell requires Apache and PHP 5.3 or higher.
 ### Installing
 
 The latest version of Nagios V-Shell is available on the official
-[GitHub](https://github.com/NagiosEnterprises/nagiosvshell) project page.
+[GitHub project page](https://github.com/NagiosEnterprises/nagiosvshell).
 
 With root permissions clone the latest version:
 
-    # cd /tmp
-    # git clone https://github.com/NagiosEnterprises/nagiosvshell
+    cd /tmp
+    git clone https://github.com/NagiosEnterprises/nagiosvshell
 
 Next, verify the values in `config.php` are correct. Sensible defaults are
 included for RHEL/CentOS 6 and Debian 7, and may require no action.
 
-    # vim nagiosvshell/config.php
+    vim nagiosvshell/config.php
 
 The last step is to run the installation script:
 
-    # ./nagiosvshell/install.php
+    ./nagiosvshell/install.php
 
 The installer will output meaningful errors if anything goes wrong during
 installation. Once complete, Nagios V-Shell will be available at
@@ -42,8 +42,8 @@ installation. Once complete, Nagios V-Shell will be available at
 ### Updating and Installation Details
 
 Nagios V-Shell mean to be installed with little risk involved. It does not
-touch existing Nagios Core or Nagios IX system files. The official nagios
-console always remains accessible in the default location.
+touch existing Nagios XI or Nagios Core system files. The official nagios
+web-interface always remains accessible in the default location.
 
 The newest V-Shell v2 is backwards compatible with V-Shell v1, both versions
 can run side-by-side.
@@ -79,11 +79,10 @@ Nagios V-Shell v2 is an open source project released under GPL v2 and the
 Nagios Open Source license. It is developed by Mike Guthrie and Chris Laskey.
 
 Help requests and issues can be opened on the official
-[GitHub](https://github.com/NagiosEnterprises/nagiosvshell) project page.
+[GitHub project page](https://github.com/NagiosEnterprises/nagiosvshell). We
+develop this project in our spare time and will respond to help requests as
+soon as we are able.
 
-Both Mike and Chris develop V-Shell in our spare time, and will respond to
-help requests as soon as we are able.
-
-Contributions from other developers are encouraged and welcomed! For more
+Contributions from other developers are both encouraged and welcomed. For more
 information on contributing to the project see the
-[readme-developers.md](readme-developer.md) file.
+[readme-developers.md](readme-developers.md) file.
