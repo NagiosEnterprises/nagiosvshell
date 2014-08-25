@@ -5,6 +5,44 @@
 A modern visual shell for Nagios
 
 
+## Alpha Release
+
+Nagios V-Shell `2.0.0-x` is currently documented, tested, and stable.
+
+There are two features are planned for the official `2.0.0` that are not
+currently implemented:
+
+- Frontend i18n language support
+- Backend caching using PHP APC
+
+Otherwise the alpha release is feature complete.
+
+
+### Release Feedback
+
+Nagios V-Shell does not modify any Nagios files and installs to a separate
+location. Both the alpha and Nagios V-Shell v1 can be run alongside eachother.
+
+Users are encouraged to try the alpha release and give feedback by submitting
+[GitHub issues](https://github.com/NagiosEnterprises/nagiosvshell/issues). This
+will allow all alpha users a single place to join the discussion and help shape
+the future of the project.
+
+Please include the specific release version when starting a [new
+issue](https://github.com/NagiosEnterprises/nagiosvshell/issues/new). The
+release version is available in the included `package.json` file or by visiting
+the options page through the web interface, `/vshell2/#/options`.
+
+
+## Live Demonstration
+
+A live demonstration is available on the [project
+website](https://nagiosenterprises.github.io/nagiosvshell/).
+
+Note the frontend is reading cached API output and rendering the
+results. As a result, timestamps in the demo will not be current.
+
+
 ## Installation
 
 
@@ -25,10 +63,14 @@ With root permissions clone the latest version:
     cd /tmp
     git clone https://github.com/NagiosEnterprises/nagiosvshell
 
-Next, verify the values in `config.php` are correct. Sensible defaults are
-included for RHEL/CentOS 6 and Debian 7, and may require no action.
+Next, checkout the alpha release branch:
 
     cd nagiosvshell
+    git checkout 2.x
+
+Then verify the values in `config.php` are correct. Sensible defaults are
+included for RHEL/CentOS 6 and Debian 7, and may require no action.
+
     vim config.php
 
 The last step is to run the installation script:
