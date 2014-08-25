@@ -28,11 +28,12 @@ With root permissions clone the latest version:
 Next, verify the values in `config.php` are correct. Sensible defaults are
 included for RHEL/CentOS 6 and Debian 7, and may require no action.
 
-    vim nagiosvshell/config.php
+    cd nagiosvshell
+    vim config.php
 
 The last step is to run the installation script:
 
-    ./nagiosvshell/install.php
+    ./install.php
 
 The installer will output meaningful errors if anything goes wrong during
 installation. Once complete, Nagios V-Shell will be available at
