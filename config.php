@@ -65,10 +65,9 @@ create_definitions($config);
 ## Helper functions
 
 function get_os_family(){
-	# Simple uname check, default to redhat
-	$output = system('uname -a');
-	$is_debian = stripos($output, 'debian') !== False || stripos($output, 'ubuntu') !== False;
-	return $is_debian ? 'debian' : 'redhat';
+    # Simple check, default to redhat
+    $output = system('test -s /etc/debian_version && echo "Debian"');
+    return ($output == 'Debian') ? 'debian' : 'redhat';
 }
 
 function create_definitions($values){
