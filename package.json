@@ -1,6 +1,6 @@
 {
     "name": "nagios-vshell",
-    "version": "2.0.0-411",
+    "version": "2.0.0-412",
     "description": "A Visual Shell for Nagios",
     "repository": "https://github.com/chrislaskey/nagiosvshell",
     "license": "GPLv2",
