@@ -29,7 +29,7 @@ $defaults = array();
 
 $defaults['debian'] = array(
 	'targetdir'       => '/usr/local/vshell2',
-	'apacheconfdir'   => '/etc/apache2/conf.d',
+	'apacheconfdir'   => '/etc/apache2/sites-enabled',
 	'apacheconffile'  => 'vshell2.conf',
 	'apacheuser'      => 'www-data',
 	'apachegroup'     => 'www-data',

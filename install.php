@@ -71,6 +71,22 @@ if($code > 0)
 	$errorstring .= "ERROR: Failed to copy package.json into ".TARGETDIR." directory \n$output\n";
 }
 
+// Create .htaccess file with dynamic base url
+echo "Creating custom .htaccess file...\n";
+ob_start(); // Try to create from template file, fall back on default file
+include(dirname(__FILE__).'/config/htaccess.template');
+$htaccess = ob_get_clean();
+if( ! file_put_contents(TARGETDIR.'/.htaccess', $htaccess) ){
+	$errors++;
+	$errorstring .= "ERROR: Failed to create custom htaccess file from template. ";
+	$errorstring .= "Installing default file instead. Manually check .htaccess values are correct\n";
+	$output = system('/bin/cp config/htaccess '.escapeshellarg(TARGETDIR.'/.htaccess'), $code);
+	if($code > 0) {
+		$errors++;
+		$errorstring .= "ERROR: Failed to copy config/htaccess file to /www/.htaccess \n$output\n";
+	}
+}
+
 // Change file ownership
 echo "Updating file permissions...\n";
 $output = system('/bin/chown -R '.escapeshellarg(APACHEUSER).':'.escapeshellarg(APACHEGROUP).' '.escapeshellarg(TARGETDIR), $code);
@@ -112,22 +128,6 @@ if($code == 0){
 	if($code > 0){
 		$errors++;
 		$errorstring .= "ERROR: Failed to enable apache module rewrite \n$output\n";
-	}
-}
-
-// Create .htaccess file with dynamic base url
-echo "Creating custom .htaccess file...\n";
-ob_start(); // Try to create from template file, fall back on default file
-include(dirname(__FILE__).'/config/htaccess.template');
-$htaccess = ob_get_clean();
-if( ! file_put_contents('./www/.htaccess', $htaccess) ){
-	$errors++;
-	$errorstring .= "ERROR: Failed to create custom htaccess file from template.";
-	$errorstring .= "Installing default file instead. Manually check .htaccess values are correct\n";
-	$output = system('/bin/cp config/htaccess ./www/.htaccess', $code);
-	if($code > 0) {
-		$errors++;
-		$errorstring .= "ERROR: Failed to copy config/htaccess file to /www/.htaccess \n$output\n";
 	}
 }
 
