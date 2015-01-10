@@ -1,7 +1,40 @@
-<IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteBase /<?php echo VSHELL_BASEURL; ?>/
-RewriteCond $1 !^(index\.php|static|robots\.txt|favicon\.ico)
-RewriteRule ^(.*)$ index.php/$1 [L]
-</IfModule>
+Options +FollowSymLinks
+Options -indexes
 
+<IfModule mod_rewrite.c>
+
+	# Setup rewrite environment
+	# ========================================================================== #
+
+	RewriteEngine On
+	RewriteBase /<?php echo VSHELL_BASEURL; ?>/
+
+
+	#CodeIgniter
+	# ========================================================================== #
+
+	# Check if starts with /api.
+	# If so, redirect request to /api/index.php.
+	# Since this is a redirect, all .htaccess RewriteRules are evaluated again.
+	# We trap these by matching requests beginning with app/index.php
+	# and pass them through (-) and then stop evaluating [L]
+
+	RewriteCond $1 ^(api/index\.php)
+	RewriteRule ^(.*)$ - [L]
+
+	RewriteCond $1 ^(api)
+	RewriteRule ^(.*)$ api/index.php [L]
+
+	# AngularJS Frontend
+	# ========================================================================== #
+
+	# This is the catch all to the AngularJS frontend application.
+	# Check if file or directory exists, serve it if it does.
+
+	RewriteCond $1 !^frontend/index.html
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^(.*)$ frontend/index.html
+    RewriteRule ^(/)?$ frontend/index.html [L]
+
+</IfModule>
