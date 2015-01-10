@@ -1,0 +1,9 @@
+vshell:
+  build: .
+  command: /usr/sbin/apache2ctl -D FOREGROUND
+  volumes:
+  - .:/vshell
+  ports:
+  - "8080:80"
+  hostname: nagios-vshell
+  domainname: nagios.org
