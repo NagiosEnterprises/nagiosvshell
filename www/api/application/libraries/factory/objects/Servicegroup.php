@@ -38,14 +38,16 @@ class Servicegroup extends NagiosGroup
         $AllServicestatus= $CI->nagios_data->get_collection('servicestatus');
 
         // Extract host_name[0] and service_name[1] from members list
-        $pieces = explode(',', $this->members);
-        for( $i = 0; $i < count($pieces); $i = $i + 2 ){
-            $host_name = $pieces[$i];
-            $service = $pieces[$i + 1];
+        if( property_exists($this, 'members') ){
+            $pieces = explode(',', $this->members);
+            for( $i = 0; $i < count($pieces); $i = $i + 2 ){
+                $host_name = $pieces[$i];
+                $service = $pieces[$i + 1];
 
-            $Servicestatus = $AllServicestatus->get_index_key('host_name', $host_name)->get_where('service_description', $service)->first();
+                $Servicestatus = $AllServicestatus->get_index_key('host_name', $host_name)->get_where('service_description', $service)->first();
 
-            $this->_add($Servicestatus);
+                $this->_add($Servicestatus);
+            }
         }
     }
 

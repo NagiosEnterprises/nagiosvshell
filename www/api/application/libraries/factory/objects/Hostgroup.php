@@ -52,17 +52,19 @@ class Hostgroup extends NagiosGroup
 		$AllHoststatus = $CI->nagios_data->get_collection('hoststatus');
 		$AllServicestatus= $CI->nagios_data->get_collection('servicestatus');
 
-		foreach(explode(',',$this->members) as $hostname){
+        if( property_exists($this, 'members') ){
+		    foreach(explode(',',$this->members) as $hostname){
 
-			//get the host status by host name
-            $Hoststatus = $AllHoststatus->get_index_key('host_name',$hostname)->first();
+			    //get the host status by host name
+                $Hoststatus = $AllHoststatus->get_index_key('host_name',$hostname)->first();
 
-            //Get services for this host 
-            $Servicestatus = $AllServicestatus->get_index_key('host_name',$hostname);
+                //Get services for this host 
+                $Servicestatus = $AllServicestatus->get_index_key('host_name',$hostname);
 
-            $this->_add($Hoststatus, $Servicestatus);
-       
-		}
+                $this->_add($Hoststatus, $Servicestatus);
+        
+		    }
+        }
 	}
 
 	/**
