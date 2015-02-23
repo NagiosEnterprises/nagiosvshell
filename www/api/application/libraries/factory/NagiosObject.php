@@ -69,6 +69,10 @@ abstract class NagiosObject extends StdClass
 
 		$path = dirname(__FILE__).'/objects/'.$classname.'.php';
 
+        if(file_exists($path)){
+            include_once($path);
+        }
+
 		if(!class_exists($classname)){
 			throw new Exception('Cannot create class: '.$classname.', class is not a valid nagios object');
 		}

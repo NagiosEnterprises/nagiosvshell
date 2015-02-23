@@ -1,6 +1,6 @@
 <?php
 
-class Hostdepencency extends NagiosObject
+class Hostdependency extends NagiosObject
 {
 
 	protected static $_count;

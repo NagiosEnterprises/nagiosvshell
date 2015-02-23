@@ -1,6 +1,6 @@
 <?php
 
-class Servicedepencency extends NagiosObject
+class Servicedependency extends NagiosObject
 {
 
 	protected static $_count;
