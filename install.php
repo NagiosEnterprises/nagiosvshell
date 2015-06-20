@@ -1,4 +1,4 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
 // Nagios V-Shell
 // Copyright (c) 2010-2011 Nagios Enterprises, LLC.
