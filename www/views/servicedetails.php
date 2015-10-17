@@ -75,6 +75,7 @@ function get_service_details($dets)
 		
 	$page.="	
 		<tr><td>".gettext('Plugin Output')."</td><td><div class='td_maxwidth'>{$dets['Output']}</div></td></tr>
+		<tr><td>".gettext('Long Plugin Output')."</td><td><div class='td_maxwidth'>{$dets['LongOutput']}</div></td></tr>
 		<tr><td>".gettext('Duration')."</td><td>{$dets['Duration']}</td></tr>
 		<tr><td>".gettext('State Type')."</td><td>{$dets['StateType']}</td></tr>
 		<tr><td>".gettext('Current Check')."</td><td>{$dets['CurrentCheck']}</td></tr>
