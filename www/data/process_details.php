@@ -90,6 +90,7 @@ function process_service_detail($serviceid)
 					'Service' => $sd['service_description'],
 					'Host'	  => $hostname,
 					'Output'  => $sd['plugin_output'],
+					'LongOutput'  => $sd['long_plugin_output'],
 					'MemberOf' => $membership,
 					'CheckCommand' => $sd['check_command'],
 					'State' => $current_state,
