@@ -13,6 +13,7 @@ function get_host_details($dets)
 	<h3>".gettext('Host Status Detail')."</h3>
 	<div class='detailWrapper'>
 	<h4><em>".gettext('Host').": </em>{$dets['Host']}</h4>
+	<h5><em>IP Address: </em>".get_host_ip($dets['Host'])."</h5>
 	<h5><em>".gettext('Member of').": </em>{$dets['MemberOf']}</h5>
 	<h5><a href='index.php?type=services&host_filter={$dets['Host']}' title='".gettext('See All Services For This Host')."'>".gettext('See All Services For This Host')."</a></h5>
 	<div class='detailcontainer'>
@@ -106,6 +107,17 @@ function get_host_details($dets)
 	}
 	$page.='</div><br />';
 	return $page;
+}
+
+function get_host_ip($hostname){
+	global $NagiosData;
+	$data = $NagiosData->getProperty('hosts_objs');
+	$hostobject = $data[$hostname];
+	$ip = $hostobject['address'];
+	if ($ip == NULL){
+		$ip = "Not found";
+	}
+	return $ip;
 }
 
 ?> 
