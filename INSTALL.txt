@@ -143,7 +143,7 @@ The default language set can then be specified in the /etc/vshell.conf file:
 
 Getting Help
 ------------------
-For problems, feeback, or support, use the V-Shell forum at the following address:
+For problems, feedback, or support, use the V-Shell forum at the following address:
 http://support.nagios.com/forum/viewforum.php?f=19
 
 
