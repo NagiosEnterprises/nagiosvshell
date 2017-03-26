@@ -131,7 +131,7 @@ class NagiosData
 		if (in_array($type, array('service', 'host'))) {
 			$details = $this->grab_details($type);
 		} else { 
-			// XXX Do soemthing better here
+			// XXX Do something better here
 			//fb("invalid type '$type'"); 
 		}
 
