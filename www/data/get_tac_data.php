@@ -157,7 +157,7 @@ function get_tac_data()
 	
 	//html output items 
 	'hostsFdHtml' => 'All Hosts Enabled', 'servicesFdHtml' => 'All Services Enabled', 
-	'hostsFlapHtml' => 'No Hosts Flapping', 'servicesFlapHtml' => 'No Servies Flapping',
+	'hostsFlapHtml' => 'No Hosts Flapping', 'servicesFlapHtml' => 'No Services Flapping',
 	'hostsNtfHtml' => 'All Hosts Enabled', 'servicesNtfHtml' => 'All Services Enabled', 
 	'hostsAcHtml' => 'All Hosts Enabled', 'servicesAcHtml' => 'All Services Enabled', 
 	'hostsPcHtml' => 'All Hosts Enabled', 'servicesPcHtml' => 'All Services Enabled', 
