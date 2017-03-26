@@ -72,7 +72,7 @@ class NagiosUser
 		//check if user can see everything 
 		$this->admin = $this->determine_admin(); 
 
-		//if user level account, determin authorized objects for object filtering 
+		//if user level account, determine authorized objects for object filtering 
 		if(!$this->admin) {
 			//check fo see if user can see all hosts and services 
 			$this->sees_all = ($this->authKeys['authorized_for_all_hosts'] == true && $this->authKeys['authorized_for_all_services']) ? true : false; 
