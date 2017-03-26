@@ -112,7 +112,7 @@ Getting Started
 ---------------
 
 Nagios V-Shell gets authorization information from the existing Nagios / Apache
-access controll mechanisms (usually a htpasswd.users file), as well as the 
+access control mechanisms (usually a htpasswd.users file), as well as the 
 cgi.cfg file for Nagios Core.  Most permissions for Nagios Core should be 
 reflected in the Nagios V-Shell as well.  To get started, log into your Nagios 
 webserver at http://<yourserver>/vshell, and enter your Nagios Core 
