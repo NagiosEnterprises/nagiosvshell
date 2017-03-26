@@ -72,7 +72,7 @@ class NagiosUser
 		//check if user can see everything 
 		$this->admin = $this->determine_admin(); 
 
-		//if user level account, determin authorized objects for object filtering 
+		//if user level account, determine authorized objects for object filtering 
 		if(!$this->admin) {
 			//check fo see if user can see all hosts and services 
 			$this->sees_all = ($this->authKeys['authorized_for_all_hosts'] == true && $this->authKeys['authorized_for_all_services']) ? true : false; 
@@ -239,7 +239,7 @@ class NagiosUser
 	
 	/** ///////////////////////////////////////////////////
 	*	main logic function for user-level filtering, builds $this->authHosts array  
-	*	CREATES SINGLE MULTI-D HEIRARCHY ARRAY 
+	*	CREATES SINGLE MULTI-D HIERARCHY ARRAY 
 	*	LOGIC: - check for host contacts, and host contactgroups 
 	*			 - check for host escalations, and hostescalation contactgroups 
 	*			 - check for service contacts, and service contactgroups

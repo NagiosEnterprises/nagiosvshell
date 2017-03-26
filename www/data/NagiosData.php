@@ -71,7 +71,7 @@ class NagiosData
 
 	/* General purpose "getter" for protected properties
 	 *
-	 * $var is the old global variable name to retrive
+	 * $var is the old global variable name to retrieve
 	 * 
 	 * returns the old global variable now stored as a property
 	 *   *or* NULL if the requested name is an invalid property
@@ -131,7 +131,7 @@ class NagiosData
 		if (in_array($type, array('service', 'host'))) {
 			$details = $this->grab_details($type);
 		} else { 
-			// XXX Do soemthing better here
+			// XXX Do something better here
 			//fb("invalid type '$type'"); 
 		}
 

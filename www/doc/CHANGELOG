@@ -95,7 +95,7 @@ controller.php -Reverted name_filter feature back to DW's original function.
 - Fixed potential bug with servicegroups without an alias. 
 
 ======Nov 2010 - Patches submitted by Dave Worth 
-- Added support for https protocal
+- Added support for https protocol
 - Added support for wildcard '*' option in the cgi.cfg file for user permissions.  
 
 

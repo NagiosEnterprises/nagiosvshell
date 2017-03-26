@@ -8,7 +8,7 @@ $NagiosUser = new NagiosUser();
 
 
 
-//initializes all session variables as neccessary 
+//initializes all session variables as necessary 
 function init_vshell()
 {
 	

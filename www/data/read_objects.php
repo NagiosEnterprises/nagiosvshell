@@ -91,7 +91,7 @@ function parse_objects_file($objfile = OBJECTSFILE)
 						'contactgroup' => array(),
 						'serviceescalation' => array(),
 						'hostescalation' => array(),
-						'hostdepencency' => array(),
+						'hostdependency' => array(),
 						'servicedependency' => array(),
 					);
 					
@@ -105,7 +105,7 @@ function parse_objects_file($objfile = OBJECTSFILE)
 						'contactgroup' => 0,
 						'serviceescalation' => 0,
 						'hostescalation' => 0,
-						'hostdepencency' => 0,
+						'hostdependency' => 0,
 						'servicedependency' => 0,
 					);
 	
@@ -172,7 +172,7 @@ function parse_objects_file($objfile = OBJECTSFILE)
 						$objects['contactgroup'],
 						$objects['serviceescalation'],
 						$objects['hostescalation'],
-						$objects['hostdepencency'],
+						$objects['hostdependency'],
 						$objects['servicedependency'],
 					);
 }

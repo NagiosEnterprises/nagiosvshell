@@ -51,7 +51,7 @@ $defaults['redhat'] = array(
 	'TTL'            => '90',
 );
 
-## Create defintions
+## Create definitions
 #
 # Determine the OS family, merge custom values with defaults,
 # and create PHP definitions for each key.
