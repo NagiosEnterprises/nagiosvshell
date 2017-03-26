@@ -239,7 +239,7 @@ class NagiosUser
 	
 	/** ///////////////////////////////////////////////////
 	*	main logic function for user-level filtering, builds $this->authHosts array  
-	*	CREATES SINGLE MULTI-D HEIRARCHY ARRAY 
+	*	CREATES SINGLE MULTI-D HIERARCHY ARRAY 
 	*	LOGIC: - check for host contacts, and host contactgroups 
 	*			 - check for host escalations, and hostescalation contactgroups 
 	*			 - check for service contacts, and service contactgroups
